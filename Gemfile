@@ -8,6 +8,7 @@ gem "bootsnap", ">= 1.4.2"
 gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3", ">= 6.0.3.1"
 gem "sass-rails", ">= 6"
+gem "keycloak-admin", "0.7.5"
 
 group :development, :test do
   gem "byebug"
