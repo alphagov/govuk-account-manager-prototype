@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      KEYCLOAK_ADMIN_USER: govuk
+      KEYCLOAK_ADMIN_PASSWORD: mypassword
+      KEYCLOAK_REALM_ID: master
+      KEYCLOAK_SERVER_URL: http://keycloak:8080/auth
+      KEYCLOAK_CLIENT_ID: admin-cli
+      KEYCLOAK_CLIENT_SECRET: dc06e777-1985-422b-85cd-15979fc7ab77
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - keycloak
+
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      KEYCLOAK_USER: govuk
+      KEYCLOAK_PASSWORD: mypassword
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+    ports:
+      - 8080:8080
+
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    volumes:
+      - keycloakdb:/var/lib/postgresql/data
+
+volumes:
+  keycloakdb:
