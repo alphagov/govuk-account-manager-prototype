@@ -1,7 +1,5 @@
 class RegisterController < ApplicationController
-  def index
-    raise "unimplemented"
-  end
+  def index; end
 
   def create
     raise "unimplemented"
