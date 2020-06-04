@@ -21,10 +21,12 @@ class OIDCClient
     access_token = client.access_token!
     id_token = OpenIDConnect::ResponseObject::IdToken.decode access_token.id_token, discover.jwks
     id_token.verify! client_id: @client_id, issuer: discover.issuer, nonce: nonce
+    user_info = access_token.userinfo!
 
     {
       access_token: access_token,
       id_token: id_token,
+      user_info: user_info,
     }
   end
 

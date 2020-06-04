@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   post "/register", to: "register#create"
 
   get "/manage", to: "manage#show"
+
+  get "/callback", to: "callback#show"
 end

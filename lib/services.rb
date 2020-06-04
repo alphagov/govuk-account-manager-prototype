@@ -10,7 +10,7 @@ module Services
       "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}",
       ENV["KEYCLOAK_CLIENT_ID"],
       ENV["KEYCLOAK_CLIENT_SECRET"],
-      "#{ENV['REDIRECT_BASE_URL']}/manage",
+      "#{ENV['REDIRECT_BASE_URL']}/callback",
     )
   end
 end
