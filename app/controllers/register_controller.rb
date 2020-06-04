@@ -4,11 +4,11 @@ class RegisterController < ApplicationController
 
   rescue_from RestClient::Conflict, with: :conflict
 
-  def index; end
+  def show; end
 
   def create
     @email = params[:email]
-    KeycloakAdmin.realm(ENV["KEYCLOAK_REALM_ID"]).users.create!(
+    Services.keycloak.users.create!(
       @email,
       @email,
       params[:password],
