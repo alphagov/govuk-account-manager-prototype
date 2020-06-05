@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get "/manage", to: "manage#show"
 
   get "/callback", to: "callback#show"
+
+  get "/logout", to: "logout#show"
 end
