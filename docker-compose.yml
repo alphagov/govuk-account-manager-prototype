@@ -11,6 +11,7 @@ services:
       KEYCLOAK_SERVER_URL: http://keycloak:8080/auth
       KEYCLOAK_CLIENT_ID: admin-cli
       KEYCLOAK_CLIENT_SECRET: dc06e777-1985-422b-85cd-15979fc7ab77
+      REDIRECT_BASE_URL: http://localhost:3000
     volumes:
       - .:/app
     ports:
@@ -20,6 +21,7 @@ services:
 
   keycloak:
     image: jboss/keycloak
+    command: "-b 0.0.0.0 -Dkeycloak.frontendUrl=http://keycloak:8080/auth -Dkeycloak.forceBackendUrlToFrontendUrl=true"
     environment:
       KEYCLOAK_USER: govuk
       KEYCLOAK_PASSWORD: mypassword
