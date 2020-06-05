@@ -30,16 +30,25 @@ class OIDCClient
     }
   end
 
+  attr_reader :client_id,
+              :redirect_uri
+
+  delegate :authorization_endpoint,
+           :token_endpoint,
+           :userinfo_endpoint,
+           :end_session_endpoint,
+           to: :discover
+
 private
 
   def client
     @client ||= OpenIDConnect::Client.new(
-      identifier: @client_id,
+      identifier: client_id,
       secret: @secret,
-      redirect_uri: @redirect_uri,
-      authorization_endpoint: discover.authorization_endpoint,
-      token_endpoint: discover.token_endpoint,
-      userinfo_endpoint: discover.userinfo_endpoint,
+      redirect_uri: redirect_uri,
+      authorization_endpoint: authorization_endpoint,
+      token_endpoint: token_endpoint,
+      userinfo_endpoint: userinfo_endpoint,
     )
   end
 
