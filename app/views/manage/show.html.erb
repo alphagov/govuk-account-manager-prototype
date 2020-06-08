@@ -1,5 +1,17 @@
 <h1 class="govuk-heading-xl">We did it!</h1>
 <p class="govuk-body">Welcome,</p>
-<pre>
-<%= @user.to_json %>
-</pre>
+<pre><%= JSON.pretty_generate(@user) %></pre>
+
+<h2 class="govuk-heading">You have shared data with:</h2>
+<ol>
+<% @consents.each do |consent| %>
+<li><pre><%= JSON.pretty_generate(consent) %></pre></li>
+<% end %>
+</ol>
+
+<h2 class="govuk-heading">Your active login sessions:</h2>
+<ol>
+<% @sessions.each do |session| %>
+<li><pre><%= JSON.pretty_generate(session) %></pre></li>
+<% end %>
+</ol>

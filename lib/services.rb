@@ -1,4 +1,5 @@
 require "oidc_client"
+require "keycloak_client_extras"
 
 module Services
   def self.keycloak
