@@ -12,6 +12,7 @@ services:
       KEYCLOAK_CLIENT_ID: admin-cli
       KEYCLOAK_CLIENT_SECRET: dc06e777-1985-422b-85cd-15979fc7ab77
       REDIRECT_BASE_URL: http://localhost:3000
+      REDIS_URL: redis://redis:6379/0
     volumes:
       - .:/app
     ports:
@@ -31,6 +32,9 @@ services:
       DB_PASSWORD: keycloak
     ports:
       - 8080:8080
+
+  redis:
+    image: redis
 
   postgres:
     image: postgres:9.6
