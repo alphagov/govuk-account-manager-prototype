@@ -118,4 +118,6 @@ Rails.application.configure do
       config.redis = { url: ENV["REDIS_URL"] }
     end
   end
+
+  config.action_mailer.delivery_method = :notify
 end
