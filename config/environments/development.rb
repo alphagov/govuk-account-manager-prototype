@@ -50,6 +50,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Log Action Mailer emails instead of sending them to Notify
+  config.action_mailer.delivery_method = :file
+  config.action_mailer.default_options = { from: "test@example.com" }
+
   Sidekiq.configure_server do |config|
     config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
   end
