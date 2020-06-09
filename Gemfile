@@ -18,9 +18,13 @@ group :development, :test do
   gem "rspec-rails"
 end
 
+group :test do
+  gem "simplecov"
+end
+
 group :development do
   gem "awesome_print"
   gem "listen", "~> 3.2"
-  gem "rubocop-govuk"
   gem "pry-rails"
+  gem "rubocop-govuk"
 end
