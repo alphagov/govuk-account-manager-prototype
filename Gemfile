@@ -13,7 +13,9 @@ gem "sass-rails", ">= 6"
 
 group :development, :test do
   gem "byebug"
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
+  gem "factory_bot_rails"
+  gem "rspec-rails"
 end
 
 group :development do
