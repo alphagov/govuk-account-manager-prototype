@@ -1,30 +1,34 @@
-require "base64"
-
 class VerifyController < ApplicationController
+  # we probably want to implement a way to re-request a link in these
+  # failure cases
   def show
-    bits = Base64.urlsafe_decode64(params[:token]).split("\0")
-    if bits.count != 2
-      @state = "malformed token"
-    else
-      user_id = bits[0]
-      magic_value = bits[1]
-      user = Services.keycloak.users.get(user_id)
-      if user
-        expected_token = user.attributes["verification_token"].first
-        expiration = user.attributes["verification_token_expires"].first.to_datetime
-        if expected_token == magic_value
-          if Time.zone.now < expiration
-            Services.keycloak.users.update(user_id, KeycloakAdmin::UserRepresentation.from_hash({ "emailVerified" => true }))
-            @state = "ok"
-          else
-            @state = "expired token: #{expiration} < #{Time.zone.now}"
-          end
-        else
-          @state = "bad verification token: expected #{expected_token}"
-        end
-      else
-        @state = "no such user"
+    user_id = params[:user_id]
+    token = params[:token]
+
+    if user_id.nil? || token.nil?
+      @state = "Invalid link"
+      return
+    end
+
+    user = Services.keycloak.users.get(user_id)
+    expected = user&.attributes&.fetch("verification_token")&.first
+    expires = user&.attributes&.fetch("verification_token_expires")&.first&.to_datetime
+
+    if user && expected && expires
+      unless expected == token
+        @state = "Invalid link"
+        return
       end
+
+      unless Time.zone.now < expires
+        @state = "Link has expired"
+        return
+      end
+
+      Services.keycloak.users.update(user_id, KeycloakAdmin::UserRepresentation.from_hash({ "emailVerified" => true }))
+      @state = "Your email address has been confirmed"
+    else
+      @message = "User not found"
     end
   end
 end
