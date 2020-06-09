@@ -30,4 +30,12 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  emails:
+    confirmation:
+      subject: "GOV.UK Accounts: confirm your email address"
+      body_text: |
+        Click this link %{link}
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
