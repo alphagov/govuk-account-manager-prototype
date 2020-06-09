@@ -13,9 +13,18 @@ gem "sass-rails", ">= 6"
 
 group :development, :test do
   gem "byebug"
+  gem "dotenv-rails"
+  gem "factory_bot_rails"
+  gem "rspec-rails"
+end
+
+group :test do
+  gem "simplecov"
 end
 
 group :development do
+  gem "awesome_print"
   gem "listen", "~> 3.2"
+  gem "pry-rails"
   gem "rubocop-govuk"
 end
