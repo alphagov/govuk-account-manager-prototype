@@ -4,6 +4,8 @@ applications:
   buildpack: ruby_buildpack
   memory: 2G
   env:
+    GOVUK_APP_DOMAIN: www.gov.uk
+    GOVUK_WEBSITE_ROOT: https://www.gov.uk
     KEYCLOAK_REALM_ID: master
     KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
     KEYCLOAK_CLIENT_ID: govuk-account-manager
