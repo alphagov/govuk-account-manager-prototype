@@ -36,6 +36,10 @@ en:
     no_such_user: "There is no such user."
     token_mismatch: "This link is invalid."
     token_expired: "This link has expired."
+    send_link: "Send another."
+    send:
+      ok: "An email has been sent to %{email}."
+      no_such_user: "There is no such user."
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"

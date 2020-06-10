@@ -5,10 +5,6 @@
       heading_level: 1
     } %>
 
-    <p class="govuk-body"><%= t("verify.#{@state}") %></p>
-
-    <% if @state != :ok && @user_id %>
-    <p class="govuk-body"><a href="/verify/send?user_id=<%= @user_id %>"><%= t("verify.send_link") %></a></p>
-    <% end %>
+    <p class="govuk-body"><%= t("verify.send.#{@state}", email: @email) %></p>
   </div>
 </div>
