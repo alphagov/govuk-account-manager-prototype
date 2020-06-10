@@ -40,3 +40,29 @@ Finally at you will need to update the KEYCLOAK_CLIENT_SECRET to match the one g
 - Copy the greyed out "Secret" field, or generate a new one
 - Replace the value of KEYCLOAK_CLIENT_SECRET in [docker-compose.yml](/docker-compose.yml) with your copied secret
 - run `docker-compose restart`
+
+## Deployment to GOV.UK PaaS
+
+To deploy the application to the GOV.UK PaaS:
+
+```
+cf push
+```
+
+### Secrets
+
+There are a number of secrets defined as environment variables.  These can be viewed using `cf env`.
+
+To update a secret:
+
+```
+cf set-env govuk-account-manager SECRET_NAME SECRET_VALUE
+```
+
+To remove a secret:
+
+```
+cf unset-env govuk-account-manager SECRET_NAME
+```
+
+Once continuous deployment using Concourse has been set up, the secrets will be defined using the Concourse secrets manager, accessible through `gds-cli`.
