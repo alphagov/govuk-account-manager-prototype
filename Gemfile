@@ -11,7 +11,7 @@ gem "openid_connect"
 gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3", ">= 6.0.3.1"
 gem "railties"
-gem "sass-rails", ">= 6"
+gem "sass-rails", "~> 5.0.8"
 gem "sprockets-rails"
 
 group :development, :test do
