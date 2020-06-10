@@ -51,11 +51,12 @@ config.action_mailer.delivery_method = :notify
 ```
 
 You'll also need to set a `GOVUK_NOTIFY_TEMPLATE_ID`, which might involve
-creating a template in Notify if your Notify service doesn't have one.
+creating a template in Notify if [your Notify service][] doesn't have one.
 
 The template should have a Message of `((body))` only.
 
 [development.rb]: config/environments/development.rb
+[your Notify service]: https://www.notifications.service.gov.uk/accounts
 
 ## Deployment to GOV.UK PaaS
 
