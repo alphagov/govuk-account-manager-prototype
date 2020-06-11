@@ -24,6 +24,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "govuk_test", "~> 1.0"
   gem "simplecov"
 end
 
