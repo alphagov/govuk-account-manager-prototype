@@ -41,6 +41,11 @@ en:
     send:
       ok: "An email has been sent to %{email}."
       no_such_user: "There is no such user."
+  reset_password:
+    title: "Reset Password"
+    caption: "Complete your details to get a password reset link."
+    email_address: "Email address"
+    submit: "Request password reset link"
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"
