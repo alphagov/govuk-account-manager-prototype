@@ -47,7 +47,12 @@ en:
     email_address: "Email address"
     submit: "Request password reset link"
     no_such_user: "There is no such user"
-
+  new_password:
+    title: "Reset Password"
+    caption: "Enter your new password."
+    password: "Password"
+    submit: "Update password"
+    no_such_user: "There is no such user"
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"

@@ -1,0 +1,34 @@
+<%= form_tag %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("new_password.title"),
+      heading_level: 1
+    } %>
+
+    <p class="govuk-body">
+      <%= t("new_password.caption") %>
+    </p>
+
+    <% if @state == :ok %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("new_password.password"),
+        },
+        name: "password",
+        type: "password",
+      } %>
+
+        <%= render "govuk_publishing_components/components/button", {
+          text: t("new_password.submit"),
+        } %>
+
+    <% else %>
+
+      <%= t("new_password.#{@state}") %>
+
+    <% end %>
+  </div>
+</div>
