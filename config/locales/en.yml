@@ -46,9 +46,19 @@ en:
     caption: "Complete your details to get a password reset link."
     email_address: "Email address"
     submit: "Request password reset link"
+    no_such_user: "There is no such user"
+
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"
+      body_text: |
+        Click this link %{link}
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
+    reset_password:
+      subject: "GOV.UK Accounts: reset your password"
       body_text: |
         Click this link %{link}
 

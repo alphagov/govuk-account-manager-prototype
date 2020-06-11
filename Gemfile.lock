@@ -338,6 +338,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    timecop (0.9.1)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -392,6 +393,7 @@ DEPENDENCIES
   sidekiq (~> 6.0)
   simplecov
   sprockets-rails
+  timecop
 
 RUBY VERSION
    ruby 2.7.1p83

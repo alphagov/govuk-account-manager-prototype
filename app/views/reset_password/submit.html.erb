@@ -1,0 +1,11 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("reset_password.title"),
+      heading_level: 1
+    } %>
+
+    <p class="govuk-body"><%= t("verify.send.#{@state}", email: @email) %></p>
+    <%= @user %>
+  </div>
+</div>

@@ -1,3 +1,16 @@
+require "reset_password"
+
 class ResetPasswordController < ApplicationController
   def show; end
+
+  def submit
+    @email = params[:email]
+    user = Services.keycloak.users.search(@email)
+    if user.empty?
+      @state = :no_such_user
+    else
+      ResetPassword.send(user.first)
+      @state = :ok
+    end
+  end
 end
