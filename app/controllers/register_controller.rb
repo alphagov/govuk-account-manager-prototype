@@ -8,14 +8,18 @@ class RegisterController < ApplicationController
 
   def create
     @email = params[:email]
-    Services.keycloak.users.create!(
+    user = Services.keycloak.users.create!(
       @email,
       @email,
       params[:password],
       false,
       "en",
     )
+
+    EmailConfirmation.send(user)
   end
+
+private
 
   def conflict
     render status: :conflict, plain: "409 error: user exists"

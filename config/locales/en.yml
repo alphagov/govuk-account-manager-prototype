@@ -30,4 +30,23 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  verify:
+    ok: "Your email address has been confirmed."
+    already_verified: "Your email address has already been confirmed."
+    bad_parameters: "This link is invalid."
+    no_such_user: "There is no such user."
+    token_mismatch: "This link is invalid."
+    token_expired: "This link has expired."
+    send_link: "Send another."
+    send:
+      ok: "An email has been sent to %{email}."
+      no_such_user: "There is no such user."
+  emails:
+    confirmation:
+      subject: "GOV.UK Accounts: confirm your email address"
+      body_text: |
+        Click this link %{link}
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.

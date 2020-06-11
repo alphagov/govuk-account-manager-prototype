@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "services"
+require "email_confirmation"
 
 class ApplicationController < ActionController::Base
   def authenticate_user!

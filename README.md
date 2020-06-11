@@ -41,6 +41,23 @@ Finally at you will need to update the KEYCLOAK_CLIENT_SECRET to match the one g
 - Replace the value of KEYCLOAK_CLIENT_SECRET in [docker-compose.yml](/docker-compose.yml) with your copied secret
 - run `docker-compose restart`
 
+### Sending emails locally
+
+You'll need to pass a GOV.UK Notify API key as an environment variable
+`NOTIFY_API_KEY`, and change the delivery method in [development.rb][]:
+
+```ruby
+config.action_mailer.delivery_method = :notify
+```
+
+You'll also need to set a `GOVUK_NOTIFY_TEMPLATE_ID`, which might involve
+creating a template in Notify if [your Notify service][] doesn't have one.
+
+The template should have a Message of `((body))` only.
+
+[development.rb]: config/environments/development.rb
+[your Notify service]: https://www.notifications.service.gov.uk/accounts
+
 ## Deployment to GOV.UK PaaS
 
 To deploy the application to the GOV.UK PaaS:

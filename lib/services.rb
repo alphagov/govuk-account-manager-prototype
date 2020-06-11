@@ -7,11 +7,16 @@ module Services
   end
 
   def self.oidc
-    @oidc ||= OIDCClient.new(
-      "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}",
-      ENV["KEYCLOAK_CLIENT_ID"],
-      ENV["KEYCLOAK_CLIENT_SECRET"],
-      "#{ENV['REDIRECT_BASE_URL']}/callback",
-    )
+    @oidc ||=
+      begin
+        base_url = ENV.fetch("REDIRECT_BASE_URL", "/")
+        base_url += "/" unless base_url.end_with? "/"
+        OIDCClient.new(
+          "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}",
+          ENV["KEYCLOAK_CLIENT_ID"],
+          ENV["KEYCLOAK_CLIENT_SECRET"],
+          "#{base_url}callback",
+        )
+      end
   end
 end

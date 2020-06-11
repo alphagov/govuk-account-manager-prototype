@@ -94,4 +94,30 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # https://docs.cloud.service.gov.uk/deploying_services/redis
+  # https://docs.cloud.service.gov.uk/deploying_apps.html#system-provided-environment-variables
+  if ENV["VCAP_SERVICES"].present?
+    redis = JSON.parse(ENV["VCAP_SERVICES"]).to_h.fetch("redis", [])
+    instance = redis.first
+    redis_url = instance.dig("credentials", "uri")
+
+    Sidekiq.configure_server do |config|
+      config.redis = { url: redis_url }
+    end
+
+    Sidekiq.configure_client do |config|
+      config.redis = { url: redis_url }
+    end
+  elsif ENV["REDIS_URL"].present?
+    Sidekiq.configure_server do |config|
+      config.redis = { url: ENV["REDIS_URL"] }
+    end
+
+    Sidekiq.configure_client do |config|
+      config.redis = { url: ENV["REDIS_URL"] }
+    end
+  end
+
+  config.action_mailer.delivery_method = :notify
 end

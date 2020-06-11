@@ -10,5 +10,8 @@ Rails.application.routes.draw do
 
   get "/callback", to: "callback#show"
 
+  get "/verify", to: "verify#show"
+  get "/verify/send", to: "verify#send_new_link"
+
   get "/logout", to: "logout#show"
 end
