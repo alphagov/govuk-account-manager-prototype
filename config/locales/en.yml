@@ -32,6 +32,7 @@
 en:
   verify:
     ok: "Your email address has been confirmed."
+    already_verified: "Your email address has already been confirmed."
     bad_parameters: "This link is invalid."
     no_such_user: "There is no such user."
     token_mismatch: "This link is invalid."
