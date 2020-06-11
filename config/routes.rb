@@ -13,5 +13,8 @@ Rails.application.routes.draw do
   get "/verify", to: "verify#show"
   get "/verify/send", to: "verify#send_new_link"
 
+  get "/reset-password", to: "reset_password#show"
+  post "/reset-password", to: "reset_password#submit"
+
   get "/logout", to: "logout#show"
 end
