@@ -1,7 +1,4 @@
 class RegisterController < ApplicationController
-  # bad!
-  skip_before_action :verify_authenticity_token
-
   rescue_from RestClient::Conflict, with: :conflict
 
   def show; end
