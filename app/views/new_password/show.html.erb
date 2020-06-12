@@ -4,12 +4,10 @@
 
     <%= render "govuk_publishing_components/components/heading", {
       text: t("new_password.title"),
-      heading_level: 1
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
     } %>
-
-    <p class="govuk-body">
-      <%= t("new_password.caption") %>
-    </p>
 
     <% if @state == :ok %>
       <%= form_tag do %>
@@ -20,6 +18,7 @@
           label: {
             text: t("new_password.password"),
           },
+          hint: t("new_password.password_caption"),
           name: "password",
           type: "password",
         } %>
