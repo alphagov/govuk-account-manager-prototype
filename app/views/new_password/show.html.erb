@@ -23,13 +23,21 @@
           type: "password",
         } %>
 
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("new_password.password_confirm"),
+          },
+          name: "password_confirm",
+          type: "password",
+        } %>
+
         <%= render "govuk_publishing_components/components/button", {
           text: t("new_password.submit"),
         } %>
       <% end %>
     <% else %>
 
-      <%= t("new_password.#{@state}") %>
+      <%= t("new_password.error.#{@state}") %>
 
     <% end %>
   </div>

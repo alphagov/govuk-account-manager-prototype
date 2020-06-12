@@ -14,20 +14,29 @@ class NewPasswordController < ApplicationController
 
     user = Services.keycloak.users.get(params[:user_id])
 
-    if password_valid?(params[:password])
+    password_validity = password_valid?(params[:password], params[:password_confirm])
+
+    if password_validity == :ok
       ResetPassword.update_password(user, params[:password])
     else
-      flash.now[:validation] = [{
+      flash[:validation] = [{
         field: "password",
-        text: t("new_password.password_invalid"),
+        text: t("new_password.error.#{password_validity}"),
       }]
-      render "show"
+
+      redirect_to action: :show, user_id: params[:user_id], token: params[:token]
     end
   end
 
 private
 
-  def password_valid?(password)
-    password.present?
+  def password_valid?(password, password_confirm)
+    return :password_missing if password.blank?
+
+    return :password_confirm_missing if password_confirm.blank?
+
+    return :password_mismatch unless password == password_confirm
+
+    :ok
   end
 end

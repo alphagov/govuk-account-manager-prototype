@@ -56,12 +56,17 @@ en:
     title: "Create a new password"
     password: "Create a new password"
     password_caption: "It needs to be at least 8 characters long and include a number"
+    password_confirm: "Retype new password"
     submit: "Save"
-    no_such_user: "There is no such user"
-    bad_parameters: "This link is invalid."
-    token_mismatch: "This link is invalid."
-    token_expired: "This link has expired."
-    password_invalid: "Enter a valid password"
+    error:
+      password_invalid: "Enter a valid password"
+      password_missing: "Enter a valid password"
+      password_confirm_missing: "Re-enter your password"
+      password_mismatch: "Passwords do not match"
+      no_such_user: "There is no such user"
+      bad_parameters: "This link is invalid."
+      token_mismatch: "This link is invalid."
+      token_expired: "This link has expired."
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"

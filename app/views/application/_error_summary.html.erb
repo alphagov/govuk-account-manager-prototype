@@ -3,8 +3,8 @@
     title: "There is a problem",
     items: flash[:validation].map { |error|
       {
-        text: error[:text],
-        href: "#" + error[:field]
+        text: error["text"],
+        href: "#" + error["field"]
       }
     }
   } %>
