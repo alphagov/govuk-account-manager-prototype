@@ -12,8 +12,8 @@ RSpec.describe "new-password" do
       {
         user_id: user.id,
         token: user.attributes["reset_password_verification_token"].first,
-        password: "newpassword",
-        password_confirm: "newpassword",
+        password: "newpassword1",
+        password_confirm: "newpassword1",
       }
     end
 
@@ -83,6 +83,20 @@ RSpec.describe "new-password" do
 
       follow_redirect!
       expect(response.body).to have_content(I18n.t("new_password.error.password_mismatch"))
+    end
+
+    it "returns an error when password is less than 8 characters" do
+      post new_password_path, params: params.merge(password: "qwerty1", password_confirm: "qwerty1")
+
+      follow_redirect!
+      expect(response.body).to have_content(I18n.t("new_password.error.password_invalid"))
+    end
+
+    it "returns an error when password does not contain a number" do
+      post new_password_path, params: params.merge(password: "qwertyui", password_confirm: "qwertyui")
+
+      follow_redirect!
+      expect(response.body).to have_content(I18n.t("new_password.error.password_invalid"))
     end
 
     it "makes request to Keycloak to change password with valid parameters" do

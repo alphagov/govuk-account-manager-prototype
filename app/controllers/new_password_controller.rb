@@ -37,6 +37,12 @@ private
 
     return :password_mismatch unless password == password_confirm
 
+    return :password_invalid unless password_meets_criteria?(password)
+
     :ok
+  end
+
+  def password_meets_criteria?(password)
+    password.length >= 8 && password.match(/[0-9]/)
   end
 end
