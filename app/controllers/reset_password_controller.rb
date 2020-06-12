@@ -10,6 +10,8 @@ class ResetPasswordController < ApplicationController
       @state = :no_such_user
     else
       ResetPassword.send(user.first)
+      user = Services.keycloak.users.search(@email)
+      @user = user.first
       @state = :ok
     end
   end

@@ -53,6 +53,10 @@ en:
     password: "Password"
     submit: "Update password"
     no_such_user: "There is no such user"
+    bad_parameters: "This link is invalid."
+    token_mismatch: "This link is invalid."
+    token_expired: "This link has expired."
+    password_invalid: "Enter a valid password"
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"
