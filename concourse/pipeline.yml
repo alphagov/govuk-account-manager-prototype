@@ -4,9 +4,10 @@ resources:
     type: git
     icon: github-circle
     source:
-      uri: https://github.com/alphagov/govuk-account-manager-prototype
+      uri: https://github.com/alphagov/govuk-account-manager-prototype.git
       branch: master
-
+      private_key: |
+          ((govuk_ci_ssh_private_key))
 jobs:
   - name: update-pipeline
     plan:
@@ -14,3 +15,30 @@ jobs:
         trigger: true
       - set_pipeline: govuk-account-manager-prototype
         file: git-master/concourse/pipeline.yml
+
+  - name: deploy-app
+    serial: true
+    plan:
+      - get: git-master
+        trigger: true
+      - task: deploy-to-paas
+        file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
+        params:
+          CF_ORG: govuk_development
+          CF_APP_NAME: govuk-account-manager
+          CF_SPACE: sandbox
+          CF_INSTANCES: 1
+          CF_STARTUP_TIMEOUT: 15 # minutes
+          CF_WORKERS: 1
+          APP_DOMAIN: www.gov.uk
+          WEBSITE_ROOT: https://www.gov.uk
+          KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))
+          KEYCLOAK_ADMIN_USER: ((keycloak-admin-user))
+          KEYCLOAK_CLIENT_ID: ((keycloak-client-id))
+          KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
+          KEYCLOAK_REALM_ID: master
+          KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
+          KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
+          NOTIFY_API_KEY: ((notify-api-key))
+          NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+
