@@ -64,13 +64,14 @@ en:
       title: "Email confirmed"
       action: |
         <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to your GOV.UK account</a></p>
-    ok: "Your email address has been confirmed."
-    already_verified: "Your email address has already been confirmed."
-    bad_parameters: "This link is invalid."
-    no_such_user: "There is no such user."
-    token_mismatch: "This link is invalid."
-    token_expired: "This link has expired."
-    send_link: "Send another."
+    error:
+      title: "Email confirmation"
+      already_verified: "Your email address has already been confirmed."
+      bad_parameters: "This link is invalid."
+      no_such_user: "There is no such user."
+      token_mismatch: "This link is invalid."
+      token_expired: "This link has expired."
+      send_link: "Send another."
     send:
       ok: "An email has been sent to %{email}."
       no_such_user: "There is no such user."
