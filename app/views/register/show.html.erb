@@ -7,6 +7,8 @@
       margin_bottom: 3,
     } %>
 
+    <%= render "error_summary" %>
+
     <%= form_tag do %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -23,6 +25,14 @@
         },
         hint: t("register.show.fields.password.hint"),
         name: "password",
+        type: "password",
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("register.show.fields.password_confirm.label"),
+        },
+        name: "password_confirm",
         type: "password",
       } %>
 
