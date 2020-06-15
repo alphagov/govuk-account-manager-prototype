@@ -55,6 +55,7 @@ en:
         <p class="govuk-body">We can <a class="govuk-link" href="/resend-confirmation?email=%{email}">send the confirmation email again</a> if you did not get it.</a>
         <p class="govuk-body">You can <a class="govuk-link" href="/register">use a different email address</a> if %{email} is not correct.</p>
       error:
+        email_missing: "Enter your email address"
         password_invalid: "Enter a valid password"
         password_missing: "Enter a valid password"
         password_confirm_missing: "Re-enter your password"
