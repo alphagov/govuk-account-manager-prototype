@@ -44,6 +44,16 @@ en:
         submit:
           label: "Continue"
       sign_in: "<a class=\"govuk-link\" href=\"/manage\">Sign in to GOV.UK</a> if you already have an account."
+    create:
+      title: "Confirm your email address"
+      instructions: |
+        <p class="govuk-body">We’ve sent an email to %{email}</p>
+        <p class="govuk-body">You need to click on the confirmation link in the email to activate your GOV.UK account.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/manage">Go to your GOV.UK account</a>
+      re_register_subtitle: "If you did not get the email or want to use a different address"
+      re_register_instructions: |
+        <p class="govuk-body">We can <a class="govuk-link" href="/resend-confirmation?email=%{email}">send the confirmation email again</a> if you did not get it.</a>
+        <p class="govuk-body">You can <a class="govuk-link" href="/register">use a different email address</a> if %{email} is not correct.</p>
     conflict:
       title: "There is already a GOV.UK account for %{email}"
       instructions: |
