@@ -60,6 +60,10 @@ en:
         <p class="govuk-body">Try <a class="govuk-link" href="/manage">signing in to GOV.UK</a> instead.</p>
         <p class="govuk-body">You can <a class="govuk-link" href="/reset-password">reset your password</a> if you‘ve forgotten it.</p>
   verify:
+    show:
+      title: "Email confirmed"
+      action: |
+        <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to your GOV.UK account</a></p>
     ok: "Your email address has been confirmed."
     already_verified: "Your email address has already been confirmed."
     bad_parameters: "This link is invalid."
