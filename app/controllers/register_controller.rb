@@ -19,6 +19,7 @@ class RegisterController < ApplicationController
 private
 
   def conflict
-    render status: :conflict, plain: "409 error: user exists"
+    @email = params[:email]
+    render action: "conflict", status: :conflict
   end
 end

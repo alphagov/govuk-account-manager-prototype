@@ -44,6 +44,11 @@ en:
         submit:
           label: "Continue"
       sign_in: "<a class=\"govuk-link\" href=\"/manage\">Sign in to GOV.UK</a> if you already have an account."
+    conflict:
+      title: "There is already a GOV.UK account for %{email}"
+      instructions: |
+        <p class="govuk-body">Try <a class="govuk-link" href="/manage">signing in to GOV.UK</a> instead.</p>
+        <p class="govuk-body">You can <a class="govuk-link" href="/reset-password">reset your password</a> if you‘ve forgotten it.</p>
   verify:
     ok: "Your email address has been confirmed."
     already_verified: "Your email address has already been confirmed."
