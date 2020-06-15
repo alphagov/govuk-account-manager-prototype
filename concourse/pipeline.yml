@@ -1,0 +1,16 @@
+---
+resources:
+  - name: git-master
+    type: git
+    icon: github-circle
+    source:
+      uri: https://github.com/alphagov/govuk-account-manager-prototype
+      branch: master
+
+jobs:
+  - name: update-pipeline
+    plan:
+      - get: git-master
+        trigger: true
+      - set_pipeline: govuk-account-manager-prototype
+        file: git-master/concourse/pipeline.yml
