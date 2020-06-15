@@ -41,9 +41,43 @@ en:
     send:
       ok: "An email has been sent to %{email}."
       no_such_user: "There is no such user."
+  reset_password:
+    title: "Change your password"
+    caption: "Enter your email address and we will send you details on how to change your password."
+    email_address: "Email address"
+    submit: "Send"
+    no_such_user: "There is no such user"
+    sent:
+      title: "Password change request sent"
+      summary: "We’ve sent you an email. Please follow the instructions to change your password."
+      sub_heading: "If you did not get the email"
+      resend_instructions: "We can <a class=\"govuk-link\" href=\"/reset-password\">send the password reset email again</a> if you did not get it."
+  new_password:
+    title: "Create a new password"
+    password: "Create a new password"
+    password_caption: "It needs to be at least 8 characters long and include a number"
+    password_confirm: "Retype new password"
+    submit: "Save"
+    error:
+      password_invalid: "Enter a valid password"
+      password_missing: "Enter a valid password"
+      password_confirm_missing: "Re-enter your password"
+      password_mismatch: "Passwords do not match"
+      no_such_user: "There is no such user"
+      bad_parameters: "This link is invalid."
+      token_mismatch: "This link is invalid."
+      token_expired: "This link has expired."
   emails:
     confirmation:
       subject: "GOV.UK Accounts: confirm your email address"
+      body_text: |
+        Click this link %{link}
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
+    reset_password:
+      subject: "GOV.UK Accounts: reset your password"
       body_text: |
         Click this link %{link}
 
