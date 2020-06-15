@@ -30,6 +30,20 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  register:
+    show:
+      title: "Create a GOV.UK account"
+      fields:
+        email:
+          label: "Enter your email address"
+        password:
+          label: "Create a new password"
+          hint: "It needs to be at least 8 characters long and must include at least one number."
+        password_confirm:
+          label: "Retype password"
+        submit:
+          label: "Continue"
+      sign_in: "<a class=\"govuk-link\" href=\"/manage\">Sign in to GOV.UK</a> if you already have an account."
   verify:
     ok: "Your email address has been confirmed."
     already_verified: "Your email address has already been confirmed."
