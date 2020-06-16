@@ -58,28 +58,42 @@ The template should have a Message of `((body))` only.
 [development.rb]: config/environments/development.rb
 [your Notify service]: https://www.notifications.service.gov.uk/accounts
 
-## Deployment to GOV.UK PaaS
+## Deployment to GOV.UK via concourse
 
-To deploy the application to the GOV.UK PaaS:
+Every commit to master is deployed to GOV.UK PaaS by [this concourse pipeline](https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-account-manager-prototype), which is configured in [concourse/pipeline.yml](/concourse/pipeline.yml).
 
-```
-cf push
-```
+You will need to be logged into the GDS VPN to access concourse.
+
+The concourse pipeline has credentials for the govuk-forms-deployer user in GOV.UK PaaS. This user has the SpaceDeveloper role, so it can cf push the application.
 
 ### Secrets
 
-There are a number of secrets defined as environment variables.  These can be viewed using `cf env`.
+Secrets are defined via the GDS cli and Concourse secrets manager,
 
-To update a secret:
+You can view live secrets with an authenticated cloud foundry command:
+`cf env govuk-account-manager`.
+
+Secrets are managed by Concourse secrets manager.
+Once added secret can be called using a double parenthesis syntax.
+
+You can see examples called as params for instance in the [deploy-app task](https://github.com/alphagov/govuk-account-manager-prototype/blob/master/concourse/pipeline.yaml#L25).
+
+Concourse can also set them during a deploy using cloud foundry commands (eg. [See here in deploy-to-govuk-pass.yml](https://github.com/alphagov/govuk-account-manager-prototype/blob/master/concourse/tasks/deploy-to-govuk-paas.yml#L48:L58))
+
+Adding or updating a secret can be done with Concourse secrets manager and the [GDS cli](https://docs.publishing.service.gov.uk/manual/get-started.html#3-install-gds-tooling)
 
 ```
-cf set-env govuk-account-manager SECRET_NAME SECRET_VALUE
+gds cd secrets add cd-govuk-tools govuk-account-manager-prototype/SECRET_NAME your_secret_value
 ```
 
 To remove a secret:
 
 ```
-cf unset-env govuk-account-manager SECRET_NAME
+gds cd secrets rm cd-govuk-tools govuk-account-manager-prototype/SECRET_NAME
 ```
 
-Once continuous deployment using Concourse has been set up, the secrets will be defined using the Concourse secrets manager, accessible through `gds-cli`.
+You would also need to unset it from the PaaS environment. Which you can do with this command:
+
+```
+ cf unset-env govuk-account-manager SECRET_NAME
+```
