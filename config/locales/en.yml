@@ -30,6 +30,21 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  welcome:
+    show:
+      title: "Create a GOV.UK account"
+      content: |
+        <p class="govuk-body">A GOV.UK account uses information you provide about yourself to:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>suggest GOV.UK guidance and information that is relevant to you</li>
+          <li>tell you when content you’re interested in has been updated</li>
+          <li>help you set up reminders for tasks you may need to complete later</li>
+        </ul>
+        <p class="govuk-body">You'll need an email address to create an account.</p>
+      button:
+        label: "Create a GOV.UK account"
+      action: |
+        <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to GOV.UK</a> if you already have an account.</p>
   register:
     show:
       title: "Create a GOV.UK account"
