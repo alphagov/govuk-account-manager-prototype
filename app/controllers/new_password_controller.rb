@@ -18,13 +18,15 @@ class NewPasswordController < ApplicationController
 
     password_validity = password_valid?(new_password_params[:password], new_password_params[:password_confirm])
 
-    if password_validity == :ok
+    if password_validity.empty?
       ResetPassword.update_password(user, new_password_params[:password])
     else
-      flash[:validation] = [{
-        field: "password",
-        text: t("new_password.error.#{password_validity}"),
-      }]
+      flash[:validation] = password_validity.map do |error|
+        {
+          field: error.match(/password_confirm/) ? "password_confirm" : "password",
+          text: t("new_password.error.#{error}"),
+        }
+      end
 
       redirect_to action: :show, user_id: new_password_params[:user_id], token: new_password_params[:token]
     end

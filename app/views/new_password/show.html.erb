@@ -19,6 +19,8 @@
             text: t("new_password.password"),
           },
           hint: t("new_password.password_caption"),
+          error: error_items("password"),
+          id: "password",
           name: "password",
           type: "password",
         } %>
@@ -27,6 +29,8 @@
           label: {
             text: t("new_password.password_confirm"),
           },
+          error: error_items("password_confirm"),
+          id: "password_confirm",
           name: "password_confirm",
           type: "password",
         } %>
