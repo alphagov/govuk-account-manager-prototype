@@ -1,16 +1,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: "Successfully registered",
-      heading_level: 1
+      text: t("register.create.title"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
     } %>
 
-    <p class="govuk-body">
-      Created user with email address <%= @email %>.
-    </p>
+    <%= sanitize(t("register.create.instructions", email: sanitize(@email))) %>
 
-    <p class="govuk-body">
-      A link to verify your account has been emailed to you.
-    </p>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("register.create.re_register_subtitle"),
+      heading_level: 2,
+    } %>
+
+    <%= sanitize(t("register.create.re_register_instructions", email: sanitize(@email))) %>
+
   </div>
 </div>

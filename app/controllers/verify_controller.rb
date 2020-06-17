@@ -5,8 +5,10 @@ class VerifyController < ApplicationController
 
     user = Services.keycloak.users.get(@user_id)
     @state = user.email_verified ? :already_verified : EmailConfirmation.check_and_verify(user, token)
+    render "error" unless @state == :ok
   rescue KeyError
     @state = :bad_parameters
+    render "error"
   end
 
   def send_new_link
