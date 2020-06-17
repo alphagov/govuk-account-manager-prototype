@@ -2,7 +2,9 @@ class RegisterController < ApplicationController
   include PasswordHelper
   rescue_from RestClient::Conflict, with: :conflict
 
-  def show; end
+  def show
+    @email = register_params[:email]
+  end
 
   def create
     if request_state == :ok
@@ -23,7 +25,7 @@ class RegisterController < ApplicationController
         text: t("register.create.error.#{request_state}"),
       }]
 
-      redirect_to action: :show
+      redirect_to action: :show, params: register_params
     end
   end
 
