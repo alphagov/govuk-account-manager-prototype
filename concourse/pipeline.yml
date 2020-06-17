@@ -13,10 +13,35 @@ resources:
       uri: git@github.com:alphagov/govuk-account-manager-prototype.git
       branch: master
       private_key: ((concourse_ci_github_ssh_read_only))
+
   - name: govuk-slack
     type: slack-notification
     source:
       url: https://hooks.slack.com/((slack_webhook_url))
+
+  - name:  git-master-gems-dockerfile
+    icon: github-circle
+    type: git
+    source:
+      uri: git@github.com:alphagov/govuk-account-manager-prototype.git
+      branch: master
+      private_key: ((concourse_ci_github_ssh_read_only))
+      paths:
+        - concourse/Dockerfile
+        - Gemfile*
+
+  - name: every-day
+    type: time
+    source:
+      interval: 24h
+
+  - name: tests-image
+    type: docker-image
+    icon: docker
+    source:
+      repository: ((readonly_private_ecr_repo_url))
+      tag: govuk-accounts-manager-tests-image
+
 jobs:
   - name: update-pipeline
     plan:
@@ -25,11 +50,55 @@ jobs:
       - set_pipeline: govuk-account-manager-prototype
         file: git-master/concourse/pipeline.yml
 
+  - name: build-tests-image
+    serial: true
+    build_log_retention:
+      builds: 100
+    plan:
+      - get: every-day
+        trigger: true
+      - get: git-master-gems-dockerfile
+        trigger: true
+      - put: tests-image
+        params:
+          build: git-master-gems-dockerfile
+          dockerfile: git-master-gems-dockerfile/concourse/Dockerfile
+
+  - name: run-quality-checks
+    serial: true
+    plan:
+      - get: tests-image
+        passed:
+          - build-tests-image
+        trigger: true
+      - get: git-master
+        trigger: true
+      - task: run-tests-task
+        image: tests-image
+        config:
+          inputs:
+            - name: git-master
+          outputs:
+            - name: committer-details
+          platform: linux
+          run:
+            dir: git-master
+            path: bash
+            args:
+              - -c
+              - |
+                set -eu
+                service redis-server start
+                export RAILS_ENV=test
+                bundle install
+                bundle exec rake
+
   - name: deploy-app
     serial: true
     plan:
       - get: git-master
         trigger: true
+        passed: [run-quality-checks]
       - task: deploy-to-paas
         file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
         params:
@@ -50,6 +119,7 @@ jobs:
           KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+
   - name: ping-test
     serial: true
     plan:
