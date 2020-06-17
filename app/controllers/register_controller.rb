@@ -7,7 +7,7 @@ class RegisterController < ApplicationController
   end
 
   def create
-    if request_state == :ok
+    if request_errors.empty?
       @email = register_params[:email]
 
       user = Services.keycloak.users.create!(
@@ -20,10 +20,7 @@ class RegisterController < ApplicationController
 
       EmailConfirmation.send(user)
     else
-      flash[:validation] = [{
-        field: "password",
-        text: t("register.create.error.#{request_state}"),
-      }]
+      flash[:validation] = request_errors
 
       redirect_to action: :show, params: register_params
     end
@@ -31,10 +28,26 @@ class RegisterController < ApplicationController
 
 private
 
-  def request_state
-    return :email_missing if register_params[:email].blank?
+  def request_errors
+    errors = []
 
-    password_valid?(register_params[:password], register_params[:password_confirm])
+    if register_params[:email].blank?
+      errors << {
+        field: "email",
+        text: t("register.create.error.email_missing"),
+      }
+    end
+
+    password_state = password_valid?(register_params[:password], register_params[:password_confirm])
+
+    password_state.each do |password_validation|
+      errors << {
+        field: password_validation.match(/password_confirm/) ? "password_confirm" : "password",
+        text: t("register.create.error.#{password_validation}"),
+      }
+    end
+
+    errors
   end
 
   def register_params

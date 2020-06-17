@@ -10,14 +10,15 @@
     <%= render "error_summary" %>
 
     <%= form_tag do %>
-
       <%= render "govuk_publishing_components/components/input", {
         label: {
           text: t("register.show.fields.email.label"),
         },
         name: "email",
         type: "email",
+        id: "email",
         value: sanitize(@email),
+        error_message: error_items("email"),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -27,6 +28,8 @@
         hint: t("register.show.fields.password.hint"),
         name: "password",
         type: "password",
+        id: "password",
+        error_message: error_items("password"),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -35,18 +38,18 @@
         },
         name: "password_confirm",
         type: "password",
+        id: "password_confirm",
+        error_message: error_items("password_confirm"),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("register.show.fields.submit.label"),
         margin_bottom: 3,
       } %>
-
     <% end %>
 
     <p class="govuk-body">
       <%= sanitize(t("register.show.sign_in")) %>
     </p>
-
   </div>
 </div>
