@@ -4,10 +4,9 @@ resources:
     type: git
     icon: github-circle
     source:
-      uri: https://github.com/alphagov/govuk-account-manager-prototype.git
+      uri: git@github.com:alphagov/govuk-account-manager-prototype.git
       branch: master
-      private_key: |
-          ((govuk_ci_ssh_private_key))
+      private_key: ((concourse_ci_github_ssh_read_only))
 jobs:
   - name: update-pipeline
     plan:
@@ -27,9 +26,9 @@ jobs:
           CF_ORG: govuk_development
           CF_APP_NAME: govuk-account-manager
           CF_SPACE: sandbox
-          CF_INSTANCES: 1
           CF_STARTUP_TIMEOUT: 15 # minutes
-          CF_WORKERS: 1
+          APP_INSTANCES: 1
+          WORKER_INSTANCES: 1
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
           KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))

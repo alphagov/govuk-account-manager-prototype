@@ -25,22 +25,22 @@ run:
       cf t -o "$CF_ORG" -s "$CF_SPACE"
       cf v3-create-app $CF_APP_NAME || true
       cf v3-apply-manifest -f manifest.yml
-      cf set-env CF_APP_NAME CF_STARTUP_TIMEOUT "$CF_STARTUP_TIMEOUT"
+      cf set-env $CF_APP_NAME CF_STARTUP_TIMEOUT "$CF_STARTUP_TIMEOUT"
 
-      cf scale -i "$CF_INSTANCES" "$CF_APP_NAME"
-      cf v3-scale --process worker -i "$CF_WORKERS" "$CF_APP_NAME"
+      cf scale -i "$APP_INSTANCES" $CF_APP_NAME
+      cf v3-scale --process worker -i "$WORKER_INSTANCES" $CF_APP_NAME
 
-      cf set-env "$CF_APP_NAME" GOVUK_APP_DOMAIN "$GOVUK_APP_DOMAIN"
-      cf set-env "$CF_APP_NAME" GOVUK_WEBSITE_ROOT "$WEBSITE_ROOT"
-      cf set-env "$CF_APP_NAME" KEYCLOAK_ADMIN_PASSWORD "$KEYCLOAK_ADMIN_PASSWORD"
-      cf set-env "$CF_APP_NAME" KEYCLOAK_ADMIN_USER "$KEYCLOAK_ADMIN_USER"
-      cf set-env "$CF_APP_NAME" KEYCLOAK_CLIENT_ID "$KEYCLOAK_CLIENT_ID"
-      cf set-env "$CF_APP_NAME" KEYCLOAK_CLIENT_SECRET "$KEYCLOAK_CLIENT_SECRET"
-      cf set-env "$CF_APP_NAME" KEYCLOAK_REALM_ID "$KEYCLOAK_REALM_ID"
-      cf set-env "$CF_APP_NAME" KEYCLOAK_SERVER_URL "$KEYCLOAK_SERVER_URL"
-      cf set-env "$CF_APP_NAME" NOTIFY_API_KEY "$NOTIFY_API_KEY"
-      cf set-env "$CF_APP_NAME" GOVUK_NOTIFY_TEMPLATE_ID "$NOTIFY_TEMPLATE_ID"
-      cf set-env "$CF_APP_NAME" REDIRECT_BASE_URL "$REDIRECT_BASE_URL"
+      cf set-env $CF_APP_NAME GOVUK_APP_DOMAIN "$APP_DOMAIN"
+      cf set-env $CF_APP_NAME GOVUK_WEBSITE_ROOT "$WEBSITE_ROOT"
+      cf set-env $CF_APP_NAME KEYCLOAK_ADMIN_PASSWORD "$KEYCLOAK_ADMIN_PASSWORD"
+      cf set-env $CF_APP_NAME KEYCLOAK_ADMIN_USER "$KEYCLOAK_ADMIN_USER"
+      cf set-env $CF_APP_NAME KEYCLOAK_CLIENT_ID "$KEYCLOAK_CLIENT_ID"
+      cf set-env $CF_APP_NAME KEYCLOAK_CLIENT_SECRET "$KEYCLOAK_CLIENT_SECRET"
+      cf set-env $CF_APP_NAME KEYCLOAK_REALM_ID "$KEYCLOAK_REALM_ID"
+      cf set-env $CF_APP_NAME KEYCLOAK_SERVER_URL "$KEYCLOAK_SERVER_URL"
+      cf set-env $CF_APP_NAME NOTIFY_API_KEY "$NOTIFY_API_KEY"
+      cf set-env $CF_APP_NAME GOVUK_NOTIFY_TEMPLATE_ID "$NOTIFY_TEMPLATE_ID"
+      cf set-env $CF_APP_NAME REDIRECT_BASE_URL "$KEYCLOAK_REDIRECT_BASE_URL"
 
-      cf v3-zdt-push "$CF_APP_NAME" --wait-for-deploy-complete --no-route
-      cf map-route "$CF_APP_NAME" cloudapps.digital --hostname "$HOSTNAME"
+      cf v3-zdt-push $CF_APP_NAME --wait-for-deploy-complete --no-route
+      cf map-route $CF_APP_NAME cloudapps.digital --hostname "$HOSTNAME"
