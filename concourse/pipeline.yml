@@ -108,6 +108,9 @@ jobs:
           CF_STARTUP_TIMEOUT: 15 # minutes
           APP_INSTANCES: 1
           WORKER_INSTANCES: 1
+          REQUIRE_BASIC_AUTH: "true"
+          BASIC_AUTH_USERNAME: ((basic-auth-username))
+          BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
           KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))
@@ -130,7 +133,7 @@ jobs:
         file: git-master/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://govuk-account-manager.cloudapps.digital/register'
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.cloudapps.digital/register'
           MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack

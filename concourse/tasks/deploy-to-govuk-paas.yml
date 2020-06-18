@@ -30,6 +30,12 @@ run:
       cf scale -i "$APP_INSTANCES" $CF_APP_NAME
       cf v3-scale --process worker -i "$WORKER_INSTANCES" $CF_APP_NAME
 
+      if [[ "${REQUIRE_BASIC_AUTH:-}" = "true" ]]; then
+        cf set-env $CF_APP_NAME REQUIRE_BASIC_AUTH "$REQUIRE_BASIC_AUTH"
+        cf set-env $CF_APP_NAME BASIC_AUTH_USERNAME "$BASIC_AUTH_USERNAME"
+        cf set-env $CF_APP_NAME BASIC_AUTH_PASSWORD "$BASIC_AUTH_PASSWORD"
+      fi
+
       cf set-env $CF_APP_NAME GOVUK_APP_DOMAIN "$APP_DOMAIN"
       cf set-env $CF_APP_NAME GOVUK_WEBSITE_ROOT "$WEBSITE_ROOT"
       cf set-env $CF_APP_NAME KEYCLOAK_ADMIN_PASSWORD "$KEYCLOAK_ADMIN_PASSWORD"
