@@ -3,3 +3,5 @@ applications:
 - name: govuk-account-manager
   buildpack: ruby_buildpack
   memory: 2G
+  services:
+    - govuk-account-manager-redis
