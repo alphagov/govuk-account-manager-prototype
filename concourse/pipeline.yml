@@ -108,7 +108,7 @@ jobs:
           CF_STARTUP_TIMEOUT: 15 # minutes
           APP_INSTANCES: 1
           WORKER_INSTANCES: 1
-          HOSTNAME: govuk-account-manager
+          HOSTNAME: govuk-account-manager-staging
           REQUIRE_BASIC_AUTH: "true"
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
