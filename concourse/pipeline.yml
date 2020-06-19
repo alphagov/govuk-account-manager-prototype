@@ -124,7 +124,7 @@ jobs:
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 
-  - name: ping-test
+  - name: ping-test-staging
     serial: true
     plan:
       - get: git-master
@@ -134,7 +134,7 @@ jobs:
         file: git-master/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.cloudapps.digital/register'
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager-staging.cloudapps.digital/register'
           MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack
@@ -145,7 +145,7 @@ jobs:
             silent: true
             text: |
               :kaboom:
-              Production smoke tests for the GOV.UK Account manager have failed
+              Staging smoke tests for the GOV.UK Account manager have failed
               Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
   - name: deploy-app-production
@@ -153,7 +153,7 @@ jobs:
     plan:
       - get: git-master
         trigger: true
-        passed: [ping-test]
+        passed: [ping-test-staging]
       - task: deploy-to-paas
         file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
         params:
@@ -178,3 +178,27 @@ jobs:
           KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+
+  - name: ping-test-production
+    serial: true
+    plan:
+      - get: git-master
+        trigger: true
+        passed: [deploy-app-production]
+      - task: ping-smoke-test
+        file: git-master/concourse/tasks/ping-smoke-test.yml
+        timeout: 5m
+        params:
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.cloudapps.digital/register'
+          MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
+        on_failure:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts-tech'
+            username: 'Concourse (GOV.UK Accounts)'
+            icon_emoji: ':concourse:'
+            silent: true
+            text: |
+              :kaboom:
+              Production smoke tests for the GOV.UK Account manager have failed
+              Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
