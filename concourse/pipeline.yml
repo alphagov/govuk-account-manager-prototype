@@ -147,3 +147,34 @@ jobs:
               :kaboom:
               Production smoke tests for the GOV.UK Account manager have failed
               Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+
+  - name: deploy-app-production
+    serial: true
+    plan:
+      - get: git-master
+        trigger: true
+        passed: [ping-test]
+      - task: deploy-to-paas
+        file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
+        params:
+          CF_ORG: govuk_development
+          CF_APP_NAME: govuk-account-manager
+          CF_SPACE: production
+          CF_STARTUP_TIMEOUT: 15 # minutes
+          APP_INSTANCES: 1
+          WORKER_INSTANCES: 1
+          HOSTNAME: govuk-account-manager
+          REQUIRE_BASIC_AUTH: "true"
+          BASIC_AUTH_USERNAME: ((basic-auth-username))
+          BASIC_AUTH_PASSWORD: ((basic-auth-password))
+          APP_DOMAIN: www.gov.uk
+          WEBSITE_ROOT: https://www.gov.uk
+          KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))
+          KEYCLOAK_ADMIN_USER: ((keycloak-admin-user))
+          KEYCLOAK_CLIENT_ID: ((keycloak-client-id))
+          KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
+          KEYCLOAK_REALM_ID: master
+          KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
+          KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
+          NOTIFY_API_KEY: ((notify-api-key))
+          NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
