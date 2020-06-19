@@ -129,7 +129,7 @@ jobs:
     plan:
       - get: git-master
         trigger: true
-        passed: [deploy-app]
+        passed: [deploy-app-staging]
       - task: ping-smoke-test
         file: git-master/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
