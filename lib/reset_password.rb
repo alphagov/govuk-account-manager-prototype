@@ -41,7 +41,7 @@ module ResetPassword
   end
 
   def self.link(user_id, token)
-    base_url = ENV.fetch("REDIRECT_BASE_URL", "/")
+    base_url = Rails.application.config.redirect_base_url
     base_url += "/" unless base_url.end_with? "/"
 
     "#{base_url}new-password?user_id=#{user_id}&token=#{token}"

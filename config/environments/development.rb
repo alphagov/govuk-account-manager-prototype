@@ -61,6 +61,8 @@ Rails.application.configure do
   Sidekiq.configure_client do |config|
     config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
   end
+
+  config.redirect_base_url = ENV["REDIRECT_BASE_URL"]
 end
 
 # make discovery work over HTTP

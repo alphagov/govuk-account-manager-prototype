@@ -120,7 +120,6 @@ jobs:
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret-staging))
           KEYCLOAK_REALM_ID: master
           KEYCLOAK_SERVER_URL: https://govuk-keycloak-staging.cloudapps.digital/auth
-          KEYCLOAK_REDIRECT_BASE_URL: https://govuk-account-manager-staging.cloudapps.digital/
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 
@@ -175,7 +174,6 @@ jobs:
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
           KEYCLOAK_REALM_ID: master
           KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
-          KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 
