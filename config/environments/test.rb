@@ -43,4 +43,6 @@ Rails.application.configure do
   # Use test delivery method instead of sending emails to Notify.
   config.action_mailer.delivery_method = :test
   config.action_mailer.default_options = { from: "test@example.org" }
+
+  config.redirect_base_url = "http://localhost"
 end

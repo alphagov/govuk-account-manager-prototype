@@ -116,11 +116,10 @@ jobs:
           WEBSITE_ROOT: https://www.gov.uk
           KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))
           KEYCLOAK_ADMIN_USER: ((keycloak-admin-user))
-          KEYCLOAK_CLIENT_ID: ((keycloak-client-id))
-          KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
+          KEYCLOAK_CLIENT_ID: ((keycloak-client-id-staging))
+          KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret-staging))
           KEYCLOAK_REALM_ID: master
-          KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
-          KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
+          KEYCLOAK_SERVER_URL: https://govuk-keycloak-staging.cloudapps.digital/auth
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 
@@ -175,7 +174,6 @@ jobs:
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
           KEYCLOAK_REALM_ID: master
           KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
-          KEYCLOAK_REDIRECT_BASE_URL: https://((keycloak-redirect-base-url))
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 

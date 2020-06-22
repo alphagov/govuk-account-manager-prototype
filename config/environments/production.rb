@@ -119,5 +119,11 @@ Rails.application.configure do
     end
   end
 
+  config.redirect_base_url = if ENV["VCAP_APPLICATION"].present?
+                               JSON.parse(ENV.fetch("VCAP_APPLICATION")).to_h.fetch("uris", []).first
+                             else
+                               ENV["REDIRECT_BASE_URL"]
+                             end
+
   config.action_mailer.delivery_method = :notify
 end

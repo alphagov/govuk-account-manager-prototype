@@ -9,7 +9,7 @@ module Services
   def self.oidc
     @oidc ||=
       begin
-        base_url = ENV.fetch("REDIRECT_BASE_URL", "/")
+        base_url = Rails.application.config.redirect_base_url
         base_url += "/" unless base_url.end_with? "/"
         OIDCClient.new(
           "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}",
