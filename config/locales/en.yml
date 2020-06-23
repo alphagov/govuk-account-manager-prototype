@@ -44,7 +44,7 @@ en:
       button:
         label: "Create a GOV.UK account"
       action: |
-        <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to GOV.UK</a> if you already have an account.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to GOV.UK</a> if you already have an account.</p>
   register:
     show:
       title: "Create a GOV.UK account"
@@ -58,13 +58,13 @@ en:
           label: "Retype password"
         submit:
           label: "Continue"
-      sign_in: "<a class=\"govuk-link\" href=\"/manage\">Sign in to GOV.UK</a> if you already have an account."
+      sign_in: "<a class=\"govuk-link\" href=\"/account/manage\">Sign in to GOV.UK</a> if you already have an account."
     create:
       title: "Confirm your email address"
       instructions: |
         <p class="govuk-body">We’ve sent an email to %{email}</p>
         <p class="govuk-body">You need to click on the confirmation link in the email to activate your GOV.UK account.</p>
-        <p class="govuk-body"><a class="govuk-link" href="/manage">Go to your GOV.UK account</a>
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Go to your GOV.UK account</a>
       re_register_subtitle: "If you did not get the email or want to use a different address"
       re_register_instructions: |
         <p class="govuk-body">We can <a class="govuk-link" href="/resend-confirmation?email=%{email}">send the confirmation email again</a> if you did not get it.</a>
@@ -78,13 +78,13 @@ en:
     conflict:
       title: "There is already a GOV.UK account for %{email}"
       instructions: |
-        <p class="govuk-body">Try <a class="govuk-link" href="/manage">signing in to GOV.UK</a> instead.</p>
+        <p class="govuk-body">Try <a class="govuk-link" href="/account/manage">signing in to GOV.UK</a> instead.</p>
         <p class="govuk-body">You can <a class="govuk-link" href="/reset-password">reset your password</a> if you‘ve forgotten it.</p>
   email_confirmation:
     show:
       title: "Email confirmed"
       action: |
-        <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to your GOV.UK account</a></p>
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to your GOV.UK account</a></p>
     error:
       title: "Email confirmation"
       already_verified: "Your email address has already been confirmed."
