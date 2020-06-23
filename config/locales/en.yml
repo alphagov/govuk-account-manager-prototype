@@ -49,6 +49,7 @@ en:
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.
     profile:
       page_heading: Your Profile
+      no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
   welcome:
     show:
       title: "Create a GOV.UK account"
