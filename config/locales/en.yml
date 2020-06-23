@@ -43,6 +43,7 @@ en:
         activity_link: See all activity on your account
     activity:
       page_heading: Activity on your account
+      no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
     data_exchange:
       page_heading: How and when has your data been used
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.
