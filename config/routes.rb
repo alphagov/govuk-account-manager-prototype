@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   get "/callback", to: "callback#show"
 
-  get "/verify", to: "verify#show"
-  get "/verify/send", to: "verify#send_new_link"
+  get "/confirm-email", to: "email_confirmation#confirm_email"
+  get "/resend-confirmation", to: "email_confirmation#resend_confirmation"
 
   get "/reset-password", to: "reset_password#show"
   post "/reset-password", to: "reset_password#submit"
