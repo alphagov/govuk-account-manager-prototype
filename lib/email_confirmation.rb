@@ -2,7 +2,7 @@ require "services"
 
 module EmailConfirmation
   def self.send(user)
-    return false unless user.email
+    return false unless user&.email
 
     token = SecureRandom.hex(16)
     rep = { "attributes" => { "verification_token" => token, "verification_token_expires" => Time.zone.now + 24.hours } }
