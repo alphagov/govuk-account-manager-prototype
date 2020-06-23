@@ -7,7 +7,7 @@
       margin_bottom: 3,
     } %>
 
-    <p class="govuk-body"><%= sanitize(t("reset_password.sent.summary")) %></p>
+    <p class="govuk-body"><%= sanitize(t("reset_password.sent.summary", email: @email)) %></p>
 
 
     <%= render "govuk_publishing_components/components/heading", {

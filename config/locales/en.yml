@@ -104,7 +104,7 @@ en:
     no_such_user: "There is no such user"
     sent:
       title: "Password change request sent"
-      summary: "We’ve sent an email to name@example.com with instructions for changing your password."
+      summary: "We’ve sent an email to %{email} with instructions for changing your password."
       sub_heading: "If you did not get the email"
       resend_instructions: "We can <a class=\"govuk-link\" href=\"/reset-password\">send the password reset email again</a> if you did not get it."
   new_password:
