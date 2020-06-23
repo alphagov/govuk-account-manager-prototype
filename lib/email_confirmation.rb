@@ -35,6 +35,6 @@ module EmailConfirmation
     base_url = Rails.application.config.redirect_base_url
     base_url += "/" unless base_url.end_with? "/"
 
-    "#{base_url}verify?user_id=#{user_id}&token=#{token}"
+    "#{base_url}confirm-email?user_id=#{user_id}&token=#{token}"
   end
 end
