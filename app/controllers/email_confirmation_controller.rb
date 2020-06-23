@@ -15,9 +15,6 @@ class EmailConfirmationController < ApplicationController
   def resend_confirmation
     @email = params.fetch(:email)
     user = Services.keycloak.users.search(@email).first
-    EmailConfirmation.send(user)
-    @state = :ok
-  rescue KeyError
-    @state = :no_such_user
+    @state = EmailConfirmation.send(user) ? :ok : :no_such_user
   end
 end
