@@ -1,9 +1,10 @@
-class VerifyController < ApplicationController
-  def show
-    @user_id = params.fetch(:user_id)
+class EmailConfirmationController < ApplicationController
+  def confirm_email
+    user_id = params.fetch(:user_id)
     token = params.fetch(:token)
 
-    user = Services.keycloak.users.get(@user_id)
+    user = Services.keycloak.users.get(user_id)
+    @email = user.email
     @state = user.email_verified ? :already_verified : EmailConfirmation.check_and_verify(user, token)
     render "error" unless @state == :ok
   rescue KeyError
@@ -11,10 +12,9 @@ class VerifyController < ApplicationController
     render "error"
   end
 
-  def send_new_link
-    user_id = params.fetch(:user_id)
-    user = Services.keycloak.users.get(user_id)
-    @email = user.email
+  def resend_confirmation
+    @email = params.fetch(:email)
+    user = Services.keycloak.users.search(@email).first
     EmailConfirmation.send(user)
     @state = :ok
   rescue KeyError
