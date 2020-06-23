@@ -7,19 +7,14 @@ class ResetPasswordController < ApplicationController
 
   def submit
     @email = reset_password_params[:email]
-    user = Services.keycloak.users.search(@email)
-    if user.empty?
+    user = Services.keycloak.users.search(@email).first
+    unless ResetPassword.send(user)
       flash[:validation] = [{
         field: "email",
         text: t("reset_password.no_such_user"),
       }]
 
       redirect_to action: :show, params: reset_password_params
-    else
-      ResetPassword.send(user.first)
-      user = Services.keycloak.users.search(@email)
-      @user = user.first
-      @state = :ok
     end
   end
 
