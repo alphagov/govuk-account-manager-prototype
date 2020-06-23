@@ -120,7 +120,7 @@ Rails.application.configure do
   end
 
   config.redirect_base_url = if ENV["VCAP_APPLICATION"].present?
-                               JSON.parse(ENV.fetch("VCAP_APPLICATION")).to_h.fetch("uris", []).first
+                               "https://" + JSON.parse(ENV.fetch("VCAP_APPLICATION")).to_h.fetch("uris", []).first
                              else
                                ENV["REDIRECT_BASE_URL"]
                              end
