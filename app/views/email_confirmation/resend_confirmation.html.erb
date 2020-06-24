@@ -2,7 +2,8 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
       text: "Account verification",
-      heading_level: 1
+      heading_level: 1,
+      margin_bottom: 3,
     } %>
 
     <p class="govuk-body"><%= t("email_confirmation.send.#{@state}", email: @email) %></p>
