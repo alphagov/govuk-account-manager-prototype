@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   app:
+    tty: true
+    stdin_open: true
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
