@@ -7,11 +7,22 @@ module KeycloakAdmin
       JSON.parse(response).map { |hash| ConsentRepresentation.from_hash(hash) }
     end
 
+    def events(user_id)
+      response = execute_http do
+        RestClient::Resource.new(events_url(user_id), @configuration.rest_client_options).get(headers)
+      end
+      JSON.parse(response).map { |hash| EventRepresentation.from_hash(hash) }
+    end
+
     def sessions(user_id)
       response = execute_http do
         RestClient::Resource.new(sessions_url(user_id), @configuration.rest_client_options).get(headers)
       end
       JSON.parse(response).map { |hash| SessionRepresentation.from_hash(hash) }
+    end
+
+    def events_url(user_id)
+      "#{@realm_client.realm_admin_url}/events?user=#{user_id}"
     end
 
     def consents_url(user_id)
@@ -24,6 +35,30 @@ module KeycloakAdmin
       raise "user_id must be defined" if user_id.nil?
 
       "#{users_url(user_id)}/sessions"
+    end
+  end
+
+  class EventRepresentation < Representation
+    attr_accessor :time,
+                  :event_type,
+                  :realm_id,
+                  :client_id,
+                  :user_id,
+                  :session_id,
+                  :ip_address,
+                  :details
+
+    def self.from_hash(hash)
+      session = new
+      session.time = hash["time"]
+      session.event_type = hash["type"]
+      session.realm_id = hash["realmId"]
+      session.client_id = hash["clientId"]
+      session.user_id = hash["userId"]
+      session.session_id = hash["sessionId"]
+      session.ip_address = hash["ipAddress"]
+      session.details = hash["details"]
+      session
     end
   end
 

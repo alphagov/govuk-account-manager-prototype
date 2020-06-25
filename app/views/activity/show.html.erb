@@ -1,0 +1,36 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", { href: manage_path } %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.activity.page_heading"),
+      heading_level: 1,
+      margin_bottom: 6,
+    } %>
+
+    <% if @activity.empty? %>
+      <p class="govuk-body">
+        <%= t("account.activity.no_activity_found") %>
+      <p>
+    <% else %>
+      <dl class="govuk-summary-list">
+        <% @activity.each do |activity| %>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              <%= t("account.activity.#{activity.event_type}") %>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <span class="date-text">
+                <%= date_with_time_ago(activity.time) %>
+              </span>
+              <br>
+                <%= t("account.activity.#{activity.client_id}") %>
+              <br>
+              <%= "#{ip_to_country(activity.ip_address)} (#{activity.ip_address})" %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    <% end %>
+  </div>
+</div>

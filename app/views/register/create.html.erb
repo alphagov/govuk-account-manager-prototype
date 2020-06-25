@@ -12,9 +12,10 @@
     <%= render "govuk_publishing_components/components/heading", {
       text: t("register.create.re_register_subtitle"),
       heading_level: 2,
+      margin_bottom: 3,
+      font_size: 19,
     } %>
 
     <%= sanitize(t("register.create.re_register_instructions", email: sanitize(@email))) %>
-
   </div>
 </div>

@@ -1,0 +1,15 @@
+<%= render "govuk_publishing_components/components/back_link", { href: manage_path } %>
+
+<h1 class="govuk-heading-l">
+  <%= t("account.profile.page_heading") %>
+</h1>
+
+<% if user_details(@user).empty? %>
+  <p class="govuk-body">
+    <%= t("account.profile.no_data_found") %>
+  </p>
+<% else %>
+  <%= render "govuk_publishing_components/components/summary_list", {
+    items: user_details(@user)
+  } %>
+<% end %>

@@ -30,6 +30,26 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  account:
+    manage:
+      page_heading: Account
+      manage:
+        subheading: Manage your account
+        amend_details_link: Edit email or password
+        profile_link: View your profile
+      security:
+        subheading: Account security
+        data_exchange_link: See how and when your data has been used
+        activity_link: See all activity on your account
+    activity:
+      page_heading: Activity on your account
+      no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
+    data_exchange:
+      page_heading: How and when your data was used
+      no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.
+    profile:
+      page_heading: Your Profile
+      no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
   welcome:
     show:
       title: "Create a GOV.UK account"
@@ -44,7 +64,7 @@ en:
       button:
         label: "Create a GOV.UK account"
       action: |
-        <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to GOV.UK</a> if you already have an account.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to GOV.UK</a> if you already have an account.</p>
   register:
     show:
       title: "Create a GOV.UK account"
@@ -58,13 +78,13 @@ en:
           label: "Retype password"
         submit:
           label: "Continue"
-      sign_in: "<a class=\"govuk-link\" href=\"/manage\">Sign in to GOV.UK</a> if you already have an account."
+      sign_in: "<a class=\"govuk-link\" href=\"/account/manage\">Sign in to GOV.UK</a> if you already have an account."
     create:
       title: "Confirm your email address"
       instructions: |
         <p class="govuk-body">We’ve sent an email to %{email}</p>
         <p class="govuk-body">You need to click on the confirmation link in the email to activate your GOV.UK account.</p>
-        <p class="govuk-body"><a class="govuk-link" href="/manage">Go to your GOV.UK account</a>
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Go to your GOV.UK account</a>
       re_register_subtitle: "If you did not get the email or want to use a different address"
       re_register_instructions: |
         <p class="govuk-body">We can <a class="govuk-link" href="/resend-confirmation?email=%{email}">send the confirmation email again</a> if you did not get it.</a>
@@ -78,13 +98,13 @@ en:
     conflict:
       title: "There is already a GOV.UK account for %{email}"
       instructions: |
-        <p class="govuk-body">Try <a class="govuk-link" href="/manage">signing in to GOV.UK</a> instead.</p>
+        <p class="govuk-body">Try <a class="govuk-link" href="/account/manage">signing in to GOV.UK</a> instead.</p>
         <p class="govuk-body">You can <a class="govuk-link" href="/reset-password">reset your password</a> if you‘ve forgotten it.</p>
   email_confirmation:
     show:
       title: "Email confirmed"
       action: |
-        <p class="govuk-body"><a class="govuk-link" href="/manage">Sign in to your GOV.UK account</a></p>
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to your GOV.UK account</a></p>
     error:
       title: "Email confirmation"
       already_verified: "Your email address has already been confirmed."

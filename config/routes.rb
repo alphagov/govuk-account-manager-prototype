@@ -8,8 +8,6 @@ Rails.application.routes.draw do
 
   get "/", to: "welcome#show"
 
-  get "/manage", to: "manage#show"
-
   get "/callback", to: "callback#show"
 
   get "/confirm-email", to: "email_confirmation#confirm_email"
@@ -20,6 +18,13 @@ Rails.application.routes.draw do
 
   get "/new-password", to: "new_password#show"
   post "/new-password", to: "new_password#submit"
+
+  scope "/account" do
+    get "/manage", to: "manage#show"
+    get "/activity", to: "activity#show"
+    get "/your-data", to: "data_exchange#show"
+    get "/profile", to: "profile#show"
+  end
 
   get "/logout", to: "logout#show"
 end

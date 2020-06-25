@@ -5,6 +5,7 @@ source "https://rubygems.org"
 ruby File.read(".ruby-version").strip
 
 gem "bootsnap", ">= 1.4.2"
+gem "geocoder"
 gem "govuk_publishing_components", "21.55.2"
 gem "keycloak-admin", "0.7.5"
 gem "notifications-ruby-client", "~> 5.1"

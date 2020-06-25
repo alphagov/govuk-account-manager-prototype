@@ -1,17 +1,50 @@
-<h1 class="govuk-heading-xl">We did it!</h1>
-<p class="govuk-body">Welcome,</p>
-<pre><%= JSON.pretty_generate(@user) %></pre>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.page_heading"),
+      heading_level: 1,
+      margin_bottom: 6,
+    } %>
 
-<h2 class="govuk-heading">You have shared data with:</h2>
-<ol>
-<% @consents.each do |consent| %>
-<li><pre><%= JSON.pretty_generate(consent) %></pre></li>
-<% end %>
-</ol>
+    <% if @user.email %>
+      <p class="govuk-body">
+        <%= @user.email %>
+      </p>
+    <% end %>
 
-<h2 class="govuk-heading">Your active login sessions:</h2>
-<ol>
-<% @sessions.each do |session| %>
-<li><pre><%= JSON.pretty_generate(session) %></pre></li>
-<% end %>
-</ol>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.manage.subheading"),
+      heading_level: 2,
+      margin_bottom: 3,
+      font_size: 19,
+    } %>
+
+    <ul class="govuk-list govuk-!-margin-bottom-7">
+      <li>
+        <a href="<%= profile_path %>" class="govuk-link">
+          <%= t("account.manage.manage.profile_link") %>
+        </a>
+      </li>
+    </ul>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.security.subheading"),
+      heading_level: 2,
+      margin_bottom: 3,
+      font_size: 19,
+    } %>
+
+    <ul class="govuk-list govuk-!-margin-bottom-7">
+      <li>
+        <a href="<%= your_data_path %>" class="govuk-link">
+          <%= t("account.manage.manage.data_exchange_link") %>
+        </a>
+      </li>
+      <li>
+        <a href="<%= activity_path %>" class="govuk-link">
+          <%= t("account.manage.security.activity_link") %>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
