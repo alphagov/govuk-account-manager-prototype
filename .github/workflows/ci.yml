@@ -20,4 +20,6 @@ jobs:
 
       - run: bundle exec rubocop
 
+      - run: bundle exec brakeman
+
       - run: bundle exec rake
