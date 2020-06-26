@@ -26,6 +26,12 @@ Rails.application.routes.draw do
     get "/activity", to: "activity#show"
     get "/your-data", to: "data_exchange#show"
     get "/profile", to: "profile#show"
+    scope "/manage" do
+      get "/change-password", to: "change_password#show"
+      post "/change-password", to: "change_password#submit"
+      get "/change-email", to: "change_email#show"
+      post "/change-email", to: "change_email#submit"
+    end
   end
 
   get "/logout", to: "logout#show"
