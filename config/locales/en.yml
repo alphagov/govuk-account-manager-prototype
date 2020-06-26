@@ -64,7 +64,7 @@ en:
       button:
         label: "Create a GOV.UK account"
       action: |
-        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to GOV.UK</a> if you already have an account.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/account/">Sign in to GOV.UK</a> if you already have an account.</p>
   register:
     show:
       title: "Create a GOV.UK account"
@@ -117,6 +117,14 @@ en:
     send:
       ok: "An email has been sent to %{email}."
       no_such_user: "There is no such user."
+  change_email:
+    title: "Change your email address"
+    current: "Your current email address is:"
+    new_email: "Enter new email address"
+    new_email_invalid: "Please enter a valid email address"
+    confirm_email: "Confirm email address"
+    confirm_email_no_match: "Email addresses must match"
+    submit_button: "Change email address"
   reset_password:
     title: "Change your password"
     caption: "Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password."
