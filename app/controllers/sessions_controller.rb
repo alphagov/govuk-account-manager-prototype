@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
     session[:sub] = auth_hash[:uid]
-    redirect_to "/account/manage"
+    redirect_to auth_hash[:extra][:return_to]
   end
 
 protected

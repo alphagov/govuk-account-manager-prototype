@@ -9,6 +9,8 @@ class OmniAuth::Strategies::GovukOidc
   option :idp_base_uri
   option :redirect_uri
   option :scope, "openid email"
+  option :return_to_prefix, "/"
+  option :return_to_default, "/"
 
   uid { @id_token.sub }
 
@@ -26,7 +28,7 @@ class OmniAuth::Strategies::GovukOidc
     }
   end
 
-  extra { @user_info.as_json }
+  extra { @user_info.as_json.merge(return_to: @return_to) }
 
   delegate :authorization_endpoint,
            :token_endpoint,
@@ -36,16 +38,20 @@ class OmniAuth::Strategies::GovukOidc
 
   def request_phase
     nonce = SecureRandom.hex(16)
+    return_to = request.params.fetch("return_to", "/")
     redirect client.authorization_uri(
       scope: options.scope,
-      state: nonce,
+      state: "#{nonce}:#{return_to}",
       nonce: nonce,
     )
   end
 
   def callback_phase
     code = request.params["code"]
-    nonce = request.params["state"]
+    state = request.params["state"].split(":")
+    nonce = state[0]
+    return_to = state[1]
+    @return_to = return_to.starts_with?(options.return_to_prefix) ? return_to : options.return_to_default
 
     client.authorization_code = code
     @access_token = client.access_token!

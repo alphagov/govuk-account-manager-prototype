@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     @user = Services.keycloak.users.get(session[:sub]) if session[:sub]
-    redirect_to "/auth/keycloak" unless @user
+    redirect_to "/auth/keycloak?return_to=#{request.path}" unless @user
   end
 end
