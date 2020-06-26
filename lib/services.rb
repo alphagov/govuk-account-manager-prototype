@@ -14,7 +14,7 @@ module Services
         OIDCClient.new(
           "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}",
           ENV["KEYCLOAK_CLIENT_ID"],
-          ENV["KEYCLOAK_CLIENT_SECRET"],
+          Rails.application.secrets.keycloak_client_secret,
           "#{base_url}callback",
         )
       end
