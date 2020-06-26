@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get "/new-password", to: "new_password#show"
   post "/new-password", to: "new_password#submit"
 
+  get "/account", to: "account#show"
+
   scope "/account" do
     get "/manage", to: "manage#show"
     get "/activity", to: "activity#show"
