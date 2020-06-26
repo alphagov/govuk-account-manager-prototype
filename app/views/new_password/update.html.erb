@@ -1,0 +1,49 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", { href: manage_path } %>
+    <%= render "error_summary" %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("new_password.title"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <% if @state == :ok %>
+      <%= form_tag do %>
+        <%= hidden_field_tag "user_id", @user_id %>
+        <%= hidden_field_tag "token", @token %>
+
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("new_password.password"),
+          },
+          hint: t("new_password.password_caption"),
+          error: error_items("password"),
+          id: "password",
+          name: "password",
+          type: "password",
+        } %>
+
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("new_password.password_confirm"),
+          },
+          error: error_items("password_confirm"),
+          id: "password_confirm",
+          name: "password_confirm",
+          type: "password",
+        } %>
+
+        <%= render "govuk_publishing_components/components/button", {
+          text: t("new_password.submit"),
+        } %>
+      <% end %>
+    <% else %>
+
+      <%= t("new_password.error.#{@state}") %>
+
+    <% end %>
+  </div>
+</div>
