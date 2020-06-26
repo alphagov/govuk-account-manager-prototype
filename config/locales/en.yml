@@ -78,7 +78,8 @@ en:
           label: "Retype password"
         submit:
           label: "Continue"
-      sign_in: "<a class=\"govuk-link\" href=\"/account/manage\">Sign in to GOV.UK</a> if you already have an account."
+      sign_in: |
+        <a class="govuk-link" href="/account/manage">Sign in to GOV.UK</a> if you already have an account.
     create:
       title: "Confirm your email address"
       instructions: |
@@ -126,7 +127,8 @@ en:
       title: "Password change request sent"
       summary: "We’ve sent an email to %{email} with instructions for changing your password."
       sub_heading: "If you did not get the email"
-      resend_instructions: "We can <a class=\"govuk-link\" href=\"/reset-password\">send the password reset email again</a> if you did not get it."
+      resend_instructions: |
+        We can <a class="govuk-link" href="/reset-password">send the password reset email again</a> if you did not get it.
   new_password:
     title: "Create a new password"
     password: "Create a new password"
