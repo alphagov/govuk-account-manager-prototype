@@ -41,6 +41,8 @@ en:
         subheading: Account security
         data_exchange_link: See how and when your data has been used
         activity_link: See all activity on your account
+      email_verification-sent: |
+        A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
     activity:
       page_heading: Activity on your account
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
@@ -121,10 +123,13 @@ en:
     title: "Change your email address"
     current: "Your current email address is:"
     new_email: "Enter new email address"
-    new_email_invalid: "Please enter a valid email address"
-    confirm_email: "Confirm email address"
-    confirm_email_no_match: "Email addresses must match"
     submit_button: "Change email address"
+    error:
+      confirm_email_missing: "Confirm email address"
+      new_email_invalid: "Please enter a valid email address"
+      email_missing: "Please provide an email address"
+      email_confirm_missing: "Please confirm your email address"
+      confirm_email_no_match: "Email addresses must match"
   reset_password:
     title: "Change your password"
     caption: "Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password."

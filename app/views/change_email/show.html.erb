@@ -1,7 +1,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/back_link", { href: manage_path } %>
-    <form>
+
+    <%= render "error_summary" %>
+
+    <%= form_tag do %>
       <%= render "govuk_publishing_components/components/fieldset", {
         legend_text: t("change_email.title"),
         heading_level: 1,
@@ -25,7 +28,8 @@
           },
           name: "email",
           type: "email",
-          error_message: t("change_email.new_email_invalid"),
+          value: params[:email] || nil,
+          error_message: error_items("email"),
         } %>
 
         <%= render "govuk_publishing_components/components/input", {
@@ -34,12 +38,13 @@
           },
           name: "email_confirm",
           type: "email",
-          error_message: t("change_email.confirm_email_no_match"),
+          value: params[:email_confirm ] || nil,
+          error_message: error_items("email_confirm"),
         } %>
       <% end %>
       <%= render "govuk_publishing_components/components/button", {
         text: t("change_email.submit_button"),
       } %>
-    </form>
+    <% end %>
   </div>
 </div>
