@@ -8,7 +8,7 @@
     <p class="govuk-body"><%= t("email_confirmation.error.#{@state}") %></p>
 
     <% if @email %>
-      <p class="govuk-body"><a href="/resend-confirmation?email=<%= sanitize(@email) %>"><%= t("email_confirmation.send_link") %></a></p>
+      <p class="govuk-body"><a href="/resend-confirmation?email=<%= @email %>"><%= t("email_confirmation.send_link") %></a></p>
     <% end %>
   </div>
 </div>

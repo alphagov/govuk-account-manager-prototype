@@ -7,7 +7,7 @@
       margin_bottom: 3,
     } %>
 
-    <%= sanitize(t("register.create.instructions", email: sanitize(@email))) %>
+    <%= sanitize(t("register.create.instructions", email: h(@email))) %>
 
     <%= render "govuk_publishing_components/components/heading", {
       text: t("register.create.re_register_subtitle"),
@@ -16,6 +16,6 @@
       font_size: 19,
     } %>
 
-    <%= sanitize(t("register.create.re_register_instructions", email: sanitize(@email))) %>
+    <%= sanitize(t("register.create.re_register_instructions", email: h(@email))) %>
   </div>
 </div>
