@@ -1,5 +1,6 @@
 require "omniauth"
 require "openid_connect"
+require "services"
 
 class OmniAuth::Strategies::GovukOidc
   include OmniAuth::Strategy
@@ -30,12 +31,6 @@ class OmniAuth::Strategies::GovukOidc
 
   extra { @user_info.as_json.merge(return_to: @return_to) }
 
-  delegate :authorization_endpoint,
-           :token_endpoint,
-           :userinfo_endpoint,
-           :end_session_endpoint,
-           to: :discover
-
   def request_phase
     nonce = SecureRandom.hex(16)
     return_to = request.params.fetch("return_to", "/")
@@ -55,8 +50,8 @@ class OmniAuth::Strategies::GovukOidc
 
     client.authorization_code = code
     @access_token = client.access_token!
-    @id_token = OpenIDConnect::ResponseObject::IdToken.decode @access_token.id_token, discover.jwks
-    @id_token.verify! client_id: options.client_id, issuer: discover.issuer, nonce: nonce
+    @id_token = OpenIDConnect::ResponseObject::IdToken.decode @access_token.id_token, Services.discover.jwks
+    @id_token.verify! client_id: options.client_id, issuer: Services.discover.issuer, nonce: nonce
     @user_info = @access_token.userinfo!
 
     super
@@ -69,13 +64,9 @@ private
       identifier: options.client_id,
       secret: options.client_secret,
       redirect_uri: options.redirect_uri,
-      authorization_endpoint: authorization_endpoint,
-      token_endpoint: token_endpoint,
-      userinfo_endpoint: userinfo_endpoint,
+      authorization_endpoint: Services.discover.authorization_endpoint,
+      token_endpoint: Services.discover.token_endpoint,
+      userinfo_endpoint: Services.discover.userinfo_endpoint,
     )
-  end
-
-  def discover
-    @discover ||= OpenIDConnect::Discovery::Provider::Config.discover! options.idp_base_uri
   end
 end
