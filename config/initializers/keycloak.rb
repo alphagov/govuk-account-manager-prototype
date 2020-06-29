@@ -5,7 +5,7 @@ KeycloakAdmin.configure do |config|
   config.client_id           = ENV["KEYCLOAK_ADMIN_CLIENT_ID"]
   config.client_realm_name   = ENV["KEYCLOAK_REALM_ID"]
   config.client_id           = ENV["KEYCLOAK_CLIENT_ID"]
-  config.client_secret       = ENV["KEYCLOAK_CLIENT_SECRET"]
+  config.client_secret       = Rails.application.secrets.keycloak_client_secret
   config.logger              = Rails.logger
   config.rest_client_options = { verify_ssl: OpenSSL::SSL::VERIFY_NONE }
 end

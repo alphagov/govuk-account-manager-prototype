@@ -114,8 +114,6 @@ jobs:
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
-          KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))
-          KEYCLOAK_ADMIN_USER: ((keycloak-admin-user))
           KEYCLOAK_CLIENT_ID: ((keycloak-client-id-staging))
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret-staging))
           KEYCLOAK_REALM_ID: master
@@ -168,8 +166,6 @@ jobs:
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
-          KEYCLOAK_ADMIN_PASSWORD: ((keycloak-admin-password))
-          KEYCLOAK_ADMIN_USER: ((keycloak-admin-user))
           KEYCLOAK_CLIENT_ID: ((keycloak-client-id))
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
           KEYCLOAK_REALM_ID: master
