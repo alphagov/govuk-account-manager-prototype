@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "services"
 require "email_confirmation"
 
 class ApplicationController < ActionController::Base
@@ -12,17 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    if session[:sub]
-      @user = Services.keycloak.users.get(session[:sub])
-    else
-      do_authenticate_user
-    end
-  end
-
-private
-
-  def do_authenticate_user
-    session[:nonce] = SecureRandom.hex(16)
-    redirect_to Services.oidc.auth_uri(session[:nonce])
+    @user = Services.keycloak.users.get(session[:sub]) if session[:sub]
+    redirect_to "/auth/keycloak?return_to=#{request.path}" unless @user
   end
 end

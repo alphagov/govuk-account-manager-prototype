@@ -128,6 +128,7 @@ GEM
       puma
       selenium-webdriver (>= 3.142)
       webdrivers (>= 4)
+    hashie (4.1.0)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -178,6 +179,9 @@ GEM
     notifications-ruby-client (5.1.2)
       jwt (>= 1.5, < 3)
     null_logger (0.0.1)
+    omniauth (1.9.1)
+      hashie (>= 3.4.6)
+      rack (>= 1.6.2, < 3)
     openid_connect (1.2.0)
       activemodel
       attr_required (>= 1.0.0)
@@ -384,6 +388,7 @@ DEPENDENCIES
   keycloak-admin (= 0.7.5)
   listen (~> 3.2)
   notifications-ruby-client (~> 5.1)
+  omniauth
   openid_connect
   pry-rails
   puma (~> 4.1)

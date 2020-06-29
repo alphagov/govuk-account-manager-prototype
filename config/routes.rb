@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get "/", to: "welcome#show"
 
-  get "/callback", to: "callback#show"
+  get "/auth/:provider/callback", to: "sessions#create"
 
   get "/confirm-email", to: "email_confirmation#confirm_email"
   get "/resend-confirmation", to: "email_confirmation#resend_confirmation"
