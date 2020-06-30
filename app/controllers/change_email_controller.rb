@@ -1,5 +1,6 @@
 class ChangeEmailController < ApplicationController
   before_action :authenticate_user!
+  rescue_from RestClient::Conflict, with: :conflict
 
   def show; end
 
@@ -64,5 +65,10 @@ private
 
   def register_params
     params.permit(:email, :email_confirm)
+  end
+
+  def conflict
+    @email = params[:email]
+    render action: "conflict", status: :conflict
   end
 end

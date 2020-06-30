@@ -130,6 +130,8 @@ en:
       email_missing: "Please provide an email address"
       email_confirm_missing: "Please confirm your email address"
       confirm_email_no_match: "Email addresses must match"
+    conflict:
+      title: "There is already a GOV.UK account for %{email}"
   reset_password:
     title: "Change your password"
     caption: "Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password."
