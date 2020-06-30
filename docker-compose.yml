@@ -23,6 +23,8 @@ services:
   keycloak:
     image: jboss/keycloak
     command: "-b 0.0.0.0 -Dkeycloak.frontendUrl=http://keycloak:8080/auth -Dkeycloak.forceBackendUrlToFrontendUrl=true"
+    volumes:
+      - ../govuk-accounts-keycloak-theme/govuk:/opt/jboss/keycloak/themes/govuk
     environment:
       KEYCLOAK_USER: govuk
       KEYCLOAK_PASSWORD: mypassword
