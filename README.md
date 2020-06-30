@@ -11,6 +11,16 @@ You must have the following installed:
 
 ### First time setup
 
+If you haven't got it cloned already, fetch the keycloak theme:
+
+```
+cd ..
+git clone git@github.com:alphagov/govuk-accounts-keycloak-theme.git
+cd govuk-accounts-keycloak-theme
+npm install
+npm run build
+```
+
 The app uses `docker-compose` to quickly and easily bring up all required services you will need to develop this app.
 
 This can be started from the root of the repo with:
