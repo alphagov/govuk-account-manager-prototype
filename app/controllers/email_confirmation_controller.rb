@@ -1,3 +1,5 @@
+require "email_confirmation"
+
 class EmailConfirmationController < ApplicationController
   def confirm_email
     user_id = params.fetch(:user_id)

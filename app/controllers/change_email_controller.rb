@@ -1,3 +1,5 @@
+require "email_confirmation"
+
 class ChangeEmailController < ApplicationController
   before_action :authenticate_user!
   rescue_from RestClient::Conflict, with: :conflict
