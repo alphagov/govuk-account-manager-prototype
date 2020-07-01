@@ -1,0 +1,9 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/panel", {
+      title: t("email_confirmation.cancel_change.title")
+    } %>
+
+    <%= sanitize(t("email_confirmation.cancel_change.action")) %>
+  </div>
+</div>

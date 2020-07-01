@@ -12,6 +12,16 @@ class EmailConfirmationController < ApplicationController
     render "error"
   end
 
+  def cancel_change
+    @user_id = params.fetch(:user_id)
+    user = Services.keycloak.users.get(user_id)
+    @state = EmailConfirmation.cancel_change(user)
+    render "error" unless @state == :ok
+  rescue KeyError
+    @state = :bad_parameters
+    render "error"
+  end
+
   def resend_confirmation
     @email = params.fetch(:email)
     user = Services.keycloak.users.search(@email).first

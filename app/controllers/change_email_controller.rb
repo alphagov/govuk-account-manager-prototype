@@ -5,12 +5,9 @@ class ChangeEmailController < ApplicationController
   def show; end
 
   def submit
-    if request_errors.empty? && email_confirm_matches
+    if request_errors.empty?
       @email = register_params[:email]
-      if update_email(@user.id, @email).code == 204
-        EmailConfirmation.send(@user)
-        redirect_to action: :confirm_email
-      end
+      EmailConfirmation.change_and_send(@user, @email)
     else
       flash[:validation] = request_errors
 
@@ -18,14 +15,7 @@ class ChangeEmailController < ApplicationController
     end
   end
 
-  def confirm_email; end
-
 private
-
-  def update_email(user_id, email)
-    rep = { "email" => email, "emailVerified" => false }
-    Services.keycloak.users.update(user_id, KeycloakAdmin::UserRepresentation.from_hash(rep))
-  end
 
   def email_confirm_matches
     register_params[:email] == register_params[:email_confirm]

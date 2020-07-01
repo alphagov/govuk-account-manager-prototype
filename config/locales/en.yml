@@ -41,7 +41,7 @@ en:
         subheading: Account security
         data_exchange_link: See how and when your data has been used
         activity_link: See all activity on your account
-      email_verification-sent: |
+      email_verification_sent: |
         A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
     activity:
       page_heading: Activity on your account
@@ -108,6 +108,10 @@ en:
       title: "Email confirmed"
       action: |
         <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to your GOV.UK account</a></p>
+    cancel_change:
+      title: "Change of address cancelled"
+      action: |
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to your GOV.UK account</a></p>
     error:
       title: "Email confirmation"
       already_verified: "Your email address has already been confirmed."
@@ -116,6 +120,7 @@ en:
       token_mismatch: "This link is invalid."
       token_expired: "This link has expired."
       send_link: "Send another."
+      too_late: "The new email address has already been confirmed."
     send:
       ok: "An email has been sent to %{email}."
       no_such_user: "There is no such user."
@@ -172,6 +177,26 @@ en:
       subject: "GOV.UK Accounts: reset your password"
       body_text: |
         Click this link %{link}
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
+    change_confirmation:
+      subject: "GOV.UK Accounts: confirm your new email address"
+      body_text: |
+        Click this link %{link}
+
+        You will only be able to log in with your old email address until you click the link.
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
+    change_cancel:
+      subject: "GOV.UK Accounts: change your email address"
+      body_text: |
+        You have changed your email address to %{new_address}.  A confirmation email has been sent to that address.
+
+        If this was not you, click this link to cancel the change %{link}
 
         -----
 
