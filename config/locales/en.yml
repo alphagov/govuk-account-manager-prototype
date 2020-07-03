@@ -37,6 +37,7 @@ en:
         subheading: Manage your account
         amend_details_link: Edit email or password
         profile_link: View your profile
+        logout_link: Sign out
       security:
         subheading: Account security
         data_exchange_link: See how and when your data has been used
