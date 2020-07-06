@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#create"
 
   get "/confirm-email", to: "email_confirmation#confirm_email"
+  get "/confirm-email/cancel-change", to: "email_confirmation#cancel_change"
   get "/resend-confirmation", to: "email_confirmation#resend_confirmation"
 
   get "/reset-password", to: "reset_password#show"
@@ -19,11 +20,19 @@ Rails.application.routes.draw do
   get "/new-password", to: "new_password#show"
   post "/new-password", to: "new_password#submit"
 
+  get "/account", to: "account#show"
+
   scope "/account" do
     get "/manage", to: "manage#show"
     get "/activity", to: "activity#show"
     get "/your-data", to: "data_exchange#show"
     get "/profile", to: "profile#show"
+    scope "/manage" do
+      get "/change-password", to: "change_password#show"
+      post "/change-password", to: "change_password#submit"
+      get "/change-email", to: "change_email#show"
+      post "/change-email", to: "change_email#submit"
+    end
   end
 
   get "/logout", to: "logout#show"

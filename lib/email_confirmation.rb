@@ -14,9 +14,36 @@ module EmailConfirmation
     true
   end
 
+  def self.change_and_send(user, email)
+    return false unless user&.email
+    return false unless email
+
+    token = SecureRandom.hex(16)
+    rep = {
+      "attributes" => {
+        "new_email_address" => email,
+        "verification_token" => token,
+        "verification_token_expires" => Time.zone.now + 24.hours,
+      },
+    }
+    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+
+    AccountMailer.with(
+      new_address: email,
+      link: cancel_link(user.id),
+    ).change_cancel_email(user.email, email).deliver_later
+
+    AccountMailer.with(
+      link: link(user.id, token),
+    ).change_confirmation_email(email).deliver_later
+
+    true
+  end
+
   def self.check_and_verify(user, token)
-    expected = user&.attributes&.fetch("verification_token")&.first
-    expires = user&.attributes&.fetch("verification_token_expires")&.first&.to_datetime
+    expected = user&.attributes&.fetch("verification_token", nil)&.first
+    expires = user&.attributes&.fetch("verification_token_expires", nil)&.first&.to_datetime
+    new_email_address = user&.attributes&.fetch("new_email_address", nil)&.first
 
     return :no_such_user unless user && expected && expires
     return :token_mismatch unless expected == token
@@ -24,7 +51,31 @@ module EmailConfirmation
 
     rep = {
       "emailVerified" => true,
-      "attributes" => { "verification_token" => nil, "verification_token_expires" => nil },
+      "attributes" => {
+        "new_email_address" => nil,
+        "verification_token" => nil,
+        "verification_token_expires" => nil,
+      },
+    }
+    rep["email"] = new_email_address if new_email_address
+
+    # throws RestClient::Conflict if the new address is in use
+    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    :ok
+  end
+
+  def self.cancel_change(user)
+    expected = user&.attributes&.fetch("new_email_address", nil)&.first
+
+    return :no_such_user unless user
+    return :too_late unless expected
+
+    rep = {
+      "attributes" => {
+        "new_email_address" => nil,
+        "verification_token" => nil,
+        "verification_token_expires" => nil,
+      },
     }
     Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
 
@@ -36,5 +87,12 @@ module EmailConfirmation
     base_url += "/" unless base_url.end_with? "/"
 
     "#{base_url}confirm-email?user_id=#{user_id}&token=#{token}"
+  end
+
+  def self.cancel_link(user_id)
+    base_url = Rails.application.config.redirect_base_url
+    base_url += "/" unless base_url.end_with? "/"
+
+    "#{base_url}confirm-email/cancel-change?user_id=#{user_id}"
   end
 end

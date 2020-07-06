@@ -1,3 +1,5 @@
+require "email_confirmation"
+
 class RegisterController < ApplicationController
   include PasswordHelper
   rescue_from RestClient::Conflict, with: :conflict

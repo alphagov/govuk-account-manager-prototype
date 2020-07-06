@@ -37,10 +37,13 @@ en:
         subheading: Manage your account
         amend_details_link: Edit email or password
         profile_link: View your profile
+        logout_link: Sign out
       security:
         subheading: Account security
         data_exchange_link: See how and when your data has been used
         activity_link: See all activity on your account
+      email_verification_sent: |
+        A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
     activity:
       page_heading: Activity on your account
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
@@ -64,7 +67,7 @@ en:
       button:
         label: "Create a GOV.UK account"
       action: |
-        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to GOV.UK</a> if you already have an account.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/account/">Sign in to GOV.UK</a> if you already have an account.</p>
   register:
     show:
       title: "Create a GOV.UK account"
@@ -106,6 +109,10 @@ en:
       title: "Email confirmed"
       action: |
         <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to your GOV.UK account</a></p>
+    cancel_change:
+      title: "Change of address cancelled"
+      action: |
+        <p class="govuk-body"><a class="govuk-link" href="/account/manage">Sign in to your GOV.UK account</a></p>
     error:
       title: "Email confirmation"
       already_verified: "Your email address has already been confirmed."
@@ -114,9 +121,34 @@ en:
       token_mismatch: "This link is invalid."
       token_expired: "This link has expired."
       send_link: "Send another."
+      too_late: "The new email address has already been confirmed."
     send:
       ok: "An email has been sent to %{email}."
       no_such_user: "There is no such user."
+  change_email:
+    title: "Change your email address"
+    current: "Your current email address is:"
+    new_email: "Enter new email address"
+    submit_button: "Change email address"
+    error:
+      confirm_email_missing: "Confirm email address"
+      new_email_invalid: "Please enter a valid email address"
+      email_missing: "Please provide an email address"
+      email_confirm_missing: "Please confirm your email address"
+      confirm_email_no_match: "Email addresses must match"
+    conflict:
+      title: "There is already a GOV.UK account for %{email}"
+  change_password:
+    show:
+      title: "Change your password"
+      caption: "Click the button to send an email with instructions for changing your password."
+      submit: "Send"
+    sent:
+      title: "Password change request sent"
+      summary: "We’ve sent an email to %{email} with instructions for changing your password."
+      sub_heading: "If you did not get the email"
+      resend_instructions: |
+        We can <a class="govuk-link" href="/account/manage/change-password">send the password reset email again</a> if you did not get it.
   reset_password:
     title: "Change your password"
     caption: "Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password."
@@ -157,6 +189,26 @@ en:
       subject: "GOV.UK Accounts: reset your password"
       body_text: |
         Click this link %{link}
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
+    change_confirmation:
+      subject: "GOV.UK Accounts: confirm your new email address"
+      body_text: |
+        Click this link %{link}
+
+        You will only be able to log in with your old email address until you click the link.
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
+    change_cancel:
+      subject: "GOV.UK Accounts: change your email address"
+      body_text: |
+        You have changed your email address to %{new_address}.  A confirmation email has been sent to that address.
+
+        If this was not you, click this link to cancel the change %{link}
 
         -----
 
