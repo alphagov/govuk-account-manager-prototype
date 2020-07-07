@@ -8,8 +8,9 @@ class LoginController < ApplicationController
       return
     end
 
-    r = check_login_session(oidc_endpoint, oidc_params)
-    if r[:state] == :authenticated
+    # check if the user already has a session
+    r = get_login_form(oidc_endpoint, oidc_params)
+    if r[:state] == :ok
       redirect_to r[:redirect_uri]
       return
     end
@@ -36,6 +37,10 @@ class LoginController < ApplicationController
     # requests to keycloak's login endpoint come from the PaaS - is
     # there a header we can set to trasmit the original IP?
     r1 = get_login_form(oidc_endpoint, oidc_params)
+    if r1[:state] == :ok
+      redirect_to r1[:redirect_uri]
+      return
+    end
 
     form_params = {
       r1[:field_name_username] => login_params[:username],
@@ -112,93 +117,84 @@ private
     params.permit(:client_id, :nonce, :redirect_uri, :response_type, :scope, :state, :username, :password, :form_action, :mfa_code, :field_name_mfa)
   end
 
-  def check_login_session(uri, params)
-    resp = proxy_get(uri, params)
-
-    # TODO: scrape response (we should change the theme to be very
-    # scraping-friendly)
-
-    # if the user has an active session
-    {
-      state: :authenticated,
-      redirect_uri: nil,
-    }
-
-    # otherwise
-    {
-      state: :unauthenticated,
-    }
-  end
-
   def get_login_form(uri, params)
     resp = proxy_get(uri, params)
 
-    # TODO: scrape response (we should change the theme to be very
-    # scraping-friendly)
+    if resp.redirection? && resp.headers["Location"].starts_with?(login_params[:redirect_uri])
+      {
+        state: :ok,
+        redirect_uri: resp.headers["Location"],
+      }
+    else
+      # TODO: scrape response (we should change the theme to be very
+      # scraping-friendly)
 
-    {
-      form_action: nil,
-      field_name_username: nil,
-      field_name_password: nil,
-    }
+      {
+        form_action: nil,
+        field_name_username: nil,
+        field_name_password: nil,
+      }
+    end
   end
 
   def post_login_form(uri, params)
     resp = proxy_post(uri, params)
 
-    # TODO: scrape response (we should change the theme to be very
-    # scraping-friendly)
+    if resp.redirection? && resp.headers["Location"].starts_with?(login_params[:redirect_uri])
+      {
+        state: :ok,
+        redirect_uri: resp.headers["Location"],
+      }
+    else
+      # TODO: scrape response (we should change the theme to be very
+      # scraping-friendly)
 
-    # if we waited too long
-    {
-      state: :timed_out,
-    }
+      # if we waited too long
+      {
+        state: :timed_out,
+      }
 
-    # if the account doesn't exist
-    {
-      state: :no_such_account,
-    }
+      # if the account doesn't exist
+      {
+        state: :no_such_account,
+      }
 
-    # if it does exist but the password is wrong
-    {
-      state: :bad_password,
-    }
+      # if it does exist but the password is wrong
+      {
+        state: :bad_password,
+      }
 
-    # if the login is successful
-    {
-      state: :ok,
-      redirect_uri: nil,
-    }
-
-    # if there is a mfa form to submit
-    {
-      state: :needs_mfa,
-      form_action: nil,
-      field_name_mfa: nil,
-    }
+      # if there is a mfa form to submit
+      {
+        state: :needs_mfa,
+        form_action: nil,
+        field_name_mfa: nil,
+      }
+    end
   end
 
   def post_mfa_form(uri, params)
     resp = proxy_post(uri, params)
 
-    # TODO: scrape response (we should change the theme to be very
-    # scraping-friendly)
+    if resp.redirection? && resp.headers["Location"].starts_with?(login_params[:redirect_uri])
+      {
+        state: :ok,
+        redirect_uri: resp.headers["Location"],
+      }
+    else
+      # TODO: scrape response (we should change the theme to be very
+      # scraping-friendly)
 
-    # if we waited too long
-    {
-      state: :timed_out,
-    }
+      # if we waited too long
+      {
+        state: :timed_out,
+      }
 
-    # if the code is bad
-    {
-      state: :bad_code,
-    }
-
-    # if the login is successful
-    {
-      state: :ok,
-      redirect_uri: nil,
-    }
+      # if the code is bad
+      {
+        state: :bad_code,
+      }
+    end
   end
 
   def query_string(params)
