@@ -6,7 +6,11 @@ module Services
   end
 
   def self.discover
-    @discover ||= OpenIDConnect::Discovery::Provider::Config.discover! "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}"
+    @discover ||= OpenIDConnect::Discovery::Provider::Config.discover! discover_endpoint
+  end
+
+  def self.discover_endpoint
+    @discover_endpoint ||= "#{ENV['KEYCLOAK_SERVER_URL']}/realms/#{ENV['KEYCLOAK_REALM_ID']}"
   end
 
   def self.oauth2

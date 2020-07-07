@@ -21,6 +21,12 @@ module KeycloakAdmin
       JSON.parse(response).map { |hash| SessionRepresentation.from_hash(hash) }
     end
 
+    def logout(user_id)
+      execute_http do
+        RestClient::Resource.new(logout_url(user_id), @configuration.rest_client_options).post(headers)
+      end
+    end
+
     def events_url(user_id)
       "#{@realm_client.realm_admin_url}/events?user=#{user_id}"
     end
@@ -35,6 +41,12 @@ module KeycloakAdmin
       raise "user_id must be defined" if user_id.nil?
 
       "#{users_url(user_id)}/sessions"
+    end
+
+    def logout_url(user_id)
+      raise "user_id must be defined" if user_id.nil?
+
+      "#{users_url(user_id)}/logout"
     end
   end
 

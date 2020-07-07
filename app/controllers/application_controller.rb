@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     refresh_access_token! if session[:refresh_token]
     @user = Services.keycloak.users.get(session[:sub]) if session[:sub]
-    redirect_to "/auth/keycloak?return_to=#{request.path}" unless @user && @access_token
+    redirect_to "/auth/oidc?return_to=#{request.path}" unless @user && @access_token
   end
 
   def refresh_access_token!

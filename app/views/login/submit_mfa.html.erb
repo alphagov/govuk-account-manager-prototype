@@ -1,0 +1,9 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @code_is_bad %>
+      <!-- oh no!  the code is incorrect!  -->
+    <% end %>
+
+    <!-- render a POST form going to `/login/mfa?<%= @extra_params =>` with a `mfa_code` field -->
+  </div>
+</div>

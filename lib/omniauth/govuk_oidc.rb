@@ -38,7 +38,7 @@ class OmniAuth::Strategies::GovukOidc
       scope: options.scope,
       state: "#{nonce}:#{return_to}",
       nonce: nonce,
-    )
+    ).sub(Services.discover.authorization_endpoint, "/login")
   end
 
   def callback_phase

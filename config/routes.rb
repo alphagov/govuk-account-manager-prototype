@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get "/login", to: "login#show"
+  post "/login", to: "login#submit"
+  post "/login/mfa", to: "login#submit_mfa"
+
   get "/register", to: "register#show"
   post "/register", to: "register#create"
 
@@ -36,4 +40,6 @@ Rails.application.routes.draw do
   end
 
   get "/logout", to: "logout#show"
+
+  get "/.well-known/openid-configuration", to: "openid_configuration#show"
 end

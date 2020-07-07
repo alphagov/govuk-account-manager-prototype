@@ -1,0 +1,13 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @user_is_missing %>
+      <!-- oh no!  the user doesn't exist!  -->
+    <% end %>
+
+    <% if @state == :username_form || @user_is_missing %>
+      <!-- render a GET form going to `/login?<%= @extra_params =>` with a `username` field -->
+    <% else %>
+      <!-- render a POST form going to `/login?<%= @extra_params =>` with a `password` field -->
+    <% end %>
+  </div>
+</div>
