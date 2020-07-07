@@ -7,7 +7,6 @@ class OmniAuth::Strategies::GovukOidc
 
   option :client_id
   option :client_secret
-  option :idp_base_uri
   option :redirect_uri
   option :scope, "openid email"
   option :return_to_prefix, "/"
