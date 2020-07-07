@@ -13,7 +13,7 @@ class OpenidConfigurationController < ApplicationController
 private
 
   def oidc_configuration
-    response = HTTParty.get(Services.discover_endpoint, format: :plain)
+    response = HTTParty.get(Services.discover_endpoint + "/.well-known/openid-configuration", format: :plain)
     JSON.parse response, symbolize_names: true
   end
 end
