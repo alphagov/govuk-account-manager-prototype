@@ -221,6 +221,6 @@ private
     cookie_hash = CookieHash.new
     cookie_hash.add(session[:keycloak_cookies] || "")
     resp.get_fields("Set-Cookie").each { |c| cookie_hash.add(c) }
-    session[:keycloak_tookies] = cookie_hash.to_cookie_string
+    session[:keycloak_cookies] = cookie_hash.to_cookie_string
   end
 end
