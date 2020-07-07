@@ -112,9 +112,11 @@ private
     params.permit(:client_id, :nonce, :redirect_uri, :response_type, :scope, :state, :username, :password, :form_action, :mfa_code, :field_name_mfa)
   end
 
-  def check_login_session(_uri, _params)
-    # TODO: GET request to `uri` + scrape response (we should change
-    # the theme to be very scraping-friendly) WITH cookie handling
+  def check_login_session(uri, params)
+    resp = proxy_get(uri, params)
+
+    # TODO: scrape response (we should change the theme to be very
+    # scraping-friendly)
 
     # if the user has an active session
     {
@@ -128,9 +130,11 @@ private
     }
   end
 
-  def get_login_form(_uri, _params)
-    # TODO: GET request to `uri` + scrape response (we should change
-    # the theme to be very scraping-friendly) WITH cookie handling
+  def get_login_form(uri, params)
+    resp = proxy_get(uri, params)
+
+    # TODO: scrape response (we should change the theme to be very
+    # scraping-friendly)
 
     {
       form_action: nil,
@@ -139,9 +143,11 @@ private
     }
   end
 
-  def post_login_form(_uri, _params)
-    # TODO: POST request to `uri` + scrape response (we should change
-    # the theme to be very scraping-friendly) WITH cookie handling
+  def post_login_form(uri, params)
+    resp = proxy_post(uri, params)
+
+    # TODO: scrape response (we should change the theme to be very
+    # scraping-friendly)
 
     # if we waited too long
     {
@@ -172,9 +178,11 @@ private
     }
   end
 
-  def post_mfa_form(_uri, _params)
-    # TODO: POST request to `uri` + scrape response (we should change
-    # the theme to be very scraping-friendly)
+  def post_mfa_form(uri, params)
+    resp = proxy_post(uri, params)
+
+    # TODO: scrape response (we should change the theme to be very
+    # scraping-friendly)
 
     # if we waited too long
     {
@@ -195,5 +203,28 @@ private
 
   def query_string(params)
     Rack::Utils.build_nested_query(params)
+  end
+
+  def proxy_get(uri, params)
+    resp = HTTParty.get(uri + "?" + query_string(params), headers: { "Cookie" => keycloak_cookies }.compact)
+    set_keycloak_cookies(resp)
+    resp
+  end
+
+  def proxy_post(uri, params)
+    resp = HTTParty.post(uri, body: params, headers: { "Cookie" => keycloak_cookies }.compact)
+    set_keycloak_cookies(resp)
+    resp
+  end
+
+  def get_keycloak_cookies
+    session[:keycloak_cookies]
+  end
+
+  def set_keycoak_cookies(resp)
+    cookie_hash = CookieHash.new
+    cookie_hash.add(session[:keycloak_cookies] || "")
+    resp.get_fields("Set-Cookie").each { |c| cookie_hash.add(c) }
+    session[:keycloak_tookies] = cookie_hash.to_cookie_string
   end
 end
