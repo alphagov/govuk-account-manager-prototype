@@ -1,0 +1,11 @@
+<% if @resource.try(:unconfirmed_email?) %>
+  <%= t("devise.mailer.email_changed.is_being_changed.body",
+      email: @email,
+      new_address: @resource.unconfirmed_email,
+  ) %>
+<% else %>
+  <%= t("devise.mailer.email_changed.has_been_changed.body",
+      email: @email,
+      new_address: @resource.email,
+  ) %>
+<% end %>

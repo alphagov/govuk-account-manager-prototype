@@ -1,0 +1,28 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.confirmations.resend.title"),
+      heading_level: 1,
+      margin_bottom: 3,
+    } %>
+
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.confirmations.resend.label"),
+        },
+        name: "user[email]",
+        type: "email",
+        id: "email",
+        value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.confirmations.resend.button"),
+        margin_bottom: 3,
+      } %>
+    <% end %>
+  </div>
+</div>

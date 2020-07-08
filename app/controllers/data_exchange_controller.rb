@@ -2,6 +2,6 @@ class DataExchangeController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @data_exchanges = nil # TODO: implement
+    @data_exchanges = [] # TODO: implement
   end
 end

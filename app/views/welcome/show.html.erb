@@ -11,11 +11,11 @@
 
     <%= render "govuk_publishing_components/components/button", {
       text: t("welcome.show.button.label"),
-      href: "/register",
+      href: new_user_registration_path,
       start: true,
       margin_bottom: 3,
     } %>
 
-    <%= sanitize(t("welcome.show.action")) %>
+    <%= sanitize(t("welcome.show.action", link: user_root_path)) %>
   </div>
 </div>

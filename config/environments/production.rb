@@ -122,4 +122,5 @@ Rails.application.configure do
   config.redirect_base_url = ENV["REDIRECT_BASE_URL"]
 
   config.action_mailer.delivery_method = :notify
+  config.action_mailer.default_url_options = { host: ENV["REDIRECT_BASE_URL"] }
 end

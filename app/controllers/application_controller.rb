@@ -5,8 +5,4 @@ class ApplicationController < ActionController::Base
       password: ENV.fetch("BASIC_AUTH_PASSWORD"),
     )
   end
-
-  def authenticate_user!
-    # TODO: implement
-  end
 end
