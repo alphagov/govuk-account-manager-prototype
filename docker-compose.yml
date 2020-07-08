@@ -5,11 +5,11 @@ services:
     tty: true
     stdin_open: true
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle && bundle exec rake db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       REDIRECT_BASE_URL: http://localhost:3000
       REDIS_URL: redis://redis:6379/0
-      DATABASE_URL: postgresql://postgres@postgres/accounts
+      DATABASE_URL: postgresql://postgres:postgres@postgres/accounts
     volumes:
       - .:/app
     ports:
