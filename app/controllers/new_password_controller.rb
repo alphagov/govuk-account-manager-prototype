@@ -14,7 +14,7 @@ class NewPasswordController < ApplicationController
 
     return unless @state == :ok
 
-    user = Services.keycloak.users.get(new_password_params[:user_id])
+    user = nil # TODO: implement
 
     password_validity = password_valid?(new_password_params[:password], new_password_params[:password_confirm])
 

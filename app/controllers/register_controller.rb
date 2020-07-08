@@ -12,13 +12,7 @@ class RegisterController < ApplicationController
     if request_errors.empty?
       @email = register_params[:email]
 
-      user = Services.keycloak.users.create!(
-        @email,
-        @email,
-        params[:password],
-        false,
-        "en",
-      )
+      user = nil # TODO: implement
 
       EmailConfirmation.send(user)
     else

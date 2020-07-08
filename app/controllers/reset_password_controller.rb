@@ -7,7 +7,7 @@ class ResetPasswordController < ApplicationController
 
   def submit
     @email = reset_password_params[:email]
-    user = Services.keycloak.users.search(@email).first
+    user = nil # TODO: implement
     unless ResetPassword.send(user)
       flash[:validation] = [{
         field: "email",

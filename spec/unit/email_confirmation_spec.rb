@@ -2,13 +2,13 @@ require "email_confirmation"
 
 RSpec.describe "lib/email_confirmation" do
   context "#send" do
-    let(:user) { KeycloakAdmin::UserRepresentation.from_hash("email" => email) }
+    let(:user) {
+      # TODO: implement
+    }
     let(:email) { "email@example.com" }
 
     before do
-      users = double("users")
-      allow(users).to receive(:update)
-      allow(Services.keycloak).to receive(:users).and_return(users)
+      # TODO: stub user retrieval
     end
 
     it "sends an email" do
@@ -20,14 +20,14 @@ RSpec.describe "lib/email_confirmation" do
   end
 
   context "#change_and_send" do
-    let(:user) { KeycloakAdmin::UserRepresentation.from_hash("email" => email) }
+    let(:user) {
+      # TODO: implement
+    }
     let(:email) { "email@example.com" }
     let(:new_email) { "email2@example.com" }
 
     before do
-      users = double("users")
-      allow(users).to receive(:update)
-      allow(Services.keycloak).to receive(:users).and_return(users)
+      # TODO: stub user retrieval
     end
 
     it "sends an email to confirm the new address" do
@@ -47,14 +47,14 @@ RSpec.describe "lib/email_confirmation" do
 
   context "#check_and_verify" do
     context "when the user exists" do
-      let(:user) { KeycloakAdmin::UserRepresentation.from_hash("attributes" => { "verification_token" => [token], "verification_token_expires" => [expires.to_s] }) }
+      let(:user) {
+        # TODO: implement
+      }
       let(:token) { "hello world" }
       let(:expires) { Time.zone.now + 24.hours }
 
       before do
-        users = double("users")
-        allow(users).to receive(:update)
-        allow(Services.keycloak).to receive(:users).and_return(users)
+        # TODO: stub user retrieval
       end
 
       context "the token is valid" do
@@ -86,13 +86,13 @@ RSpec.describe "lib/email_confirmation" do
 
   context "#cancel_change" do
     context "when the user exists" do
-      let(:user) { KeycloakAdmin::UserRepresentation.from_hash("attributes" => { "new_email_address" => new_address, "verification_token" => %w[a], "verification_token_expires" => %w[b] }) }
+      let(:user) {
+        # TODO: implement
+      }
       let(:new_address) { ["email@example.com"] }
 
       before do
-        users = double("users")
-        allow(users).to receive(:update)
-        allow(Services.keycloak).to receive(:users).and_return(users)
+        # TODO: stub user retrieval
       end
 
       context "the new address is present" do

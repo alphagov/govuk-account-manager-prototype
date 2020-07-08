@@ -1,12 +1,10 @@
-require "services"
-
 module ResetPassword
   def self.send(user)
     return false unless user&.email
 
     token = SecureRandom.hex(16)
     rep = { "attributes" => { "reset_password_verification_token" => token, "reset_password_verification_token_expires" => Time.zone.now + 24.hours } }
-    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    # TODO: set attributes on user
 
     mailer = AccountMailer.with(link: link(user.id, token))
     mailer.reset_password_email(user.email).deliver_later
@@ -17,7 +15,7 @@ module ResetPassword
   def self.check_and_verify(user_id, token)
     return :bad_parameters unless user_id && token
 
-    user = Services.keycloak.users.get(user_id)
+    user = # TODO: implement
 
     expected = user&.attributes&.fetch("reset_password_verification_token")&.first
     expires = user&.attributes&.fetch("reset_password_verification_token_expires")&.first&.to_datetime
@@ -30,12 +28,12 @@ module ResetPassword
   end
 
   def self.update_password(user, password)
-    Services.keycloak.users.update_password(user.id, password)
+    # TODO: set new password on user
 
     rep = {
       "attributes" => { "reset_password_verification_token" => nil, "reset_password_verification_token_expires" => nil },
     }
-    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    # TODO: set attributes on user
 
     :ok
   end

@@ -1,12 +1,10 @@
-require "services"
-
 module EmailConfirmation
   def self.send(user)
     return false unless user&.email
 
     token = SecureRandom.hex(16)
     rep = { "attributes" => { "verification_token" => token, "verification_token_expires" => Time.zone.now + 24.hours } }
-    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    # TODO: set attributes on user
 
     mailer = AccountMailer.with(link: link(user.id, token))
     mailer.confirmation_email(user.email).deliver_later
@@ -26,7 +24,7 @@ module EmailConfirmation
         "verification_token_expires" => Time.zone.now + 24.hours,
       },
     }
-    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    # TODO: set attributes on user
 
     AccountMailer.with(
       new_address: email,
@@ -60,7 +58,7 @@ module EmailConfirmation
     rep["email"] = new_email_address if new_email_address
 
     # throws RestClient::Conflict if the new address is in use
-    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    # TODO: set attributes on user
     :ok
   end
 
@@ -77,7 +75,7 @@ module EmailConfirmation
         "verification_token_expires" => nil,
       },
     }
-    Services.keycloak.users.update(user.id, KeycloakAdmin::UserRepresentation.from_hash(rep))
+    # TODO: set attributes on user
 
     :ok
   end

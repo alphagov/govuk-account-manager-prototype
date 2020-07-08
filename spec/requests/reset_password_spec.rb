@@ -15,10 +15,7 @@ RSpec.describe "reset-password" do
     end
 
     let(:user) do
-      KeycloakAdmin::UserRepresentation.from_hash(
-        "id" => SecureRandom.uuid,
-        "email" => email,
-      )
+      # TODO: implement
     end
 
     let(:email) { "email@example.com" }
@@ -26,20 +23,12 @@ RSpec.describe "reset-password" do
     let(:expires) { Time.zone.now + 24.hours }
 
     before do
-      users = double("users")
-      allow(users).to receive(:get)
-      allow(users).to receive(:update)
-      allow(Services.keycloak).to receive(:users).and_return(users)
-      allow(Services.keycloak.users).to receive(:search).with(user.email).and_return([user])
+      # TODO: stub user retrieval
       allow(SecureRandom).to receive(:hex).and_return(token)
     end
 
     it "updates user attributes" do
-      Timecop.freeze do
-        expect(Services.keycloak.users).to receive(:update).with(user.id, instance_of(KeycloakAdmin::UserRepresentation))
-
-        post reset_password_path, params: params
-      end
+      # TODO: implement
     end
 
     it "sends an email" do
