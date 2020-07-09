@@ -1,0 +1,13 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("doorkeeper.authorizations.error.title"),
+      heading_level: 1,
+      margin_bottom: 6,
+    } %>
+
+    <p class="govuk-body">
+      <%= @pre_auth.error_response.body[:error_description] %>
+    </p>
+  </div>
+</div>

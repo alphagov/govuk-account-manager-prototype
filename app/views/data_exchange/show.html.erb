@@ -13,15 +13,25 @@
         <%= t("account.data_exchange.no_data_exchanged") %>
       <p>
     <% else %>
-      <ol>
+      <dl class="govuk-summary-list">
         <% @data_exchanges.each do |exchange| %>
-          <li>
-            <pre>
-              <%= JSON.pretty_generate(exchange) %>
-            </pre>
-          </li>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              <%= exchange[:application_name] %>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <span class="date-text">
+                <%= date_with_time_ago(exchange[:created_at]) %>
+              </span>
+              <br>
+              <%= t("account.data_exchange.used") %>
+              <% exchange[:scopes].each do |scope| %>
+                <%= t("account.data_exchange.scope.#{scope}") %>
+              <% end %>
+            </dd>
+          </div>
         <% end %>
-      </ol>
+      </dl>
     <% end %>
 
     <dl class="govuk-summary-list">

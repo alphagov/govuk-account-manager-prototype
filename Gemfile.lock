@@ -89,6 +89,8 @@ GEM
     docile (1.3.2)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    doorkeeper (5.4.0)
+      railties (>= 5)
     dotenv (2.7.5)
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
@@ -348,6 +350,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   devise
+  doorkeeper
   dotenv-rails
   factory_bot_rails
   geocoder

@@ -6,6 +6,7 @@ ruby File.read(".ruby-version").strip
 
 gem "bootsnap", ">= 1.4.2"
 gem "devise"
+gem "doorkeeper"
 gem "geocoder"
 gem "govuk_publishing_components", "21.59.0"
 gem "notifications-ruby-client", "~> 5.1"
