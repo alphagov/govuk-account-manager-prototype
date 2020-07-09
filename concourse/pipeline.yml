@@ -121,6 +121,8 @@ jobs:
           WEBSITE_ROOT: https://www.gov.uk
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+          OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
+          OIDC_SALT: ((oidc-salt-staging))
 
   - name: ping-test-staging
     serial: true
@@ -169,6 +171,8 @@ jobs:
           WEBSITE_ROOT: https://www.gov.uk
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+          OIDC_SIGNING_KEY: ((oidc-signing-key-production))
+          OIDC_SALT: ((oidc-salt-production))
 
   - name: ping-test-production
     serial: true

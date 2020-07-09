@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   use_doorkeeper
+  use_doorkeeper_openid_connect
 
   devise_for :users, skip: :all
   devise_scope :user do
