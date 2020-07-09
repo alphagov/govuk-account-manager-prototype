@@ -17,14 +17,14 @@
         <% @activity.each do |activity| %>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              <%= t("account.activity.#{activity.event_type}") %>
+              <%= t("account.activity.event.#{activity.event_type}") %>
             </dt>
             <dd class="govuk-summary-list__value">
               <span class="date-text">
-                <%= date_with_time_ago(activity.time) %>
+                <%= date_with_time_ago(activity.created_at) %>
               </span>
               <br>
-                <%= t("account.activity.#{activity.client_id}") %>
+                <%= activity.client %>
               <br>
               <%= "#{ip_to_country(activity.ip_address)} (#{activity.ip_address})" %>
             </dd>

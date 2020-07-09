@@ -24,4 +24,12 @@ class User < ApplicationRecord
            class_name: "Doorkeeper::AccessToken",
            foreign_key: :resource_owner_id,
            dependent: :delete_all
+
+  has_many :activities,
+           dependent: :delete_all
+
+  def update_tracked_fields!(request)
+    super(request)
+    Activity.login!(self, request.remote_ip) unless new_record?
+  end
 end

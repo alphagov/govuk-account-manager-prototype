@@ -415,15 +415,19 @@ Doorkeeper.configure do
   #   Rails.logger.info(context.pre_auth.inspect)
   # end
   #
-  # after_successful_authorization do |controller, context|
-  #   controller.session[:logout_urls] <<
-  #     Doorkeeper::Application
-  #       .find_by(controller.request.params.slice(:redirect_uri))
-  #       .logout_uri
-  #
-  #   Rails.logger.info(context.auth.inspect)
-  #   Rails.logger.info(context.issued_token)
-  # end
+  after_successful_authorization do |controller, context|
+    Activity.login_with!(
+      controller.current_user,
+      context.issued_token.application,
+      controller.request.remote_ip,
+    )
+  rescue NoMethodError # rubocop:disable Lint/SuppressedException
+    # TokenResponse contexts don't have an issued_token.  Such
+    # contexts are used when turning the access code into an access
+    # token.  I don't think those need logging, as there will be an
+    # immediately preceeding login_with activity from when the user's
+    # browser was redirected to the app.
+  end
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.

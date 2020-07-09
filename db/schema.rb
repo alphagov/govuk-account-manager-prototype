@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_09_133859) do
+ActiveRecord::Schema.define(version: 2020_07_09_155309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.integer "event_type", null: false
+    t.bigint "user_id", null: false
+    t.string "ip_address", null: false
+    t.bigint "oauth_application_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["oauth_application_id"], name: "index_activities_on_oauth_application_id"
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
@@ -91,6 +102,8 @@ ActiveRecord::Schema.define(version: 2020_07_09_133859) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "activities", "oauth_applications"
+  add_foreign_key "activities", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

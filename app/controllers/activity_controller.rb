@@ -2,6 +2,6 @@ class ActivityController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @activity = [] # TODO: implement
+    @activity = current_user.activities.order(created_at: :desc)
   end
 end
