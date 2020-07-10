@@ -9,10 +9,6 @@ You must have the following installed:
 - Docker
 - Docker Compose
 
-### First time setup
-
-TODO: write
-
 ### Sending emails locally
 
 You'll need to pass a GOV.UK Notify API key as an environment variable
@@ -69,3 +65,23 @@ You would also need to unset it from the PaaS environment. Which you can do with
 ```
  cf unset-env govuk-account-manager SECRET_NAME
 ```
+
+## Creating a new OAuth application
+
+First get a Rails console.  For example, when running locally in Docker Compose:
+
+```
+docker ps
+docker exec -it ${container_id} rails console
+```
+
+Then create a new `Doorkeeper::Application`:
+
+```
+a = Doorkeeper::Application.new(name: "...", redirect_uri: "...", scopes: [...])
+a.save!
+puts "client id:     #{a.uid}"
+puts "client secret: #{a.secret}"
+```
+
+You will probably want `openid` in the list of scopes.
