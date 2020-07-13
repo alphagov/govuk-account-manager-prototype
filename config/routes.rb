@@ -46,4 +46,10 @@ Rails.application.routes.draw do
     get "/your-data", to: "data_exchange#show"
     get "/profile", to: "profile#show"
   end
+
+  scope "/api" do
+    scope "/v1" do
+      get "/deanonymise-tokens", to: "api_deanonymise_tokens#show"
+    end
+  end
 end
