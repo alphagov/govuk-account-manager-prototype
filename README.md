@@ -4,6 +4,12 @@ A Prototype to explore how users might authenticate, authorise their data to be 
 
 ## Developer setup
 
+You can run the application locally with:
+
+```
+docker-compose up
+```
+
 ### Prerequisites
 You must have the following installed:
 - Docker
