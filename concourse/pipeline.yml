@@ -102,7 +102,7 @@ jobs:
       - task: deploy-to-paas
         file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
         params:
-          CF_ORG: govuk_development
+          CF_ORG: govuk-accounts
           CF_APP_NAME: govuk-account-manager
           CF_SPACE: staging
           CF_STARTUP_TIMEOUT: 15 # minutes
@@ -117,7 +117,7 @@ jobs:
           KEYCLOAK_CLIENT_ID: ((keycloak-client-id-staging))
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret-staging))
           KEYCLOAK_REALM_ID: master
-          KEYCLOAK_SERVER_URL: https://govuk-keycloak-staging.cloudapps.digital/auth
+          KEYCLOAK_SERVER_URL: https://govuk-keycloak-staging.london.cloudapps.digital/auth
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 
@@ -131,7 +131,7 @@ jobs:
         file: git-master/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager-staging.cloudapps.digital/register'
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager-staging.london.cloudapps.digital/register'
           MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack
@@ -154,7 +154,7 @@ jobs:
       - task: deploy-to-paas
         file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
         params:
-          CF_ORG: govuk_development
+          CF_ORG: govuk-accounts
           CF_APP_NAME: govuk-account-manager
           CF_SPACE: production
           CF_STARTUP_TIMEOUT: 15 # minutes
@@ -169,7 +169,7 @@ jobs:
           KEYCLOAK_CLIENT_ID: ((keycloak-client-id))
           KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
           KEYCLOAK_REALM_ID: master
-          KEYCLOAK_SERVER_URL: https://govuk-keycloak.cloudapps.digital/auth
+          KEYCLOAK_SERVER_URL: https://govuk-keycloak.london.cloudapps.digital/auth
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
 
@@ -183,7 +183,7 @@ jobs:
         file: git-master/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.cloudapps.digital/register'
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.london.cloudapps.digital/register'
           MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack

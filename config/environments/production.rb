@@ -95,8 +95,8 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  # https://docs.cloud.service.gov.uk/deploying_services/redis
-  # https://docs.cloud.service.gov.uk/deploying_apps.html#system-provided-environment-variables
+  # https://docs.london.cloud.service.gov.uk/deploying_services/redis
+  # https://docs.london.cloud.service.gov.uk/deploying_apps.html#system-provided-environment-variables
   if ENV["VCAP_SERVICES"].present?
     redis = JSON.parse(ENV["VCAP_SERVICES"]).to_h.fetch("redis", [])
     instance = redis.first
