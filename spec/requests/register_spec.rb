@@ -1,98 +1,108 @@
 RSpec.describe "register" do
-  describe "GET /register" do
-    it "renders the form" do
-      get register_path
+  include ActiveJob::TestHelper
 
-      expect(response.body).to have_content(I18n.t("register.show.title"))
+  describe "GET" do
+    it "renders the form" do
+      get new_user_registration_path
+
+      expect(response.body).to have_content(I18n.t("devise.registrations.new.title"))
     end
   end
 
-  describe "POST /register" do
+  describe "POST" do
     let(:params) do
       {
-        email: email,
-        password: password,
-        password_confirm: password,
+        "user[email]" => email,
+        "user[password]" => password,
+        "user[password_confirmation]" => password_confirmation,
       }
     end
 
     let(:email) { "email@example.com" }
     let(:password) { "abcd1234" }
+    let(:password_confirmation) { password }
 
-    let(:user) do
-      KeycloakAdmin::UserRepresentation.from_hash(
-        "id" => SecureRandom.uuid,
-        "email" => email,
-      )
-    end
+    it "creates a user" do
+      post new_user_registration_path, params: params
 
-    before do
-      users = double("users")
-      allow(users).to receive(:get)
-      allow(users).to receive(:update)
-      allow(Services.keycloak).to receive(:users).and_return(users)
-      allow(Services.keycloak.users).to receive(:create!).and_return(user)
-      allow(EmailConfirmation).to receive(:send)
-    end
+      follow_redirect!
 
-    it "requests Keycloak creates a user" do
-      expect(Services.keycloak.users).to receive(:create!).with(
-        email,
-        email,
-        password,
-        false,
-        "en",
-      )
+      expect(response).to be_successful
+      expect(response.body).to have_content(I18n.t("post_registration.title"))
 
-      post register_path, params: params
+      expect(User.last).to_not be_nil
+      expect(User.last.email).to eq(email)
     end
 
     it "sends an email" do
-      expect(EmailConfirmation).to receive(:send).with(instance_of(KeycloakAdmin::UserRepresentation))
-
-      post register_path, params: params
-    end
-
-    it "shows an error when email is missing" do
-      post register_path, params: params.merge(email: "")
+      post new_user_registration_path, params: params
 
       follow_redirect!
-      expect(response.body).to have_content(I18n.t("register.create.error.email_missing"))
+
+      expect(response).to be_successful
+      expect(response.body).to have_content(I18n.t("post_registration.title"))
+
+      assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob
     end
 
-    it "returns an error when new password is blank" do
-      post register_path, params: params.merge(password: "")
+    context "when the email is missing" do
+      let(:email) { "" }
 
-      follow_redirect!
-      expect(response.body).to have_content(I18n.t("register.create.error.password_missing"))
+      it "shows an error" do
+        post new_user_registration_path, params: params
+
+        expect(response.body).to have_content("Email can't be blank")
+      end
     end
 
-    it "returns an error when password confirmation is blank" do
-      post register_path, params: params.merge(password_confirm: "")
+    context "when the password is missing" do
+      let(:password) { "" }
 
-      follow_redirect!
-      expect(response.body).to have_content(I18n.t("register.create.error.password_confirm_missing"))
+      it "returns an error" do
+        post new_user_registration_path, params: params
+
+        expect(response.body).to have_content("Password can't be blank")
+      end
     end
 
-    it "returns an error when password confirmation does not match" do
-      post register_path, params: params.merge(password_confirm: "foo")
+    context "when the password confirmation is missing" do
+      let(:password_confirmation) { "" }
 
-      follow_redirect!
-      expect(response.body).to have_content(I18n.t("register.create.error.password_mismatch"))
+      it "returns an error" do
+        post new_user_registration_path, params: params
+
+        expect(response.body).to have_content("Password confirmation doesn't match Password")
+      end
     end
 
-    it "returns an error when password is less than 8 characters" do
-      post register_path, params: params.merge(password: "qwerty1", password_confirm: "qwerty1")
+    context "when the password confirmation does not match" do
+      let(:password_confirmation) { password + "-123" }
 
-      follow_redirect!
-      expect(response.body).to have_content(I18n.t("register.create.error.password_invalid"))
+      it "returns an error" do
+        post new_user_registration_path, params: params
+
+        expect(response.body).to have_content("Password confirmation doesn't match Password")
+      end
     end
 
-    it "returns an error when password does not contain a number" do
-      post register_path, params: params.merge(password: "qwertyui", password_confirm: "qwertyui")
+    context "when the password is less than 8 characters" do
+      let(:password) { "qwerty1" }
 
-      follow_redirect!
-      expect(response.body).to have_content(I18n.t("register.create.error.password_invalid"))
+      it "returns an error" do
+        post new_user_registration_path, params: params
+
+        expect(response.body).to have_content("Password is too short (minimum is 8 characters)")
+      end
+    end
+
+    context "when the password does not contain a number" do
+      let(:password) { "qwertyui" }
+
+      it "returns an error" do
+        post new_user_registration_path, params: params
+
+        expect(response.body).to have_content("Password is invalid")
+      end
     end
   end
 end

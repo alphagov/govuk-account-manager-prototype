@@ -37,13 +37,13 @@ run:
 
       cf set-env $CF_APP_NAME GOVUK_APP_DOMAIN "$APP_DOMAIN"
       cf set-env $CF_APP_NAME GOVUK_WEBSITE_ROOT "$WEBSITE_ROOT"
-      cf set-env $CF_APP_NAME KEYCLOAK_CLIENT_ID "$KEYCLOAK_CLIENT_ID"
-      cf set-env $CF_APP_NAME KEYCLOAK_CLIENT_SECRET "$KEYCLOAK_CLIENT_SECRET"
-      cf set-env $CF_APP_NAME KEYCLOAK_REALM_ID "$KEYCLOAK_REALM_ID"
-      cf set-env $CF_APP_NAME KEYCLOAK_SERVER_URL "$KEYCLOAK_SERVER_URL"
       cf set-env $CF_APP_NAME NOTIFY_API_KEY "$NOTIFY_API_KEY"
       cf set-env $CF_APP_NAME GOVUK_NOTIFY_TEMPLATE_ID "$NOTIFY_TEMPLATE_ID"
       cf set-env $CF_APP_NAME REDIRECT_BASE_URL "https://${HOSTNAME}.london.cloudapps.digital"
+
+      cf set-env $CF_APP_NAME OIDC_IDP_ISSUER "https://${HOSTNAME}.london.cloudapps.digital"
+      cf set-env $CF_APP_NAME OIDC_IDP_PRIVATE_KEY "$OIDC_SIGNING_KEY"
+      cf set-env $CF_APP_NAME OIDC_IDP_SALT "$OIDC_SALT"
 
       cf v3-zdt-push $CF_APP_NAME --wait-for-deploy-complete --no-route
       cf map-route $CF_APP_NAME london.cloudapps.digital --hostname "$HOSTNAME"

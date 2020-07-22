@@ -5,47 +5,33 @@ services:
     tty: true
     stdin_open: true
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle && bundle exec rake db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
-      KEYCLOAK_REALM_ID: master
-      KEYCLOAK_SERVER_URL: http://keycloak:8080/auth
-      KEYCLOAK_CLIENT_ID: admin-cli
-      KEYCLOAK_CLIENT_SECRET: dc06e777-1985-422b-85cd-15979fc7ab77
       REDIRECT_BASE_URL: http://localhost:3000
       REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://postgres:postgres@postgres/accounts
+      OIDC_IDP_ISSUER: GOV.UK Accounts
+      OIDC_IDP_PRIVATE_KEY_FILE: example-private-key.pem
+      OIDC_IDP_SALT: saltsaltsalt
     volumes:
       - .:/app
     ports:
       - 3000:3000
     depends_on:
-      - keycloak
-
-  keycloak:
-    image: jboss/keycloak
-    command: "-b 0.0.0.0 -Dkeycloak.frontendUrl=http://keycloak:8080/auth -Dkeycloak.forceBackendUrlToFrontendUrl=true -Dkeycloak.profile.feature.account_api=enabled"
-    volumes:
-      - ../govuk-accounts-keycloak-theme/govuk:/opt/jboss/keycloak/themes/govuk
-    environment:
-      KEYCLOAK_USER: govuk
-      KEYCLOAK_PASSWORD: mypassword
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: keycloak
-    ports:
-      - 8080:8080
+      - redis
+      - postgres
 
   redis:
     image: redis
 
   postgres:
-    image: postgres:9.6
+    image: postgres:13
     environment:
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: keycloak
-      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: accounts
     volumes:
-      - keycloakdb:/var/lib/postgresql/data
+      - accounts_postgres:/var/lib/postgresql/data
 
 volumes:
-  keycloakdb:
+  accounts_postgres:

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "openid_connect"
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -53,6 +51,7 @@ Rails.application.configure do
   # Log Action Mailer emails instead of sending them to Notify
   config.action_mailer.delivery_method = :file
   config.action_mailer.default_options = { from: "test@example.com" }
+  config.action_mailer.default_url_options = { host: ENV["REDIRECT_BASE_URL"] }
 
   Sidekiq.configure_server do |config|
     config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
@@ -63,35 +62,4 @@ Rails.application.configure do
   end
 
   config.redirect_base_url = ENV["REDIRECT_BASE_URL"]
-end
-
-# make discovery work over HTTP
-module OpenIDConnect
-  module Discovery
-    module Provider
-      class Config
-        class Resource
-          def initialize(uri)
-            @host = uri.host
-            @port = uri.port unless [80, 443].include?(uri.port)
-            @path = File.join uri.path, ".well-known/openid-configuration"
-            @scheme = uri.scheme
-            attr_missing!
-          end
-
-          def endpoint
-            SWD.url_builder = case @scheme
-                              when "http"
-                                URI::HTTP
-                              else
-                                URI::HTTPS
-                              end
-            SWD.url_builder.build [nil, host, port, path, nil, nil]
-          rescue URI::Error => e
-            raise SWD::Exception, e.message
-          end
-        end
-      end
-    end
-  end
 end

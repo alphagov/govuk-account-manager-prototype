@@ -1,0 +1,4 @@
+<%= t("devise.mailer.confirmation_instructions.body",
+    email: @email,
+    link: confirmation_url(@resource, confirmation_token: @token),
+) %>

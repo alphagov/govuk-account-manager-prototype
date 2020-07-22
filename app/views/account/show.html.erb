@@ -6,9 +6,9 @@
       margin_bottom: 6,
     } %>
 
-    <% if @user.email %>
+    <% if current_user.email %>
       <p class="govuk-body">
-        <%= @user.email %>
+        <%= current_user.email %>
       </p>
     <% end %>
 
@@ -21,7 +21,7 @@
 
     <ul class="govuk-list govuk-!-margin-bottom-7">
       <li>
-        <a href="<%= manage_path %>" class="govuk-link">
+        <a href="<%= edit_user_registration_path %>" class="govuk-link">
           <%= t("account.manage.manage.amend_details_link") %>
         </a>
       </li>
@@ -31,7 +31,7 @@
         </a>
       </li>
       <li>
-        <a href="<%= logout_path %>" class="govuk-link">
+        <a href="<%= destroy_user_session_path %>" class="govuk-link">
           <%= t("account.manage.manage.logout_link") %>
         </a>
       </li>

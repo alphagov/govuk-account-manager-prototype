@@ -2,6 +2,6 @@ class ActivityController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @activity = Services.keycloak.users.events(session[:sub])
+    @activity = current_user.activities.order(created_at: :desc)
   end
 end

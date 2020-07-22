@@ -88,9 +88,14 @@ jobs:
               - -c
               - |
                 set -eu
+                service postgresql start
+                su - postgres -c "psql -c \"create role root with createdb login password 'password';\""
                 service redis-server start
+                export TEST_DATABASE_URL="postgres://root:password@localhost:5432/accounts"
                 export RAILS_ENV=test
                 bundle install
+                bundle exec rails db:setup
+                bundle exec rails db:migrate
                 bundle exec rake
 
   - name: deploy-app-staging
@@ -114,12 +119,10 @@ jobs:
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
-          KEYCLOAK_CLIENT_ID: ((keycloak-client-id-staging))
-          KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret-staging))
-          KEYCLOAK_REALM_ID: master
-          KEYCLOAK_SERVER_URL: https://govuk-keycloak-staging.london.cloudapps.digital/auth
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+          OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
+          OIDC_SALT: ((oidc-salt-staging))
 
   - name: ping-test-staging
     serial: true
@@ -166,12 +169,10 @@ jobs:
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
-          KEYCLOAK_CLIENT_ID: ((keycloak-client-id))
-          KEYCLOAK_CLIENT_SECRET: ((keycloak-client-secret))
-          KEYCLOAK_REALM_ID: master
-          KEYCLOAK_SERVER_URL: https://govuk-keycloak.london.cloudapps.digital/auth
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+          OIDC_SIGNING_KEY: ((oidc-signing-key-production))
+          OIDC_SALT: ((oidc-salt-production))
 
   - name: ping-test-production
     serial: true

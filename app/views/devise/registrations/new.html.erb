@@ -1,0 +1,52 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.registrations.new.title"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <%= form_for(resource, as: resource_name, url: new_user_registration_post_path) do %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.new.fields.email.label"),
+        },
+        name: "user[email]",
+        type: "email",
+        id: "email",
+        value: @email,
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.new.fields.password.label"),
+        },
+        hint: t("devise.registrations.new.fields.password.hint"),
+        name: "user[password]",
+        type: "password",
+        id: "password",
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.new.fields.password_confirm.label"),
+        },
+        name: "user[password_confirmation]",
+        type: "password",
+        id: "password_confirmation",
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.registrations.new.fields.submit.label"),
+        margin_bottom: 3,
+      } %>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= sanitize(t("devise.registrations.new.sign_in", login_url: new_session_path(resource_name))) %>
+    </p>
+  </div>
+</div>
