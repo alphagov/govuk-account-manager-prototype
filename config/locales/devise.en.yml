@@ -181,3 +181,19 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            reset_password_token:
+              invalid: "This password reset link is invalid"
+            email:
+              blank: "Please provide an email address"
+              invalid: "Please enter a valid email address"
+            password:
+              blank: "Enter a valid password"
+              invalid: "Enter a valid password"
+              too_short: "Enter a valid password"
+            password_confirmation:
+              confirmation: "Passwords do not match"

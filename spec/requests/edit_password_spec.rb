@@ -51,7 +51,7 @@ RSpec.describe "edit-password" do
       it "returns an error" do
         post account_password_path, params: params
 
-        expect(response.body).to have_content("Reset password token is invalid")
+        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.reset_password_token.invalid"))
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.describe "edit-password" do
       it "returns an error" do
         post account_password_path, params: params
 
-        expect(response.body).to have_content("Password can't be blank")
+        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe "edit-password" do
       it "returns an error" do
         post account_password_path, params: params
 
-        expect(response.body).to have_content("Password confirmation doesn't match Password")
+        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe "edit-password" do
       it "returns an error" do
         post account_password_path, params: params
 
-        expect(response.body).to have_content("Password confirmation doesn't match Password")
+        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
     end
 
@@ -91,7 +91,7 @@ RSpec.describe "edit-password" do
       it "returns an error" do
         post account_password_path, params: params
 
-        expect(response.body).to have_content("Password is too short (minimum is 8 characters)")
+        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe "edit-password" do
       it "returns an error" do
         post account_password_path, params: params
 
-        expect(response.body).to have_content("Password is invalid")
+        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
       end
     end
   end
