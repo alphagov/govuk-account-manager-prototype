@@ -72,6 +72,12 @@ en:
         label: "Create a GOV.UK account"
       action: |
         <p class="govuk-body"><a class="govuk-link" href="%{link}">Sign in to GOV.UK</a> if you already have an account.</p>
+  update_registration:
+    title: "Check your email"
+    instructions: |
+      <p class="govuk-body">We’ve sent you an email to confirm these changes.</p>
+      <p class="govuk-body">You will need to click on the confirmation link in the email to finish updating your account.</p>
+      <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
   post_registration:
     title: "Confirm your email address"
     instructions: |

@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     put    "/account", to: "devise_registration#update"
     delete "/account", to: "devise_registration#destroy"
 
+    get "/account/confirmation-email-sent", to: "devise_registration#confirmation_email_sent"
+
     get  "/account/confirmation/new", to: "devise/confirmations#new", as: :new_user_confirmation
     get  "/account/confirmation", to: "devise/confirmations#show", as: :user_confirmation
     post "/account/confirmation", to: "devise/confirmations#create"
