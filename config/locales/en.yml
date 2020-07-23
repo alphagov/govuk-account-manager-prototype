@@ -30,6 +30,12 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  devise: # Overrides for Devise built in text
+    sessions:
+      new:
+        title: Sign in to GOV.UK
+        reset_password: |
+          <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
   account:
     manage:
       page_heading: Account
@@ -88,3 +94,14 @@ en:
     re_register_instructions: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}">send the confirmation email again</a> if you did not get it.</a>
       <p class="govuk-body">You can <a class="govuk-link" href="%{register_link}">use a different email address</a> if your email address is not correct.</p>
+  change_password:
+    title: Change your password
+    content: |
+      Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
+  reset_sent:
+    title: Password change request sent
+    content_with_email: We’ve sent an email to %{email} with instructions for changing your password.
+    content_without_email: We’ve sent an email to the address you provided with instructions for changing your password.
+    subheading: If you did not get the email
+    try_again: |
+      <p class="govuk-body">We can <a class="govuk-link" href="%{link}"">send the password reset email again</a> if you did not get it.</p>

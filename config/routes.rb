@@ -10,11 +10,13 @@ Rails.application.routes.draw do
     post "/login", to: "devise/sessions#create", as: :user_session
     get  "/logout", to: "devise/sessions#destroy", as: :destroy_user_session
 
-    get   "/account/password/new", to: "devise/passwords#new", as: :new_user_password
-    get   "/account/password/edit", to: "devise/passwords#edit", as: :edit_user_password
-    patch "/account/password", to: "devise/passwords#update", as: :user_password
-    put   "/account/password", to: "devise/passwords#update"
-    post  "/account/password", to: "devise/passwords#create"
+    get   "/account/password/new", to: "devise_passwords#new", as: :new_user_password
+    get   "/account/password/edit", to: "devise_passwords#edit", as: :edit_user_password
+    patch "/account/password", to: "devise_passwords#update", as: :user_password
+    put   "/account/password", to: "devise_passwords#update"
+    post  "/account/password", to: "devise_passwords#create", as: :create_password
+    get   "/account/reset-password", to: "devise_passwords#new", as: :reset_password
+    get   "/account/reset-password-sent", to: "devise_passwords#sent", as: :reset_password_sent
 
     get  "/new-account", to: "devise_registration#new", as: :new_user_registration
     post "/new-account", to: "devise_registration#create", as: :new_user_registration_post
