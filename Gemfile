@@ -15,7 +15,7 @@ gem "pg"
 gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3"
 gem "railties"
-gem "sass-rails", "~> 5.0.8"
+gem "sass-rails", "~> 6.0.0"
 gem "sidekiq", "~> 6.1"
 gem "sprockets-rails"
 
