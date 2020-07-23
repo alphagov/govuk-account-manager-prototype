@@ -105,3 +105,13 @@ en:
     subheading: If you did not get the email
     try_again: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{link}"">send the password reset email again</a> if you did not get it.</p>
+  confirmation_sent:
+    title: Confirm your email address
+    content: |
+      <p class="govuk-body">We’ve sent an email to %{email}</p>
+      <p class="govuk-body">You need to click on the confirmation link in the email to activate your GOV.UK account.</p>
+      <p class="govuk-body"><a class="govuk-link" href="%{link}">Go to your GOV.UK account</a></p>
+    subheading: If you did not get the email or want to use a different address
+    retry_instructions: |
+      <p class="govuk-body">We can <a class="govuk-link" href="%{link}">send the confirmation email again</a> if you did not get it.</p>
+      <p class="govuk-body">You can <a class="govuk-link" href="%{link}">use a different email address</a> if %{email} is not correct.</p>

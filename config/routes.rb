@@ -32,7 +32,8 @@ Rails.application.routes.draw do
 
     get  "/account/confirmation/new", to: "devise/confirmations#new", as: :new_user_confirmation
     get  "/account/confirmation", to: "devise/confirmations#show", as: :user_confirmation
-    post "/account/confirmation", to: "devise/confirmations#create"
+    post "/account/confirmation", to: "devise_confirmations#create"
+    get  "/account/confirmation-sent", to: "devise_confirmations#sent", as: :confirmation_sent
 
     get  "/account/unlock/new", to: "devise/unlocks#new", as: :new_user_unlock
     get  "/account/unlock", to: "devise/unlocks#show", as: :user_unlock
