@@ -6,12 +6,12 @@ resource_types:
       repository: cfcommunity/slack-notification-resource
       tag: latest
 resources:
-  - name: git-master
+  - name: git-main
     type: git
     icon: github-circle
     source:
       uri: git@github.com:alphagov/govuk-account-manager-prototype.git
-      branch: master
+      branch: main
       private_key: ((concourse_ci_github_ssh_read_only))
 
   - name: govuk-slack
@@ -19,12 +19,12 @@ resources:
     source:
       url: https://hooks.slack.com/((slack_webhook_url))
 
-  - name:  git-master-gems-dockerfile
+  - name:  git-main-gems-dockerfile
     icon: github-circle
     type: git
     source:
       uri: git@github.com:alphagov/govuk-account-manager-prototype.git
-      branch: master
+      branch: main
       private_key: ((concourse_ci_github_ssh_read_only))
       paths:
         - concourse/Dockerfile
@@ -45,10 +45,10 @@ resources:
 jobs:
   - name: update-pipeline
     plan:
-      - get: git-master
+      - get: git-main
         trigger: true
       - set_pipeline: govuk-account-manager-prototype
-        file: git-master/concourse/pipeline.yml
+        file: git-main/concourse/pipeline.yml
 
   - name: build-tests-image
     serial: true
@@ -57,12 +57,12 @@ jobs:
     plan:
       - get: every-day
         trigger: true
-      - get: git-master-gems-dockerfile
+      - get: git-main-gems-dockerfile
         trigger: true
       - put: tests-image
         params:
-          build: git-master-gems-dockerfile
-          dockerfile: git-master-gems-dockerfile/concourse/Dockerfile
+          build: git-main-gems-dockerfile
+          dockerfile: git-main-gems-dockerfile/concourse/Dockerfile
 
   - name: run-quality-checks
     serial: true
@@ -71,18 +71,18 @@ jobs:
         passed:
           - build-tests-image
         trigger: true
-      - get: git-master
+      - get: git-main
         trigger: true
       - task: run-tests-task
         image: tests-image
         config:
           inputs:
-            - name: git-master
+            - name: git-main
           outputs:
             - name: committer-details
           platform: linux
           run:
-            dir: git-master
+            dir: git-main
             path: bash
             args:
               - -c
@@ -101,11 +101,11 @@ jobs:
   - name: deploy-app-staging
     serial: true
     plan:
-      - get: git-master
+      - get: git-main
         trigger: true
         passed: [run-quality-checks]
       - task: deploy-to-paas
-        file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
+        file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
           CF_ORG: govuk-accounts
           CF_APP_NAME: govuk-account-manager
@@ -127,11 +127,11 @@ jobs:
   - name: ping-test-staging
     serial: true
     plan:
-      - get: git-master
+      - get: git-main
         trigger: true
         passed: [deploy-app-staging]
       - task: ping-smoke-test
-        file: git-master/concourse/tasks/ping-smoke-test.yml
+        file: git-main/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
           URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager-staging.london.cloudapps.digital/new-account'
@@ -151,11 +151,11 @@ jobs:
   - name: deploy-app-production
     serial: true
     plan:
-      - get: git-master
+      - get: git-main
         trigger: true
         passed: [ping-test-staging]
       - task: deploy-to-paas
-        file: git-master/concourse/tasks/deploy-to-govuk-paas.yml
+        file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
           CF_ORG: govuk-accounts
           CF_APP_NAME: govuk-account-manager
@@ -177,11 +177,11 @@ jobs:
   - name: ping-test-production
     serial: true
     plan:
-      - get: git-master
+      - get: git-main
         trigger: true
         passed: [deploy-app-production]
       - task: ping-smoke-test
-        file: git-master/concourse/tasks/ping-smoke-test.yml
+        file: git-main/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
           URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.london.cloudapps.digital/new-account'
