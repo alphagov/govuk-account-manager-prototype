@@ -18,6 +18,7 @@
         type: "email",
         id: "email",
         value: @email,
+        error_message: error_items(:email),
       } %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -32,6 +33,7 @@
         name: "user[password]",
         type: "password",
         id: "password",
+        error_message: error_items(:password),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -41,6 +43,7 @@
         name: "user[password_confirmation]",
         type: "password",
         id: "password_confirmation",
+        error_message: error_items(:password_confirmation),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -51,6 +54,7 @@
         name: "user[current_password]",
         type: "password",
         id: "current__confirmation",
+        error_message: error_items(:current_password),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
