@@ -10,11 +10,13 @@ Rails.application.routes.draw do
     post "/login", to: "devise/sessions#create", as: :user_session
     get  "/logout", to: "devise/sessions#destroy", as: :destroy_user_session
 
-    get   "/account/password/new", to: "devise/passwords#new", as: :new_user_password
-    get   "/account/password/edit", to: "devise/passwords#edit", as: :edit_user_password
-    patch "/account/password", to: "devise/passwords#update", as: :user_password
-    put   "/account/password", to: "devise/passwords#update"
-    post  "/account/password", to: "devise/passwords#create"
+    get   "/account/password/new", to: "devise_passwords#new", as: :new_user_password
+    get   "/account/password/edit", to: "devise_passwords#edit", as: :edit_user_password
+    patch "/account/password", to: "devise_passwords#update", as: :user_password
+    put   "/account/password", to: "devise_passwords#update"
+    post  "/account/password", to: "devise_passwords#create", as: :create_password
+    get   "/account/reset-password", to: "devise_passwords#new", as: :reset_password
+    get   "/account/reset-password-sent", to: "devise_passwords#sent", as: :reset_password_sent
 
     get  "/new-account", to: "devise_registration#new", as: :new_user_registration
     post "/new-account", to: "devise_registration#create", as: :new_user_registration_post
@@ -26,9 +28,12 @@ Rails.application.routes.draw do
     put    "/account", to: "devise_registration#update"
     delete "/account", to: "devise_registration#destroy"
 
+    get "/account/confirmation-email-sent", to: "devise_registration#confirmation_email_sent"
+
     get  "/account/confirmation/new", to: "devise/confirmations#new", as: :new_user_confirmation
     get  "/account/confirmation", to: "devise/confirmations#show", as: :user_confirmation
-    post "/account/confirmation", to: "devise/confirmations#create"
+    post "/account/confirmation", to: "devise_confirmations#create"
+    get  "/account/confirmation-sent", to: "devise_confirmations#sent", as: :confirmation_sent
 
     get  "/account/unlock/new", to: "devise/unlocks#new", as: :new_user_unlock
     get  "/account/unlock", to: "devise/unlocks#show", as: :user_unlock
