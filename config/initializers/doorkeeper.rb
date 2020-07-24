@@ -421,7 +421,7 @@ Doorkeeper.configure do
       context.issued_token.application,
       controller.request.remote_ip,
     )
-  rescue NoMethodError # rubocop:disable Lint/SuppressedException
+  rescue NoMethodError
     # TokenResponse contexts don't have an issued_token.  Such
     # contexts are used when turning the access code into an access
     # token.  I don't think those need logging, as there will be an
