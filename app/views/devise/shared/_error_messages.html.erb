@@ -10,5 +10,12 @@
 <% end %>
 
 <% if flash[:alert] %>
-  <p class="govuk-body">Alert! <%= flash[:alert] %></p>
+  <%= render "govuk_publishing_components/components/error_summary", {
+    title: I18n.t("errors.messages.headline"),
+    items: [
+      {
+        text: flash[:alert],
+      }
+    ]
+  } %>
 <% end %>
