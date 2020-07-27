@@ -14,4 +14,16 @@ module ErrorItemsHelper
         .join("<br>")
     end
   end
+
+  PREVIOUS_URL_IGNORE_LIST = %w[
+    /
+  ].freeze
+
+  def previous_url_is_on_ignore_list(previous_url)
+    PREVIOUS_URL_IGNORE_LIST.include?(previous_url)
+  end
+
+  def remove_flash_alert
+    flash[:alert] = nil
+  end
 end

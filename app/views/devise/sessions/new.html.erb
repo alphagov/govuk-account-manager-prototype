@@ -8,7 +8,7 @@
     } %>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= render "devise/shared/error_messages", resource: resource, previous_url: params[:previous_url] %>
 
       <%= hidden_field_tag :previous_url, params[:previous_url] %>
 
