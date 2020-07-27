@@ -8,7 +8,6 @@ Doorkeeper.configure do
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     if current_user
-      session.delete(:previous_url)
       current_user
     else
       params = { previous_url: request.fullpath }
