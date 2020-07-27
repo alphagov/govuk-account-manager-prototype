@@ -1,14 +1,24 @@
+<% resource_errors = resource.errors.messages.map { |field, errors| errors.map { |error| { field: field, error: error } } }.flatten %>
+
 <% if resource.errors.any? %>
   <%= render "govuk_publishing_components/components/error_summary", {
-    title: I18n.t("errors.messages.not_saved", count: resource.errors.count, resource: resource.class.model_name.human.downcase),
-    items: resource.errors.full_messages.map { |error|
+    title: I18n.t("errors.messages.headline"),
+    items: resource_errors.map { |item|
       {
-        text: error,
+        text: item[:error],
+        href: "##{item[:field]}",
       }
     }
   } %>
 <% end %>
 
 <% if flash[:alert] %>
-  <p class="govuk-body">Alert! <%= flash[:alert] %></p>
+  <%= render "govuk_publishing_components/components/error_summary", {
+    title: I18n.t("errors.messages.headline"),
+    items: [
+      {
+        text: flash[:alert],
+      }
+    ]
+  } %>
 <% end %>
