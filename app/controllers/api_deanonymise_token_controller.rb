@@ -3,6 +3,10 @@ class ApiDeanonymiseTokenController < ApplicationController
 
   respond_to :json
 
+  rescue_from ActionController::ParameterMissing do
+    head 400
+  end
+
   def show
     if token.nil?
       head 404
