@@ -55,7 +55,11 @@ RSpec.describe "/api/v1/deanonymise-token" do
     it "can deanonymise tokens" do
       get deanonymise_token_path, params: params, headers: headers
       expect(response).to be_successful
-      expect(JSON.parse(response.body).deep_symbolize_keys).to eq(check_token.as_json.merge(scope: check_token.scopes.to_a))
+      expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+        pairwise_subject_identifier: Doorkeeper::OpenidConnect::UserInfo.new(check_token).claims[:sub],
+        scopes: check_token.scopes.to_a,
+        true_subject_identifier: user.id,
+      })
     end
 
     context "with an expired check token" do
