@@ -346,6 +346,7 @@ DEPENDENCIES
   rspec-rails
   rubocop-govuk
   sass-rails (~> 5.0.8)
+  sentry-raven (~> 3.0)
   sidekiq (~> 6.1)
   simplecov
   sprockets-rails
