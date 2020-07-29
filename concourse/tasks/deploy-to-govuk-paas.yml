@@ -49,6 +49,8 @@ run:
       cf set-env $CF_APP_NAME OIDC_IDP_PRIVATE_KEY "$OIDC_SIGNING_KEY"
       cf set-env $CF_APP_NAME OIDC_IDP_SALT "$OIDC_SALT"
 
+      cf set-env $CF_APP_NAME ATTRIBUTE_SERVICE_URL "$ATTRIBUTE_SERVICE_URL"
+
       cf v3-zdt-push $CF_APP_NAME --wait-for-deploy-complete --no-route
       cf map-route $CF_APP_NAME london.cloudapps.digital --hostname "$HOSTNAME"
 

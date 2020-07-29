@@ -123,6 +123,7 @@ jobs:
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
           OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           OIDC_SALT: ((oidc-salt-staging))
+          ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service-staging.london.cloudapps.digital
 
   - name: ping-test-staging
     serial: true
@@ -173,6 +174,7 @@ jobs:
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
           OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           OIDC_SALT: ((oidc-salt-production))
+          ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service.london.cloudapps.digital
 
   - name: ping-test-production
     serial: true
