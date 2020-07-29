@@ -11,6 +11,7 @@ params:
   CF_API: https://api.london.cloud.service.gov.uk
   CF_USERNAME: ((paas-username))
   CF_PASSWORD: ((paas-password))
+  SENTRY_DSN: https://((sentry-dsn))
 
 run:
   dir: src
@@ -40,6 +41,9 @@ run:
       cf set-env $CF_APP_NAME NOTIFY_API_KEY "$NOTIFY_API_KEY"
       cf set-env $CF_APP_NAME GOVUK_NOTIFY_TEMPLATE_ID "$NOTIFY_TEMPLATE_ID"
       cf set-env $CF_APP_NAME REDIRECT_BASE_URL "https://${HOSTNAME}.london.cloudapps.digital"
+
+      cf set-env $CF_APP_NAME SENTRY_DSN "$SENTRY_DSN"
+      cf set-env $CF_APP_NAME SENTRY_CURRENT_ENV "$CF_SPACE"
 
       cf set-env $CF_APP_NAME OIDC_IDP_ISSUER "https://${HOSTNAME}.london.cloudapps.digital"
       cf set-env $CF_APP_NAME OIDC_IDP_PRIVATE_KEY "$OIDC_SIGNING_KEY"
