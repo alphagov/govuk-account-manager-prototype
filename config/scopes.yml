@@ -1,0 +1,6 @@
+---
+default_scopes:
+  - public
+optional_scopes:
+  - openid
+  - deanonymise_tokens

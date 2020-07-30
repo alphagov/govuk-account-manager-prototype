@@ -1,3 +1,4 @@
+require Rails.root.join("lib/scope_allow_list")
 # frozen_string_literal: true
 
 Doorkeeper.configure do
@@ -230,8 +231,10 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  default_scopes  :public
-  optional_scopes :openid, :deanonymise_tokens, :account_manager_access
+  allowed_scopes_from_config = ScopeAllowList.new
+
+  default_scopes(*allowed_scopes_from_config.default_scopes)
+  optional_scopes(*allowed_scopes_from_config.optional_scopes)
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.
