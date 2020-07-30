@@ -1,7 +1,9 @@
 class DataExchangeController < ApplicationController
   before_action :authenticate_user!
 
-  SCOPES = [].freeze
+  DENYLIST_SCOPES = [
+    :openid,
+  ].freeze
 
   def show
     @data_exchanges = current_user
@@ -14,7 +16,7 @@ class DataExchangeController < ApplicationController
 private
 
   def grant_to_exchange(grant)
-    scopes = grant.scopes.map(&:to_sym) & SCOPES
+    scopes = grant.scopes.map(&:to_sym) - DENYLIST_SCOPES
     return if scopes.empty?
 
     {
