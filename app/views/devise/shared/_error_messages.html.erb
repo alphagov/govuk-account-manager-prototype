@@ -13,12 +13,16 @@
 <% end %>
 
 <% if flash[:alert] %>
-  <%= render "govuk_publishing_components/components/error_summary", {
-    title: I18n.t("errors.messages.headline"),
-    items: [
-      {
-        text: flash[:alert],
-      }
-    ]
-  } %>
+  <% if previous_url_is_on_ignore_list(previous_url) %>
+      <% remove_flash_alert %>
+  <% else %>
+    <%= render "govuk_publishing_components/components/error_summary", {
+      title: I18n.t("errors.messages.headline"),
+      items: [
+        {
+          text: flash[:alert],
+        }
+      ]
+    } %>
+  <% end %>
 <% end %>
