@@ -124,6 +124,7 @@ jobs:
           OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           OIDC_SALT: ((oidc-salt-staging))
           SECRET_KEY_BASE: ((secret-key-base-staging))
+          PASSWORD_PEPPER: ((password-pepper-staging))
           ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service-staging.london.cloudapps.digital
 
   - name: ping-test-staging
@@ -176,6 +177,7 @@ jobs:
           OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           OIDC_SALT: ((oidc-salt-production))
           SECRET_KEY_BASE: ((secret-key-base-production))
+          PASSWORD_PEPPER: ((password-pepper-production))
           ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service.london.cloudapps.digital
 
   - name: ping-test-production
