@@ -122,7 +122,7 @@ jobs:
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
           OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
-          OIDC_SALT: ((oidc-salt-staging))
+          OIDC_PEPPER: ((oidc-pepper-staging))
           SECRET_KEY_BASE: ((secret-key-base-staging))
           PASSWORD_PEPPER: ((password-pepper-staging))
           ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service-staging.london.cloudapps.digital
@@ -175,7 +175,7 @@ jobs:
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
           OIDC_SIGNING_KEY: ((oidc-signing-key-production))
-          OIDC_SALT: ((oidc-salt-production))
+          OIDC_PEPPER: ((oidc-pepper-production))
           SECRET_KEY_BASE: ((secret-key-base-production))
           PASSWORD_PEPPER: ((password-pepper-production))
           ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service.london.cloudapps.digital

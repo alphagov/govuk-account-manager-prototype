@@ -10,9 +10,6 @@ services:
       REDIRECT_BASE_URL: http://localhost:3000
       REDIS_URL: redis://redis:6379/0
       DATABASE_URL: postgresql://postgres:postgres@postgres/accounts
-      OIDC_IDP_ISSUER: GOV.UK Accounts
-      OIDC_IDP_PRIVATE_KEY_FILE: example-private-key.pem
-      OIDC_IDP_SALT: saltsaltsalt
     volumes:
       - .:/app
     ports:
@@ -30,9 +27,6 @@ services:
       REDIRECT_BASE_URL: http://localhost:3000
       REDIS_URL: redis://redis:6379/0
       DATABASE_URL: postgresql://postgres:postgres@postgres/accounts
-      OIDC_IDP_ISSUER: GOV.UK Accounts
-      OIDC_IDP_PRIVATE_KEY_FILE: example-private-key.pem
-      OIDC_IDP_SALT: saltsaltsalt
     volumes:
       - .:/app
 
