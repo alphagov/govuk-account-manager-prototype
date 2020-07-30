@@ -48,3 +48,9 @@ Doorkeeper::OpenidConnect.configure do
   claims do
   end
 end
+
+module Doorkeeper::OpenidConnect::Helpers::Controller
+  def oauth_userinfo_url(*)
+    "#{ENV['ATTRIBUTE_SERVICE_URL']}/oidc/user_info"
+  end
+end
