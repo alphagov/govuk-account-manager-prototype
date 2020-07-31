@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 Doorkeeper::OpenidConnect.configure do
-  issuer ENV["OIDC_IDP_ISSUER"]
+  issuer ENV["OIDC_IDP_ISSUER"] || ENV["REDIRECT_BASE_URL"]
 
-  signing_key ENV["OIDC_IDP_PRIVATE_KEY"] || (ENV["OIDC_IDP_PRIVATE_KEY_FILE"] ? File.read(ENV["OIDC_IDP_PRIVATE_KEY_FILE"]) : nil)
+  signing_key Rails.application.secrets.oidc_idp_private_key
 
   subject_types_supported [:pairwise]
 
@@ -32,7 +32,7 @@ Doorkeeper::OpenidConnect.configure do
   end
 
   subject do |resource_owner, application|
-    Digest::SHA256.hexdigest("#{resource_owner.id}#{URI.parse(application.redirect_uri).host}#{ENV['OIDC_IDP_SALT']}")
+    Digest::SHA256.hexdigest("#{resource_owner.id}#{URI.parse(application.redirect_uri).host}#{Rails.application.secrets.oidc_idp_pepper}")
   end
 
   # Protocol to use when generating URIs for the discovery endpoint,
