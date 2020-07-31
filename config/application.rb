@@ -48,5 +48,9 @@ module GovukAccountManagerPrototype
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Match the content security policy by disabling framing
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+    config.action_dispatch.default_headers["X-Frame-Options"] = "DENY"
   end
 end
