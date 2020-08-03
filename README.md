@@ -90,4 +90,4 @@ puts "client id:     #{a.uid}"
 puts "client secret: #{a.secret}"
 ```
 
-You will probably want `openid` in the list of scopes.
+You will probably want `openid` in the list of scopes to deny.
