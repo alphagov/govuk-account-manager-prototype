@@ -72,14 +72,18 @@ You would also need to unset it from the PaaS environment. Which you can do with
  cf unset-env govuk-account-manager SECRET_NAME
 ```
 
-## Creating a new OAuth application
+## Getting a Rails console
 
-First get a Rails console.  For example, when running locally in Docker Compose:
+Sometimes you will need a Rails console when running locally in Docker Compose:
 
 ```
 docker ps
 docker exec -it ${container_id} rails console
 ```
+
+## Creating a new OAuth application
+
+Get a Rails console as detailed above.
 
 Then create a new `Doorkeeper::Application`:
 
@@ -91,3 +95,21 @@ puts "client secret: #{a.secret}"
 ```
 
 You will probably want `openid` in the list of scopes to deny.
+
+## Creating a new access token
+
+Get a new Rails console as detailed above.
+
+Then assign your application to a variable:
+
+```
+a = Doorkeeper::Application.find_by(name: "...")
+```
+
+Create a new `Doorkeeper::AccessToken`:
+
+```
+b = Doorkeeper::AccessToken.new(application_id: a.id)
+b.save!
+puts "access token: #{b.token}"
+```
