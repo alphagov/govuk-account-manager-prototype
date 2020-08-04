@@ -26,7 +26,7 @@ class RemoteUserInfo
 
   def token
     @token ||= Doorkeeper::AccessToken.transaction do
-      application = find_application
+      application = AccountManagerApplication.fetch
       token = find_token(application)
       token.nil? ? create_token(application) : token
     end
@@ -48,9 +48,5 @@ private
       resource_owner_id: @user.id,
       scopes: TOKEN_SCOPES,
     )
-  end
-
-  def find_application
-    Doorkeeper::Application.find_by(name: "GOV.UK Account Manager")
   end
 end
