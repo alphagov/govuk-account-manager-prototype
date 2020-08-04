@@ -231,7 +231,7 @@ Doorkeeper.configure do
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
   default_scopes  :public
-  optional_scopes :openid, :deanonymise_tokens
+  optional_scopes :openid, :deanonymise_tokens, :account_manager_access
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.

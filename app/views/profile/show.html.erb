@@ -1,15 +1,17 @@
+<% user_details_items = user_details(@user_info) %>
+
 <%= render "govuk_publishing_components/components/back_link", { href: user_root_path } %>
 
 <h1 class="govuk-heading-l">
   <%= t("account.profile.page_heading") %>
 </h1>
 
-<% if user_details(current_user).empty? %>
+<% if user_details_items.empty? %>
   <p class="govuk-body">
     <%= t("account.profile.no_data_found") %>
   </p>
 <% else %>
   <%= render "govuk_publishing_components/components/summary_list", {
-    items: user_details(current_user)
+    items: user_details_items
   } %>
 <% end %>
