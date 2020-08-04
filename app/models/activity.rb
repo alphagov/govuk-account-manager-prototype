@@ -33,7 +33,7 @@ class Activity < ApplicationRecord
 
   def client
     if oauth_application_id.nil?
-      "Account Manager"
+      AccountManagerApplication::NAME
     else
       Doorkeeper::Application.find(oauth_application_id).name
     end

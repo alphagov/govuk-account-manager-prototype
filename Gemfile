@@ -15,6 +15,7 @@ gem "pg"
 gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3"
 gem "railties"
+gem "rest-client", "~> 2.1.0"
 gem "sass-rails", "~> 5.0.8"
 gem "sentry-raven", "~> 3.0"
 gem "sidekiq", "~> 6.1"
@@ -31,6 +32,7 @@ group :test do
   gem "govuk_test", "~> 1.0"
   gem "simplecov"
   gem "timecop"
+  gem "webmock"
 end
 
 group :development do
