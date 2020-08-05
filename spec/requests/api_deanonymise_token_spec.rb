@@ -13,7 +13,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
       :oauth_application,
       name: "Some Other Government Service",
       redirect_uri: "https://www.gov.uk",
-      scopes: %i[public openid deanonymise_tokens],
+      scopes: %i[openid],
     )
   end
 
@@ -31,7 +31,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
       :oauth_access_token,
       resource_owner_id: user.id,
       application_id: application.id,
-      scopes: %i[public openid],
+      scopes: %i[openid],
     )
   end
 
@@ -68,7 +68,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
           :oauth_access_token,
           resource_owner_id: user.id,
           application_id: application.id,
-          scopes: %i[public openid],
+          scopes: %i[openid],
           expires_in: -1,
         )
       end
