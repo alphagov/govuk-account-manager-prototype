@@ -63,4 +63,6 @@ Rails.application.configure do
   end
 
   config.redirect_base_url = ENV["REDIRECT_BASE_URL"]
+
+  config.hosts = nil
 end
