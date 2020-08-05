@@ -2,3 +2,4 @@
 default_scopes: []
 optional_scopes:
   - openid
+  - account_manager_access
