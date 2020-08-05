@@ -32,7 +32,7 @@ Doorkeeper::OpenidConnect.configure do
   end
 
   subject do |resource_owner, application|
-    Digest::SHA256.hexdigest("#{resource_owner.id}#{URI.parse(application.redirect_uri).host}#{Rails.application.secrets.oidc_idp_pepper}")
+    Digest::SHA256.hexdigest("#{resource_owner.id}#{application.uid}#{Rails.application.secrets.oidc_idp_pepper}")
   end
 
   # Protocol to use when generating URIs for the discovery endpoint,
