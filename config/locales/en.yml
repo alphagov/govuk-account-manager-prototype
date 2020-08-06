@@ -91,7 +91,7 @@ en:
     title: "Confirm your email address"
     instructions: |
       <p class="govuk-body">We’ve sent you an email.</p>
-      <p class="govuk-body">You need to click on the confirmation link in the email to activate your GOV.UK account.</p>
+      <p class="govuk-body">You need to click on the confirmation link in the email to activate your GOV.UK account in the next 7 days.</p>
       <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
     re_register_subtitle: "If you did not get the email or want to use a different address"
     re_register_instructions: |
