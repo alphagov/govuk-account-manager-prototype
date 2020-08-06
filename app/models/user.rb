@@ -28,8 +28,14 @@ class User < ApplicationRecord
   has_many :activities,
            dependent: :delete_all
 
+  after_commit :update_remote_user_info, on: %i[create update]
+
   def update_tracked_fields!(request)
     super(request)
     Activity.login!(self, request.remote_ip) unless new_record?
+  end
+
+  def update_remote_user_info
+    UpdateRemoteUserInfoJob.perform_later id
   end
 end

@@ -6,7 +6,11 @@
   <%= t("account.profile.page_heading") %>
 </h1>
 
-<% if user_details_items.empty? %>
+<% if user_details_items.nil? %>
+  <p class="govuk-body">
+    <%= t("account.profile.could_not_fetch_data") %>
+  </p>
+<% elsif user_details_items.empty? %>
   <p class="govuk-body">
     <%= t("account.profile.no_data_found") %>
   </p>
