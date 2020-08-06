@@ -62,9 +62,10 @@ en:
       used: "used"
     profile:
       page_heading: Your Profile
+      could_not_fetch_data: An error occurred retrieving your data. This problem has been reported. Please try again later.
       no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
       user_details:
-        email_address: "Email address"
+        email: "Email address"
   welcome:
     show:
       title: "Create a GOV.UK account"

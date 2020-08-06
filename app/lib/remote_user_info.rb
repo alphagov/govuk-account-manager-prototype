@@ -12,16 +12,20 @@ class RemoteUserInfo
   def user_info
     uri = "#{ENV['ATTRIBUTE_SERVICE_URL']}/oidc/user_info"
     response = RestClient.get uri, { accept: :json, authorization: "Bearer #{token.token}" }
-    JSON.parse(response.body).deep_symbolize_keys.merge(basic_user_info)
+    JSON.parse(response.body).deep_symbolize_keys.transform_values do |v|
+      # TODO: think about types & schemas in the Attribute Service
+      case v
+      when "true"
+        true
+      when "false"
+        false
+      else
+        v
+      end
+    end
   rescue StandardError => e
     Raven.capture_exception(e)
-    basic_user_info
-  end
-
-  def basic_user_info
-    {
-      email_address: @user.email,
-    }
+    nil
   end
 
   def update_profile!

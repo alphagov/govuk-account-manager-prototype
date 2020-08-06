@@ -1,14 +1,16 @@
 module ProfileHelper
   def user_details(user_info)
+    return unless user_info
+
     [
-      attribute(user_info, :email_address),
+      attribute(:email, user_info[:email_verified] ? user_info[:email] : "#{user_info[:email]} (unverified)"),
     ].reject { |detail| detail.fetch(:value).blank? }
   end
 
-  def attribute(user_info, key)
+  def attribute(key, value)
     {
       field: I18n.t("account.profile.user_details.#{key}"),
-      value: user_info[key],
+      value: value,
     }
   end
 end
