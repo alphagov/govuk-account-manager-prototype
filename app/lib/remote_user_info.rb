@@ -24,6 +24,19 @@ class RemoteUserInfo
     }
   end
 
+  def update_profile!
+    RestClient.put(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/email",
+      { value: @user.email },
+      { accept: :json, authorization: "Bearer #{token.token}" },
+    )
+    RestClient.put(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/email_verified",
+      { value: @user.confirmed? },
+      { accept: :json, authorization: "Bearer #{token.token}" },
+    )
+  end
+
   def token
     @token ||= Doorkeeper::AccessToken.transaction do
       application = AccountManagerApplication.fetch

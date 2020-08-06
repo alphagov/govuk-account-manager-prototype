@@ -76,6 +76,22 @@ RSpec.describe RemoteUserInfo, type: :unit do
 
         expect(described_class.call(user)).to eq(attributes.merge(basic_attributes))
       end
+
+      context "#update_profile!" do
+        it "calls the attribute service to set the profile attributes" do
+          email_stub = stub_request(:put, "#{attribute_service_url}/v1/attributes/email")
+            .with(headers: { accept: "application/json", authorization: "Bearer #{token.token}" }, body: { value: user.email })
+            .to_return(status: 200)
+          email_verified_stub = stub_request(:put, "#{attribute_service_url}/v1/attributes/email_verified")
+            .with(headers: { accept: "application/json", authorization: "Bearer #{token.token}" }, body: { value: user.confirmed? })
+            .to_return(status: 200)
+
+          described_class.new(user).update_profile!
+
+          expect(email_stub).to have_been_made
+          expect(email_verified_stub).to have_been_made
+        end
+      end
     end
   end
 end
