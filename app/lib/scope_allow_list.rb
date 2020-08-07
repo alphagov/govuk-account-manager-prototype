@@ -10,7 +10,11 @@ class ScopeAllowList
   end
 
   def optional_scopes
-    scopes[:optional_scopes].map(&:to_sym)
+    scopes[:optional_scopes].map(&:to_sym) + development_scopes
+  end
+
+  def development_scopes
+    Rails.env.production? ? [] : %i[test_scope_read test_scope_write]
   end
 
 private

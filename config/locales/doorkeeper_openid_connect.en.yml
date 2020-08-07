@@ -3,6 +3,8 @@ en:
     scopes:
       openid: 'Authenticate your account'
       email: 'View your email address'
+      test_scope_read: 'View your local development testing data'
+      test_scope_write: 'View and update your local development testing data'
     errors:
       messages:
         login_required: 'The authorization server requires end-user authentication'
