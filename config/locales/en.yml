@@ -66,6 +66,7 @@ en:
       no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
       user_details:
         email: "Email address"
+        test: "Local development testing data"
   welcome:
     show:
       title: "Create a GOV.UK account"
