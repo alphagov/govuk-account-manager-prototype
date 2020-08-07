@@ -60,6 +60,10 @@ en:
       page_heading: How and when your data was used
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.
       used: "used"
+      scope:
+        email: "email address"
+        test_scope_read: "local development testing data"
+        test_scope_write: "local development testing data"
     profile:
       page_heading: Your Profile
       could_not_fetch_data: An error occurred retrieving your data. This problem has been reported. Please try again later.
