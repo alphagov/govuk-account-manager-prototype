@@ -3,7 +3,7 @@ image_resource:
   type: docker-image
   source:
     repository: governmentpaas/cf-cli
-    tag: 5b44bd954693937ddd07ee6c9e113923bc620aed
+    tag: e1ffec0d1940706f157a8c1e0ab8131b7084fa1c
 inputs:
   - name: git-main
     path: src
@@ -24,8 +24,8 @@ run:
       cf api "$CF_API"
       cf auth
       cf t -o "$CF_ORG" -s "$CF_SPACE"
-      cf v3-create-app $CF_APP_NAME || true
-      cf v3-apply-manifest -f manifest.yml
+      cf create-app $CF_APP_NAME || true
+      cf apply-manifest -f manifest.yml
       cf set-env $CF_APP_NAME CF_STARTUP_TIMEOUT "$CF_STARTUP_TIMEOUT"
 
       cf scale -i "$APP_INSTANCES" $CF_APP_NAME
@@ -53,7 +53,7 @@ run:
 
       cf set-env $CF_APP_NAME ATTRIBUTE_SERVICE_URL "$ATTRIBUTE_SERVICE_URL"
 
-      cf v3-zdt-push $CF_APP_NAME --wait-for-deploy-complete --no-route
+      cf push $CF_APP_NAME --strategy rolling
       cf map-route $CF_APP_NAME london.cloudapps.digital --hostname "$HOSTNAME"
 
-      cf v3-scale --process worker -i "$WORKER_INSTANCES" $CF_APP_NAME
+      cf scale --process worker -i "$WORKER_INSTANCES" $CF_APP_NAME
