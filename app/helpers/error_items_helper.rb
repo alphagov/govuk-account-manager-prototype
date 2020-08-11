@@ -17,6 +17,7 @@ module ErrorItemsHelper
 
   PREVIOUS_URL_IGNORE_LIST = %w[
     /
+    /account
   ].freeze
 
   PREVIOUS_URL_IGNORE_PATH_STARTS_WITH = %w[
