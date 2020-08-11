@@ -57,4 +57,8 @@ Rails.application.routes.draw do
       get "/deanonymise-token", to: "api_deanonymise_token#show"
     end
   end
+
+  get "/404", to: "standard_errors#not_found"
+  get "/422", to: "standard_errors#unprocessable_entity"
+  get "/500", to: "standard_errors#internal_server_error"
 end

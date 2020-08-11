@@ -52,5 +52,7 @@ module GovukAccountManagerPrototype
     # Match the content security policy by disabling framing
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
     config.action_dispatch.default_headers["X-Frame-Options"] = "DENY"
+
+    config.exceptions_app = routes
   end
 end

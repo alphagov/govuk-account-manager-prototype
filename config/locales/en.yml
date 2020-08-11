@@ -118,3 +118,19 @@ en:
     retry_instructions: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{link}">send the confirmation email again</a> if you did not get it.</p>
       <p class="govuk-body">You can <a class="govuk-link" href="%{link}">use a different email address</a> if %{email} is not correct.</p>
+  standard_errors:
+    not_found:
+      title: Page not found
+      content: |
+        <p class="govuk-body">If you entered a web address, check it is correct.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
+    unprocessable_entity:
+      title: Something went wrong
+      content: |
+        <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
+    internal_server_error:
+      title: Something went wrong
+      content: |
+        <p class="govuk-body">We are experiencing technical difficulties.  This error has been reported.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
