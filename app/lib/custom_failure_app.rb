@@ -1,6 +1,6 @@
 class CustomFailureApp < Devise::FailureApp
   def redirect_url
-    new_user_session_url(previous_url: attempted_path)
+    new_user_session_url(previous_url: params.fetch(:previous_url, attempted_path))
   end
 
   def respond
