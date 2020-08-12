@@ -1,4 +1,3 @@
-require Rails.root.join("lib/scope_allow_list")
 # frozen_string_literal: true
 
 Doorkeeper.configure do
