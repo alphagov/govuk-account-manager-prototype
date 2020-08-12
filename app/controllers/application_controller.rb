@@ -27,7 +27,7 @@ protected
         @error = :internal_server_error
         render status: :internal_server_error, template: "standard_errors/generic"
       end
-      format.all { render status: :internal_server_error, nothing: true }
+      format.all { head :internal_server_error }
     end
   end
 end

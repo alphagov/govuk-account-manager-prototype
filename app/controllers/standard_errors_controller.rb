@@ -7,7 +7,7 @@ class StandardErrorsController < ApplicationController
         @error = :not_found
         render status: :not_found, template: "standard_errors/generic"
       end
-      format.all { render status: :not_found, nothing: true }
+      format.all { head :not_found }
     end
   end
 
@@ -17,7 +17,7 @@ class StandardErrorsController < ApplicationController
         @error = :unprocessable_entity
         render status: :unprocessable_entity, template: "standard_errors/generic"
       end
-      format.all { render status: :unprocessable_entity, nothing: true }
+      format.all { head :unprocessable_entity }
     end
   end
 
