@@ -11,7 +11,10 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
   end
 
   rescue_from ActiveRecord::RecordNotUnique do
-    head 400
+    render status: :bad_request, json: {
+      error: "invalid_client_name",
+      error_description: "Client ID already exists",
+    }
   end
 
   def create

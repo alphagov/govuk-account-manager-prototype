@@ -148,6 +148,10 @@ RSpec.describe "/api/v1/register-client" do
 
         post register_client_path, params: payload.to_json, headers: headers
         expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+          error: "invalid_client_name",
+          error_description: "Client ID already exists",
+        })
       end
     end
   end
