@@ -18,7 +18,12 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
   end
 
   def create
-    return head 400 if params["subject_type"].present? && params["subject_type"] != "pairwise"
+    if params["subject_type"].present? && params["subject_type"] != "pairwise"
+      render status: :bad_request, json: {
+        error: "unacceptable_subject_type",
+        error_description: "subject_type must be pairwise",
+      } and return
+    end
 
     client = Doorkeeper::Application.new(
       name: params["client_name"],

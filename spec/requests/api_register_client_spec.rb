@@ -51,6 +51,10 @@ RSpec.describe "/api/v1/register-client" do
       post register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to have_http_status(400)
+      expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+        error: "unacceptable_subject_type",
+        error_description: "subject_type must be pairwise",
+      })
     end
 
     it "responds with the client id and secret when value not present" do
