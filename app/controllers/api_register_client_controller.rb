@@ -7,6 +7,10 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
     head 400
   end
 
+  rescue_from ActiveRecord::RecordNotUnique do
+    head 400
+  end
+
   def create
     return head 400 if params["subject_type"].present? && params["subject_type"] != "pairwise"
 

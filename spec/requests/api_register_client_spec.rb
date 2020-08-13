@@ -136,5 +136,15 @@ RSpec.describe "/api/v1/register-client" do
         expect(parsed_response[field.to_sym]).to eq(%w[some_string another_string])
       end
     end
+
+    context "when trying to register a duplicated client name" do
+      it "responds with 400 response code for the second request" do
+        post register_client_path, params: payload.to_json, headers: headers
+        expect(response).to be_successful
+
+        post register_client_path, params: payload.to_json, headers: headers
+        expect(response).to have_http_status(400)
+      end
+    end
   end
 end
