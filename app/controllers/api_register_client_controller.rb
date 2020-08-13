@@ -3,8 +3,11 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
 
   respond_to :json
 
-  rescue_from ActionController::ParameterMissing do
-    head 400
+  rescue_from ActionController::ParameterMissing do |e|
+    render status: :bad_request, json: {
+      error: "invalid_client_metadata",
+      error_description: "Required parameter #{e.param} missing",
+    }
   end
 
   rescue_from ActiveRecord::RecordNotUnique do
