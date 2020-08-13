@@ -13,6 +13,10 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
     client = Doorkeeper::Application.new(
       name: params["client_name"],
       redirect_uri: params.require("redirect_uris"),
+      contacts: params["contacts"],
+      logo_uri: params["logo_uri"],
+      client_uri: params["client_uri"],
+      policy_uri: params["policy_uri"],
     )
     client.save!
 
@@ -20,6 +24,10 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
       client_id: client.uid,
       client_secret: client.secret,
       client_secret_expires_at: 0,
+      contacts: client.contacts,
+      logo_uri: client.logo_uri,
+      client_uri: client.client_uri,
+      policy_uri: client.policy_uri,
     }
   end
 end

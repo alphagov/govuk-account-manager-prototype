@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_094827) do
     t.boolean "confidential", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "contacts"
+    t.text "contacts", default: [], array: true
     t.text "logo_uri"
     t.text "client_uri"
     t.text "policy_uri"

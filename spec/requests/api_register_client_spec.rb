@@ -19,7 +19,7 @@ RSpec.describe "/api/v1/register-client" do
       post register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to be_successful
-      expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+      expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
         client_secret: Doorkeeper::Application.last.secret,
         client_secret_expires_at: 0,
@@ -35,7 +35,7 @@ RSpec.describe "/api/v1/register-client" do
       post register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to be_successful
-      expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+      expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
         client_secret: Doorkeeper::Application.last.secret,
         client_secret_expires_at: 0,
@@ -57,7 +57,7 @@ RSpec.describe "/api/v1/register-client" do
       post register_client_path, params: payload.except(:subject_type).to_json, headers: headers
 
       expect(response).to be_successful
-      expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+      expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
         client_secret: Doorkeeper::Application.last.secret,
         client_secret_expires_at: 0,
@@ -72,7 +72,7 @@ RSpec.describe "/api/v1/register-client" do
       post register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to be_successful
-      expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+      expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
         client_secret: Doorkeeper::Application.last.secret,
         client_secret_expires_at: 0,
@@ -81,10 +81,60 @@ RSpec.describe "/api/v1/register-client" do
   end
 
   context "without redirect_uris value" do
-    it "responds with the client id and secret" do
+    it "responds with 400 response code" do
       post register_client_path, params: payload.except(:redirect_uris).to_json, headers: headers
 
       expect(response).to have_http_status(400)
+    end
+  end
+
+  context "with optional fields" do
+    OPTIONAL_STRING_FIELDS =
+      %w[
+        logo_uri
+        client_uri
+        policy_uri
+      ].freeze
+
+    OPTIONAL_STRING_FIELDS.each do |field|
+      it "responds with the client id, secret and optional fields when #{field} present" do
+        payload[field] = "some_string"
+
+        post register_client_path, params: payload.to_json, headers: headers
+
+        expect(response).to be_successful
+
+        parsed_response = JSON.parse(response.body).deep_symbolize_keys
+        expect(parsed_response).to include({
+          client_id: Doorkeeper::Application.last.uid,
+          client_secret: Doorkeeper::Application.last.secret,
+          client_secret_expires_at: 0,
+        })
+        expect(parsed_response[field.to_sym]).to eq("some_string")
+      end
+    end
+
+    OPTIONAL_ARRAY_FIELDS =
+      %w[
+        contacts
+      ].freeze
+
+    OPTIONAL_ARRAY_FIELDS.each do |field|
+      it "responds with the client id, secret and optional fields when #{field} present" do
+        payload[field] = %w[some_string another_string]
+
+        post register_client_path, params: payload.to_json, headers: headers
+
+        expect(response).to be_successful
+
+        parsed_response = JSON.parse(response.body).deep_symbolize_keys
+        expect(parsed_response).to include({
+          client_id: Doorkeeper::Application.last.uid,
+          client_secret: Doorkeeper::Application.last.secret,
+          client_secret_expires_at: 0,
+        })
+        expect(parsed_response[field.to_sym]).to eq(%w[some_string another_string])
+      end
     end
   end
 end
