@@ -35,7 +35,7 @@ RSpec.describe "new-password" do
 
       expect(response).to be_successful
 
-      assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob
+      assert_enqueued_jobs 1, only: NotifyDeliveryJob
     end
   end
 end
