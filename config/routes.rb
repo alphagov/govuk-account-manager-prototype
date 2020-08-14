@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   scope "/api" do
     scope "/v1" do
       get "/deanonymise-token", to: "api_deanonymise_token#show"
+      post "/register-client", to: "api_register_client#create"
     end
   end
 
