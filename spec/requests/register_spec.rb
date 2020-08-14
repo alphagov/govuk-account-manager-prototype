@@ -42,7 +42,7 @@ RSpec.describe "register" do
       expect(response).to be_successful
       expect(response.body).to have_content(I18n.t("post_registration.title"))
 
-      assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob
+      assert_enqueued_jobs 1, only: NotifyDeliveryJob
     end
 
     context "when the email is missing" do
