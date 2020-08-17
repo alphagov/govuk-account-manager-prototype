@@ -36,6 +36,8 @@ en:
         title: Sign in to GOV.UK
         reset_password: |
           <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
+        register: |
+          <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
   account:
     manage:
       page_heading: Account
