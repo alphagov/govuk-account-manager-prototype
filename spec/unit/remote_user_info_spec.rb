@@ -78,10 +78,10 @@ RSpec.describe RemoteUserInfo, type: :unit do
       context "#update_profile!" do
         it "calls the attribute service to set the profile attributes" do
           email_stub = stub_request(:put, "#{attribute_service_url}/v1/attributes/email")
-            .with(headers: { accept: "application/json", authorization: "Bearer #{token.token}" }, body: { value: user.email })
+            .with(headers: { accept: "application/json", authorization: "Bearer #{token.token}" }, body: { value: user.email.to_json })
             .to_return(status: 200)
           email_verified_stub = stub_request(:put, "#{attribute_service_url}/v1/attributes/email_verified")
-            .with(headers: { accept: "application/json", authorization: "Bearer #{token.token}" }, body: { value: user.confirmed? })
+            .with(headers: { accept: "application/json", authorization: "Bearer #{token.token}" }, body: { value: user.confirmed?.to_json })
             .to_return(status: 200)
 
           described_class.new(user).update_profile!
