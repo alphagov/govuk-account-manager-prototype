@@ -2,7 +2,7 @@ require "cgi"
 
 module PostRegistrationHelper
   def service_name_for(previous_url)
-    return unless previous_url
+    return unless previous_url&.start_with? oauth_authorization_path
 
     bits = previous_url.split("?")
     return unless bits.length > 1

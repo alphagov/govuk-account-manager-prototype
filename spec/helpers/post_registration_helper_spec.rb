@@ -14,6 +14,11 @@ RSpec.describe PostRegistrationHelper, type: :helper do
       expect(service_name_for(url)).to eq(application.name)
     end
 
+    it "only produces a service name if the link looks like an OAuth content URL" do
+      url = "//nefarious-attempt-to-embed-an-arbitrary-link?" + Rack::Utils.build_nested_query(client_id: application.uid)
+      expect(service_name_for(url)).to be_nil
+    end
+
     context "the client_id doesn't match an application" do
       it "returns nil" do
         url = oauth_authorization_path + "?" + Rack::Utils.build_nested_query(client_id: "breadbread")
