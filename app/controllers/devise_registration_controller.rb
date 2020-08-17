@@ -32,10 +32,10 @@ protected
   end
 
   def after_sign_up_path_for(_resource)
-    new_user_after_sign_up_path
+    new_user_after_sign_up_path(previous_url: params[:previous_url])
   end
 
   def after_inactive_sign_up_path_for(_resource)
-    new_user_after_sign_up_path
+    new_user_after_sign_up_path(previous_url: params[:previous_url])
   end
 end

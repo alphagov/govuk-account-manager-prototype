@@ -36,6 +36,8 @@ en:
         title: Sign in to GOV.UK
         reset_password: |
           <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
+        register: |
+          <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
   account:
     manage:
       page_heading: Account
@@ -97,7 +99,10 @@ en:
     instructions: |
       <p class="govuk-body">We’ve sent you an email.</p>
       <p class="govuk-body">You need to click on the confirmation link in the email within the next 7 days, or your GOV.UK account will be disabled.</p>
-      <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
+    continue_to_service: |
+      <p class="govuk-body"><a class="govuk-link" href="%{service_link}">Go back to %{service_name}</a></p>
+    continue_to_account: |
+      <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a></p>
     re_register_subtitle: "If you did not get the email or want to use a different address"
     re_register_instructions: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}">send the confirmation email again</a> if you did not get it.</a>
