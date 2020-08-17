@@ -100,7 +100,7 @@ en:
       <p class="govuk-body">We’ve sent you an email.</p>
       <p class="govuk-body">You need to click on the confirmation link in the email within the next 7 days, or your GOV.UK account will be disabled.</p>
     continue_to_service: |
-      <p class="govuk-body"><a class="govuk-link" href="%{service_link}">Go back to the service</a></p>
+      <p class="govuk-body"><a class="govuk-link" href="%{service_link}">Go back to %{service_name}</a></p>
     continue_to_account: |
       <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a></p>
     re_register_subtitle: "If you did not get the email or want to use a different address"
