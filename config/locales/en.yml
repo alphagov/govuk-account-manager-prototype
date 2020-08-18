@@ -73,6 +73,7 @@ en:
       user_details:
         email: "Email address"
         test: "Local development testing data"
+        transition_checker: "Transition checker data"
   welcome:
     show:
       title: "Create a GOV.UK account"
