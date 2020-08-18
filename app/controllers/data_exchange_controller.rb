@@ -1,8 +1,9 @@
 class DataExchangeController < ApplicationController
   before_action :authenticate_user!
 
-  DENYLIST_SCOPES = [
-    :openid,
+  DENYLIST_SCOPES = %i[
+    openid
+    transition_checker
   ].freeze
 
   def show
