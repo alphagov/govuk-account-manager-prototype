@@ -54,5 +54,17 @@ RSpec.describe RemoteUserInfo, type: :unit do
         expect(email_verified_stub).to have_been_made
       end
     end
+
+    context "#destroy!" do
+      it "calls the attribute service to delete the user" do
+        stub = stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" })
+          .to_return(status: 200)
+
+        user.destroy!
+
+        expect(stub).to have_been_made
+      end
+    end
   end
 end

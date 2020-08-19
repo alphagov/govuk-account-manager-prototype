@@ -30,6 +30,16 @@ class User < ApplicationRecord
 
   after_commit :update_remote_user_info, on: %i[create update]
 
+  # this has to happen before the record is actually destroyed because
+  # there's a foreign key constraint ensuring that an access token
+  # corresponds to a user.
+  #
+  # the prepend: true is a concession to testing, it's so we can
+  # confirm the right access token is being used (otherwise the access
+  # token gets deleted between the test reading it and this callback
+  # happening)
+  before_destroy :destroy_remote_user_info_immediately, prepend: true
+
   def update_tracked_fields!(request)
     super(request)
     Activity.login!(self, request.remote_ip) unless new_record?
@@ -37,5 +47,9 @@ class User < ApplicationRecord
 
   def update_remote_user_info
     UpdateRemoteUserInfoJob.perform_later id
+  end
+
+  def destroy_remote_user_info_immediately
+    RemoteUserInfo.new(self).destroy!
   end
 end

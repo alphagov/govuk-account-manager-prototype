@@ -29,6 +29,13 @@ class RemoteUserInfo
     )
   end
 
+  def destroy!
+    RestClient.delete(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/all",
+      { accept: :json, authorization: "Bearer #{token.token}" },
+    )
+  end
+
   def token
     @token ||= AccountManagerApplication.user_token(@user.id)
   end
