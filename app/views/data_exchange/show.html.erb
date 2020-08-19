@@ -25,9 +25,7 @@
               </span>
               <br>
               <%= t("account.data_exchange.used") %>
-              <% exchange[:scopes].each do |scope| %>
-                <%= t("account.data_exchange.scope.#{scope}") %>
-              <% end %>
+              <%= exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence %>
             </dd>
           </div>
         <% end %>
