@@ -1,6 +1,4 @@
 class RemoteUserInfo
-  TOKEN_SCOPES = %i[account_manager_access].freeze
-
   def self.call(user)
     new(user).user_info
   end
@@ -31,29 +29,14 @@ class RemoteUserInfo
     )
   end
 
+  def destroy!
+    RestClient.delete(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/all",
+      { accept: :json, authorization: "Bearer #{token.token}" },
+    )
+  end
+
   def token
-    @token ||= Doorkeeper::AccessToken.transaction do
-      application = AccountManagerApplication.fetch
-      token = find_token(application)
-      token.nil? ? create_token(application) : token
-    end
-  end
-
-private
-
-  def find_token(application)
-    Doorkeeper::AccessToken.matching_token_for(
-      application,
-      @user.id,
-      Doorkeeper::OAuth::Scopes.from_array(TOKEN_SCOPES),
-    )
-  end
-
-  def create_token(application)
-    Doorkeeper::AccessToken.create!(
-      application_id: application.id,
-      resource_owner_id: @user.id,
-      scopes: TOKEN_SCOPES,
-    )
+    @token ||= AccountManagerApplication.user_token(@user.id)
   end
 end
