@@ -13,7 +13,7 @@ class AccountManagerApplication
   def self.user_token(user_id)
     Doorkeeper::AccessToken.transaction do
       token = find_token(user_id)
-      token.nil? ? create_token(user_id) : token
+      token.nil? || token&.expired? ? create_token(user_id) : token
     end
   end
 

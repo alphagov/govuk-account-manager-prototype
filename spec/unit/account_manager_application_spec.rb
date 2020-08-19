@@ -34,15 +34,33 @@ RSpec.describe AccountManagerApplication, type: :unit do
       it "returns the token" do
         expect(described_class.user_token(token.resource_owner_id)&.id).to eq(token.id)
       end
+
+      context "the token has expired" do
+        it "generates a new token" do
+          token.update!(expires_in: -1)
+          expect(token.expired?).to be(true)
+
+          new_token = described_class.user_token(user.id)
+          expect(new_token.id).to_not eq(token.id)
+          validate_token(new_token)
+        end
+      end
+
+      context "the token has been revoked" do
+        it "generates a new token" do
+          token.revoke
+          expect(token.revoked?).to be(true)
+
+          new_token = described_class.user_token(user.id)
+          expect(new_token.id).to_not eq(token.id)
+          validate_token(new_token)
+        end
+      end
     end
 
     context "the token doesn't exist" do
       it "creates the token" do
-        token = described_class.user_token(user.id)
-        expect(token).to_not be_nil
-        expect(token.application_id).to eq(described_class.application.id)
-        expect(token.resource_owner_id).to eq(user.id)
-        expect(token.scopes).to eq(AccountManagerApplication::SCOPES)
+        validate_token(described_class.user_token(user.id))
       end
     end
   end
@@ -55,5 +73,14 @@ RSpec.describe AccountManagerApplication, type: :unit do
       expect(application.redirect_uri).to eq(AccountManagerApplication::REDIRECT_URI)
       expect(application.scopes).to eq(AccountManagerApplication::SCOPES)
     end
+  end
+
+  def validate_token(token)
+    expect(token).to_not be_nil
+    expect(token.application_id).to eq(described_class.application.id)
+    expect(token.resource_owner_id).to eq(user.id)
+    expect(token.scopes).to eq(AccountManagerApplication::SCOPES)
+    expect(token.expired?).to be_falsey
+    expect(token.revoked?).to be_falsey
   end
 end
