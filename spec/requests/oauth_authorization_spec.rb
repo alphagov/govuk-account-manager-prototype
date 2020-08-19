@@ -27,7 +27,6 @@ RSpec.feature "/oauth/authorize" do
     it "asks for authorization to access listed scopes" do
       visit authorization_endpoint_url(client: application, scope: "openid email")
 
-      expect(page).to have_text(I18n.t("doorkeeper.scopes.openid"))
       expect(page).to have_text(I18n.t("doorkeeper.scopes.email"))
     end
 
@@ -35,6 +34,12 @@ RSpec.feature "/oauth/authorize" do
       visit authorization_endpoint_url(client: application, scope: "openid email transition_checker")
 
       expect(page).not_to have_text(I18n.t("doorkeeper.scopes.transition_checker"))
+    end
+
+    it "does not ask for authorization to login" do
+      visit authorization_endpoint_url(client: application, scope: "openid email transition_checker")
+
+      expect(page).not_to have_text(I18n.t("doorkeeper.scopes.openid"))
     end
   end
 end

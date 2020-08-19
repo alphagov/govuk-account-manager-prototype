@@ -7,4 +7,5 @@ optional_scopes:
   - email
   - transition_checker
 hidden_scopes:
+  - openid
   - transition_checker
