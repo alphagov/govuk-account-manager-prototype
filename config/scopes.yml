@@ -5,3 +5,4 @@ optional_scopes:
   - account_manager_access
   - deanonymise_tokens
   - email
+  - transition_checker

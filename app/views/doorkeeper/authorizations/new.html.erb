@@ -10,12 +10,12 @@
       <%= raw t('.prompt', client_name: content_tag(:strong, class: 'text-info') { @pre_auth.client.name }) %>
     </p>
 
-    <% if @pre_auth.scopes.count > 0 %>
+    <% if user_authorizable_scopes(@pre_auth).count > 0 %>
       <div id="oauth-permissions">
         <p class="govuk-body"><%= t('.able_to') %>:</p>
 
         <ul class="text-info">
-          <% @pre_auth.scopes.each do |scope| %>
+          <% user_authorizable_scopes(@pre_auth).each do |scope| %>
             <li><p class="govuk-body"><%= t scope, scope: [:doorkeeper, :scopes] %></p></li>
           <% end %>
         </ul>
