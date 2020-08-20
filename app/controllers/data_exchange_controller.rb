@@ -1,11 +1,6 @@
 class DataExchangeController < ApplicationController
   before_action :authenticate_user!
 
-  DENYLIST_SCOPES = %i[
-    openid
-    transition_checker
-  ].freeze
-
   def show
     @data_exchanges = current_user
       .access_grants
@@ -17,7 +12,7 @@ class DataExchangeController < ApplicationController
 private
 
   def grant_to_exchange(grant)
-    scopes = grant.scopes.map(&:to_sym) - DENYLIST_SCOPES
+    scopes = grant.scopes.map(&:to_sym) - ScopeDefinition.new.hidden_scopes
     return if scopes.empty?
 
     {
