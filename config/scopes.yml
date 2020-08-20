@@ -6,3 +6,5 @@ optional_scopes:
   - deanonymise_tokens
   - email
   - transition_checker
+hidden_scopes:
+  - transition_checker

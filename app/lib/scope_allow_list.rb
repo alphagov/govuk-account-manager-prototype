@@ -13,6 +13,10 @@ class ScopeAllowList
     scopes[:optional_scopes].map(&:to_sym) + development_scopes
   end
 
+  def hidden_scopes
+    scopes[:hidden_scopes].map(&:to_sym)
+  end
+
   def development_scopes
     Rails.env.production? ? [] : %i[test_scope_read test_scope_write]
   end
