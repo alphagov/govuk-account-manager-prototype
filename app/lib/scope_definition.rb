@@ -1,4 +1,4 @@
-class ScopeAllowList
+class ScopeDefinition
   attr_reader :scopes
 
   def initialize

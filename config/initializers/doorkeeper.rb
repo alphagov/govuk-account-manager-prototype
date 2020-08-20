@@ -230,7 +230,7 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  allowed_scopes_from_config = ScopeAllowList.new
+  allowed_scopes_from_config = ScopeDefinition.new
 
   default_scopes(*allowed_scopes_from_config.default_scopes)
   optional_scopes(*allowed_scopes_from_config.optional_scopes)
