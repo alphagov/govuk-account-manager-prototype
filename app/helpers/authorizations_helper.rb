@@ -1,9 +1,6 @@
 module AuthorizationsHelper
-  HIDDEN_SCOPES = %w[
-    transition_checker
-  ].freeze
-
   def user_authorizable_scopes(pre_auth)
-    pre_auth.scopes.without(HIDDEN_SCOPES)
+    hidden_scopes = ScopeDefinition.new.hidden_scopes
+    pre_auth.scopes.map(&:to_sym).without(hidden_scopes)
   end
 end

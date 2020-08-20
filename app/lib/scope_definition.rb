@@ -1,4 +1,4 @@
-class ScopeAllowList
+class ScopeDefinition
   attr_reader :scopes
 
   def initialize
@@ -11,6 +11,10 @@ class ScopeAllowList
 
   def optional_scopes
     scopes[:optional_scopes].map(&:to_sym) + development_scopes
+  end
+
+  def hidden_scopes
+    scopes[:hidden_scopes].map(&:to_sym)
   end
 
   def development_scopes

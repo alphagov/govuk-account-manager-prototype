@@ -230,7 +230,7 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  allowed_scopes_from_config = ScopeAllowList.new
+  allowed_scopes_from_config = ScopeDefinition.new
 
   default_scopes(*allowed_scopes_from_config.default_scopes)
   optional_scopes(*allowed_scopes_from_config.optional_scopes)
@@ -434,9 +434,9 @@ Doorkeeper.configure do
   # so that the user skips the authorization step.
   # For example if dealing with a trusted application.
   #
-  # skip_authorization do |resource_owner, client|
-  #   client.superapp? or resource_owner.admin?
-  # end
+  skip_authorization do
+    true if pre_auth.scopes.map(&:to_sym).without(allowed_scopes_from_config.hidden_scopes).empty?
+  end
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another
