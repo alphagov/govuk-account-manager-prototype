@@ -4,16 +4,7 @@ A Prototype to explore how users might authenticate, authorise their data to be 
 
 ## Developer setup
 
-You can run the application locally with:
-
-```
-docker-compose up
-```
-
-### Prerequisites
-You must have the following installed:
-- Docker
-- Docker Compose
+Use [govuk-accounts-docker](https://github.com/alphagov/govuk-accounts-docker) to run this app together with the Attribute Service.
 
 ### Sending emails locally
 
@@ -32,29 +23,43 @@ The template should have a Message of `((body))` only.
 [development.rb]: config/environments/development.rb
 [your Notify service]: https://www.notifications.service.gov.uk/accounts
 
+### Running the tests
+
+You don't need govuk-accounts-docker to run the tests, a local postgres database is enough:
+
+```
+docker run --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=db -p 5432:5432 postgres:13
+```
+
+Set up your environment and create the database tables:
+
+```
+export TEST_DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/db"
+bundle exec rake db:migrate RAILS_ENV=test
+```
+
+Then you can run the tests with:
+
+```
+bundle exec rake
+```
+
 ## Deployment to GOV.UK via concourse
 
 Every commit to main is deployed to GOV.UK PaaS by [this concourse pipeline](https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-account-manager-prototype), which is configured in [concourse/pipeline.yml](/concourse/pipeline.yml).
 
 You will need to be logged into the GDS VPN to access concourse.
 
-The concourse pipeline has credentials for the govuk-forms-deployer user in GOV.UK PaaS. This user has the SpaceDeveloper role, so it can cf push the application.
+The concourse pipeline has credentials for the govuk-accounts-developers user in GOV.UK PaaS. This user has the SpaceDeveloper role, so it can `cf push` the application.
 
 ### Secrets
 
-Secrets are defined via the GDS cli and Concourse secrets manager,
+Secrets are defined via the [gds-cli](https://github.com/alphagov/gds-cli) and Concourse secrets manager.
 
 You can view live secrets with an authenticated cloud foundry command:
 `cf env govuk-account-manager`.
 
-Secrets are managed by Concourse secrets manager.
-Once added secret can be called using a double parenthesis syntax.
-
-You can see examples called as params for instance in the [deploy-app task](https://github.com/alphagov/govuk-account-manager-prototype/blob/main/concourse/pipeline.yaml#L25).
-
-Concourse can also set them during a deploy using cloud foundry commands (eg. [See here in deploy-to-govuk-pass.yml](https://github.com/alphagov/govuk-account-manager-prototype/blob/main/concourse/tasks/deploy-to-govuk-paas.yml#L48:L58))
-
-Adding or updating a secret can be done with Concourse secrets manager and the [GDS cli](https://docs.publishing.service.gov.uk/manual/get-started.html#3-install-gds-tooling)
+Adding or updating a secret can be done with Concourse secrets manager and the [GDS cli](https://docs.publishing.service.gov.uk/manual/get-started.html#3-install-gds-tooling).
 
 ```
 gds cd secrets add cd-govuk-tools govuk-account-manager-prototype/SECRET_NAME your_secret_value
@@ -69,7 +74,7 @@ gds cd secrets rm cd-govuk-tools govuk-account-manager-prototype/SECRET_NAME
 You would also need to unset it from the PaaS environment. Which you can do with this command:
 
 ```
- cf unset-env govuk-account-manager SECRET_NAME
+cf unset-env govuk-account-manager SECRET_NAME
 ```
 
 ## Creating a new OAuth application
@@ -84,8 +89,7 @@ docker exec -it ${container_id} rails console
 Then create a new `Doorkeeper::Application`:
 
 ```
-a = Doorkeeper::Application.new(name: "...", redirect_uri: "...", scopes: [...])
-a.save!
+a = Doorkeeper::Application.create!(name: "...", redirect_uri: "...", scopes: [...])
 puts "client id:     #{a.uid}"
 puts "client secret: #{a.secret}"
 ```
