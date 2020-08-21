@@ -4,16 +4,7 @@ A Prototype to explore how users might authenticate, authorise their data to be 
 
 ## Developer setup
 
-You can run the application locally with:
-
-```
-docker-compose up
-```
-
-### Prerequisites
-You must have the following installed:
-- Docker
-- Docker Compose
+Use [govuk-accounts-docker](https://github.com/alphagov/govuk-accounts-docker) to run this app together with the Attribute Service.
 
 ### Sending emails locally
 
@@ -31,6 +22,27 @@ The template should have a Message of `((body))` only.
 
 [development.rb]: config/environments/development.rb
 [your Notify service]: https://www.notifications.service.gov.uk/accounts
+
+### Running the tests
+
+You don't need govuk-accounts-docker to run the tests, a local postgres database is enough:
+
+```
+docker run --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=db -p 5432:5432 postgres:13
+```
+
+Set up your environment and create the database tables:
+
+```
+export TEST_DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/db"
+bundle exec rake db:migrate RAILS_ENV=test
+```
+
+Then you can run the tests with:
+
+```
+bundle exec rake
+```
 
 ## Deployment to GOV.UK via concourse
 
