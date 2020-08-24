@@ -23,4 +23,12 @@ unless Rails.env.production?
     uid: "barking-permit-id",
     secret: "barking-permit-secret",
   )
+
+  Doorkeeper::Application.create!(
+    name: "Transition Checker",
+    redirect_uri: "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
+    scopes: %i[email openid transition_checker],
+    uid: "transition-checker-id",
+    secret: "transition-checker-secret",
+  )
 end
