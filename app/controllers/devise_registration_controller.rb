@@ -28,7 +28,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 protected
 
   def after_update_path_for(_resource)
-    account_confirmation_email_sent_path
+    confirmation_sent_path
   end
 
   def after_sign_up_path_for(_resource)
