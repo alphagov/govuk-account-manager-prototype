@@ -29,7 +29,7 @@ RSpec.describe "new-password" do
     end
 
     it "sends an email" do
-      post account_password_path, params: params
+      post create_password_path, params: params
 
       follow_redirect!
 

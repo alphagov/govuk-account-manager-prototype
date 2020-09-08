@@ -28,14 +28,14 @@ class DeviseRegistrationController < Devise::RegistrationsController
 protected
 
   def after_update_path_for(_resource)
-    account_confirmation_email_sent_path
+    confirmation_email_sent_path
   end
 
-  def after_sign_up_path_for(_resource)
-    new_user_after_sign_up_path(previous_url: params[:previous_url])
+  def after_sign_up_path_for(resource)
+    new_user_after_sign_up_path(previous_url: params[:previous_url], email: resource.email)
   end
 
-  def after_inactive_sign_up_path_for(_resource)
-    new_user_after_sign_up_path(previous_url: params[:previous_url])
+  def after_inactive_sign_up_path_for(resource)
+    new_user_after_sign_up_path(previous_url: params[:previous_url], email: resource.email)
   end
 end

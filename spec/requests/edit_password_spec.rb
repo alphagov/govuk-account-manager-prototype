@@ -37,7 +37,7 @@ RSpec.describe "edit-password" do
     it "changes the user's password" do
       old_encrypted_password = user.encrypted_password
 
-      post account_password_path, params: params
+      post user_password_path, params: params
 
       follow_redirect!
 
@@ -49,7 +49,7 @@ RSpec.describe "edit-password" do
       let(:reset_password_token) { actual_reset_password_token + "-abc" }
 
       it "returns an error" do
-        post account_password_path, params: params
+        post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.reset_password_token.invalid"))
       end
@@ -59,7 +59,7 @@ RSpec.describe "edit-password" do
       let(:password) { "" }
 
       it "returns an error" do
-        post account_password_path, params: params
+        post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
       end
@@ -69,7 +69,7 @@ RSpec.describe "edit-password" do
       let(:password_confirmation) { "" }
 
       it "returns an error" do
-        post account_password_path, params: params
+        post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
@@ -79,7 +79,7 @@ RSpec.describe "edit-password" do
       let(:password_confirmation) { password + "-123" }
 
       it "returns an error" do
-        post account_password_path, params: params
+        post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
@@ -89,7 +89,7 @@ RSpec.describe "edit-password" do
       let(:password) { "qwerty1" }
 
       it "returns an error" do
-        post account_password_path, params: params
+        post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
       end
@@ -99,7 +99,7 @@ RSpec.describe "edit-password" do
       let(:password) { "qwertyui" }
 
       it "returns an error" do
-        post account_password_path, params: params
+        post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
       end

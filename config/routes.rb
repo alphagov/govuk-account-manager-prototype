@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  use_doorkeeper
-  use_doorkeeper_openid_connect
+  get "/", to: "welcome#show"
 
   devise_for :users, skip: :all
   devise_scope :user do
@@ -10,54 +9,65 @@ Rails.application.routes.draw do
     post "/login", to: "devise/sessions#create", as: :user_session
     get  "/logout", to: "devise/sessions#destroy", as: :destroy_user_session
 
-    get   "/account/password/new", to: "devise_passwords#new", as: :new_user_password
-    get   "/account/password/edit", to: "devise_passwords#edit", as: :edit_user_password
-    patch "/account/password", to: "devise_passwords#update", as: :user_password
-    put   "/account/password", to: "devise_passwords#update"
-    post  "/account/password", to: "devise_passwords#create", as: :create_password
-    get   "/account/reset-password", to: "devise_passwords#new", as: :reset_password
-    get   "/account/reset-password-sent", to: "devise_passwords#sent", as: :reset_password_sent
+    scope "/account" do
+      get    "/", to: "account#show", as: :user_root
+      patch  "/", to: "devise_registration#update", as: :user_registration
+      put    "/", to: "devise_registration#update"
+      delete "/", to: "devise_registration#destroy"
 
-    get  "/new-account", to: "devise_registration#new", as: :new_user_registration
-    post "/new-account", to: "devise_registration#create", as: :new_user_registration_post
-    get  "/new-account/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
-    get  "/new-account/welcome", to: "post_registration#show", as: :new_user_after_sign_up
+      get "/activity", to: "activity#show"
+      get "/your-data", to: "data_exchange#show"
+      get "/profile", to: "profile#show"
+      get "/manage", to: "devise_registration#edit", as: :edit_user_registration
 
-    get    "/account/manage", to: "devise_registration#edit", as: :edit_user_registration
-    patch  "/account", to: "devise_registration#update", as: :user_registration
-    put    "/account", to: "devise_registration#update"
-    delete "/account", to: "devise_registration#destroy"
+      scope "/password" do
+        patch "/", to: "devise_passwords#update", as: :user_password
+        put   "/", to: "devise_passwords#update"
+        post  "/", to: "devise_passwords#create", as: :create_password
 
-    get "/account/confirmation-email-sent", to: "devise_registration#confirmation_email_sent"
+        get "/new", to: "devise_passwords#new", as: :new_user_password
+        get "/edit", to: "devise_passwords#edit", as: :edit_user_password
 
-    get  "/account/confirmation/new", to: "devise/confirmations#new", as: :new_user_confirmation
-    get  "/account/confirmation", to: "devise/confirmations#show", as: :user_confirmation
-    post "/account/confirmation", to: "devise_confirmations#create"
-    get  "/account/confirmation-sent", to: "devise_confirmations#sent", as: :confirmation_sent
+        scope "/reset" do
+          get "/", to: "devise_passwords#new", as: :reset_password
+          get "/sent", to: "devise_passwords#sent", as: :reset_password_sent
+        end
+      end
 
-    get  "/account/unlock/new", to: "devise/unlocks#new", as: :new_user_unlock
-    get  "/account/unlock", to: "devise/unlocks#show", as: :user_unlock
-    post "/account/unlock", to: "devise/unlocks#create"
+      scope "/confirmation" do
+        get  "/", to: "devise_confirmations#show", as: :user_confirmation
+        post "/", to: "devise_confirmations#create"
+
+        get "/new", to: "devise_confirmations#new", as: :new_user_confirmation
+        get "/sent", to: "devise_registration#confirmation_email_sent", as: :confirmation_email_sent
+      end
+
+      scope "/unlock" do
+        get  "/", to: "devise/unlocks#show", as: :user_unlock
+        post "/", to: "devise/unlocks#create"
+        get  "/new", to: "devise/unlocks#new", as: :new_user_unlock
+      end
+    end
+
+    scope "/new-account" do
+      get  "/", to: "devise_registration#new", as: :new_user_registration
+      post "/", to: "devise_registration#create", as: :new_user_registration_post
+      get  "/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
+      get  "/welcome", to: "post_registration#show", as: :new_user_after_sign_up
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      get "/deanonymise-token", to: "deanonymise_token#show"
+      post "/register-client", to: "register_client#create"
+    end
   end
 
   mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 
-  get "/", to: "welcome#show"
-
-  get "/account", to: "account#show", as: :user_root
-
-  scope "/account" do
-    get "/activity", to: "activity#show"
-    get "/your-data", to: "data_exchange#show"
-    get "/profile", to: "profile#show"
-  end
-
-  scope "/api" do
-    scope "/v1" do
-      get "/deanonymise-token", to: "api_deanonymise_token#show"
-      post "/register-client", to: "api_register_client#create"
-    end
-  end
+  use_doorkeeper
+  use_doorkeeper_openid_connect
 
   get "/404", to: "standard_errors#not_found"
   get "/422", to: "standard_errors#unprocessable_entity"

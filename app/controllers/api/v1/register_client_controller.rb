@@ -1,4 +1,4 @@
-class ApiRegisterClientController < Doorkeeper::ApplicationController
+class Api::V1::RegisterClientController < Doorkeeper::ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
 
   respond_to :json

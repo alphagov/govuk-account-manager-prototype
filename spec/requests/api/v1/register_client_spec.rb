@@ -1,4 +1,8 @@
 RSpec.describe "/api/v1/register-client" do
+  before do
+    ENV["ENABLE_DYNAMIC_REGISTRATION"] = "1"
+  end
+
   let(:headers) do
     {
       "Accept": "application/json",
@@ -16,7 +20,7 @@ RSpec.describe "/api/v1/register-client" do
 
   context "with all required fields" do
     it "responds with the client id and secret" do
-      post register_client_path, params: payload.to_json, headers: headers
+      post api_v1_register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
@@ -32,7 +36,7 @@ RSpec.describe "/api/v1/register-client" do
       redirect_uris = ["http://foo1", "http://foo2"]
       payload[:redirect_uris] = redirect_uris
 
-      post register_client_path, params: payload.to_json, headers: headers
+      post api_v1_register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
@@ -48,7 +52,7 @@ RSpec.describe "/api/v1/register-client" do
     it "responds with 400 response code when value present but not pairwise" do
       payload[:subject_type] = "not_pairwise"
 
-      post register_client_path, params: payload.to_json, headers: headers
+      post api_v1_register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to have_http_status(400)
       expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
@@ -58,7 +62,7 @@ RSpec.describe "/api/v1/register-client" do
     end
 
     it "responds with the client id and secret when value not present" do
-      post register_client_path, params: payload.except(:subject_type).to_json, headers: headers
+      post api_v1_register_client_path, params: payload.except(:subject_type).to_json, headers: headers
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
@@ -73,7 +77,7 @@ RSpec.describe "/api/v1/register-client" do
     it "responds with the client id and secret" do
       payload[:redirect_uris] = "http://foo"
 
-      post register_client_path, params: payload.to_json, headers: headers
+      post api_v1_register_client_path, params: payload.to_json, headers: headers
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
@@ -86,7 +90,7 @@ RSpec.describe "/api/v1/register-client" do
 
   context "without redirect_uris value" do
     it "responds with 400 response code" do
-      post register_client_path, params: payload.except(:redirect_uris).to_json, headers: headers
+      post api_v1_register_client_path, params: payload.except(:redirect_uris).to_json, headers: headers
 
       expect(response).to have_http_status(400)
       expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
@@ -108,7 +112,7 @@ RSpec.describe "/api/v1/register-client" do
       it "responds with the client id, secret and optional fields when #{field} present" do
         payload[field] = "some_string"
 
-        post register_client_path, params: payload.to_json, headers: headers
+        post api_v1_register_client_path, params: payload.to_json, headers: headers
 
         expect(response).to be_successful
 
@@ -131,7 +135,7 @@ RSpec.describe "/api/v1/register-client" do
       it "responds with the client id, secret and optional fields when #{field} present" do
         payload[field] = %w[some_string another_string]
 
-        post register_client_path, params: payload.to_json, headers: headers
+        post api_v1_register_client_path, params: payload.to_json, headers: headers
 
         expect(response).to be_successful
 
@@ -147,10 +151,10 @@ RSpec.describe "/api/v1/register-client" do
 
     context "when trying to register a duplicated client name" do
       it "responds with 400 response code for the second request" do
-        post register_client_path, params: payload.to_json, headers: headers
+        post api_v1_register_client_path, params: payload.to_json, headers: headers
         expect(response).to be_successful
 
-        post register_client_path, params: payload.to_json, headers: headers
+        post api_v1_register_client_path, params: payload.to_json, headers: headers
         expect(response).to have_http_status(400)
         expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
           error: "invalid_client_name",
