@@ -53,7 +53,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
 
   context "with a privileged bearer token" do
     it "can deanonymise tokens" do
-      get deanonymise_token_path, params: params, headers: headers
+      get api_v1_deanonymise_token_path, params: params, headers: headers
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
         pairwise_subject_identifier: Doorkeeper::OpenidConnect::UserInfo.new(check_token).claims[:sub],
@@ -74,7 +74,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
       end
 
       it "throws a 410" do
-        get deanonymise_token_path, params: params, headers: headers
+        get api_v1_deanonymise_token_path, params: params, headers: headers
         expect(response).to have_http_status(410)
       end
     end
@@ -87,14 +87,14 @@ RSpec.describe "/api/v1/deanonymise-token" do
       end
 
       it "throws a 404" do
-        get deanonymise_token_path, params: params, headers: headers
+        get api_v1_deanonymise_token_path, params: params, headers: headers
         expect(response).to have_http_status(404)
       end
     end
 
     context "with no check token" do
       it "throws a 400" do
-        get deanonymise_token_path, headers: headers
+        get api_v1_deanonymise_token_path, headers: headers
         expect(response).to have_http_status(400)
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
     let(:bearer_token) { unprivileged_token }
 
     it "throws a 403" do
-      get deanonymise_token_path, params: params, headers: headers
+      get api_v1_deanonymise_token_path, params: params, headers: headers
       expect(response).to have_http_status(403)
     end
   end

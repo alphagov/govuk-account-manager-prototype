@@ -1,4 +1,4 @@
-class ApiDeanonymiseTokenController < Doorkeeper::ApplicationController
+class Api::V1::DeanonymiseTokenController < Doorkeeper::ApplicationController
   before_action -> { doorkeeper_authorize! :deanonymise_tokens }
 
   respond_to :json

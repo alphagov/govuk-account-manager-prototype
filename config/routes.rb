@@ -57,10 +57,10 @@ Rails.application.routes.draw do
     end
   end
 
-  scope "/api" do
-    scope "/v1" do
-      get "/deanonymise-token", to: "api_deanonymise_token#show"
-      post "/register-client", to: "api_register_client#create"
+  namespace :api do
+    namespace :v1 do
+      get "/deanonymise-token", to: "deanonymise_token#show"
+      post "/register-client", to: "register_client#create"
     end
   end
 
