@@ -1,4 +1,8 @@
 RSpec.describe PostRegistrationHelper, type: :helper do
+  before do
+    ENV["ENABLE_DYNAMIC_REGISTRATION"] = "1"
+  end
+
   describe "#service_name_for" do
     let(:application) do
       FactoryBot.create(

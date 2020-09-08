@@ -18,6 +18,13 @@ class ApiRegisterClientController < Doorkeeper::ApplicationController
   end
 
   def create
+    unless ENV["ENABLE_DYNAMIC_REGISTRATION"]
+      render status: :forbidden, json: {
+        error: "forbidden",
+        error_description: "Dynamic client registration API is disabled",
+      } and return
+    end
+
     if params["subject_type"].present? && params["subject_type"] != "pairwise"
       render status: :bad_request, json: {
         error: "unacceptable_subject_type",
