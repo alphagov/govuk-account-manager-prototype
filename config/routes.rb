@@ -27,10 +27,12 @@ Rails.application.routes.draw do
 
         get "/new", to: "devise_passwords#new", as: :new_user_password
         get "/edit", to: "devise_passwords#edit", as: :edit_user_password
-      end
 
-      get "/reset-password", to: "devise_passwords#new", as: :reset_password
-      get "/reset-password-sent", to: "devise_passwords#sent", as: :reset_password_sent
+        scope "/reset" do
+          get "/", to: "devise_passwords#new", as: :reset_password
+          get "/sent", to: "devise_passwords#sent", as: :reset_password_sent
+        end
+      end
 
       scope "/confirmation" do
         get  "/", to: "devise/confirmations#show", as: :user_confirmation
