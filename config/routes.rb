@@ -37,10 +37,8 @@ Rails.application.routes.draw do
         post "/", to: "devise_confirmations#create"
 
         get "/new", to: "devise/confirmations#new", as: :new_user_confirmation
+        get "/sent", to: "devise_registration#confirmation_email_sent", as: :confirmation_email_sent
       end
-
-      get "/confirmation-sent", to: "devise_confirmations#sent", as: :confirmation_sent
-      get "/confirmation-email-sent", to: "devise_registration#confirmation_email_sent"
 
       scope "/unlock" do
         get  "/", to: "devise/unlocks#show", as: :user_unlock
