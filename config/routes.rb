@@ -35,10 +35,10 @@ Rails.application.routes.draw do
       end
 
       scope "/confirmation" do
-        get  "/", to: "devise/confirmations#show", as: :user_confirmation
+        get  "/", to: "devise_confirmations#show", as: :user_confirmation
         post "/", to: "devise_confirmations#create"
 
-        get "/new", to: "devise/confirmations#new", as: :new_user_confirmation
+        get "/new", to: "devise_confirmations#new", as: :new_user_confirmation
         get "/sent", to: "devise_registration#confirmation_email_sent", as: :confirmation_email_sent
       end
 
