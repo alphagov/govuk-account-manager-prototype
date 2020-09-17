@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post "/", to: "welcome#show"
 
     get "/feedback", to: "feedback#show"
+    post "/feedback", to: "feedback#submit"
 
     post "/login", to: "devise_sessions#create", as: :user_session
     get  "/logout", to: "devise_sessions#destroy", as: :destroy_user_session
