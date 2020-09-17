@@ -94,6 +94,7 @@ en:
         label: "Start"
   feedback:
     title: "Contact GOV.UK Accounts support"
+    email_subject: "GOV.UK Accounts Feedback"
     fields:
       email:
         label: "Email Address"

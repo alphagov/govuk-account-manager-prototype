@@ -16,6 +16,21 @@ RSpec.describe "feedback" do
       }
     end
 
+    let(:ticket_attributes) do
+      {
+        subject: I18n.t("feedback.email_subject"),
+        email: params["email"],
+        comments: params["comments"],
+        response_required: params["response_required"].humanize,
+      }
+    end
+
+    it "creates a Zendesk ticket when all required fields present" do
+      expect(Zendesk::Ticket).to receive(:new).once.with(ticket_attributes)
+
+      post feedback_path, params: params
+    end
+
     %w[comments email response_required].each do |field|
       it "shows an error when required field #{field} is missing" do
         post feedback_path, params: params.except(field)

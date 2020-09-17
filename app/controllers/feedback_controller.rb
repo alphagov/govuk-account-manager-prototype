@@ -1,3 +1,5 @@
+require "zendesk/ticket"
+
 class FeedbackController < ApplicationController
   REQUIRED_FIELDS = %w[comments email response_required].freeze
 
@@ -11,7 +13,17 @@ class FeedbackController < ApplicationController
 
     unless errors.empty?
       flash.now[:validation] = errors
-      render "show"
+      return render "show"
     end
+
+    ticket_attributes = {
+      subject: I18n.t("feedback.email_subject"),
+      email: params[:email],
+      comments: params[:comments],
+      response_required: params[:response_required].humanize,
+    }
+
+    ticket = Zendesk::Ticket.new(ticket_attributes).attributes
+    GDS_ZENDESK_CLIENT.ticket.create!(ticket)
   end
 end
