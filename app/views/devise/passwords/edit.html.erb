@@ -19,7 +19,7 @@
         name: "user[password]",
         type: "password",
         id: "password",
-        error_message: error_items(:password),
+        error_message: devise_error_items(:password),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -29,7 +29,7 @@
         name: "user[password_confirmation]",
         type: "password",
         id: "password_confirmation",
-        error_message: error_items(:password_confirmation),
+        error_message: devise_error_items(:password_confirmation),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

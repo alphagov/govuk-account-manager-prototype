@@ -1,5 +1,5 @@
 module ErrorItemsHelper
-  def error_items(field)
+  def devise_error_items(field)
     return nil unless resource
 
     all_errors = resource.errors.messages.map do |id, errors|
