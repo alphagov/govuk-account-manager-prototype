@@ -1,0 +1,51 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("feedback.title"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <%= form_tag do %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("feedback.fields.email.label"),
+        },
+        name: "email",
+        type: "email",
+        id: "email",
+      } %>
+
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: t("feedback.fields.comments.label"),
+        },
+        name: "comments",
+        id: "comments",
+      } %>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        heading: t("feedback.fields.response_required.label"),
+        items: [
+          {
+            value: "yes",
+            text: t("feedback.fields.response_required.options.option_yes.label")
+          },
+          {
+            value: "no",
+            text: t("feedback.fields.response_required.options.option_no.label")
+          },
+        ],
+        name: "response_required",
+        id: "response_required",
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("feedback.fields.submit.label"),
+        margin_bottom: 3,
+      } %>
+    <% end %>
+  </div>
+</div>
