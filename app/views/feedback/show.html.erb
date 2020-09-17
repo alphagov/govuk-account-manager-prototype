@@ -16,6 +16,7 @@
         name: "email",
         type: "email",
         id: "email",
+        error_message: error_items("email"),
       } %>
 
       <%= render "govuk_publishing_components/components/textarea", {
@@ -24,6 +25,7 @@
         },
         name: "comments",
         id: "comments",
+        error_message: error_items("comments"),
       } %>
 
       <%= render "govuk_publishing_components/components/radio", {
@@ -40,6 +42,7 @@
         ],
         name: "response_required",
         id: "response_required",
+        error_message: error_items("response_required"),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

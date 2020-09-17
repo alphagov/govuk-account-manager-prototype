@@ -92,6 +92,25 @@ en:
             format: "Please include an '@' in the email address"
       button:
         label: "Start"
+  feedback:
+    title: "Contact GOV.UK Accounts support"
+    fields:
+      email:
+        label: "Email Address"
+        not_present_error: "Enter your email address"
+      comments:
+        label: "Comments"
+        not_present_error: "Enter your comments"
+      response_required:
+        label: "Do you need a response?"
+        options:
+          option_yes:
+            label: "Yes"
+          option_no:
+            label: "No"
+        not_present_error: "Select if you would like a response"
+      submit:
+        label: "Submit"
   update_registration:
     title: "Check your email"
     instructions: |
