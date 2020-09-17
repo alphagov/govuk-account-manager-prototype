@@ -1,14 +1,5 @@
 RSpec.describe "register" do
   include ActiveJob::TestHelper
-
-  describe "GET" do
-    it "renders the form" do
-      get new_user_registration_path
-
-      expect(response.body).to have_content(I18n.t("devise.registrations.new.title"))
-    end
-  end
-
   describe "POST" do
     let(:params) do
       {
