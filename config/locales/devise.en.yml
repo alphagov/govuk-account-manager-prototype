@@ -191,6 +191,7 @@ en:
             email:
               blank: "Enter your email address"
               invalid: "Enter a valid email address"
+              taken: "Email address has already been taken"
             password:
               blank: "Enter a valid password"
               invalid: "Enter a valid password"
