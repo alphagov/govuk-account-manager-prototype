@@ -17,8 +17,17 @@ class ScopeDefinition
     scopes[:hidden_scopes].map(&:to_sym)
   end
 
+  def jwt_attributes_and_scopes
+    the_scopes = scopes[:jwt_attributes_and_scopes].symbolize_keys.transform_values { |v| v.map(&:to_sym) }
+    the_scopes.merge(development_attributes_and_scopes)
+  end
+
   def development_scopes
     Rails.env.production? ? [] : %i[test_scope_read test_scope_write]
+  end
+
+  def development_attributes_and_scopes
+    Rails.env.production? ? {} : { test: %i[test_scope_write] }
   end
 
 private

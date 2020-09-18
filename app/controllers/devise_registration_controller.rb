@@ -1,4 +1,9 @@
 class DeviseRegistrationController < Devise::RegistrationsController
+  def create
+    ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+    super
+  end
+
   # from https://github.com/heartcombo/devise/blob/f5cc775a5feea51355036175994edbcb5e6af13c/app/controllers/devise/registrations_controller.rb#L46
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)

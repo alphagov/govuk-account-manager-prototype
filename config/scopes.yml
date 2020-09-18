@@ -9,3 +9,4 @@ optional_scopes:
 hidden_scopes:
   - openid
   - transition_checker
+jwt_attributes_and_scopes: {}
