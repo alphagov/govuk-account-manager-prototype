@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:show]
+
   def show
     @email = params.dig(:user, :email)
     if @email
