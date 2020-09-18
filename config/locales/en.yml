@@ -111,6 +111,7 @@ en:
         not_present_error: "Select if you would like a response"
       submit:
         label: "Submit"
+    sent: "Your feedback has been sent. If you asked for a reply, we will contact you soon."
   update_registration:
     title: "Check your email"
     instructions: |
