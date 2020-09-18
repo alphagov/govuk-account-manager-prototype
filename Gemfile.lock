@@ -362,6 +362,7 @@ DEPENDENCIES
   geocoder
   govuk_publishing_components (= 21.66.2)
   govuk_test (~> 1.0)
+  jwt
   listen (~> 3.2)
   notifications-ruby-client (~> 5.3)
   pg
