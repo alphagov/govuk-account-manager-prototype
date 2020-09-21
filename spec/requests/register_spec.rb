@@ -1,14 +1,5 @@
 RSpec.describe "register" do
   include ActiveJob::TestHelper
-
-  describe "GET" do
-    it "renders the form" do
-      get new_user_registration_path
-
-      expect(response.body).to have_content(I18n.t("devise.registrations.new.title"))
-    end
-  end
-
   describe "POST" do
     let(:params) do
       {
@@ -23,7 +14,7 @@ RSpec.describe "register" do
     let(:password_confirmation) { password }
 
     it "creates a user" do
-      post new_user_registration_path, params: params
+      post new_user_registration_post_path, params: params
 
       follow_redirect!
 
@@ -35,7 +26,7 @@ RSpec.describe "register" do
     end
 
     it "sends an email" do
-      post new_user_registration_path, params: params
+      post new_user_registration_post_path, params: params
 
       follow_redirect!
 
@@ -49,7 +40,7 @@ RSpec.describe "register" do
       let(:email) { "" }
 
       it "shows an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
       end
@@ -59,7 +50,7 @@ RSpec.describe "register" do
       let(:email) { "foo" }
 
       it "shows an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
       end
@@ -69,7 +60,7 @@ RSpec.describe "register" do
       let(:password) { "" }
 
       it "returns an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
       end
@@ -79,7 +70,7 @@ RSpec.describe "register" do
       let(:password_confirmation) { "" }
 
       it "returns an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
@@ -89,7 +80,7 @@ RSpec.describe "register" do
       let(:password_confirmation) { password + "-123" }
 
       it "returns an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
@@ -99,7 +90,7 @@ RSpec.describe "register" do
       let(:password) { "qwerty1" }
 
       it "returns an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
       end
@@ -109,7 +100,7 @@ RSpec.describe "register" do
       let(:password) { "qwertyui" }
 
       it "returns an error" do
-        post new_user_registration_path, params: params
+        post new_user_registration_post_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
       end

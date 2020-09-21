@@ -7,21 +7,13 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do %>
-      <%= render "devise/shared/error_messages", resource: resource, previous_url: params[:previous_url] %>
+    <%= form_with(url: user_session_path) do %>
+      <% if resource %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+      <% end %>
 
+      <%= hidden_field_tag :"user[email]", params.dig(:user, :email) %>
       <%= hidden_field_tag :previous_url, params[:previous_url] %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: t("devise.sessions.new.fields.email.label"),
-        },
-        name: "user[email]",
-        type: "email",
-        id: "email",
-        value: @email,
-        error_message: error_items(:email),
-      } %>
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
@@ -30,7 +22,7 @@
         name: "user[password]",
         type: "password",
         id: "password",
-        error_message: error_items(:password),
+        error_message: @password_error_message,
       } %>
 
       <% if devise_mapping.rememberable? %>
@@ -46,13 +38,11 @@
       <% end %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("devise.registrations.new.fields.submit.label"),
+        text: t("devise.sessions.new.fields.submit.label"),
         margin_bottom: 3,
       } %>
     <% end %>
 
     <%= sanitize(t("devise.sessions.new.reset_password", reset_password: reset_password_path)) %>
-
-    <%= sanitize(t("devise.sessions.new.register", register: new_user_registration_path(previous_url: params[:previous_url]))) %>
   </div>
 </div>

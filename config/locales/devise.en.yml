@@ -119,7 +119,7 @@ en:
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
       new:
-        title: "Create a GOV.UK account"
+        title: "Create password"
         fields:
           email:
             label: "Enter your email address"
@@ -157,12 +157,15 @@ en:
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
       new:
-        title: "Log in"
+        title: "Enter password"
         fields:
           email:
             label: "Email address"
           password:
             label: "Password"
+            errors:
+              incorrect: "Password is incorrect."
+              locked: "This account has been locked."
           remember:
             label: "Remember me"
           submit:
@@ -189,6 +192,7 @@ en:
             email:
               blank: "Enter your email address"
               invalid: "Enter a valid email address"
+              taken: "Email address has already been taken"
             password:
               blank: "Enter a valid password"
               invalid: "Enter a valid password"

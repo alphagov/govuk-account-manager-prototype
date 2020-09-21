@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get "/", to: "welcome#show"
-
   devise_for :users, skip: :all
   devise_scope :user do
-    get  "/login", to: "devise/sessions#new", as: :new_user_session
-    post "/login", to: "devise/sessions#create", as: :user_session
-    get  "/logout", to: "devise/sessions#destroy", as: :destroy_user_session
+    get "/", to: "welcome#show", as: :new_user_session
+
+    post "/login", to: "devise_sessions#create", as: :user_session
+    get  "/logout", to: "devise_sessions#destroy", as: :destroy_user_session
 
     scope "/account" do
       get    "/", to: "account#show", as: :user_root
@@ -50,7 +49,6 @@ Rails.application.routes.draw do
     end
 
     scope "/new-account" do
-      get  "/", to: "devise_registration#new", as: :new_user_registration
       post "/", to: "devise_registration#create", as: :new_user_registration_post
       get  "/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
       get  "/welcome", to: "post_registration#show", as: :new_user_after_sign_up

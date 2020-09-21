@@ -7,21 +7,13 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_for(resource, as: resource_name, url: new_user_registration_post_path) do %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_with(url: new_user_registration_post_path) do %>
+      <% if resource %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+      <% end %>
 
+      <%= hidden_field_tag :"user[email]", params.dig(:user, :email) %>
       <%= hidden_field_tag :previous_url, params[:previous_url] %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: t("devise.registrations.new.fields.email.label"),
-        },
-        name: "user[email]",
-        type: "email",
-        id: "email",
-        value: @email,
-        error_message: error_items(:email),
-      } %>
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
@@ -46,12 +38,7 @@
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.new.fields.submit.label"),
-        margin_bottom: 3,
       } %>
     <% end %>
-
-    <p class="govuk-body">
-      <%= sanitize(t("devise.registrations.new.sign_in", login_url: new_session_path(resource_name))) %>
-    </p>
   </div>
 </div>

@@ -9,13 +9,24 @@
 
     <%= sanitize(t("welcome.show.content")) %>
 
-    <%= render "govuk_publishing_components/components/button", {
-      text: t("welcome.show.button.label"),
-      href: new_user_registration_path,
-      start: true,
-      margin_bottom: 3,
-    } %>
+    <%= form_with(method: :get) do %>
+      <%= hidden_field_tag :previous_url, params[:previous_url] %>
 
-    <%= sanitize(t("welcome.show.action", link: user_root_path)) %>
+      <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("welcome.show.fields.email.label"),
+          },
+          name: "user[email]",
+          type: "email",
+          id: "email",
+          value: @email,
+          error_message: @email_error_message,
+        } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("welcome.show.button.label"),
+        start: true,
+      } %>
+    <% end %>
   </div>
 </div>
