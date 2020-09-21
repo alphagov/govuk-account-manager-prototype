@@ -1,5 +1,3 @@
-require "zendesk/ticket"
-
 class FeedbackController < ApplicationController
   REQUIRED_FIELDS = %w[comments email response_required].freeze
 
@@ -23,7 +21,6 @@ class FeedbackController < ApplicationController
       response_required: params[:response_required].humanize,
     }
 
-    ticket = Zendesk::Ticket.new(ticket_attributes).attributes
-    GDS_ZENDESK_CLIENT.ticket.create!(ticket)
+    ZendeskTicketWorker.perform_async(ticket_attributes)
   end
 end

@@ -25,8 +25,8 @@ RSpec.describe "feedback" do
       }
     end
 
-    it "creates a Zendesk ticket when all required fields present" do
-      expect(Zendesk::Ticket).to receive(:new).once.with(ticket_attributes)
+    it "queues a worker when all required fields present" do
+      expect(ZendeskTicketWorker).to receive(:perform_async).once.with(ticket_attributes)
 
       post feedback_path, params: params
     end
