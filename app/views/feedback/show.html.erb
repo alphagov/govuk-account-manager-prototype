@@ -17,6 +17,7 @@
         type: "email",
         id: "email",
         error_message: error_items("email"),
+        value: @form_responses[:email],
       } %>
 
       <%= render "govuk_publishing_components/components/textarea", {
@@ -26,6 +27,7 @@
         name: "comments",
         id: "comments",
         error_message: error_items("comments"),
+        value: @form_responses[:comments],
       } %>
 
       <%= render "govuk_publishing_components/components/radio", {
@@ -33,11 +35,13 @@
         items: [
           {
             value: "yes",
-            text: t("feedback.fields.response_required.options.option_yes.label")
+            text: t("feedback.fields.response_required.options.option_yes.label"),
+            checked: @form_responses[:response_required] == "yes",
           },
           {
             value: "no",
-            text: t("feedback.fields.response_required.options.option_no.label")
+            text: t("feedback.fields.response_required.options.option_no.label"),
+            checked: @form_responses[:response_required] == "no",
           },
         ],
         name: "response_required",
