@@ -1,5 +1,7 @@
 class DeviseSessionsController < Devise::SessionsController
   def create
+    ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+
     self.resource = warden.authenticate(auth_options)
     if resource
       # from https://github.com/heartcombo/devise/blob/45b831c4ea5a35914037bd27fe88b76d7b3683a4/app/controllers/devise/sessions_controller.rb#L18

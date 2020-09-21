@@ -5,11 +5,13 @@ source "https://rubygems.org"
 ruby File.read(".ruby-version").strip
 
 gem "bootsnap", ">= 1.4.2"
+gem "composite_primary_keys", "~> 12.0.0"
 gem "devise"
 gem "doorkeeper"
 gem "doorkeeper-openid_connect"
 gem "geocoder"
 gem "govuk_publishing_components", "21.66.2"
+gem "jwt"
 gem "notifications-ruby-client", "~> 5.3"
 gem "pg"
 gem "puma", "~> 4.3"

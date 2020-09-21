@@ -9,8 +9,13 @@
 
     <%= sanitize(t("welcome.show.content")) %>
 
-    <%= form_with(method: :get) do %>
-      <%= hidden_field_tag :previous_url, params[:previous_url] %>
+    <%= form_with(method: :post) do %>
+      <% if params[:previous_url] %>
+        <%= hidden_field_tag :previous_url, params[:previous_url] %>
+      <% end %>
+      <% if params[:jwt] %>
+        <%= hidden_field_tag :jwt, params[:jwt] %>
+      <% end %>
 
       <%= render "govuk_publishing_components/components/input", {
           label: {

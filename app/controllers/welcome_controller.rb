@@ -1,5 +1,9 @@
 class WelcomeController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:show]
+
   def show
+    ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+
     @email = params.dig(:user, :email)
     if @email
       if Devise.email_regexp.match? @email
