@@ -137,7 +137,7 @@ jobs:
         file: git-main/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager-staging.london.cloudapps.digital/new-account'
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager-staging.london.cloudapps.digital/'
           MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack
@@ -190,7 +190,7 @@ jobs:
         file: git-main/concourse/tasks/ping-smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.london.cloudapps.digital/new-account'
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@govuk-account-manager.london.cloudapps.digital/'
           MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack
