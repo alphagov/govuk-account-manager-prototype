@@ -165,6 +165,7 @@ en:
             label: "Password"
             errors:
               incorrect: "Password is incorrect."
+              locked: "This account has been locked."
           remember:
             label: "Remember me"
           submit:

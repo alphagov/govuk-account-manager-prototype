@@ -9,6 +9,13 @@ class DeviseSessionsController < Devise::SessionsController
       respond_with resource, location: after_sign_in_path_for(resource)
     else
       @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.incorrect")
+      begin
+        user = User.find_by(email: params.dig(:user, :email))
+        if user.locked_at?
+          @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.locked")
+        end
+      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
+      end
       render :new
     end
   end
