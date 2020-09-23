@@ -30,12 +30,18 @@ class ApplicationKey < ApplicationRecord
       raise InvalidScopes unless application.includes_scope?(scope)
     end
 
-    payload.fetch("attributes", {}).each_key do |attribute|
-      allowed_write_scopes = ScopeDefinition.new.jwt_attributes_and_scopes.fetch(attribute.to_sym, [])
+    attributes = payload.fetch("attributes", {}).transform_keys(&:to_sym)
+    attributes.each_key do |attribute|
+      allowed_write_scopes = ScopeDefinition.new.jwt_attributes_and_scopes.fetch(attribute, [])
       raise InsufficientScopes unless scopes.any? { |scope| allowed_write_scopes.include? scope }
     end
 
-    true
+    {
+      application: application,
+      signing_key: signing_key,
+      scopes: scopes,
+      attributes: attributes,
+    }
   rescue JWT::DecodeError
     raise JWTDecodeError
   rescue ActiveRecord::RecordNotFound
