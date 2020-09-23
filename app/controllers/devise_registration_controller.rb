@@ -1,7 +1,25 @@
 class DeviseRegistrationController < Devise::RegistrationsController
   def create
-    ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
-    super
+    unless params[:jwt]
+      super
+      return
+    end
+
+    payload = ApplicationKey.validate_jwt!(params[:jwt])
+
+    super do |resource|
+      next unless resource.persisted?
+      next if payload[:scopes].empty?
+
+      token = Doorkeeper::AccessToken.create!(
+        resource_owner_id: resource.id,
+        application_id: payload[:application].id,
+        expires_in: Doorkeeper.config.access_token_expires_in,
+        scopes: payload[:scopes],
+      )
+
+      SetAttributesJob.perform_later(token.id, payload[:attributes])
+    end
   end
 
   # from https://github.com/heartcombo/devise/blob/f5cc775a5feea51355036175994edbcb5e6af13c/app/controllers/devise/registrations_controller.rb#L46
