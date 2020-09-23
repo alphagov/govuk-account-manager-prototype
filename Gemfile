@@ -32,7 +32,7 @@ group :development, :test do
 end
 
 group :test do
-  gem "govuk_test", "~> 1.0"
+  gem "govuk_test", "~> 2.0"
   gem "simplecov"
   gem "timecop"
   gem "webmock"
