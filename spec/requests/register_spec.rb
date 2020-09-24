@@ -112,7 +112,7 @@ RSpec.describe "register" do
           :oauth_application,
           name: "name",
           redirect_uri: "http://localhost",
-          scopes: %i[test_scope_write],
+          scopes: %i[test_scope_read test_scope_write],
         )
       end
 
@@ -170,6 +170,30 @@ RSpec.describe "register" do
         expect(response).to be_successful
 
         assert_enqueued_jobs 1, only: SetAttributesJob
+      end
+
+      context "if the user auths through the application again" do
+        before do
+          post new_user_registration_post_path, params: params
+        end
+
+        it "doesn't prompt for consent" do
+          client = OAuth2::Client.new(application.uid, application.secret, site: "https://example.org")
+          uri = client.auth_code.authorize_url(redirect_uri: application.redirect_uri, scope: jwt_scopes.join(" "))
+          params = Rack::Utils.parse_nested_query(URI(uri).query)
+          get oauth_authorization_path, params: params
+          expect(response).to have_http_status(302)
+        end
+
+        context "with more scopes" do
+          it "prompts for consent" do
+            client = OAuth2::Client.new(application.uid, application.secret, site: "https://example.org")
+            uri = client.auth_code.authorize_url(redirect_uri: application.redirect_uri, scope: "test_scope_read")
+            params = Rack::Utils.parse_nested_query(URI(uri).query)
+            get oauth_authorization_path, params: params
+            expect(response).to have_http_status(200)
+          end
+        end
       end
 
       context "no scopes are requested" do
