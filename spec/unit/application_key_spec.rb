@@ -50,7 +50,9 @@ RSpec.describe ApplicationKey, type: :unit do
     end
 
     it "accepts" do
-      expect(ApplicationKey.validate_jwt!(jwt)).to be(true)
+      expect(ApplicationKey.validate_jwt!(jwt)).to include(:application, :signing_key, scopes: jwt_scopes, attributes: jwt_attributes)
+      expect(ApplicationKey.validate_jwt!(jwt)[:application].uid).to eq(jwt_uid)
+      expect(ApplicationKey.validate_jwt!(jwt)[:signing_key].to_key.to_pem).to eq(public_key.to_pem)
     end
 
     context "the JWT is missing a UID" do
