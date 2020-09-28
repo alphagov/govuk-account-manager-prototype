@@ -112,7 +112,7 @@ GEM
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.13.1)
-    gds_zendesk (3.1.0)
+    gds_zendesk (3.2.0)
       null_logger (~> 0)
       zendesk_api (~> 1.27)
     geocoder (1.6.3)
@@ -363,7 +363,7 @@ DEPENDENCIES
   doorkeeper-openid_connect
   dotenv-rails
   factory_bot_rails
-  gds_zendesk (~> 3.1)
+  gds_zendesk (~> 3.2)
   geocoder
   govuk_publishing_components (= 21.67.2)
   govuk_test (~> 2.0)
