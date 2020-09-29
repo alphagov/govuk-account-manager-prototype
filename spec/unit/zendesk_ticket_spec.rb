@@ -3,6 +3,7 @@ RSpec.describe Zendesk::Ticket, type: :unit do
     let(:ticket_attributes) do
       {
         subject: "Support Request",
+        name: "A Person",
         email: "someone@digital.cabinet-office.gov.uk",
         comments: "This site is awesome",
         response_required: "No",
@@ -18,6 +19,7 @@ RSpec.describe Zendesk::Ticket, type: :unit do
         "requester" => {
           "locale_id" => 1,
           "email" => "someone@digital.cabinet-office.gov.uk",
+          "name" => "A Person",
         },
         "comment" => {
           "body" => "[Details]\nThis site is awesome\n\n[Response Required]\nNo\n",

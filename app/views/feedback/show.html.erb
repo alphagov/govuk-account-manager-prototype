@@ -11,6 +11,17 @@
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
+          text: t("feedback.fields.name.label"),
+        },
+        name: "name",
+        type: "name",
+        id: "name",
+        error_message: error_items("name"),
+        value: @form_responses[:name],
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
           text: t("feedback.fields.email.label"),
         },
         name: "email",

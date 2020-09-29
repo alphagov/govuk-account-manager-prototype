@@ -9,7 +9,7 @@ module Zendesk
     def attributes
       {
         "subject" => @contact[:subject],
-        "requester" => { "locale_id" => 1, "email" => @contact[:email] },
+        "requester" => { "locale_id" => 1, "email" => @contact[:email], "name" => @contact[:name] },
         "comment" => { "body" => rendered_body },
       }
     end

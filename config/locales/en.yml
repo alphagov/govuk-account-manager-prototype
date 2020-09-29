@@ -96,6 +96,9 @@ en:
     title: "Contact GOV.UK Accounts support"
     email_subject: "GOV.UK Accounts Feedback"
     fields:
+      name:
+        label: "Name"
+        not_present_error: "Enter your name"
       email:
         label: "Email Address"
         not_present_error: "Enter your email address"

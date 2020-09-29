@@ -1,5 +1,5 @@
 class FeedbackController < ApplicationController
-  REQUIRED_FIELDS = %w[comments email response_required].freeze
+  REQUIRED_FIELDS = %w[comments name email response_required].freeze
 
   def show
     @form_responses = {}
@@ -7,6 +7,7 @@ class FeedbackController < ApplicationController
 
   def submit
     @form_responses = {
+      name: strip_tags(params[:name]).presence,
       email: strip_tags(params[:email]).presence,
       comments: strip_tags(params[:comments]).presence,
       response_required: strip_tags(params[:response_required]).presence,
@@ -24,6 +25,7 @@ class FeedbackController < ApplicationController
 
     ticket_attributes = {
       subject: I18n.t("feedback.email_subject"),
+      name: @form_responses[:name],
       email: @form_responses[:email],
       comments: @form_responses[:comments],
       response_required: @form_responses[:response_required].humanize,

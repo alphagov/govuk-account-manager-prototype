@@ -10,6 +10,7 @@ RSpec.describe "feedback" do
   describe "POST" do
     let(:params) do
       {
+        "name" => "A Person",
         "email" => "user@digital.cabinet-office.gov.uk",
         "comments" => "This website is amazing",
         "response_required" => "yes",
@@ -19,6 +20,7 @@ RSpec.describe "feedback" do
     let(:ticket_attributes) do
       {
         subject: I18n.t("feedback.email_subject"),
+        name: params["name"],
         email: params["email"],
         comments: params["comments"],
         response_required: params["response_required"].humanize,
@@ -40,6 +42,12 @@ RSpec.describe "feedback" do
 
           expect(response.body).to have_content(I18n.t("feedback.fields.#{field}.not_present_error"))
         end
+      end
+
+      it "replays sanitized response for name" do
+        post feedback_path, params: { name: "<script>alert()</script>A Person" }
+
+        expect(response.body).to have_selector("input[name='name'][value='A Person']")
       end
 
       it "replays sanitized response for email" do
