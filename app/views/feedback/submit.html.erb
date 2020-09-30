@@ -1,11 +1,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t(".heading"),
+      text: t("feedback.heading"),
       heading_level: 1,
-      margin_bottom: 6,
+      margin_top: 0,
+      margin_bottom: 3,
     } %>
 
-    <code id="authorization_code"><%= params[:code] %></code>
+    <p class="govuk-body">
+      <%= sanitize(t("feedback.sent")) %>
+    </p>
   </div>
 </div>

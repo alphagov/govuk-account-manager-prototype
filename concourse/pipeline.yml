@@ -126,6 +126,8 @@ jobs:
           SECRET_KEY_BASE: ((secret-key-base-staging))
           PASSWORD_PEPPER: ((password-pepper-staging))
           ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service-staging.london.cloudapps.digital
+          ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
+          ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
 
   - name: ping-test-staging
     serial: true
@@ -179,6 +181,8 @@ jobs:
           SECRET_KEY_BASE: ((secret-key-base-production))
           PASSWORD_PEPPER: ((password-pepper-production))
           ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service.london.cloudapps.digital
+          ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
+          ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
 
   - name: ping-test-production
     serial: true

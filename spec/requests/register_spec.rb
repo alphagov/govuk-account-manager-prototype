@@ -19,7 +19,7 @@ RSpec.describe "register" do
       follow_redirect!
 
       expect(response).to be_successful
-      expect(response.body).to have_content(I18n.t("post_registration.title"))
+      expect(response.body).to have_content(I18n.t("post_registration.heading"))
 
       expect(User.last).to_not be_nil
       expect(User.last.email).to eq(email)
@@ -31,7 +31,7 @@ RSpec.describe "register" do
       follow_redirect!
 
       expect(response).to be_successful
-      expect(response.body).to have_content(I18n.t("post_registration.title"))
+      expect(response.body).to have_content(I18n.t("post_registration.heading"))
 
       assert_enqueued_jobs 1, only: NotifyDeliveryJob
     end

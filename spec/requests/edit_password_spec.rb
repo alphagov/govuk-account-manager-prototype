@@ -16,7 +16,7 @@ RSpec.describe "edit-password" do
     it "renders the form" do
       get edit_user_password_url(user, reset_password_token: actual_reset_password_token)
 
-      expect(response.body).to have_content(I18n.t("devise.passwords.edit.title"))
+      expect(response.body).to have_content(I18n.t("devise.passwords.edit.heading"))
     end
   end
 

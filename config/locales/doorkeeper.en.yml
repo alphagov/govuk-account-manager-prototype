@@ -36,9 +36,9 @@ en:
         blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
         scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
       edit:
-        title: 'Edit application'
+        heading: 'Edit application'
       index:
-        title: 'Your applications'
+        heading: 'Your applications'
         new: 'New Application'
         name: 'Name'
         callback_url: 'Callback URL'
@@ -48,9 +48,9 @@ en:
           'yes': 'Yes'
           'no': 'No'
       new:
-        title: 'New Application'
+        heading: 'New Application'
       show:
-        title: 'Application: %{name}'
+        heading: 'Application: %{name}'
         application_id: 'UID'
         secret: 'Secret'
         secret_hashed: 'Secret hashed'
@@ -65,13 +65,13 @@ en:
         authorize: 'Authorize'
         deny: 'Deny'
       error:
-        title: 'An error has occurred'
+        heading: 'An error has occurred'
       new:
-        title: 'Authorization required'
+        heading: 'Authorization required'
         prompt: 'Authorize %{client_name} to use your account?'
         able_to: 'This application will be able to'
       show:
-        title: 'Authorization code'
+        heading: 'Authorization code'
 
     authorized_applications:
       confirmations:
@@ -79,7 +79,7 @@ en:
       buttons:
         revoke: 'Revoke'
       index:
-        title: 'Your authorized applications'
+        heading: 'Your authorized applications'
         application: 'Application'
         created_at: 'Created At'
         date_format: '%Y-%m-%d %H:%M:%S'
@@ -137,10 +137,10 @@ en:
 
     layouts:
       admin:
-        title: 'Doorkeeper'
+        heading: 'Doorkeeper'
         nav:
           oauth2_provider: 'OAuth2 Provider'
           applications: 'Applications'
           home: 'Home'
       application:
-        title: 'OAuth authorization required'
+        heading: 'OAuth authorization required'

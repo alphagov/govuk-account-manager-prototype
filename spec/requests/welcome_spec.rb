@@ -7,7 +7,7 @@ RSpec.describe "welcome" do
     it "renders the email address form" do
       get new_user_session_url
 
-      expect(response.body).to have_content(I18n.t("welcome.show.title"))
+      expect(response.body).to have_content(I18n.t("welcome.show.heading"))
     end
 
     context "email address given" do
@@ -24,7 +24,7 @@ RSpec.describe "welcome" do
         it "shows the login form" do
           get new_user_session_url(user: { email: user.email })
 
-          expect(response.body).to have_content(I18n.t("devise.sessions.new.title"))
+          expect(response.body).to have_content(I18n.t("devise.sessions.new.heading"))
         end
       end
 
@@ -32,7 +32,7 @@ RSpec.describe "welcome" do
         it "shows the registration form" do
           get new_user_session_url(user: { email: "no-such-user@domain.tld" })
 
-          expect(response.body).to have_content(I18n.t("devise.registrations.new.title"))
+          expect(response.body).to have_content(I18n.t("devise.registrations.new.heading"))
         end
       end
     end

@@ -53,6 +53,9 @@ run:
 
       cf set-env $CF_APP_NAME ATTRIBUTE_SERVICE_URL "$ATTRIBUTE_SERVICE_URL"
 
+      cf set-env $CF_APP_NAME ZENDESK_CLIENT_USERNAME "$ZENDESK_CLIENT_USERNAME"
+      cf set-env $CF_APP_NAME ZENDESK_CLIENT_TOKEN "$ZENDESK_CLIENT_TOKEN"
+
       cf push $CF_APP_NAME --strategy rolling
       cf map-route $CF_APP_NAME london.cloudapps.digital --hostname "$HOSTNAME"
 

@@ -2,7 +2,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/back_link", { href: user_root_path } %>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.registrations.edit.title"),
+      text: t("devise.registrations.edit.heading"),
       heading_level: 1,
       margin_bottom: 6,
     } %>
@@ -18,7 +18,7 @@
         type: "email",
         id: "email",
         value: @email,
-        error_message: error_items(:email),
+        error_message: devise_error_items(:email),
       } %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -33,7 +33,7 @@
         name: "user[password]",
         type: "password",
         id: "password",
-        error_message: error_items(:password),
+        error_message: devise_error_items(:password),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -43,7 +43,7 @@
         name: "user[password_confirmation]",
         type: "password",
         id: "password_confirmation",
-        error_message: error_items(:password_confirmation),
+        error_message: devise_error_items(:password_confirmation),
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -54,7 +54,7 @@
         name: "user[current_password]",
         type: "password",
         id: "current__confirmation",
-        error_message: error_items(:current_password),
+        error_message: devise_error_items(:current_password),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
@@ -64,7 +64,7 @@
     <% end %>
 
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.registrations.edit.cancel.title"),
+      text: t("devise.registrations.edit.cancel.heading"),
       heading_level: 2,
       margin_bottom: 6,
     } %>

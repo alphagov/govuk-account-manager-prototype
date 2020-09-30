@@ -1,0 +1,69 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("feedback.heading"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <%= form_tag do %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("feedback.fields.name.label"),
+        },
+        name: "name",
+        type: "name",
+        id: "name",
+        error_message: error_items("name"),
+        value: @form_responses[:name],
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("feedback.fields.email.label"),
+        },
+        name: "email",
+        type: "email",
+        id: "email",
+        error_message: error_items("email"),
+        value: @form_responses[:email],
+      } %>
+
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: t("feedback.fields.comments.label"),
+        },
+        name: "comments",
+        id: "comments",
+        error_message: error_items("comments"),
+        value: @form_responses[:comments],
+      } %>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        heading: t("feedback.fields.user_requires_response.label"),
+        items: [
+          {
+            value: "yes",
+            text: t("feedback.fields.user_requires_response.options.option_yes.label"),
+            checked: @form_responses[:user_requires_response] == "yes",
+          },
+          {
+            value: "no",
+            text: t("feedback.fields.user_requires_response.options.option_no.label"),
+            checked: @form_responses[:user_requires_response] == "no",
+          },
+        ],
+        name: "user_requires_response",
+        id: "user_requires_response",
+        error_message: error_items("user_requires_response"),
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("feedback.fields.submit.label"),
+        margin_bottom: 3,
+      } %>
+    <% end %>
+  </div>
+</div>
