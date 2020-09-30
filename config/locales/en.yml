@@ -33,14 +33,14 @@ en:
   devise: # Overrides for Devise built in text
     sessions:
       new:
-        title: Sign in to GOV.UK
+        heading: Sign in to GOV.UK
         reset_password: |
           <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
         register: |
           <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
   account:
     manage:
-      page_heading: Account
+      heading: Account
       manage:
         subheading: Manage your account
         amend_details_link: Edit email or password
@@ -53,13 +53,13 @@ en:
       email_verification_sent: |
         A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
     activity:
-      page_heading: Activity on your account
+      heading: Activity on your account
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
       event:
         login: "Login"
         change_email_or_password: "Change Email or Password"
     data_exchange:
-      page_heading: How and when your data was used
+      heading: How and when your data was used
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.
       used: "used"
       scope:
@@ -67,7 +67,7 @@ en:
         test_scope_read: "local development testing data"
         test_scope_write: "local development testing data"
     profile:
-      page_heading: Your Profile
+      heading: Your Profile
       could_not_fetch_data: An error occurred retrieving your data. This problem has been reported. Please try again later.
       no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
       user_details:
@@ -76,7 +76,7 @@ en:
         transition_checker: "Transition checker data"
   welcome:
     show:
-      title: "Create or log in to a GOV.UK account"
+      heading: "Create or log in to a GOV.UK account"
       content: |
         <p class="govuk-body">A GOV.UK account uses information you provide about yourself to:</p>
         <ul class="govuk-list govuk-list--bullet">
@@ -93,7 +93,7 @@ en:
       button:
         label: "Start"
   feedback:
-    title: "Contact GOV.UK Accounts support"
+    heading: "Contact GOV.UK Accounts support"
     email_subject: "GOV.UK Accounts Feedback"
     fields:
       name:
@@ -117,13 +117,13 @@ en:
         label: "Submit"
     sent: "Your feedback has been sent. If you asked for a reply, we will contact you soon."
   update_registration:
-    title: "Check your email"
+    heading: "Check your email"
     instructions: |
       <p class="govuk-body">We’ve sent you an email to confirm these changes.</p>
       <p class="govuk-body">You will need to click on the confirmation link in the email to finish updating your account.</p>
       <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
   post_registration:
-    title: "Confirm your email address"
+    heading: "Confirm your email address"
     instructions: |
       <p class="govuk-body">We’ve sent an email to %{email}.</p>
       <p class="govuk-body">You need to click on the confirmation link in the email within the next 7 days, or your GOV.UK account will be disabled.</p>
@@ -136,11 +136,11 @@ en:
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}">send the confirmation email again</a> if you did not get it.</a>
       <p class="govuk-body">You can <a class="govuk-link" href="%{register_link}">use a different email address</a> if your email address is not correct.</p>
   change_password:
-    title: Change your password
+    heading: Change your password
     content: |
       Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
   reset_sent:
-    title: Password change request sent
+    heading: Password change request sent
     content_with_email: We’ve sent an email to %{email} with instructions for changing your password.
     content_without_email: We’ve sent an email to the address you provided with instructions for changing your password.
     subheading: If you did not get the email
@@ -148,17 +148,17 @@ en:
       <p class="govuk-body">We can <a class="govuk-link" href="%{link}"">send the password reset email again</a> if you did not get it.</p>
   standard_errors:
     not_found:
-      title: Page not found
+      heading: Page not found
       content: |
         <p class="govuk-body">If you entered a web address, check it is correct.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
     unprocessable_entity:
-      title: Something went wrong
+      heading: Something went wrong
       content: |
         <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
     internal_server_error:
-      title: Something went wrong
+      heading: Something went wrong
       content: |
         <p class="govuk-body">We are experiencing technical difficulties.  This error has been reported.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>

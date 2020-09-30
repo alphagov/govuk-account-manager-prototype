@@ -3,7 +3,7 @@ RSpec.describe "feedback" do
     it "renders the form" do
       get feedback_path
 
-      expect(response.body).to have_content(I18n.t("feedback.title"))
+      expect(response.body).to have_content(I18n.t("feedback.heading"))
     end
   end
 
