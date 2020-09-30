@@ -1,5 +1,5 @@
 class FeedbackController < ApplicationController
-  REQUIRED_FIELDS = %w[comments name email response_required].freeze
+  REQUIRED_FIELDS = %w[comments name email user_requires_response].freeze
 
   def show
     @form_responses = {}
@@ -10,7 +10,7 @@ class FeedbackController < ApplicationController
       name: strip_tags(params[:name]).presence,
       email: strip_tags(params[:email]).presence,
       comments: strip_tags(params[:comments]).presence,
-      response_required: strip_tags(params[:response_required]).presence,
+      user_requires_response: strip_tags(params[:user_requires_response]).presence,
     }
 
     errors = []
@@ -28,7 +28,7 @@ class FeedbackController < ApplicationController
       name: @form_responses[:name],
       email: @form_responses[:email],
       comments: @form_responses[:comments],
-      response_required: @form_responses[:response_required].humanize,
+      user_requires_response: @form_responses[:user_requires_response].humanize,
     }
 
     ZendeskTicketWorker.perform_async(ticket_attributes)

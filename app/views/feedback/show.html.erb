@@ -42,22 +42,22 @@
       } %>
 
       <%= render "govuk_publishing_components/components/radio", {
-        heading: t("feedback.fields.response_required.label"),
+        heading: t("feedback.fields.user_requires_response.label"),
         items: [
           {
             value: "yes",
-            text: t("feedback.fields.response_required.options.option_yes.label"),
-            checked: @form_responses[:response_required] == "yes",
+            text: t("feedback.fields.user_requires_response.options.option_yes.label"),
+            checked: @form_responses[:user_requires_response] == "yes",
           },
           {
             value: "no",
-            text: t("feedback.fields.response_required.options.option_no.label"),
-            checked: @form_responses[:response_required] == "no",
+            text: t("feedback.fields.user_requires_response.options.option_no.label"),
+            checked: @form_responses[:user_requires_response] == "no",
           },
         ],
-        name: "response_required",
-        id: "response_required",
-        error_message: error_items("response_required"),
+        name: "user_requires_response",
+        id: "user_requires_response",
+        error_message: error_items("user_requires_response"),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

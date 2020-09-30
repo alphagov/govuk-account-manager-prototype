@@ -6,7 +6,7 @@ RSpec.describe ZendeskTicketWorker, type: :worker do
       subject: I18n.t("feedback.email_subject"),
       email: "someone@digital.cabinet-office.gov.uk",
       comments: "This website is awesome",
-      response_required: "Yes",
+      user_requires_response: "Yes",
     }
   end
 

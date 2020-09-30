@@ -13,7 +13,7 @@ RSpec.describe "feedback" do
         "name" => "A Person",
         "email" => "user@digital.cabinet-office.gov.uk",
         "comments" => "This website is amazing",
-        "response_required" => "yes",
+        "user_requires_response" => "yes",
       }
     end
 
@@ -23,7 +23,7 @@ RSpec.describe "feedback" do
         name: params["name"],
         email: params["email"],
         comments: params["comments"],
-        response_required: params["response_required"].humanize,
+        user_requires_response: params["user_requires_response"].humanize,
       }
     end
 
@@ -36,7 +36,7 @@ RSpec.describe "feedback" do
     end
 
     context "when required fields are missing" do
-      %w[comments email response_required].each do |field|
+      %w[comments email user_requires_response].each do |field|
         it "shows an error when required field #{field} is missing" do
           post feedback_path, params: params.except(field)
 
@@ -63,15 +63,15 @@ RSpec.describe "feedback" do
       end
 
       it "replays the response for response required" do
-        post feedback_path, params: { response_required: "yes" }
+        post feedback_path, params: { user_requires_response: "yes" }
 
-        expect(response.body).to have_selector("input[name='response_required'][value='yes'][checked=checked]")
+        expect(response.body).to have_selector("input[name='user_requires_response'][value='yes'][checked=checked]")
       end
 
       it "replays the response for response not required" do
-        post feedback_path, params: { response_required: "no" }
+        post feedback_path, params: { user_requires_response: "no" }
 
-        expect(response.body).to have_selector("input[name='response_required'][value='no'][checked=checked]")
+        expect(response.body).to have_selector("input[name='user_requires_response'][value='no'][checked=checked]")
       end
     end
   end

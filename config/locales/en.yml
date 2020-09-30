@@ -105,7 +105,7 @@ en:
       comments:
         label: "Comments"
         not_present_error: "Enter your comments"
-      response_required:
+      user_requires_response:
         label: "Do you need a response?"
         options:
           option_yes:

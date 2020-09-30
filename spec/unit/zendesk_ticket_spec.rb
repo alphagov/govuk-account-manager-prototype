@@ -6,7 +6,7 @@ RSpec.describe Zendesk::Ticket, type: :unit do
         name: "A Person",
         email: "someone@digital.cabinet-office.gov.uk",
         comments: "This site is awesome",
-        response_required: "No",
+        user_requires_response: "No",
       }
     end
 
