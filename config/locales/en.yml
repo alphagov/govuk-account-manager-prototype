@@ -93,22 +93,24 @@ en:
       button:
         label: "Start"
   feedback:
-    heading: "Contact GOV.UK Accounts support"
+    heading: "Give feedback about your GOV.UK account"
+    caption: "Use this form to ask a question, report a problem or suggest an improvement to your GOV.UK account."
+    inset_text: "Do not include any personal financial information like your National Insurance number."
     email_subject: "GOV.UK Accounts Feedback"
     anonymous_name: "Anonymous Feedback"
     anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
     fields:
       name:
-        label: "Name"
+        label: "Your name"
         not_present_error: "Enter your name"
       email:
-        label: "Email Address"
+        label: "Email address"
         not_present_error: "Enter your email address"
       comments:
-        label: "Comments"
-        not_present_error: "Enter your comments"
+        label: "Please provide details of your question, problem or feedback."
+        not_present_error: "Enter your question, problem or feedback"
       user_requires_response:
-        label: "Do you need a response?"
+        label: "Can we contact you about your feedback?"
         options:
           option_yes:
             label: "Yes"
@@ -116,7 +118,7 @@ en:
             label: "No"
         not_present_error: "Select if you would like a response"
       submit:
-        label: "Submit"
+        label: "Send"
     sent: "Your feedback has been sent. If you asked for a reply, we will contact you soon."
   update_registration:
     heading: "Check your email"

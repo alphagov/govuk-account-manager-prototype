@@ -31,11 +31,18 @@
       margin_bottom: 3,
     } %>
 
+    <p class="govuk-body"><%= t("feedback.caption") %></p>
+
+    <%= render "govuk_publishing_components/components/inset_text", {
+      text: t("feedback.inset_text")
+    } %>
+
     <%= form_tag do %>
 
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
           text: t("feedback.fields.comments.label"),
+          heading_size: "s",
         },
         name: "comments",
         id: "comments",
@@ -45,6 +52,7 @@
 
       <%= render "govuk_publishing_components/components/radio", {
         heading: t("feedback.fields.user_requires_response.label"),
+        heading_size: "s",
         items: [
           {
             value: "yes",
