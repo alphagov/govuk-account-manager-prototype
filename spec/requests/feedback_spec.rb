@@ -3,7 +3,7 @@ RSpec.describe "feedback" do
     it "renders the form" do
       get feedback_path
 
-      expect(response.body).to have_content(I18n.t("feedback.heading"))
+      expect(response.body).to have_content(I18n.t("feedback.show.heading"))
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe "feedback" do
 
       let(:ticket_attributes) do
         {
-          subject: I18n.t("feedback.email_subject"),
+          subject: I18n.t("feedback.show.email_subject"),
           name: params["name"],
           email: params["email"],
           comments: params["comments"],
@@ -41,7 +41,7 @@ RSpec.describe "feedback" do
           it "shows an error when required field #{field} is missing" do
             post feedback_path, params: params.except(field)
 
-            expect(response.body).to have_content(I18n.t("feedback.fields.#{field}.not_present_error"))
+            expect(response.body).to have_content(I18n.t("feedback.show.fields.#{field}.not_present_error"))
           end
         end
 
@@ -83,9 +83,9 @@ RSpec.describe "feedback" do
 
       let(:ticket_attributes) do
         {
-          subject: I18n.t("feedback.email_subject"),
-          name: I18n.t("feedback.anonymous_name"),
-          email: I18n.t("feedback.anonymous_email"),
+          subject: I18n.t("feedback.show.email_subject"),
+          name: I18n.t("feedback.show.anonymous_name"),
+          email: I18n.t("feedback.show.anonymous_email"),
           comments: params["comments"],
           user_requires_response: params["user_requires_response"].humanize,
         }
@@ -104,7 +104,7 @@ RSpec.describe "feedback" do
           it "shows an error when required field #{field} is missing" do
             post feedback_path, params: params.except(field)
 
-            expect(response.body).to have_content(I18n.t("feedback.fields.#{field}.not_present_error"))
+            expect(response.body).to have_content(I18n.t("feedback.show.fields.#{field}.not_present_error"))
           end
         end
 

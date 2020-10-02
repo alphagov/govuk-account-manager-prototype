@@ -20,7 +20,7 @@ class FeedbackController < ApplicationController
 
     errors = []
     (REQUIRED_FIELDS + conditionally_required_fields).each do |field|
-      errors << { field: field, text: I18n.t("feedback.fields.#{field}.not_present_error") } if @form_responses[field.to_sym].blank?
+      errors << { field: field, text: I18n.t("feedback.show.fields.#{field}.not_present_error") } if @form_responses[field.to_sym].blank?
     end
 
     unless errors.empty?
@@ -29,9 +29,9 @@ class FeedbackController < ApplicationController
     end
 
     ticket_attributes = {
-      subject: I18n.t("feedback.email_subject"),
-      name: @form_responses.fetch(:name, I18n.t("feedback.anonymous_name")),
-      email: @form_responses.fetch(:email, I18n.t("feedback.anonymous_email")),
+      subject: I18n.t("feedback.show.email_subject"),
+      name: @form_responses.fetch(:name, I18n.t("feedback.show.anonymous_name")),
+      email: @form_responses.fetch(:email, I18n.t("feedback.show.anonymous_email")),
       comments: @form_responses[:comments],
       user_requires_response: @form_responses[:user_requires_response].humanize,
     }

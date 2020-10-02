@@ -93,33 +93,37 @@ en:
       button:
         label: "Start"
   feedback:
-    heading: "Give feedback about your GOV.UK account"
-    caption: "Use this form to ask a question, report a problem or suggest an improvement to your GOV.UK account."
-    inset_text: "Do not include any personal financial information like your National Insurance number."
-    email_subject: "GOV.UK Accounts Feedback"
-    anonymous_name: "Anonymous Feedback"
-    anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
-    fields:
-      name:
-        label: "Your name"
-        not_present_error: "Enter your name"
-      email:
-        label: "Email address"
-        not_present_error: "Enter your email address"
-      comments:
-        label: "Please provide details of your question, problem or feedback."
-        not_present_error: "Enter your question, problem or feedback"
-      user_requires_response:
-        label: "Can we contact you about your feedback?"
-        options:
-          option_yes:
-            label: "Yes"
-          option_no:
-            label: "No"
-        not_present_error: "Select if you would like a response"
-      submit:
-        label: "Send"
-    sent: "Your feedback has been sent. If you asked for a reply, we will contact you soon."
+    show:
+      heading: "Give feedback about your GOV.UK account"
+      caption: "Use this form to ask a question, report a problem or suggest an improvement to your GOV.UK account."
+      inset_text: "Do not include any personal financial information like your National Insurance number."
+      email_subject: "GOV.UK Accounts Feedback"
+      anonymous_name: "Anonymous Feedback"
+      anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
+      fields:
+        name:
+          label: "Your name"
+          not_present_error: "Enter your name"
+        email:
+          label: "Email address"
+          not_present_error: "Enter your email address"
+        comments:
+          label: "Please provide details of your question, problem or feedback."
+          not_present_error: "Enter your question, problem or feedback"
+        user_requires_response:
+          label: "Can we contact you about your feedback?"
+          options:
+            option_yes:
+              label: "Yes"
+            option_no:
+              label: "No"
+          not_present_error: "Select if you would like a response"
+        submit:
+          label: "Send"
+    submit:
+      heading: "Give feedback about your GOV.UK account"
+      call_to_action: "Your feedback has been sent. If you asked for a reply, we will contact you soon."
+>>>>>>> 4aa7ac7... Split feedback form internationalisations by view method
   update_registration:
     heading: "Check your email"
     instructions: |

@@ -1,7 +1,7 @@
 <% contact_details = capture do %>
   <%= render "govuk_publishing_components/components/input", {
     label: {
-      text: t("feedback.fields.name.label"),
+      text: t("feedback.show.fields.name.label"),
     },
     name: "name",
     type: "name",
@@ -12,7 +12,7 @@
 
   <%= render "govuk_publishing_components/components/input", {
     label: {
-      text: t("feedback.fields.email.label"),
+      text: t("feedback.show.fields.email.label"),
     },
     name: "email",
     type: "email",
@@ -25,23 +25,23 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("feedback.heading"),
+      text: t("feedback.show.heading"),
       heading_level: 1,
       margin_top: 0,
       margin_bottom: 3,
     } %>
 
-    <p class="govuk-body"><%= t("feedback.caption") %></p>
+    <p class="govuk-body"><%= t("feedback.show.caption") %></p>
 
     <%= render "govuk_publishing_components/components/inset_text", {
-      text: t("feedback.inset_text")
+      text: t("feedback.show.inset_text")
     } %>
 
     <%= form_tag do %>
 
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
-          text: t("feedback.fields.comments.label"),
+          text: t("feedback.show.fields.comments.label"),
           heading_size: "s",
         },
         name: "comments",
@@ -51,18 +51,18 @@
       } %>
 
       <%= render "govuk_publishing_components/components/radio", {
-        heading: t("feedback.fields.user_requires_response.label"),
+        heading: t("feedback.show.fields.user_requires_response.label"),
         heading_size: "s",
         items: [
           {
             value: "yes",
-            text: t("feedback.fields.user_requires_response.options.option_yes.label"),
+            text: t("feedback.show.fields.user_requires_response.options.option_yes.label"),
             checked: @form_responses[:user_requires_response] == "yes",
             conditional: contact_details,
           },
           {
             value: "no",
-            text: t("feedback.fields.user_requires_response.options.option_no.label"),
+            text: t("feedback.show.fields.user_requires_response.options.option_no.label"),
             checked: @form_responses[:user_requires_response] == "no",
           },
         ],
@@ -72,7 +72,7 @@
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("feedback.fields.submit.label"),
+        text: t("feedback.show.fields.submit.label"),
         margin_bottom: 3,
       } %>
     <% end %>
