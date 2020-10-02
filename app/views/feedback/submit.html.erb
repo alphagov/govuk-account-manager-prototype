@@ -1,14 +1,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("feedback.submit.heading"),
-      heading_level: 1,
-      margin_top: 0,
-      margin_bottom: 3,
+    <%= render "govuk_publishing_components/components/panel", {
+      title: t("feedback.submit.heading")
     } %>
 
     <p class="govuk-body">
-      <%= sanitize(t("feedback.submit.sent")) %>
+      <%= sanitize(t("feedback.submit.call_to_action")) %>
     </p>
   </div>
 </div>

@@ -121,9 +121,10 @@ en:
         submit:
           label: "Send"
     submit:
-      heading: "Give feedback about your GOV.UK account"
-      call_to_action: "Your feedback has been sent. If you asked for a reply, we will contact you soon."
->>>>>>> 4aa7ac7... Split feedback form internationalisations by view method
+      heading: "Feedback sent"
+      call_to_action: |
+        <p class="govuk-body">Your feedback has been sent ton the GOV.UK Accounts team.</p>
+        <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
   update_registration:
     heading: "Check your email"
     instructions: |
