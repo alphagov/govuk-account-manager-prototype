@@ -95,6 +95,8 @@ en:
   feedback:
     heading: "Contact GOV.UK Accounts support"
     email_subject: "GOV.UK Accounts Feedback"
+    anonymous_name: "Anonymous Feedback"
+    anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
     fields:
       name:
         label: "Name"
