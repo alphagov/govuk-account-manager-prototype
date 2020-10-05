@@ -37,4 +37,25 @@ RSpec.describe "welcome" do
       end
     end
   end
+
+  context "the user is logged in" do
+    let(:user) do
+      FactoryBot.create(
+        :user,
+        email: "user@domain.tld",
+        password: "breadbread1",
+        password_confirmation: "breadbread1",
+      )
+    end
+
+    before do
+      sign_in(user)
+    end
+
+    it "redirects the user to the account page" do
+      get new_user_session_url
+
+      expect(response).to redirect_to(user_root_path)
+    end
+  end
 end
