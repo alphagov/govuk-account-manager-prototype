@@ -3,6 +3,7 @@ class FeedbackController < ApplicationController
 
   def show
     @form_responses = {}
+    @form_responses[:email] = current_user[:email] if current_user
   end
 
   def submit

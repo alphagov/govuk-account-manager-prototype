@@ -1,9 +1,30 @@
-RSpec.describe "feedback" do
+RSpec.describe "feedback", type: :request do
   describe "GET" do
     it "renders the form" do
       get feedback_path
 
       expect(response.body).to have_content(I18n.t("feedback.show.heading"))
+    end
+
+    context "when user is logged in" do
+      let(:user) do
+        FactoryBot.create(
+          :user,
+          email: "user@domain.tld",
+          password: "breadbread1", # pragma: allowlist secret
+          password_confirmation: "breadbread1", # pragma: allowlist secret
+        )
+      end
+
+      before do
+        sign_in(user)
+      end
+
+      it "pre-populates the email field" do
+        get feedback_path
+
+        expect(response.body).to have_selector("input[name='email'][value='user@domain.tld']")
+      end
     end
   end
 
