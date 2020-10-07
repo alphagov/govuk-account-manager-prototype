@@ -12,6 +12,38 @@
       </p>
     <% end %>
 
+    <% if @user_info %>
+      <% if @user_info[:transition_checker_state] %>
+        <%= render "govuk_publishing_components/components/heading", {
+          text: t("service_card.transition_checker.heading"),
+          heading_level: 2,
+          margin_bottom: 3,
+          font_size: 19,
+        } %>
+
+        <p class="govuk-body"><%= t("service_card.transition_checker.description") %></p>
+        <p class="govuk-body"><%= t("service_card.transition_checker.last_used", date: date_with_time_ago(Time.zone.at(@user_info[:transition_checker_state][:timestamp]))) %></p>
+
+        <ul class="govuk-list govuk-!-margin-bottom-7">
+          <li>
+            <a href="<%= finder_frontend_base_uri %>/transition-check/saved-results" class="govuk-link">
+              <%= t("service_card.transition_checker.results_link") %>
+            </a>
+          </li>
+          <li>
+            <a href="<%= finder_frontend_base_uri %>/transition-check/edit-saved-results" class="govuk-link">
+              <%= t("service_card.transition_checker.update_link") %>
+            </a>
+          </li>
+          <li>
+            <a href="<%= email_alert_frontend_base_uri %>/email/manage" class="govuk-link">
+              <%= t("service_card.transition_checker.notifications_link") %>
+            </a>
+          </li>
+        </ul>
+      <% end %>
+    <% end %>
+
     <%= render "govuk_publishing_components/components/heading", {
       text: t("account.manage.manage.subheading"),
       heading_level: 2,

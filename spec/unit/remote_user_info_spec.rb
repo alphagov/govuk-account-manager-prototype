@@ -16,6 +16,10 @@ RSpec.describe RemoteUserInfo, type: :unit do
     ENV["ATTRIBUTE_SERVICE_URL"] = attribute_service_url
   end
 
+  after do
+    ENV["ATTRIBUTE_SERVICE_URL"] = nil
+  end
+
   context "the attribute service is down" do
     before do
       stub_request(:get, "#{attribute_service_url}/oidc/user_info")
