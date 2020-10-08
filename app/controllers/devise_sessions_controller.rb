@@ -16,7 +16,7 @@ class DeviseSessionsController < Devise::SessionsController
     else
       @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.incorrect")
       begin
-        user = User.find_by(email: params.dig(:user, :email))
+        user = User.find_by!(email: params.dig(:user, :email))
         if user.locked_at?
           @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.locked")
         end
