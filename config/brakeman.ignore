@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "1d696a73d181f2a98407c6788d71a2c95ceb6c84145cddc13543bf150a944548",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/devise_sessions_controller.rb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(ApplicationKey.validate_jwt!(params[:jwt])[:post_login_oauth])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DeviseSessionsController",
+        "method": "create"
+      },
+      "user_input": "ApplicationKey.validate_jwt!(params[:jwt])[:post_login_oauth]",
+      "confidence": "High",
+      "note": "This is validated to have a safe prefix in the ApplicationKey validation"
+    }
+  ],
+  "updated": "2020-10-08 09:20:18 +0100",
+  "brakeman_version": "4.10.0"
+}
