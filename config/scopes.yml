@@ -9,4 +9,6 @@ optional_scopes:
 hidden_scopes:
   - openid
   - transition_checker
-jwt_attributes_and_scopes: {}
+jwt_attributes_and_scopes: {
+  "transition_checker_state": ["transition_checker"]
+}

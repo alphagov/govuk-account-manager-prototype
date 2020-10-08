@@ -43,6 +43,9 @@ jobs:
       - env:
           RAILS_ENV: test
           TEST_DATABASE_URL: "postgresql://postgres:postgres@localhost/accounts"
+          FINDER_FRONTEND_OAUTH_CLIENT_ID: transition-checker-id
+          FINDER_FRONTEND_OAUTH_CLIENT_PUBLIC_KEY_UUID: 898d62b7-eed9-464a-a4ae-9d9e08bd9bee
+          FINDER_FRONTEND_OAUTH_CLIENT_PUBLIC_KEY: "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEjMgE/d6Bdu1K17BTjNycDvIXKSmU\ngZ5YYoayU3gGqTLhgefuK2qbo99Wx+SuvdW/GRvIlUIW1ooNRdQ3QFwwCw==\n-----END PUBLIC KEY-----\n"
         run: |
           bundle exec rails db:setup
           bundle exec rake
