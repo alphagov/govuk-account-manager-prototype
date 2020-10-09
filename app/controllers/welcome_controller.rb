@@ -2,12 +2,12 @@ class WelcomeController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:show]
 
   def show
+    payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+
     if current_user
-      redirect_to user_root_path
+      redirect_to(payload ? payload[:post_login_oauth] : user_root_path)
       return
     end
-
-    ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
 
     @email = params.dig(:user, :email)
     if @email
