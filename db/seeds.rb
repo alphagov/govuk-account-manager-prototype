@@ -1,4 +1,4 @@
-unless Rails.env.production?
+if Rails.env.development?
   Doorkeeper::AccessToken.destroy_all
   Doorkeeper::Application.destroy_all
 
