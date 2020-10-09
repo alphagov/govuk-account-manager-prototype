@@ -1,0 +1,9 @@
+en:
+  service_card:
+    transition_checker:
+      heading: "Get ready for new rules in 2021: Your results"
+      description: "A personalised list of actions for you, your family, and your business."
+      last_used: "You last used this service on %{date}"
+      results_link: "Go to your results"
+      update_link: "You need to answer the questions in the UK transition checker again to update your results."
+      notifications_link: "Manage your email notifications"

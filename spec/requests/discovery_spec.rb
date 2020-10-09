@@ -5,6 +5,10 @@ RSpec.describe "Doorkeeper::OpenidConnect::DiscoveryController", type: :request 
     ENV["ATTRIBUTE_SERVICE_URL"] = attribute_service_url
   end
 
+  after do
+    ENV["ATTRIBUTE_SERVICE_URL"] = nil
+  end
+
   it "includes the custom attribute service URL" do
     get "/.well-known/openid-configuration"
     expect(JSON.parse(response.body)).to include("userinfo_endpoint" => "#{attribute_service_url}/oidc/user_info")
