@@ -42,16 +42,15 @@ RSpec.describe ApplicationKey, type: :unit do
     let(:jwt_key) { application_key.key_id }
     let(:jwt_scopes) { %i[test_scope_write] }
     let(:jwt_attributes) { { test: "value" } }
-    let(:jwt_post_login_oauth) { "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-query-string" }
     let(:jwt_signing_key) { private_key }
 
     let(:jwt) do
-      payload = { uid: jwt_uid, key: jwt_key, scopes: jwt_scopes, attributes: jwt_attributes, post_login_oauth: jwt_post_login_oauth }.compact
+      payload = { uid: jwt_uid, key: jwt_key, scopes: jwt_scopes, attributes: jwt_attributes }.compact
       JWT.encode payload.compact, jwt_signing_key, "ES256"
     end
 
     it "accepts" do
-      expect(ApplicationKey.validate_jwt!(jwt)).to include(:application, :signing_key, scopes: jwt_scopes, attributes: jwt_attributes, post_login_oauth: jwt_post_login_oauth)
+      expect(ApplicationKey.validate_jwt!(jwt)).to include(:application, :signing_key, scopes: jwt_scopes, attributes: jwt_attributes)
       expect(ApplicationKey.validate_jwt!(jwt)[:application].uid).to eq(jwt_uid)
       expect(ApplicationKey.validate_jwt!(jwt)[:signing_key].to_key.to_pem).to eq(public_key.to_pem)
     end
@@ -120,22 +119,6 @@ RSpec.describe ApplicationKey, type: :unit do
 
       it "rejects" do
         expect { ApplicationKey.validate_jwt! jwt }.to raise_error(ApplicationKey::InsufficientScopes)
-      end
-    end
-
-    context "the JWT is missing the redirect" do
-      let(:jwt_post_login_oauth) { nil }
-
-      it "rejects" do
-        expect { ApplicationKey.validate_jwt! jwt }.to raise_error(ApplicationKey::MissingFieldPostLoginOAuth)
-      end
-    end
-
-    context "the JWT has a bad redirect" do
-      let(:jwt_post_login_oauth) { "https://www.example.com" }
-
-      it "rejects" do
-        expect { ApplicationKey.validate_jwt! jwt }.to raise_error(ApplicationKey::InvalidOAuthRedirect)
       end
     end
   end

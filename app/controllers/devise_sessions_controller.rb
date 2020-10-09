@@ -1,6 +1,6 @@
 class DeviseSessionsController < Devise::SessionsController
   def create
-    payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+    ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
 
     self.resource = warden.authenticate(auth_options)
     if resource
@@ -8,15 +8,11 @@ class DeviseSessionsController < Devise::SessionsController
       set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, resource)
       yield resource if block_given?
-      if payload
-        redirect_to payload[:post_login_oauth]
-      else
-        respond_with resource, location: after_sign_in_path_for(resource)
-      end
+      respond_with resource, location: after_sign_in_path_for(resource)
     else
       @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.incorrect")
       begin
-        user = User.find_by!(email: params.dig(:user, :email))
+        user = User.find_by(email: params.dig(:user, :email))
         if user.locked_at?
           @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.locked")
         end
