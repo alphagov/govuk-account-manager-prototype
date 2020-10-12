@@ -1,14 +1,5 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("welcome.show.heading"),
-      heading_level: 1,
-      margin_top: 0,
-      margin_bottom: 3,
-    } %>
-
-    <%= sanitize(t("welcome.show.content")) %>
-
     <%= form_with(method: :post) do %>
       <% if params[:previous_url] %>
         <%= hidden_field_tag :previous_url, params[:previous_url] %>
@@ -18,19 +9,19 @@
       <% end %>
 
       <%= render "govuk_publishing_components/components/input", {
-          label: {
-            text: t("welcome.show.fields.email.label"),
-          },
-          name: "user[email]",
-          type: "email",
-          id: "email",
-          value: @email,
-          error_message: @email_error_message,
-        } %>
+        heading_size: "l",
+        label: {
+          text: t("welcome.show.fields.email.label"),
+        },
+        name: "user[email]",
+        type: "email",
+        id: "email",
+        value: @email,
+        error_message: @email_error_message,
+      } %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("welcome.show.button.label"),
-        start: true,
       } %>
     <% end %>
   </div>

@@ -76,22 +76,14 @@ en:
         transition_checker: "Transition checker data"
   welcome:
     show:
-      heading: "Create or log in to a GOV.UK account"
-      content: |
-        <p class="govuk-body">A GOV.UK account uses information you provide about yourself to:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>suggest GOV.UK guidance and information that is relevant to you</li>
-          <li>tell you when content you’re interested in has been updated</li>
-          <li>help you set up reminders for tasks you may need to complete later</li>
-        </ul>
-        <p class="govuk-body">You'll need an email address to create an account.</p>
+      heading: Enter your email address
       fields:
         email:
-          label: "Enter your email address"
+          label: Enter your email address
           errors:
-            format: "Please include an '@' in the email address"
+            format: "This does not look like a valid email address. Enter an email address in this format: name@example.com"
       button:
-        label: "Start"
+        label: Continue
   feedback:
     show:
       heading: "Give feedback about your GOV.UK account"
