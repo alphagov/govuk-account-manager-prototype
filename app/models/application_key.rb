@@ -6,7 +6,9 @@ class ApplicationKey < ApplicationRecord
   class KeyNotFound < InvalidJWT; end
   class MissingFieldKey < InvalidJWT; end
   class MissingFieldUid < InvalidJWT; end
+  class MissingFieldPostLoginOAuth < InvalidJWT; end
   class UidNotFound < InvalidJWT; end
+  class InvalidOAuthRedirect < InvalidJWT; end
 
   self.primary_keys = :application_uid, :key_id
 
@@ -36,11 +38,16 @@ class ApplicationKey < ApplicationRecord
       raise InsufficientScopes unless scopes.any? { |scope| allowed_write_scopes.include? scope }
     end
 
+    post_login_oauth = payload["post_login_oauth"]
+    raise MissingFieldPostLoginOAuth unless post_login_oauth
+    raise InvalidOAuthRedirect unless post_login_oauth.starts_with? "#{Rails.application.config.redirect_base_url}/oauth/authorize"
+
     {
       application: application,
       signing_key: signing_key,
       scopes: scopes,
       attributes: attributes,
+      post_login_oauth: post_login_oauth,
     }
   rescue JWT::DecodeError
     raise JWTDecodeError
