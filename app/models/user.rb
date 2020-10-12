@@ -28,6 +28,9 @@ class User < ApplicationRecord
   has_many :activities,
            dependent: :delete_all
 
+  has_many :email_subscriptions,
+           dependent: :delete_all
+
   after_commit :update_remote_user_info, on: %i[create update]
 
   # this has to happen before the record is actually destroyed because
