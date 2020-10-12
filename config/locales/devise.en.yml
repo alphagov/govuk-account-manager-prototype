@@ -120,24 +120,24 @@ en:
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
       new:
         needs_password:
-          heading: "Create password"
+          heading: Create password
           fields:
             email:
-              label: "Enter your email address"
+              label: Enter your email address
             password:
-              label: "Create a new password"
-              hint: "It needs to be at least 8 characters long and must include at least one number."
+              label: Create a new password
+              hint: It needs to be at least 8 characters long and must include at least one number.
             password_confirm:
-              label: "Retype password"
+              label: Retype password
             submit:
-              label: "Continue"
+              label: Continue
         needs_consent:
-          heading: "Control how we use information about you"
+          heading: Control how we use information about you
           fields:
             submit:
-              label: "Continue"
+              label: Continue
         needs_email_decision:
-          heading: "Do you want to receive emails about the UK transition?"
+          heading: Do you want to receive emails about the UK transition?
           description: |
             <p class="govuk-body">The emails will tell you what you, your family, or your business should do to prepare for new rules from 1 January 2021.</p>
             <p class="govuk-body">You will only get updates if:</p>
@@ -150,10 +150,10 @@ en:
           fields:
             emailsignup:
               heading: Do you want to receive emails about the UK transition?
-              yes: "Yes"
-              no: "No, I just want to save my results"
+              yes: Yes
+              no: No, I just want to save my results
             submit:
-              label: "Continue"
+              label: Continue
         sign_in: |
           <a class="govuk-link" href="%{login_url}>Sign in to GOV.UK</a> if you already have an account.
       edit:
