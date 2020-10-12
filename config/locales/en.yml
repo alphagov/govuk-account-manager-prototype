@@ -125,9 +125,9 @@ en:
       <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
   post_registration:
     heading: "Confirm your email address"
-    instructions: |
-      <p class="govuk-body">We’ve sent an email to %{email}.</p>
-      <p class="govuk-body">You need to click on the confirmation link in the email within the next 7 days, or your GOV.UK account will be disabled.</p>
+    instruction_one: We’ve sent an email to
+    instruction_two: You need to click on the confirmation link in the email to activate your GOV.UK account.
+    transition_results_link: Go back to your UK transition results
     continue_to_service: |
       <p class="govuk-body"><a class="govuk-link" href="%{service_link}">Go back to %{service_name}</a></p>
     continue_to_account: |
