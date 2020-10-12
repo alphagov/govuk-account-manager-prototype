@@ -6,9 +6,11 @@ RSpec.describe "JWT (register and login)" do
       :oauth_application,
       name: "name",
       redirect_uri: "http://localhost",
-      scopes: %i[test_scope_read test_scope_write],
+      scopes: application_scopes,
     )
   end
+
+  let(:application_scopes) { %i[test_scope_read test_scope_write] }
 
   let(:private_key) do
     private_key = OpenSSL::PKey::EC.new "prime256v1"
@@ -43,12 +45,14 @@ RSpec.describe "JWT (register and login)" do
         "user[email]" => email,
         "user[password]" => password,
         "user[password_confirmation]" => password,
+        "email_decision" => email_decision,
         "jwt" => jwt,
-      }
+      }.compact
     end
 
     let(:email) { "email@example.com" }
     let(:password) { "abcd1234" }
+    let(:email_decision) { nil }
 
     it "creates an access token" do
       post new_user_registration_post_path, params: params
@@ -92,6 +96,50 @@ RSpec.describe "JWT (register and login)" do
           post new_user_registration_post_path, params: params
           expect(response).to be_successful
         }.to_not(change { Doorkeeper::AccessToken.count })
+      end
+    end
+
+    context "there's an email topic" do
+      let(:application_scopes) { %i[transition_checker] }
+      let(:jwt_scopes) { %i[transition_checker] }
+      let(:jwt_attributes) { { transition_checker_state: { email_topic_slug: "foo" } } }
+
+      it "asks if the user would like email notifications" do
+        post new_user_registration_post_path, params: params
+        expect(response).to be_successful
+        expect(response.body).to have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+      end
+
+      context "the user does want notifications" do
+        let(:email_decision) { "yes" }
+
+        it "shows the post-registration page" do
+          post new_user_registration_post_path, params: params
+          follow_redirect!
+          expect(response).to be_successful
+          expect(response.body).to_not have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+        end
+      end
+
+      context "the user does not want notifications" do
+        let(:email_decision) { "no" }
+
+        it "shows the post-registration page" do
+          post new_user_registration_post_path, params: params
+          follow_redirect!
+          expect(response).to be_successful
+          expect(response.body).to_not have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+        end
+      end
+
+      context "the user gives something other than 'yes' or 'no' for notifications" do
+        let(:email_decision) { "foo" }
+
+        it "shows the post-registration page" do
+          post new_user_registration_post_path, params: params
+          expect(response).to be_successful
+          expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
+        end
       end
     end
 

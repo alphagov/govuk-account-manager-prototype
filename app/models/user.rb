@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # any string with at least one digit in it
+  PASSWORD_REGEX = /\A.*[0-9].*\z/.freeze
+
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
@@ -13,7 +16,7 @@ class User < ApplicationRecord
          :trackable,
          :validatable
 
-  validates :password, format: { with: /\A.*[0-9].*\z/ }, allow_blank: true
+  validates :password, format: { with: PASSWORD_REGEX }, allow_blank: true
 
   has_many :access_grants,
            class_name: "Doorkeeper::AccessGrant",

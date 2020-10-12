@@ -15,6 +15,7 @@ class WelcomeController < ApplicationController
         if User.exists?(email: @email)
           render "devise/sessions/new"
         else
+          @state = :needs_password
           render "devise/registrations/new"
         end
       else

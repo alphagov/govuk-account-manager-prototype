@@ -8,10 +8,11 @@ module ErrorItemsHelper
     end
   end
 
-  def devise_error_items(field)
-    return nil unless resource
+  def devise_error_items(field, resource_error_messages = nil)
+    raw_errors = resource ? resource.errors.messages : resource_error_messages
+    return nil unless raw_errors
 
-    all_errors = resource.errors.messages.map do |id, errors|
+    all_errors = raw_errors.map do |id, errors|
       errors.map do |error|
         { field: id, error: error }
       end

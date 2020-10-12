@@ -1,49 +1,73 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.registrations.new.heading"),
+      text: t("devise.registrations.new.#{@state}.heading"),
       heading_level: 1,
       margin_top: 0,
       margin_bottom: 3,
     } %>
 
     <%= form_with(url: new_user_registration_post_path) do %>
-      <% if resource %>
-        <%= render "devise/shared/error_messages", resource: resource %>
-      <% end %>
-
-      <% if params[:previous_url] %>
-        <%= hidden_field_tag :previous_url, params[:previous_url] %>
-      <% end %>
-      <% if params[:jwt] %>
-        <%= hidden_field_tag :jwt, params[:jwt] %>
-      <% end %>
-
+      <% if params[:previous_url] %><%= hidden_field_tag :previous_url, params[:previous_url] %><% end %>
+      <% if params[:jwt] %><%= hidden_field_tag :jwt, params[:jwt] %><% end %>
       <%= hidden_field_tag :"user[email]", params.dig(:user, :email) %>
 
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: t("devise.registrations.new.fields.password.label"),
-        },
-        hint: t("devise.registrations.new.fields.password.hint"),
-        name: "user[password]",
-        type: "password",
-        id: "password",
-        error_message: devise_error_items(:password),
-      } %>
+      <% if @state == :needs_email_decision %>
+        <%= hidden_field_tag :"user[password]", params.dig(:user, :password) %>
+        <%= hidden_field_tag :"user[password_confirmation]", params.dig(:user, :password_confirmation) %>
 
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: t("devise.registrations.new.fields.password_confirm.label"),
-        },
-        name: "user[password_confirmation]",
-        type: "password",
-        id: "password_confirmation",
-        error_message: devise_error_items(:password_confirmation),
-      } %>
+        <%= sanitize(t("devise.registrations.new.needs_email_decision.description")) %>
+
+        <%= render "govuk_publishing_components/components/radio", {
+          name: "email_decision",
+          heading: t("devise.registrations.new.needs_email_decision.fields.emailsignup.heading"),
+          heading_size: "s",
+          error_message: devise_error_items(:email_decision, @resource_error_messages),
+          items: [
+            {
+              value: "yes",
+              text: t("devise.registrations.new.needs_email_decision.fields.emailsignup.yes")
+            },
+            {
+              value: "no",
+              text: t("devise.registrations.new.needs_email_decision.fields.emailsignup.no")
+            }
+          ]
+        } %>
+
+       <%= render "govuk_publishing_components/components/inset_text", {
+         text: t("devise.registrations.new.needs_email_decision.unsubscribe")
+       } %>
+
+      <% else %>
+        <% if resource || @resource_error_messages %>
+          <%= render "devise/shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
+        <% end %>
+
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("devise.registrations.new.needs_password.fields.password.label"),
+          },
+          hint: t("devise.registrations.new.needs_password.fields.password.hint"),
+          name: "user[password]",
+          type: "password",
+          id: "password",
+          error_message: devise_error_items(:password, @resource_error_messages),
+        } %>
+
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("devise.registrations.new.needs_password.fields.password_confirm.label"),
+          },
+          name: "user[password_confirmation]",
+          type: "password",
+          id: "password_confirmation",
+          error_message: devise_error_items(:password_confirmation, @resource_error_messages),
+        } %>
+      <% end %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("devise.registrations.new.fields.submit.label"),
+        text: t("devise.registrations.new.#{@state}.fields.submit.label"),
       } %>
     <% end %>
   </div>
