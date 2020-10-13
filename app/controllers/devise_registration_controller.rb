@@ -1,11 +1,24 @@
 class DeviseRegistrationController < Devise::RegistrationsController
   def create
-    unless params[:jwt]
-      super
+    head 422 and return unless params[:user][:email]
+
+    payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+
+    state = RegistrationStateMachine.call(params, payload)
+    @state = state[:state]
+    @resource_error_messages = state[:resource_error_messages]
+
+    # skip the devise logic because we're not yet done showing screens
+    # to the user
+    unless @state == :finish
+      render :new
       return
     end
 
-    payload = ApplicationKey.validate_jwt!(params[:jwt])
+    unless payload
+      super
+      return
+    end
 
     super do |resource|
       next unless resource.persisted?

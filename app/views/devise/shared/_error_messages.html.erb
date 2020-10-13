@@ -1,6 +1,9 @@
-<% resource_errors = resource.errors.messages.map { |field, errors| errors.map { |error| { field: field, error: error } } }.flatten %>
+<%
+raw_errors = resource ? resource.errors.messages : resource_error_messages
+resource_errors = raw_errors.map { |field, errors| errors.map { |error| { field: field, error: error } } }.flatten
+%>
 
-<% if resource.errors.any? %>
+<% if resource_errors.any? %>
   <%= render "govuk_publishing_components/components/error_summary", {
     title: I18n.t("errors.messages.headline"),
     items: resource_errors.map { |item|
@@ -13,7 +16,7 @@
 <% end %>
 
 <% if flash[:alert] %>
-  <% if previous_url_is_on_ignore_list(previous_url) %>
+  <% if previous_url_is_on_ignore_list(params[:previous_url]) %>
       <% remove_flash_alert %>
   <% else %>
     <%= render "govuk_publishing_components/components/error_summary", {

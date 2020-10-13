@@ -119,17 +119,36 @@ en:
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
       new:
-        heading: "Create password"
-        fields:
-          email:
-            label: "Enter your email address"
-          password:
-            label: "Create a new password"
-            hint: "It needs to be at least 8 characters long and must include at least one number."
-          password_confirm:
-            label: "Retype password"
-          submit:
-            label: "Continue"
+        needs_password:
+          heading: "Create password"
+          fields:
+            email:
+              label: "Enter your email address"
+            password:
+              label: "Create a new password"
+              hint: "It needs to be at least 8 characters long and must include at least one number."
+            password_confirm:
+              label: "Retype password"
+            submit:
+              label: "Continue"
+        needs_email_decision:
+          heading: "Do you want to receive emails about the UK transition?"
+          description: |
+            <p class="govuk-body">The emails will tell you what you, your family, or your business should do to prepare for new rules from 1 January 2021.</p>
+            <p class="govuk-body">You will only get updates if:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>there are changes to your results</li>
+              <li>questions or results are added which may affect you</li>
+            </ul>
+            <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
+          unsubscribe: You can unsubscribe from emails or change your subscription at any time.
+          fields:
+            emailsignup:
+              heading: Do you want to receive emails about the UK transition?
+              yes: "Yes"
+              no: "No, I just want to save my results"
+            submit:
+              label: "Continue"
         sign_in: |
           <a class="govuk-link" href="%{login_url}>Sign in to GOV.UK</a> if you already have an account.
       edit:
@@ -199,3 +218,5 @@ en:
               too_short: "Enter a valid password"
             password_confirmation:
               confirmation: "Passwords do not match"
+            email_decision:
+              invalid: "Please select one option"
