@@ -1,7 +1,8 @@
-class DataExchangeController < ApplicationController
+class SecurityController < ApplicationController
   before_action :authenticate_user!
 
   def show
+    @activity = current_user.activities.order(created_at: :desc)
     @data_exchanges = current_user
       .access_grants
       .order(created_at: :desc)

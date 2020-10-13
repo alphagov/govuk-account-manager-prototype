@@ -1,0 +1,78 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <%= render "account-navigation", page_is: "security" %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.security.heading"),
+      heading_level: 1,
+      font_size: "xl",
+      margin_bottom: 4,
+    } %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.security.account_use"),
+      heading_level: 2,
+      font_size: "m",
+      margin_bottom: 4,
+    } %>
+
+    <% if @data_exchanges.empty? %>
+      <p class="govuk-body">
+        <%= t("account.data_exchange.no_data_exchanged") %>
+      <p>
+    <% else %>
+      <dl class="govuk-summary-list">
+        <% @data_exchanges.each do |exchange| %>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              <%= exchange[:application_name] %>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <span class="date-text">
+                <%= date_with_time_ago(exchange[:created_at]) %>
+              </span>
+              <br>
+              <%= t("account.data_exchange.used") %>
+              <%= exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    <% end %>
+
+    <% if @activity.empty? %>
+      <p class="govuk-body">
+        <%= t("account.security.no_activity_found") %>
+      <p>
+    <% else %>
+      <%= render "govuk_publishing_components/components/heading", {
+        text: t("account.security.activity"),
+        heading_level: 2,
+        font_size: "m",
+        margin_bottom: 4,
+      } %>
+
+      <dl class="govuk-summary-list">
+        <% @activity.each do |activity| %>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              <%= t("account.security.event.#{activity.event_type}") %>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <span class="date-text">
+                <%= date_with_time_ago(activity.created_at) %>
+              </span>
+              <br>
+                <%= activity.client %>
+              <br>
+              <%= "#{ip_to_country(activity.ip_address)} (#{activity.ip_address})" %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    <% end %>
+
+  </div>
+</div>

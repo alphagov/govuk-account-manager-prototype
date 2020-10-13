@@ -30,6 +30,13 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  general:
+    change: Change
+    yes: Yes
+    no: No
+    email: Email
+    password: Password
+    cancel: Cancel
   devise: # Overrides for Devise built in text
     sessions:
       new:
@@ -39,21 +46,49 @@ en:
         register: |
           <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
   account:
+    your_account:
+      heading: Your GOV.UK account
+      transition:
+        heading: "Get ready for new rules in 2021: Your results"
+        description: A personalised list of actions to help you, your family, and your business prepare for the end of the UK transition.
+        link1: See your results
+        link1_description: Go back to the UK transition results you've saved.
+        link2: Update your results
+        link2_description: Answer the UK transition questions again to update your results.
     manage:
-      heading: Account
-      manage:
-        subheading: Manage your account
-        amend_details_link: Edit email or password
-        profile_link: View your profile
-        logout_link: Sign out
+      heading: Manage your account
+      details:
+        heading: Account details
+        could_not_fetch_data: An error occurred retrieving your data. This problem has been reported. Please try again later.
+        no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
+      privacy:
+        heading: Privacy settings
+        cookies_question: Can your account use cookies to learn about how you use GOV.UK?
+        cookies_description: For example what pages you visit and what you click on
+        email_question: Can GOV.UK email you to ask for feedback about your account?
+        email_description: For example when new features are added to your account
+      delete:
+        link: Delete this GOV.UK account
+        description: You can permanently delete your account and all the information stored in it.
+        button: Cancel my account
+        confirm: Are you sure?
       security:
-        subheading: Account security
         data_exchange_link: See how and when your data has been used
         activity_link: See all activity on your account
       email_verification_sent: |
         A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
-    activity:
-      heading: Activity on your account
+    delete:
+      heading: Delete your account
+      description: "This will permanently delete your account and all the information stored in it, including your:"
+      doomed:
+        - contact details
+        - UK transition results
+        - email notification
+      action: Delete account
+    security:
+      heading: Security
+      account_use: When your GOV.UK account was used
+      activity: When and where someone has signed into your account
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
       event:
         login: "Login"
@@ -67,9 +102,6 @@ en:
         test_scope_read: "local development testing data"
         test_scope_write: "local development testing data"
     profile:
-      heading: Your Profile
-      could_not_fetch_data: An error occurred retrieving your data. This problem has been reported. Please try again later.
-      no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
       user_details:
         email: "Email address"
         test: "Local development testing data"

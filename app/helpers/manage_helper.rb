@@ -1,4 +1,6 @@
-module ProfileHelper
+# frozen_string_literal: true
+
+module ManageHelper
   def user_details(user_info)
     return unless user_info
 
