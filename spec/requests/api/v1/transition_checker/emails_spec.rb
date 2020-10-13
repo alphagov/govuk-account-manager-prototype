@@ -9,8 +9,11 @@ RSpec.describe "/api/v1/transition-checker/*" do
       email: "user@domain.tld",
       password: "breadbread1", # pragma: allowlist secret
       password_confirmation: "breadbread1",
+      confirmed_at: user_confirmed_at,
     )
   end
+
+  let(:user_confirmed_at) { nil }
 
   let(:application) do
     FactoryBot.create(
@@ -36,7 +39,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
     }
   end
 
-  context "/check-email-subscription" do
+  context "GET /email-subscription" do
     context "with a email subscription" do
       let!(:subscription) do
         FactoryBot.create(
@@ -86,6 +89,62 @@ RSpec.describe "/api/v1/transition-checker/*" do
       it "returns a 404" do
         get api_v1_transition_checker_email_subscription_path, headers: headers
         expect(response).to have_http_status(404)
+      end
+    end
+  end
+
+  context "POST /email-subscription" do
+    let(:params) { { topic_slug: new_topic_slug } }
+    let(:new_topic_slug) { "new-topic-slug" }
+
+    context "the user has confirmed their email address" do
+      let(:user_confirmed_at) { Time.zone.now }
+
+      context "with an email subscription" do
+        let(:subscription) do
+          FactoryBot.create(
+            :email_subscription,
+            user_id: user.id,
+            topic_slug: "transition checker emails",
+            subscription_id: "old-subscription-id",
+          )
+        end
+
+        before do
+          stub_email_alert_api_has_subscription(
+            subscription.subscription_id,
+            "daily",
+          )
+        end
+
+        it "deactivates the old subscription and activates the new subscription" do
+          stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: new_topic_slug, returned_attributes: { id: "list-id" })
+          stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id")
+          stub_deactivate = stub_email_alert_api_unsubscribes_a_subscription(subscription.subscription_id)
+          post api_v1_transition_checker_email_subscription_path, headers: headers, params: params
+          expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
+          expect(stub_subscriber_list).to have_been_made
+          expect(stub_activate).to have_been_made
+          expect(stub_deactivate).to have_been_made
+        end
+      end
+
+      context "without an email subscription" do
+        it "activates the new subscription" do
+          stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: new_topic_slug, returned_attributes: { id: "list-id" })
+          stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id")
+          post api_v1_transition_checker_email_subscription_path, headers: headers, params: params
+          expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
+          expect(stub_subscriber_list).to have_been_made
+          expect(stub_activate).to have_been_made
+        end
+      end
+    end
+
+    context "the user has not confirmed their email address" do
+      it "does not activate the new subscription" do
+        post api_v1_transition_checker_email_subscription_path, headers: headers, params: params
+        expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
       end
     end
   end
