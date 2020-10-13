@@ -18,18 +18,18 @@ class User < ApplicationRecord
   has_many :access_grants,
            class_name: "Doorkeeper::AccessGrant",
            foreign_key: :resource_owner_id,
-           dependent: :delete_all
+           dependent: :destroy
 
   has_many :access_tokens,
            class_name: "Doorkeeper::AccessToken",
            foreign_key: :resource_owner_id,
-           dependent: :delete_all
+           dependent: :destroy
 
   has_many :activities,
-           dependent: :delete_all
+           dependent: :destroy
 
   has_many :email_subscriptions,
-           dependent: :delete_all
+           dependent: :destroy
 
   after_commit :update_remote_user_info, on: %i[create update]
 
@@ -39,7 +39,7 @@ class User < ApplicationRecord
   #
   # the prepend: true is a concession to testing, it's so we can
   # confirm the right access token is being used (otherwise the access
-  # token gets deleted between the test reading it and this callback
+  # token gets destroyed between the test reading it and this callback
   # happening)
   before_destroy :destroy_remote_user_info_immediately, prepend: true
 
