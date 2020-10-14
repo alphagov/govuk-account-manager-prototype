@@ -34,10 +34,10 @@ group :development, :test do
 end
 
 group :test do
+  gem "climate_control"
   gem "govuk_test", "~> 2.0"
   gem "oauth2"
   gem "simplecov"
-  gem "timecop"
   gem "webmock"
 end
 

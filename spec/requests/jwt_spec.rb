@@ -13,7 +13,7 @@ RSpec.describe "JWT (register and login)" do
   let(:application_scopes) { %i[test_scope_read test_scope_write] }
 
   let(:private_key) do
-    private_key = OpenSSL::PKey::EC.new "prime256v1"
+    private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
     private_key.generate_key
   end
 
@@ -51,7 +51,7 @@ RSpec.describe "JWT (register and login)" do
     end
 
     let(:email) { "email@example.com" }
-    let(:password) { "abcd1234" }
+    let(:password) { "abcd1234" } # pragma: allowlist secret
     let(:email_decision) { nil }
 
     it "creates an access token" do

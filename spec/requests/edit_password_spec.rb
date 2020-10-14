@@ -5,7 +5,7 @@ RSpec.describe "edit-password" do
     FactoryBot.create(
       :user,
       email: "user@domain.tld",
-      password: "breadbread1",
+      password: "breadbread1", # pragma: allowlist secret
       password_confirmation: "breadbread1",
     )
   end
@@ -30,12 +30,12 @@ RSpec.describe "edit-password" do
       }
     end
 
-    let(:password) { "abcd1234" }
+    let(:password) { "abcd1234" } # pragma: allowlist secret
     let(:password_confirmation) { password }
     let(:reset_password_token) { actual_reset_password_token }
 
     it "changes the user's password" do
-      old_encrypted_password = user.encrypted_password
+      old_encrypted_password = user.encrypted_password # pragma: allowlist secret
 
       post user_password_path, params: params
 

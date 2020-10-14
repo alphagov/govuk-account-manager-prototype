@@ -16,7 +16,7 @@ RSpec.describe "welcome" do
           FactoryBot.create(
             :user,
             email: "user@domain.tld",
-            password: "breadbread1",
+            password: "breadbread1", # pragma: allowlist secret
             password_confirmation: "breadbread1",
           )
         end
@@ -43,7 +43,7 @@ RSpec.describe "welcome" do
       FactoryBot.create(
         :user,
         email: "user@domain.tld",
-        password: "breadbread1",
+        password: "breadbread1", # pragma: allowlist secret
         password_confirmation: "breadbread1",
       )
     end

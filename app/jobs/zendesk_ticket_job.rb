@@ -1,7 +1,7 @@
 require "zendesk/ticket"
 
-class ZendeskTicketWorker
-  include Sidekiq::Worker
+class ZendeskTicketJob < ApplicationJob
+  queue_as :default
 
   def perform(ticket_attributes)
     ticket = Zendesk::Ticket.new(ticket_attributes).attributes

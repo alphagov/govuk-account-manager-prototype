@@ -14,7 +14,7 @@ RSpec.feature "/account" do
     FactoryBot.create(
       :user,
       email: "somebody@example.com",
-      password: "breadbread1",
+      password: "breadbread1", # pragma: allowlist secret
       password_confirmation: "breadbread1",
     )
   end
@@ -24,12 +24,13 @@ RSpec.feature "/account" do
   before do
     log_in(user.email, user.password)
 
-    ENV["ATTRIBUTE_SERVICE_URL"] = "http://attribute-service"
     stub_request(:get, "http://attribute-service/oidc/user_info").to_return(body: userinfo.to_json)
   end
 
-  after do
-    ENV["ATTRIBUTE_SERVICE_URL"] = nil
+  around do |example|
+    ClimateControl.modify(ATTRIBUTE_SERVICE_URL: "http://attribute-service") do
+      example.run
+    end
   end
 
   context "with transition checker state" do

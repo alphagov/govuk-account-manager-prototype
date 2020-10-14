@@ -1,12 +1,10 @@
 RSpec.describe "Doorkeeper::OpenidConnect::DiscoveryController", type: :request do
   let(:attribute_service_url) { "https://attribute-service" }
 
-  before do
-    ENV["ATTRIBUTE_SERVICE_URL"] = attribute_service_url
-  end
-
-  after do
-    ENV["ATTRIBUTE_SERVICE_URL"] = nil
+  around do |example|
+    ClimateControl.modify(ATTRIBUTE_SERVICE_URL: attribute_service_url) do
+      example.run
+    end
   end
 
   it "includes the custom attribute service URL" do

@@ -21,7 +21,7 @@ if Rails.env.development?
     redirect_uri: "http://apply-for-a-barking-permit.service.dev.gov.uk/login/callback",
     scopes: %i[email test_scope_read openid],
     uid: "barking-permit-id",
-    secret: "barking-permit-secret",
+    secret: "barking-permit-secret", # pragma: allowlist secret
   )
 
   Doorkeeper::Application.create!(
@@ -29,7 +29,7 @@ if Rails.env.development?
     redirect_uri: "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
     scopes: %i[email openid transition_checker],
     uid: "transition-checker-id",
-    secret: "transition-checker-secret",
+    secret: "transition-checker-secret", # pragma: allowlist secret
   )
 
   # Developement Credentials for GOV.UK Docker
