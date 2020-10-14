@@ -131,6 +131,11 @@ en:
               label: "Retype password"
             submit:
               label: "Continue"
+        needs_consent:
+          heading: "Control how we use information about you"
+          fields:
+            submit:
+              label: "Continue"
         needs_email_decision:
           heading: "Do you want to receive emails about the UK transition?"
           description: |

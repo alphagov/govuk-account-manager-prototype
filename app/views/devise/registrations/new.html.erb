@@ -10,9 +10,15 @@
     <%= form_with(url: new_user_registration_post_path) do %>
       <% if params[:previous_url] %><%= hidden_field_tag :previous_url, params[:previous_url] %><% end %>
       <% if params[:jwt] %><%= hidden_field_tag :jwt, params[:jwt] %><% end %>
+      <% for k, v in params.fetch(:button, {}) %><% unless k == @state %><%= hidden_field_tag :"button[#{k}]", v %><% end %><% end %>
       <%= hidden_field_tag :"user[email]", params.dig(:user, :email) %>
 
-      <% if @state == :needs_email_decision %>
+      <% if @state == :needs_consent %>
+        <%= hidden_field_tag :"user[password]", params.dig(:user, :password) %>
+        <%= hidden_field_tag :"user[password_confirmation]", params.dig(:user, :password_confirmation) %>
+
+        <p class="govuk-body">When we have the final terms & conditions text, it will go here.</p>
+      <% elsif @state == :needs_email_decision %>
         <%= hidden_field_tag :"user[password]", params.dig(:user, :password) %>
         <%= hidden_field_tag :"user[password_confirmation]", params.dig(:user, :password_confirmation) %>
 
@@ -68,6 +74,8 @@
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.new.#{@state}.fields.submit.label"),
+        name: "button[#{@state}]",
+        value: "submit",
       } %>
     <% end %>
   </div>

@@ -45,6 +45,7 @@ RSpec.describe "JWT (register and login)" do
         "user[email]" => email,
         "user[password]" => password,
         "user[password_confirmation]" => password,
+        "button[needs_consent]" => "submit",
         "email_decision" => email_decision,
         "jwt" => jwt,
       }.compact

@@ -1,12 +1,18 @@
 module RegistrationStateMachine
   def self.call(params, jwt_payload)
     password_errors = check_password(params)
+    consent_errors = check_consent(params)
     email_decision_errors = check_email_decision(params, jwt_payload)
 
     if password_errors
       {
         state: :needs_password,
         resource_error_messages: password_errors,
+      }
+    elsif consent_errors
+      {
+        state: :needs_consent,
+        resource_error_messages: consent_errors,
       }
     elsif email_decision_errors
       {
@@ -40,6 +46,11 @@ module RegistrationStateMachine
         ],
       }
     end
+  end
+
+  def self.check_consent(params)
+    button = params.dig(:button, :needs_consent)
+    button ? nil : {}
   end
 
   def self.check_email_decision(params, jwt_payload)

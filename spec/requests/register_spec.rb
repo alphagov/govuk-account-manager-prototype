@@ -6,12 +6,14 @@ RSpec.describe "register" do
         "user[email]" => email,
         "user[password]" => password,
         "user[password_confirmation]" => password_confirmation,
+        "button[needs_consent]" => needs_consent
       }
     end
 
     let(:email) { "email@example.com" }
     let(:password) { "abcd1234" } # pragma: allowlist secret
     let(:password_confirmation) { password }
+    let(:needs_consent) { "submit" }
 
     it "creates a user" do
       post new_user_registration_post_path, params: params
@@ -34,6 +36,16 @@ RSpec.describe "register" do
       expect(response.body).to have_content(I18n.t("post_registration.heading"))
 
       assert_enqueued_jobs 1, only: NotifyDeliveryJob
+    end
+
+    context "when the user has not consented to the terms & conditions" do
+      let(:needs_consent) { nil }
+
+      it "shows the terms & conditions" do
+        post new_user_registration_post_path, params: params
+
+        expect(response.body).to have_content(I18n.t("devise.registrations.new.needs_consent.heading"))
+      end
     end
 
     context "when the email is missing" do
