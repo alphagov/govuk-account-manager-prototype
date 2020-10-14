@@ -53,6 +53,9 @@ module GovukAccountManagerPrototype
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
     config.action_dispatch.default_headers["X-Frame-Options"] = "DENY"
 
+    # GOV.UK convention is to use lib over app/lib
+    config.autoload_paths << "lib"
+
     config.exceptions_app = routes
   end
 end
