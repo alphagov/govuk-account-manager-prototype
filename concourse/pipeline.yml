@@ -113,7 +113,7 @@ jobs:
           CF_STARTUP_TIMEOUT: 15 # minutes
           APP_INSTANCES: 1
           WORKER_INSTANCES: 1
-          HOSTNAME: govuk-account-manager-staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
           REQUIRE_BASIC_AUTH: "true"
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
@@ -125,7 +125,6 @@ jobs:
           OIDC_PEPPER: ((oidc-pepper-staging))
           SECRET_KEY_BASE: ((secret-key-base-staging))
           PASSWORD_PEPPER: ((password-pepper-staging))
-          ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service-staging.london.cloudapps.digital
           ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
           ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
 
@@ -168,7 +167,7 @@ jobs:
           CF_STARTUP_TIMEOUT: 15 # minutes
           APP_INSTANCES: 1
           WORKER_INSTANCES: 1
-          HOSTNAME: govuk-account-manager
+          CDN_DOMAIN: account.publishing.service.gov.uk
           REQUIRE_BASIC_AUTH: "true"
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
@@ -180,7 +179,6 @@ jobs:
           OIDC_PEPPER: ((oidc-pepper-production))
           SECRET_KEY_BASE: ((secret-key-base-production))
           PASSWORD_PEPPER: ((password-pepper-production))
-          ATTRIBUTE_SERVICE_URL: https://govuk-attribute-service.london.cloudapps.digital
           ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
           ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
 
