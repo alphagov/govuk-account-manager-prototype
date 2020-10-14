@@ -9,11 +9,13 @@ class EmailSubscription < ApplicationRecord
 
     subscriber_list = Services.email_alert_api.get_subscriber_list(slug: topic_slug)
 
-    Services.email_alert_api.subscribe(
+    subscription = Services.email_alert_api.subscribe(
       subscriber_list_id: subscriber_list.to_hash.dig("subscriber_list", "id"),
       address: user.email,
       frequency: "daily",
     )
+
+    update!(subscription_id: subscription.to_hash.dig("subscription_id"))
   end
 
   def deactivate_immediately
