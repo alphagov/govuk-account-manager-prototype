@@ -51,12 +51,12 @@ run:
       cf set-env $CF_APP_NAME SECRET_KEY_BASE "$SECRET_KEY_BASE"
       cf set-env $CF_APP_NAME PASSWORD_PEPPER "$PASSWORD_PEPPER"
 
-      cf set-env $CF_APP_NAME ATTRIBUTE_SERVICE_URL "$ATTRIBUTE_SERVICE_URL"
+      cf set-env $CF_APP_NAME ATTRIBUTE_SERVICE_URL "attributes.${CDN_DOMAIN}"
 
       cf set-env $CF_APP_NAME ZENDESK_CLIENT_USERNAME "$ZENDESK_CLIENT_USERNAME"
       cf set-env $CF_APP_NAME ZENDESK_CLIENT_TOKEN "$ZENDESK_CLIENT_TOKEN"
 
       cf push $CF_APP_NAME --strategy rolling
-      cf map-route $CF_APP_NAME london.cloudapps.digital --hostname "$HOSTNAME"
+      cf map-route $CF_APP_NAME "$CDN_DOMAIN" --hostname www
 
       cf scale --process worker -i "$WORKER_INSTANCES" $CF_APP_NAME
