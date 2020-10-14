@@ -44,7 +44,7 @@ class Api::V1::RegisterClientController < Doorkeeper::ApplicationController
 
     render json: {
       client_id: client.uid,
-      client_secret: client.secret,
+      client_secret: client.secret, # pragma: allowlist secret
       client_secret_expires_at: 0,
       contacts: client.contacts,
       logo_uri: client.logo_uri,

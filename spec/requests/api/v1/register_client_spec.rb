@@ -27,7 +27,7 @@ RSpec.describe "/api/v1/register-client" do
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
-        client_secret: Doorkeeper::Application.last.secret,
+        client_secret: Doorkeeper::Application.last.secret, # pragma: allowlist secret
         client_secret_expires_at: 0,
       })
     end
@@ -43,7 +43,7 @@ RSpec.describe "/api/v1/register-client" do
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
-        client_secret: Doorkeeper::Application.last.secret,
+        client_secret: Doorkeeper::Application.last.secret, # pragma: allowlist secret
         client_secret_expires_at: 0,
       })
       expect(Doorkeeper::Application.last.redirect_uri).to eq(redirect_uris.join("\n"))
@@ -69,7 +69,7 @@ RSpec.describe "/api/v1/register-client" do
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
-        client_secret: Doorkeeper::Application.last.secret,
+        client_secret: Doorkeeper::Application.last.secret, # pragma: allowlist secret
         client_secret_expires_at: 0,
       })
     end
@@ -84,7 +84,7 @@ RSpec.describe "/api/v1/register-client" do
       expect(response).to be_successful
       expect(JSON.parse(response.body).deep_symbolize_keys).to include({
         client_id: Doorkeeper::Application.last.uid,
-        client_secret: Doorkeeper::Application.last.secret,
+        client_secret: Doorkeeper::Application.last.secret, # pragma: allowlist secret
         client_secret_expires_at: 0,
       })
     end
@@ -121,7 +121,7 @@ RSpec.describe "/api/v1/register-client" do
         parsed_response = JSON.parse(response.body).deep_symbolize_keys
         expect(parsed_response).to include({
           client_id: Doorkeeper::Application.last.uid,
-          client_secret: Doorkeeper::Application.last.secret,
+          client_secret: Doorkeeper::Application.last.secret, # pragma: allowlist secret
           client_secret_expires_at: 0,
         })
         expect(parsed_response[field.to_sym]).to eq("some_string")
@@ -144,7 +144,7 @@ RSpec.describe "/api/v1/register-client" do
         parsed_response = JSON.parse(response.body).deep_symbolize_keys
         expect(parsed_response).to include({
           client_id: Doorkeeper::Application.last.uid,
-          client_secret: Doorkeeper::Application.last.secret,
+          client_secret: Doorkeeper::Application.last.secret, # pragma: allowlist secret
           client_secret_expires_at: 0,
         })
         expect(parsed_response[field.to_sym]).to eq(%w[some_string another_string])

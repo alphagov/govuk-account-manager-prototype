@@ -9,7 +9,7 @@ RSpec.describe ApplicationKey, type: :unit do
   end
 
   it "round-trips the PEM" do
-    private_key = OpenSSL::PKey::EC.new "prime256v1"
+    private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
     private_key.generate_key
     public_key = OpenSSL::PKey::EC.new private_key
 
@@ -24,7 +24,7 @@ RSpec.describe ApplicationKey, type: :unit do
 
   context "validate_jwt!" do
     let(:private_key) do
-      private_key = OpenSSL::PKey::EC.new "prime256v1"
+      private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
       private_key.generate_key
     end
 
@@ -90,7 +90,7 @@ RSpec.describe ApplicationKey, type: :unit do
 
     context "the JWT has been signed with the wrong key" do
       let(:jwt_signing_key) do
-        private_key = OpenSSL::PKey::EC.new "prime256v1"
+        private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
         private_key.generate_key
       end
 

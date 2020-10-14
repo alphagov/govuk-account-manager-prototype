@@ -10,7 +10,7 @@ RSpec.describe "register" do
     end
 
     let(:email) { "email@example.com" }
-    let(:password) { "abcd1234" }
+    let(:password) { "abcd1234" } # pragma: allowlist secret
     let(:password_confirmation) { password }
 
     it "creates a user" do
