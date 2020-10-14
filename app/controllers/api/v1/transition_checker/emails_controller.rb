@@ -26,16 +26,19 @@ class Api::V1::TransitionChecker::EmailsController < Doorkeeper::ApplicationCont
 
     EmailSubscription.transaction do
       user = User.find(doorkeeper_token.resource_owner_id)
-      previous_subscription = user.email_subscriptions.first
-      break if previous_subscription&.topic_slug == topic_slug
+      subscription = user.email_subscriptions.first
+      break if subscription&.topic_slug == topic_slug
 
-      new_subscription = EmailSubscription.create!(
-        user_id: user.id,
-        topic_slug: topic_slug,
-      )
+      if subscription
+        subscription.update!(topic_slug: topic_slug)
+      else
+        subscription = EmailSubscription.create!(
+          user_id: user.id,
+          topic_slug: topic_slug,
+        )
+      end
 
-      previous_subscription.destroy! if previous_subscription
-      new_subscription.activate_if_confirmed
+      subscription.reactivate_if_confirmed
     end
   end
 end
