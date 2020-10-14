@@ -1,6 +1,8 @@
 RSpec.describe "/api/v1/register-client" do
-  before do
-    ENV["ENABLE_DYNAMIC_REGISTRATION"] = "1"
+  around do |example|
+    ClimateControl.modify(ENABLE_DYNAMIC_REGISTRATION: "1") do
+      example.run
+    end
   end
 
   let(:headers) do

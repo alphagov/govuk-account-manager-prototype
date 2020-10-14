@@ -16,12 +16,10 @@ RSpec.describe User, type: :unit do
 
   let(:bearer_token) { AccountManagerApplication.user_token(user.id).token }
 
-  before do
-    ENV["ATTRIBUTE_SERVICE_URL"] = attribute_service_url
-  end
-
-  after do
-    ENV["ATTRIBUTE_SERVICE_URL"] = nil
+  around do |example|
+    ClimateControl.modify(ATTRIBUTE_SERVICE_URL: attribute_service_url) do
+      example.run
+    end
   end
 
   context "#destroy!" do
