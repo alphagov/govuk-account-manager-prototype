@@ -28,12 +28,13 @@ module RegistrationStateMachine
   end
 
   def self.check_password(params)
+    button = params.dig(:button, :needs_password)
+    return {} unless button
+
     password = params.dig(:user, :password) # pragma: allowlist secret
     password_confirmation = params.dig(:user, :password_confirmation)
-    return {} unless password
-
     password_format_ok = User::PASSWORD_REGEX.match? password
-    password_length_ok = Devise.password_length.include? password.length
+    password_length_ok = Devise.password_length.include? password&.length
     password_confirmation_ok = password == password_confirmation
     unless password_format_ok && password_length_ok && password_confirmation_ok
       {
@@ -56,10 +57,10 @@ module RegistrationStateMachine
   def self.check_email_decision(params, jwt_payload)
     email_topic_slug = (jwt_payload || {}).dig(:attributes, :transition_checker_state, "email_topic_slug")
     if email_topic_slug
-      email_decision = params.dig(:email_decision)
-      return {} unless email_decision
+      button = params.dig(:button, :needs_email_decision)
+      return {} unless button
 
-      email_decision_format_ok = %w[yes no].include? email_decision
+      email_decision_format_ok = %w[yes no].include? params.dig(:email_decision)
       unless email_decision_format_ok
         {
           email_decision: [

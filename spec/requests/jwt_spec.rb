@@ -45,7 +45,9 @@ RSpec.describe "JWT (register and login)" do
         "user[email]" => email,
         "user[password]" => password,
         "user[password_confirmation]" => password,
+        "button[needs_password]" => "submit",
         "button[needs_consent]" => "submit",
+        "button[needs_email_decision]" => needs_email_decision,
         "email_decision" => email_decision,
         "jwt" => jwt,
       }.compact
@@ -54,6 +56,7 @@ RSpec.describe "JWT (register and login)" do
     let(:email) { "email@example.com" }
     let(:password) { "abcd1234" } # pragma: allowlist secret
     let(:email_decision) { nil }
+    let(:needs_email_decision) { nil }
 
     it "creates an access token" do
       post new_user_registration_post_path, params: params
@@ -109,10 +112,12 @@ RSpec.describe "JWT (register and login)" do
         post new_user_registration_post_path, params: params
         expect(response).to be_successful
         expect(response.body).to have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+        expect(response.body).to_not have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
       end
 
       context "the user does want notifications" do
         let(:email_decision) { "yes" }
+        let(:needs_email_decision) { "submit" }
 
         it "shows the post-registration page" do
           post new_user_registration_post_path, params: params
@@ -124,6 +129,7 @@ RSpec.describe "JWT (register and login)" do
 
       context "the user does not want notifications" do
         let(:email_decision) { "no" }
+        let(:needs_email_decision) { "submit" }
 
         it "shows the post-registration page" do
           post new_user_registration_post_path, params: params
@@ -135,8 +141,19 @@ RSpec.describe "JWT (register and login)" do
 
       context "the user gives something other than 'yes' or 'no' for notifications" do
         let(:email_decision) { "foo" }
+        let(:needs_email_decision) { "submit" }
 
-        it "shows the post-registration page" do
+        it "shows an error" do
+          post new_user_registration_post_path, params: params
+          expect(response).to be_successful
+          expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
+        end
+      end
+
+      context "the user doesn't tick either option for notifications" do
+        let(:needs_email_decision) { "submit" }
+
+        it "shows an error" do
           post new_user_registration_post_path, params: params
           expect(response).to be_successful
           expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))

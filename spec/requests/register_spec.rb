@@ -6,7 +6,8 @@ RSpec.describe "register" do
         "user[email]" => email,
         "user[password]" => password,
         "user[password_confirmation]" => password_confirmation,
-        "button[needs_consent]" => needs_consent
+        "button[needs_password]" => "submit",
+        "button[needs_consent]" => needs_consent,
       }
     end
 
