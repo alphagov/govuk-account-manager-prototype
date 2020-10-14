@@ -37,6 +37,6 @@ class FeedbackController < ApplicationController
       user_requires_response: @form_responses[:user_requires_response].humanize,
     }
 
-    ZendeskTicketWorker.perform_async(ticket_attributes)
+    ZendeskTicketJob.perform_later ticket_attributes
   end
 end

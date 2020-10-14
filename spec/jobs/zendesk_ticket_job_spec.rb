@@ -1,6 +1,4 @@
-RSpec.describe ZendeskTicketWorker, type: :worker do
-  subject(:worker) { described_class.new }
-
+RSpec.describe ZendeskTicketJob, type: :job do
   let(:ticket_attributes) do
     {
       subject: I18n.t("feedback.email_subject"),

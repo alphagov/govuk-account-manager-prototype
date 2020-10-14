@@ -51,7 +51,7 @@ RSpec.describe "feedback", type: :request do
 
       context "when all required fields are present" do
         it "queues a worker" do
-          expect(ZendeskTicketWorker).to receive(:perform_async).once.with(ticket_attributes)
+          expect(ZendeskTicketJob).to receive(:perform_later).once.with(ticket_attributes)
 
           post feedback_path, params: params
         end
@@ -113,8 +113,8 @@ RSpec.describe "feedback", type: :request do
       end
 
       context "when all required fields are present" do
-        it "queues a worker" do
-          expect(ZendeskTicketWorker).to receive(:perform_async).once.with(ticket_attributes)
+        it "queues a job" do
+          expect(ZendeskTicketJob).to receive(:perform_later).once.with(ticket_attributes)
 
           post feedback_path, params: params
         end
