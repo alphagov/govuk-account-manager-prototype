@@ -6,6 +6,7 @@ class DeviseConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
 
     if successfully_sent?(resource)
+      # this passes resource.email, unlike resource_name in the standard method
       respond_with({}, location: after_resending_confirmation_instructions_path_for(resource.email))
     else
       respond_with(resource)

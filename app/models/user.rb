@@ -58,4 +58,9 @@ class User < ApplicationRecord
   def destroy_remote_user_info_immediately
     RemoteUserInfo.new(self).destroy!
   end
+
+  # from devise
+  def after_confirmation
+    ActivateEmailSubscriptionsJob.perform_later id
+  end
 end
