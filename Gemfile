@@ -38,7 +38,6 @@ group :test do
   gem "govuk_test", "~> 2.0"
   gem "oauth2"
   gem "simplecov"
-  gem "timecop"
   gem "webmock"
 end
 
