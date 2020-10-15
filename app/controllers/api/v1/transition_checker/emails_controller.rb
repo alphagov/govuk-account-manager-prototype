@@ -1,4 +1,6 @@
 class Api::V1::TransitionChecker::EmailsController < Doorkeeper::ApplicationController
+  skip_before_action :verify_authenticity_token
+
   before_action -> { doorkeeper_authorize! :transition_checker }
 
   rescue_from ActionController::ParameterMissing do
