@@ -61,9 +61,9 @@ RSpec.describe "/api/v1/transition-checker/*" do
         )
       end
 
-      it "returns a 200" do
+      it "returns a 204" do
         get api_v1_transition_checker_email_subscription_path, headers: headers
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(204)
       end
 
       context "the subscription is disabled" do
@@ -78,9 +78,9 @@ RSpec.describe "/api/v1/transition-checker/*" do
       context "the subscription hasn't been activated" do
         let(:email_alert_api_subscription_id) { nil }
 
-        it "returns a 200" do
+        it "returns a 204" do
           get api_v1_transition_checker_email_subscription_path, headers: headers
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(204)
         end
       end
     end
