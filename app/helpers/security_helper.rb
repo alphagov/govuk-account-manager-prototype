@@ -2,7 +2,7 @@
 
 require "geocoder"
 
-module ActivityHelper
+module SecurityHelper
   def ip_to_country(ip)
     Geocoder.search(ip)&.first&.country
   end

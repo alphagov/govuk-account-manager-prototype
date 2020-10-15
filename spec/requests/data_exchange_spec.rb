@@ -37,14 +37,14 @@ RSpec.feature "/account/your-data" do
     end
 
     it "lists how and when data was used" do
-      visit your_data_path(client: application, scope: "openid email")
+      visit account_security_path(client: application, scope: "openid email")
 
       expect(page).to have_text(application.name)
       expect(page).to have_text("used #{I18n.t('account.data_exchange.scope.email')}")
     end
 
     it "does not list transition checker data usage" do
-      visit your_data_path(client: application, scope: "openid email transition_checker")
+      visit account_security_path(client: application, scope: "openid email transition_checker")
 
       expect(page).not_to have_text(I18n.t("account.data_exchange.scope.transition_checker"))
     end

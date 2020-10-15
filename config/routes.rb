@@ -13,15 +13,17 @@ Rails.application.routes.draw do
     get  "/logout", to: "devise_sessions#destroy", as: :destroy_user_session
 
     scope "/account" do
+      get "/manage", to: "manage#show", as: :account_manage
+      get "/security", to: "security#show", as: :account_security
+
+      get "/delete", to: "delete#show", as: :account_delete
+
       get    "/", to: "account#show", as: :user_root
       patch  "/", to: "devise_registration#update", as: :user_registration
       put    "/", to: "devise_registration#update"
       delete "/", to: "devise_registration#destroy"
 
-      get "/activity", to: "activity#show"
-      get "/your-data", to: "data_exchange#show"
-      get "/profile", to: "profile#show"
-      get "/manage", to: "devise_registration#edit", as: :edit_user_registration
+      get "/edit", to: "devise_registration#edit", as: :edit_user_registration
 
       scope "/password" do
         patch "/", to: "devise_passwords#update", as: :user_password

@@ -1,0 +1,35 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <%= render "account-navigation", page_is: "" %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: account_manage_path
+    } %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.delete.heading"),
+      heading_level: 1,
+      font_size: "xl",
+      margin_bottom: 4,
+    } %>
+
+    <p class="govuk-body"><%= t("account.delete.description") %></p>
+    <ul class="govuk-list govuk-list--bullet">
+      <% t("account.delete.doomed").each do |item| %>
+        <li><%= item %></li>
+      <% end %>
+    </ul>
+
+    <%= form_with(url: user_registration_path, method: :delete) do %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("account.delete.action"),
+        destructive: true,
+        inline_layout: true
+      } %>
+
+      <a href="<%= account_manage_path %>" class="govuk-link"><%= t("account.general.cancel") %></a>
+    <% end %>
+  </div>
+</div>
