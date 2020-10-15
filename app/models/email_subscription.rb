@@ -3,9 +3,10 @@ class EmailSubscription < ApplicationRecord
 
   before_destroy :deactivate_immediately
 
-  def activate_if_confirmed
-    return if subscription_id
+  def reactivate_if_confirmed
     return unless user.confirmed?
+
+    deactivate_immediately
 
     subscriber_list = Services.email_alert_api.get_subscriber_list(slug: topic_slug)
 
