@@ -12,12 +12,12 @@ class Api::V1::TransitionChecker::EmailsController < Doorkeeper::ApplicationCont
     subscription = user.email_subscriptions.first
 
     head 404 and return unless subscription
-    head 200 and return unless subscription.subscription_id
+    head 204 and return unless subscription.subscription_id
 
     begin
       state = Services.email_alert_api.get_subscription(subscription.subscription_id)
       has_ended = state.to_hash.dig("subscription", "ended_reason")
-      head has_ended ? 410 : 200
+      head has_ended ? 410 : 204
     rescue GdsApi::HTTPGone, GdsApi::HTTPNotFound
       head 410
     end
