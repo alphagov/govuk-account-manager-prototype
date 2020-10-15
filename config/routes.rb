@@ -23,7 +23,6 @@ Rails.application.routes.draw do
       put    "/", to: "devise_registration#update"
       delete "/", to: "devise_registration#destroy"
 
-      get "/your-data", to: "data_exchange#show"
       get "/edit", to: "devise_registration#edit", as: :edit_user_registration
 
       scope "/password" do
