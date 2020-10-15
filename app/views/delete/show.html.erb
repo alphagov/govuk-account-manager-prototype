@@ -22,7 +22,7 @@
       <% end %>
     </ul>
 
-    <form>
+    <%= form_with(url: user_registration_path, method: :delete) do %>
       <%= render "govuk_publishing_components/components/button", {
         text: t("account.delete.action"),
         destructive: true,
@@ -30,12 +30,6 @@
       } %>
 
       <a href="<%= account_manage_path %>" class="govuk-link"><%= t("account.general.cancel") %></a>
-    </form>
-
-    <% if false %>
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do %>
-        <%= button_to t("devise.registrations.edit.cancel.button"), registration_path(resource_name), data: { confirm: t("devise.registrations.edit.cancel.confirm") }, method: :delete %>
-      <% end %>
     <% end %>
   </div>
 </div>
