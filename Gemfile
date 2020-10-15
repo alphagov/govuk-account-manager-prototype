@@ -23,6 +23,7 @@ gem "rest-client", "~> 2.1.0"
 gem "sass-rails", "~> 5.0.8"
 gem "sentry-raven", "~> 3.0"
 gem "sidekiq", "~> 6.1"
+gem "sidekiq-scheduler", "~> 3.0.0"
 gem "sprockets-rails"
 
 group :development, :test do
