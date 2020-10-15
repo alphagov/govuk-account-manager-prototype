@@ -150,12 +150,10 @@ en:
           fields:
             emailsignup:
               heading: Do you want to receive emails about the UK transition?
-              yes: Yes
-              no: No, I just want to save my results
+              "yes": "Yes"
+              "no": No, I just want to save my results
             submit:
               label: Continue
-        sign_in: |
-          <a class="govuk-link" href="%{login_url}>Sign in to GOV.UK</a> if you already have an account.
       edit:
         heading: "Change your email address or password"
         unconfirmed: "Currently waiting confirmation for: %{email}"

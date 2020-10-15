@@ -15,8 +15,7 @@ class WelcomeController < ApplicationController
         if User.exists?(email: @email)
           render "devise/sessions/new"
         else
-          @state = :needs_password
-          render "devise/registrations/new"
+          render "devise/registrations/start"
         end
       else
         @email_error_message = I18n.t("welcome.show.fields.email.errors.format")

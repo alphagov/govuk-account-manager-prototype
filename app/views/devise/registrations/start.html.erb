@@ -1,0 +1,44 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.registrations.new.needs_password.heading"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <%= form_with(url: new_user_registration_start_path) do %>
+      <% if resource || @resource_error_messages %>
+        <%= render "devise/shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
+      <% end %>
+
+      <% if params.dig(:user, :email) %><%= hidden_field_tag :"user[email]", params.dig(:user, :email) %><% end %>
+      <% if @registration_state_id %><%= hidden_field_tag :"registration_state_id", @registration_state_id %><% end %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.new.needs_password.fields.password.label"),
+        },
+        hint: t("devise.registrations.new.needs_password.fields.password.hint"),
+        name: "user[password]",
+        type: "password",
+        id: "password",
+        error_message: devise_error_items(:password, @resource_error_messages),
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.new.needs_password.fields.password_confirm.label"),
+        },
+        name: "user[password_confirmation]",
+        type: "password",
+        id: "password_confirmation",
+        error_message: devise_error_items(:password_confirmation, @resource_error_messages),
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.registrations.new.needs_password.fields.submit.label"),
+      } %>
+    <% end %>
+  </div>
+</div>

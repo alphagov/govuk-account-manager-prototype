@@ -1,0 +1,2 @@
+class RegistrationState < ApplicationRecord
+end

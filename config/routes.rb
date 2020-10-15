@@ -55,7 +55,10 @@ Rails.application.routes.draw do
     end
 
     scope "/new-account" do
-      post "/", to: "devise_registration#create", as: :new_user_registration_post
+      post "/", to: "devise_registration#start", as: :new_user_registration_start
+      get  "/your-information", to: "devise_registration#your_information", as: :new_user_registration_your_information
+      post "/transition-emails", to: "devise_registration#transition_emails", as: :new_user_registration_transition_emails
+      post "/finish", to: "devise_registration#create", as: :new_user_registration_finish
       get  "/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
       get  "/welcome", to: "post_registration#show", as: :new_user_after_sign_up
     end
