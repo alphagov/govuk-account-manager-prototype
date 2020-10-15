@@ -102,7 +102,8 @@ RSpec.describe "JWT (register and login)" do
     context "there's an email topic" do
       let(:application_scopes) { %i[transition_checker] }
       let(:jwt_scopes) { %i[transition_checker] }
-      let(:jwt_attributes) { { transition_checker_state: { email_topic_slug: "foo" } } }
+      let(:jwt_attributes) { { transition_checker_state: { email_topic_slug: email_topic_slug } } }
+      let(:email_topic_slug) { "foo" }
 
       it "asks if the user would like email notifications" do
         post new_user_registration_post_path, params: params
@@ -119,6 +120,14 @@ RSpec.describe "JWT (register and login)" do
           expect(response).to be_successful
           expect(response.body).to_not have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
         end
+
+        it "creates the subscription" do
+          post new_user_registration_post_path, params: params
+          follow_redirect!
+          expect(response).to be_successful
+
+          expect(User.last.email_subscriptions.last&.topic_slug).to eq(email_topic_slug)
+        end
       end
 
       context "the user does not want notifications" do
@@ -129,6 +138,14 @@ RSpec.describe "JWT (register and login)" do
           follow_redirect!
           expect(response).to be_successful
           expect(response.body).to_not have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+        end
+
+        it "does not create the subscription" do
+          expect {
+            post new_user_registration_post_path, params: params
+            follow_redirect!
+            expect(response).to be_successful
+          }.to_not(change { EmailSubscription.count })
         end
       end
 

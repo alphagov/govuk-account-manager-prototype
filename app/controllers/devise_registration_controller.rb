@@ -22,16 +22,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     super do |resource|
       next unless resource.persisted?
-      next if payload[:scopes].empty?
 
-      token = Doorkeeper::AccessToken.create!(
-        resource_owner_id: resource.id,
-        application_id: payload[:application].id,
-        expires_in: Doorkeeper.config.access_token_expires_in,
-        scopes: payload[:scopes],
-      )
-
-      SetAttributesJob.perform_later(token.id, payload[:attributes])
+      persist_attributes(resource, payload)
+      persist_email_subscription(resource, payload)
     end
   end
 
@@ -73,5 +66,28 @@ protected
 
   def after_inactive_sign_up_path_for(resource)
     new_user_after_sign_up_path(previous_url: params[:previous_url], email: resource.email)
+  end
+
+  def persist_attributes(user, jwt_payload)
+    return if jwt_payload[:scopes].empty?
+
+    token = Doorkeeper::AccessToken.create!(
+      resource_owner_id: user.id,
+      application_id: jwt_payload[:application].id,
+      expires_in: Doorkeeper.config.access_token_expires_in,
+      scopes: jwt_payload[:scopes],
+    )
+
+    SetAttributesJob.perform_later(token.id, jwt_payload[:attributes])
+  end
+
+  def persist_email_subscription(user, jwt_payload)
+    email_decision = params[:email_decision]
+    return unless email_decision == "yes"
+
+    email_topic_slug = jwt_payload.dig(:attributes, :transition_checker_state, "email_topic_slug")
+    return unless email_topic_slug
+
+    EmailSubscription.create!(user_id: user.id, topic_slug: email_topic_slug)
   end
 end
