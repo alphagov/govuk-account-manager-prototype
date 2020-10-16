@@ -147,6 +147,7 @@ en:
         not_received: Not received a text message?
         errors:
           invalid: That is not the right code
+          expired: Your code has expired, check your phone number is correct and send another
         fields:
           phone_code:
             label: Enter security code

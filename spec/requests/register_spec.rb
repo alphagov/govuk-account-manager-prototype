@@ -1,5 +1,6 @@
 RSpec.describe "register" do
   include ActiveJob::TestHelper
+  include ActiveSupport::Testing::TimeHelpers
   include Capybara::DSL
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
@@ -134,6 +135,29 @@ RSpec.describe "register" do
       enter_incorrect_mfa
 
       expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.invalid"))
+    end
+
+    context "the user keeps entering an incorrect code" do
+      it "expires the code" do
+        enter_email_address
+        enter_password_and_confirmation
+        enter_phone_number
+        (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
+
+        expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.expired"))
+      end
+    end
+  end
+
+  context "when the MFA code is too old" do
+    it "expires the code" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_phone_number
+      travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
+      enter_mfa
+
+      expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.expired"))
     end
   end
 

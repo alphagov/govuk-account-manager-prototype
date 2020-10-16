@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 2020_10_16_142235) do
     t.jsonb "jwt_payload"
     t.string "phone"
     t.string "phone_code"
+    t.datetime "phone_code_generated_at"
+    t.integer "mfa_attempts"
   end
 
   create_table "users", force: :cascade do |t|
@@ -130,6 +132,7 @@ ActiveRecord::Schema.define(version: 2020_10_16_142235) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "phone"
     t.string "phone_code"
+    t.datetime "phone_code_generated_at"
     t.integer "mfa_attempts"
     t.datetime "last_mfa_success"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
