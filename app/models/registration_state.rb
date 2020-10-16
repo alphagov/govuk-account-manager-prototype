@@ -1,8 +1,9 @@
 class RegistrationState < ApplicationRecord
   enum state: {
     start: 0,
-    your_information: 1,
-    transition_emails: 2,
-    finish: 3,
+    phone: 1,
+    your_information: 2,
+    transition_emails: 3,
+    finish: 4,
   }
 end

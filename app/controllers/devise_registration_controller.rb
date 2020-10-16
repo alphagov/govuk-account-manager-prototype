@@ -1,5 +1,10 @@
 class DeviseRegistrationController < Devise::RegistrationsController
   before_action :check_registration_state, only: %i[
+    phone
+    phone_code
+    phone_code_send
+    phone_verify
+    phone_resend
     your_information
     your_information_post
     transition_emails
@@ -36,10 +41,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     if password_format_ok && password_length_ok && password_confirmation_ok
       registration_state.update!(
-        state: :your_information,
+        state: :phone,
         password: password,
       )
-      redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+      redirect_to new_user_registration_phone_path(registration_state_id: @registration_state_id)
     else
       @resource_error_messages = {
         password: [ # pragma: allowlist secret
@@ -51,6 +56,51 @@ class DeviseRegistrationController < Devise::RegistrationsController
         ],
       }
     end
+  end
+
+  def phone
+    redirect_to url_for_state and return unless registration_state.state == "phone"
+  end
+
+  def phone_code
+    redirect_to url_for_state and return unless registration_state.state == "phone"
+  end
+
+  def phone_code_send
+    redirect_to url_for_state and return unless registration_state.state == "phone"
+
+    phone_number = [nil, ""].include?(params[:phone]) ? registration_state.phone : params[:phone]
+
+    unless phone_number
+      @phone_error_message = I18n.t("devise.registrations.phone.errors.invalid")
+      render :phone
+      return
+    end
+
+    phone_code = MultiFactorAuth.send_phone_mfa(phone_number)
+
+    registration_state.update!(
+      phone: phone_number,
+      phone_code: phone_code,
+    )
+
+    render :phone_code
+  end
+
+  def phone_verify
+    redirect_to url_for_state and return unless registration_state.state == "phone"
+
+    if params[:phone_code] == registration_state.phone_code
+      registration_state.update!(state: :your_information)
+      redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+    else
+      @phone_code_error_message = I18n.t("devise.registrations.phone_code.errors.invalid")
+      render :phone_code
+    end
+  end
+
+  def phone_resend
+    redirect_to url_for_state and return unless registration_state.state == "phone"
   end
 
   def your_information
@@ -99,6 +149,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
     super do |resource|
       next unless resource.persisted?
 
+      persist_phone_mfa(resource)
       persist_attributes(resource)
       persist_email_subscription(resource)
 
@@ -188,6 +239,8 @@ protected
 
   def url_for_state
     case registration_state.state
+    when "phone"
+      new_user_registration_phone_path(registration_state_id: @registration_state_id)
     when "your_information"
       new_user_registration_your_information_path(registration_state_id: @registration_state_id)
     when "transition_emails"
@@ -197,6 +250,15 @@ protected
     else
       new_user_session_path
     end
+  end
+
+  def persist_phone_mfa(user)
+    return unless registration_state.phone
+
+    user.update!(
+      phone: registration_state.phone,
+      last_mfa_success: Time.zone.now,
+    )
   end
 
   def persist_attributes(user)

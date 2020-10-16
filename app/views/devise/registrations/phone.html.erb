@@ -1,0 +1,17 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(url: new_user_registration_phone_code_path(registration_state_id: @registration_state_id), method: :post) do %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: { text: t("devise.registrations.phone.fields.phone.label") },
+        hint: t("devise.registrations.phone.fields.phone.hint"),
+        name: "phone",
+        heading_size: "l",
+        error_message: @phone_error_message,
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.registrations.phone.fields.submit.label"),
+      } %>
+    <% end %>
+  </div>
+</div>

@@ -3,31 +3,47 @@ RSpec.describe "register" do
   include Capybara::DSL
 
   let(:email) { "email@example.com" }
+  # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
+  let(:phone_number) { "07700900000" }
   let(:password) { "abcd1234" } # pragma: allowlist secret
   let(:password_confirmation) { password }
 
   it "creates a user" do
     enter_email_address
     enter_password_and_confirmation
+    enter_phone_number
+    enter_mfa
     accept_terms
 
     expect(page).to have_text(I18n.t("post_registration.heading"))
 
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
+    expect(User.last.phone).to eq(phone_number)
   end
 
   it "sends an email" do
     enter_email_address
     enter_password_and_confirmation
+    enter_phone_number
+    enter_mfa
     accept_terms
 
     assert_enqueued_jobs 1, only: NotifyDeliveryJob
   end
 
+  it "shows the MFA page" do
+    enter_email_address
+    enter_password_and_confirmation
+
+    expect(page).to have_text(I18n.t("devise.registrations.phone.fields.phone.label"))
+  end
+
   it "shows the terms & conditions" do
     enter_email_address
     enter_password_and_confirmation
+    enter_phone_number
+    enter_mfa
 
     expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
   end
@@ -107,6 +123,28 @@ RSpec.describe "register" do
     end
   end
 
+  context "when the MFA code is incorrect" do
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_phone_number
+      enter_incorrect_mfa
+
+      expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.invalid"))
+    end
+  end
+
+  context "the user tries to skip over the MFA pages and go straight to the 'your information' page" do
+    it "redirects them back to the first MFA page" do
+      enter_email_address
+      enter_password_and_confirmation
+      query = current_url.split("?")[1]
+      visit "#{new_user_registration_your_information_path}?#{query}"
+
+      expect(page).to have_text(I18n.t("devise.registrations.phone.fields.phone.label"))
+    end
+  end
+
   def enter_email_address
     visit "/"
     fill_in "email", with: email
@@ -117,6 +155,23 @@ RSpec.describe "register" do
     fill_in "password", with: password
     fill_in "password_confirmation", with: password_confirmation
     click_on I18n.t("devise.registrations.start.fields.submit.label")
+  end
+
+  def enter_phone_number
+    fill_in "phone", with: phone_number
+    click_on I18n.t("devise.registrations.phone.fields.submit.label")
+  end
+
+  def enter_mfa
+    phone_code = RegistrationState.last.phone_code
+    fill_in "phone_code", with: phone_code
+    click_on I18n.t("devise.registrations.phone_code.fields.submit.label")
+  end
+
+  def enter_incorrect_mfa
+    phone_code = RegistrationState.last.phone_code
+    fill_in "phone_code", with: "1#{phone_code}"
+    click_on I18n.t("devise.registrations.phone_code.fields.submit.label")
   end
 
   def accept_terms

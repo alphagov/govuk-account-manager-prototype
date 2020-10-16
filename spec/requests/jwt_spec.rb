@@ -134,15 +134,6 @@ RSpec.describe "JWT (register and login)" do
           expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
         end
       end
-
-      context "the user tries to skip over the 'your information' page and go straight to the notifications form" do
-        it "redirects them back to the 'your information' page" do
-          post new_user_registration_start_path, params: params
-          query = response.redirect_url.split("?")[1]
-          visit "#{new_user_registration_transition_emails_path}?#{query}"
-          expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
-        end
-      end
     end
 
     context "if the user auths through the application again" do
@@ -168,6 +159,15 @@ RSpec.describe "JWT (register and login)" do
     def start_journey
       post new_user_registration_start_path, params: params
       visit response.redirect_url
+
+      # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
+      fill_in "phone", with: "07700900000"
+      click_on I18n.t("devise.registrations.phone.fields.submit.label")
+
+      phone_code = RegistrationState.last.phone_code
+      fill_in "phone_code", with: phone_code
+      click_on I18n.t("devise.registrations.phone_code.fields.submit.label")
+
       click_on I18n.t("devise.registrations.your_information.fields.submit.label")
     end
 

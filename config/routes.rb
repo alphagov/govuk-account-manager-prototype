@@ -56,6 +56,11 @@ Rails.application.routes.draw do
 
     scope "/new-account" do
       post "/", to: "devise_registration#start", as: :new_user_registration_start
+      get  "/phone", to: "devise_registration#phone", as: :new_user_registration_phone
+      get  "/phone/code", to: "devise_registration#phone_code", as: :new_user_registration_phone_code
+      post "/phone/code", to: "devise_registration#phone_code_send"
+      post "/phone/verify", to: "devise_registration#phone_verify", as: :new_user_registration_phone_verify
+      get  "/phone/resend", to: "devise_registration#phone_resend", as: :new_user_registration_phone_resend
       get  "/your-information", to: "devise_registration#your_information", as: :new_user_registration_your_information
       post "/your-information", to: "devise_registration#your_information_post"
       get  "/transition-emails", to: "devise_registration#transition_emails", as: :new_user_registration_transition_emails
