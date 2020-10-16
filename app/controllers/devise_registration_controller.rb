@@ -138,6 +138,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
     super
   end
 
+  def edit_email; end
+
+  def edit_password; end
+
 protected
 
   def after_update_path_for(_resource)
