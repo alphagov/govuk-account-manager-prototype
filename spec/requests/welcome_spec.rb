@@ -32,7 +32,7 @@ RSpec.describe "welcome" do
         it "shows the registration form" do
           get new_user_session_url(user: { email: "no-such-user@domain.tld" })
 
-          expect(response.body).to have_content(I18n.t("devise.registrations.new.needs_password.heading"))
+          expect(response.body).to have_content(I18n.t("devise.registrations.start.heading"))
         end
       end
     end

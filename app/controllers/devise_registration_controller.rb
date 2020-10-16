@@ -1,30 +1,109 @@
 class DeviseRegistrationController < Devise::RegistrationsController
+  before_action :check_registration_state, only: %i[
+    your_information
+    your_information_post
+    transition_emails
+    transition_emails_post
+    create
+  ]
+
+  def start
+    @registration_state_id = params[:registration_state_id]
+    # if this is unset we've been sent here from the welcome form
+    unless @registration_state_id
+      redirect_to new_user_session_path and return unless params.dig(:user, :email)
+
+      jwt_payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+
+      @registration_state = RegistrationState.create!(
+        touched_at: Time.zone.now,
+        state: :start,
+        email: params[:user][:email],
+        previous_url: params[:previous_url],
+        jwt_payload: jwt_payload,
+      )
+
+      @registration_state_id = registration_state.id
+    end
+
+    redirect_to url_for_state and return unless registration_state.state == "start"
+
+    password = params.dig(:user, :password) # pragma: allowlist secret
+    password_confirmation = params.dig(:user, :password_confirmation)
+    password_format_ok = User::PASSWORD_REGEX.match? password
+    password_length_ok = Devise.password_length.include? password&.length
+    password_confirmation_ok = password == password_confirmation
+
+    if password_format_ok && password_length_ok && password_confirmation_ok
+      registration_state.update!(
+        state: :your_information,
+        password: password,
+      )
+      redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+    else
+      @resource_error_messages = {
+        password: [ # pragma: allowlist secret
+          password_format_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.invalid"),
+          password_length_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
+        ],
+        password_confirmation: [
+          password_confirmation_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"),
+        ],
+      }
+    end
+  end
+
+  def your_information
+    redirect_to url_for_state unless registration_state.state == "your_information"
+  end
+
+  def your_information_post
+    redirect_to url_for_state unless registration_state.state == "your_information"
+
+    email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
+    if email_topic_slug
+      registration_state.update!(state: :transition_emails)
+      redirect_to new_user_registration_transition_emails_path(registration_state_id: @registration_state_id)
+    else
+      redirect_to new_user_registration_finish_path(registration_state_id: @registration_state_id)
+    end
+  end
+
+  def transition_emails
+    redirect_to url_for_state unless registration_state.state == "transition_emails"
+  end
+
+  def transition_emails_post
+    redirect_to url_for_state unless registration_state.state == "transition_emails"
+
+    decision = params.dig(:email_decision)
+    decision_format_ok = %w[yes no].include? decision
+    if decision_format_ok
+      registration_state.update!(
+        state: :finish,
+        yes_to_emails: decision == "yes",
+      )
+      redirect_to new_user_registration_finish_path(registration_state_id: @registration_state_id)
+      return
+    end
+
+    @resource_error_messages = {
+      email_decision: [
+        I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"),
+      ],
+    }
+    render :transition_emails
+  end
+
   def create
-    head 422 and return unless params[:user][:email]
-
-    payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
-
-    state = RegistrationStateMachine.call(params, payload)
-    @state = state[:state]
-    @resource_error_messages = state[:resource_error_messages]
-
-    # skip the devise logic because we're not yet done showing screens
-    # to the user
-    unless @state == :finish
-      render :new
-      return
-    end
-
-    unless payload
-      super
-      return
-    end
-
     super do |resource|
       next unless resource.persisted?
 
-      persist_attributes(resource, payload)
-      persist_email_subscription(resource, payload)
+      persist_attributes(resource)
+      persist_email_subscription(resource)
+
+      @previous_url = registration_state.previous_url
+      registration_state.destroy!
     end
   end
 
@@ -54,6 +133,11 @@ class DeviseRegistrationController < Devise::RegistrationsController
     end
   end
 
+  def cancel
+    registration_state&.destroy!
+    super
+  end
+
 protected
 
   def after_update_path_for(_resource)
@@ -61,31 +145,79 @@ protected
   end
 
   def after_sign_up_path_for(resource)
-    new_user_after_sign_up_path(previous_url: params[:previous_url], email: resource.email)
+    new_user_after_sign_up_path(previous_url: @previous_url, email: resource.email)
   end
 
   def after_inactive_sign_up_path_for(resource)
-    new_user_after_sign_up_path(previous_url: params[:previous_url], email: resource.email)
+    new_user_after_sign_up_path(previous_url: @previous_url, email: resource.email)
   end
 
-  def persist_attributes(user, jwt_payload)
-    return if jwt_payload[:scopes].empty?
+  def check_registration_state
+    @registration_state_id = params[:registration_state_id]
+    redirect_to new_user_session_path unless registration_state
+  end
+
+  # used in the 'super' of 'create'
+  def respond_with(resource, *args, location: nil, **kwargs)
+    if location
+      redirect_to location
+    else
+      super(resource, *args, **kwargs)
+    end
+  end
+
+  # used in the 'super' of 'create'
+  def sign_up_params
+    {
+      email: registration_state.email,
+      password: registration_state.password, # pragma: allowlist secret
+      # we check this matches in 'start_post'
+      password_confirmation: registration_state.password,
+    }
+  end
+
+  def registration_state
+    @registration_state ||=
+      begin
+        state = RegistrationState.find(@registration_state_id)
+        state.update!(touched_at: Time.zone.now)
+        state
+      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
+      end
+  end
+
+  def url_for_state
+    case registration_state.state
+    when "your_information"
+      new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+    when "transition_emails"
+      new_user_registration_transition_emails_path(registration_state_id: @registration_state_id)
+    when "finish"
+      new_user_registration_finish_path(registration_state_id: @registration_state_id)
+    else
+      new_user_session_path
+    end
+  end
+
+  def persist_attributes(user)
+    return unless registration_state.jwt_payload
+    return if registration_state.jwt_payload["scopes"].empty?
 
     token = Doorkeeper::AccessToken.create!(
       resource_owner_id: user.id,
-      application_id: jwt_payload[:application].id,
+      application_id: registration_state.jwt_payload["application"]["id"],
       expires_in: Doorkeeper.config.access_token_expires_in,
-      scopes: jwt_payload[:scopes],
+      scopes: registration_state.jwt_payload["scopes"],
     )
 
-    SetAttributesJob.perform_later(token.id, jwt_payload[:attributes])
+    SetAttributesJob.perform_later(token.id, registration_state.jwt_payload["attributes"])
   end
 
-  def persist_email_subscription(user, jwt_payload)
-    email_decision = params[:email_decision]
-    return unless email_decision == "yes"
+  def persist_email_subscription(user)
+    return unless registration_state.jwt_payload
+    return unless registration_state.yes_to_emails
 
-    email_topic_slug = jwt_payload.dig(:attributes, :transition_checker_state, "email_topic_slug")
+    email_topic_slug = registration_state.jwt_payload.dig("attributes", "transition_checker_state", "email_topic_slug")
     return unless email_topic_slug
 
     EmailSubscription.create!(user_id: user.id, topic_slug: email_topic_slug)

@@ -1,5 +1,6 @@
 RSpec.describe "JWT (register and login)" do
   include ActiveJob::TestHelper
+  include Capybara::DSL
 
   let(:application) do
     FactoryBot.create(
@@ -45,23 +46,15 @@ RSpec.describe "JWT (register and login)" do
         "user[email]" => email,
         "user[password]" => password,
         "user[password_confirmation]" => password,
-        "button[needs_password]" => "submit",
-        "button[needs_consent]" => "submit",
-        "button[needs_email_decision]" => needs_email_decision,
-        "email_decision" => email_decision,
         "jwt" => jwt,
       }.compact
     end
 
     let(:email) { "email@example.com" }
     let(:password) { "abcd1234" } # pragma: allowlist secret
-    let(:email_decision) { nil }
-    let(:needs_email_decision) { nil }
 
     it "creates an access token" do
-      post new_user_registration_post_path, params: params
-      follow_redirect!
-      expect(response).to be_successful
+      start_journey
 
       token = Doorkeeper::AccessToken.last
       expect(token).to_not be_nil
@@ -72,9 +65,7 @@ RSpec.describe "JWT (register and login)" do
     end
 
     it "updates the attributes" do
-      post new_user_registration_post_path, params: params
-      follow_redirect!
-      expect(response).to be_successful
+      start_journey
 
       assert_enqueued_jobs 1, only: SetAttributesJob
     end
@@ -85,20 +76,7 @@ RSpec.describe "JWT (register and login)" do
 
       it "does not create an access token" do
         expect {
-          post new_user_registration_post_path, params: params
-          follow_redirect!
-          expect(response).to be_successful
-        }.to_not(change { Doorkeeper::AccessToken.count })
-      end
-    end
-
-    context "the user is not persisted" do
-      let(:password) { "" }
-
-      it "does not create an access token" do
-        expect {
-          post new_user_registration_post_path, params: params
-          expect(response).to be_successful
+          start_journey
         }.to_not(change { Doorkeeper::AccessToken.count })
       end
     end
@@ -110,96 +88,97 @@ RSpec.describe "JWT (register and login)" do
       let(:email_topic_slug) { "foo" }
 
       it "asks if the user would like email notifications" do
-        post new_user_registration_post_path, params: params
-        expect(response).to be_successful
-        expect(response.body).to have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
-        expect(response.body).to_not have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
+        start_journey
+
+        expect(page).to have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
+        expect(page).to_not have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
       end
 
       context "the user does want notifications" do
-        let(:email_decision) { "yes" }
-        let(:needs_email_decision) { "submit" }
-
         it "shows the post-registration page" do
-          post new_user_registration_post_path, params: params
-          follow_redirect!
-          expect(response).to be_successful
-          expect(response.body).to_not have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+          start_journey
+          i_want_emails
+
+          expect(page).to_not have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
         end
 
         it "creates the subscription" do
-          post new_user_registration_post_path, params: params
-          follow_redirect!
-          expect(response).to be_successful
+          start_journey
+          i_want_emails
 
           expect(User.last.email_subscriptions.last&.topic_slug).to eq(email_topic_slug)
         end
       end
 
       context "the user does not want notifications" do
-        let(:email_decision) { "no" }
-        let(:needs_email_decision) { "submit" }
-
         it "shows the post-registration page" do
-          post new_user_registration_post_path, params: params
-          follow_redirect!
-          expect(response).to be_successful
-          expect(response.body).to_not have_content(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+          start_journey
+          i_do_not_want_emails
+
+          expect(page).to_not have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
         end
 
         it "does not create the subscription" do
           expect {
-            post new_user_registration_post_path, params: params
-            follow_redirect!
-            expect(response).to be_successful
+            start_journey
+            i_do_not_want_emails
           }.to_not(change { EmailSubscription.count })
         end
       end
 
-      context "the user gives something other than 'yes' or 'no' for notifications" do
-        let(:email_decision) { "foo" }
-        let(:needs_email_decision) { "submit" }
-
+      context "the user doesn't tick either option for notifications" do
         it "shows an error" do
-          post new_user_registration_post_path, params: params
-          expect(response).to be_successful
-          expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
+          start_journey
+          click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
+
+          expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
         end
       end
 
-      context "the user doesn't tick either option for notifications" do
-        let(:needs_email_decision) { "submit" }
-
-        it "shows an error" do
-          post new_user_registration_post_path, params: params
-          expect(response).to be_successful
-          expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
+      context "the user tries to skip over the 'your information' page and go straight to the notifications form" do
+        it "redirects them back to the 'your information' page" do
+          post new_user_registration_start_path, params: params
+          query = response.redirect_url.split("?")[1]
+          visit "#{new_user_registration_transition_emails_path}?#{query}"
+          expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
         end
       end
     end
 
     context "if the user auths through the application again" do
-      before do
-        post new_user_registration_post_path, params: params
-      end
+      before { start_journey }
 
       it "doesn't prompt for consent" do
         client = OAuth2::Client.new(application.uid, application.secret, site: "https://example.org")
         uri = client.auth_code.authorize_url(redirect_uri: application.redirect_uri, scope: jwt_scopes.join(" "))
-        params = Rack::Utils.parse_nested_query(URI(uri).query)
-        get oauth_authorization_path, params: params
-        expect(response).to have_http_status(302)
+        visit "#{oauth_authorization_path}?#{uri.split('?')[1]}"
+        expect(page).to_not have_content(I18n.t("doorkeeper.authorizations.new.able_to"))
       end
 
       context "with new scopes" do
         it "prompts for consent" do
           client = OAuth2::Client.new(application.uid, application.secret, site: "https://example.org")
           uri = client.auth_code.authorize_url(redirect_uri: application.redirect_uri, scope: "test_scope_read")
-          params = Rack::Utils.parse_nested_query(URI(uri).query)
-          get oauth_authorization_path, params: params
-          expect(response).to have_http_status(200)
+          visit "#{oauth_authorization_path}?#{uri.split('?')[1]}"
+          expect(page).to have_content(I18n.t("doorkeeper.authorizations.new.able_to"))
         end
       end
+    end
+
+    def start_journey
+      post new_user_registration_start_path, params: params
+      visit response.redirect_url
+      click_on I18n.t("devise.registrations.your_information.fields.submit.label")
+    end
+
+    def i_want_emails
+      find_field(I18n.t("devise.registrations.transition_emails.fields.emailsignup.yes")).click
+      click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
+    end
+
+    def i_do_not_want_emails
+      find_field(I18n.t("devise.registrations.transition_emails.fields.emailsignup.no")).click
+      click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
     end
   end
 

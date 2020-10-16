@@ -1,122 +1,125 @@
 RSpec.describe "register" do
   include ActiveJob::TestHelper
-  describe "POST" do
-    let(:params) do
-      {
-        "user[email]" => email,
-        "user[password]" => password,
-        "user[password_confirmation]" => password_confirmation,
-        "button[needs_password]" => "submit",
-        "button[needs_consent]" => needs_consent,
-      }
+  include Capybara::DSL
+
+  let(:email) { "email@example.com" }
+  let(:password) { "abcd1234" } # pragma: allowlist secret
+  let(:password_confirmation) { password }
+
+  it "creates a user" do
+    enter_email_address
+    enter_password_and_confirmation
+    accept_terms
+
+    expect(page).to have_text(I18n.t("post_registration.heading"))
+
+    expect(User.last).to_not be_nil
+    expect(User.last.email).to eq(email)
+  end
+
+  it "sends an email" do
+    enter_email_address
+    enter_password_and_confirmation
+    accept_terms
+
+    assert_enqueued_jobs 1, only: NotifyDeliveryJob
+  end
+
+  it "shows the terms & conditions" do
+    enter_email_address
+    enter_password_and_confirmation
+
+    expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
+  end
+
+  context "when the email is missing" do
+    let(:email) { "" }
+
+    it "shows an error" do
+      enter_email_address
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
     end
+  end
 
-    let(:email) { "email@example.com" }
-    let(:password) { "abcd1234" } # pragma: allowlist secret
-    let(:password_confirmation) { password }
-    let(:needs_consent) { "submit" }
+  context "when the email is invalid" do
+    let(:email) { "foo" }
 
-    it "creates a user" do
-      post new_user_registration_post_path, params: params
+    it "shows an error" do
+      enter_email_address
 
-      follow_redirect!
-
-      expect(response).to be_successful
-      expect(response.body).to have_content(I18n.t("post_registration.heading"))
-
-      expect(User.last).to_not be_nil
-      expect(User.last.email).to eq(email)
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
     end
+  end
 
-    it "sends an email" do
-      post new_user_registration_post_path, params: params
+  context "when the password is missing" do
+    let(:password) { "" }
 
-      follow_redirect!
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
 
-      expect(response).to be_successful
-      expect(response.body).to have_content(I18n.t("post_registration.heading"))
-
-      assert_enqueued_jobs 1, only: NotifyDeliveryJob
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
     end
+  end
 
-    context "when the user has not consented to the terms & conditions" do
-      let(:needs_consent) { nil }
+  context "when the password confirmation is missing" do
+    let(:password_confirmation) { "" }
 
-      it "shows the terms & conditions" do
-        post new_user_registration_post_path, params: params
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
 
-        expect(response.body).to have_content(I18n.t("devise.registrations.new.needs_consent.heading"))
-      end
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
     end
+  end
 
-    context "when the email is missing" do
-      let(:email) { "" }
+  context "when the password confirmation does not match" do
+    let(:password_confirmation) { password + "-123" }
 
-      it "shows an error" do
-        post new_user_registration_post_path, params: params
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
 
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
-      end
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
     end
+  end
 
-    context "when the email is invalid" do
-      let(:email) { "foo" }
+  context "when the password is less than 8 characters" do
+    let(:password) { "qwerty1" }
 
-      it "shows an error" do
-        post new_user_registration_post_path, params: params
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
 
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
-      end
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
     end
+  end
 
-    context "when the password is missing" do
-      let(:password) { "" }
+  context "when the password does not contain a number" do
+    let(:password) { "qwertyui" }
 
-      it "returns an error" do
-        post new_user_registration_post_path, params: params
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
 
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
-      end
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
     end
+  end
 
-    context "when the password confirmation is missing" do
-      let(:password_confirmation) { "" }
+  def enter_email_address
+    visit "/"
+    fill_in "email", with: email
+    click_on I18n.t("welcome.show.button.label")
+  end
 
-      it "returns an error" do
-        post new_user_registration_post_path, params: params
+  def enter_password_and_confirmation
+    fill_in "password", with: password
+    fill_in "password_confirmation", with: password_confirmation
+    click_on I18n.t("devise.registrations.start.fields.submit.label")
+  end
 
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
-      end
-    end
-
-    context "when the password confirmation does not match" do
-      let(:password_confirmation) { password + "-123" }
-
-      it "returns an error" do
-        post new_user_registration_post_path, params: params
-
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
-      end
-    end
-
-    context "when the password is less than 8 characters" do
-      let(:password) { "qwerty1" }
-
-      it "returns an error" do
-        post new_user_registration_post_path, params: params
-
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
-      end
-    end
-
-    context "when the password does not contain a number" do
-      let(:password) { "qwertyui" }
-
-      it "returns an error" do
-        post new_user_registration_post_path, params: params
-
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
-      end
-    end
+  def accept_terms
+    click_on I18n.t("devise.registrations.your_information.fields.submit.label")
   end
 end
