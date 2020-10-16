@@ -7,13 +7,13 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_with(url: new_user_registration_start_path) do %>
+    <% url = @registration_state_id ? new_user_registration_start_path(registration_state_id: @registration_state_id) : new_user_registration_start_path %>
+    <%= form_with(url: url, method: :post) do %>
       <% if resource || @resource_error_messages %>
         <%= render "devise/shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
       <% end %>
 
       <% if params.dig(:user, :email) %><%= hidden_field_tag :"user[email]", params.dig(:user, :email) %><% end %>
-      <% if @registration_state_id %><%= hidden_field_tag :"registration_state_id", @registration_state_id %><% end %>
 
       <%= render "govuk_publishing_components/components/input", {
         label: {

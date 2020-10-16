@@ -1,5 +1,11 @@
 class DeviseRegistrationController < Devise::RegistrationsController
-  before_action :check_registration_state, only: %i[your_information transition_emails create]
+  before_action :check_registration_state, only: %i[
+    your_information
+    your_information_post
+    transition_emails
+    transition_emails_post
+    create
+  ]
 
   def start
     @registration_state_id = params[:registration_state_id]
@@ -11,6 +17,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
       @registration_state = RegistrationState.create!(
         touched_at: Time.zone.now,
+        state: :start,
         email: params[:user][:email],
         previous_url: params[:previous_url],
         jwt_payload: jwt_payload,
@@ -19,6 +26,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
       @registration_state_id = registration_state.id
     end
 
+    redirect_to url_for_state and return unless registration_state.state == "start"
+
     password = params.dig(:user, :password) # pragma: allowlist secret
     password_confirmation = params.dig(:user, :password_confirmation)
     password_format_ok = User::PASSWORD_REGEX.match? password
@@ -26,7 +35,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
     password_confirmation_ok = password == password_confirmation
 
     if password_format_ok && password_length_ok && password_confirmation_ok
-      registration_state.update!(password: password)
+      registration_state.update!(
+        state: :your_information,
+        password: password,
+      )
       redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
     else
       @resource_error_messages = {
@@ -42,35 +54,48 @@ class DeviseRegistrationController < Devise::RegistrationsController
   end
 
   def your_information
-    email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
-    @next_form_path =
-      if email_topic_slug
-        new_user_registration_transition_emails_path
-      else
-        new_user_registration_finish_path
-      end
+    redirect_to url_for_state unless registration_state.state == "your_information"
   end
 
-  def transition_emails; end
+  def your_information_post
+    redirect_to url_for_state unless registration_state.state == "your_information"
 
-  def create
     email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
     if email_topic_slug
-      decision = params.dig(:email_decision)
-      decision_format_ok = %w[yes no].include? decision
-      if decision_format_ok
-        registration_state.update!(yes_to_emails: decision == "yes")
-      else
-        @resource_error_messages = {
-          email_decision: [
-            I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"),
-          ],
-        }
-        render :transition_emails
-        return
-      end
+      registration_state.update!(state: :transition_emails)
+      redirect_to new_user_registration_transition_emails_path(registration_state_id: @registration_state_id)
+    else
+      redirect_to new_user_registration_finish_path(registration_state_id: @registration_state_id)
+    end
+  end
+
+  def transition_emails
+    redirect_to url_for_state unless registration_state.state == "transition_emails"
+  end
+
+  def transition_emails_post
+    redirect_to url_for_state unless registration_state.state == "transition_emails"
+
+    decision = params.dig(:email_decision)
+    decision_format_ok = %w[yes no].include? decision
+    if decision_format_ok
+      registration_state.update!(
+        state: :finish,
+        yes_to_emails: decision == "yes",
+      )
+      redirect_to new_user_registration_finish_path(registration_state_id: @registration_state_id)
+      return
     end
 
+    @resource_error_messages = {
+      email_decision: [
+        I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"),
+      ],
+    }
+    render :transition_emails
+  end
+
+  def create
     super do |resource|
       next unless resource.persisted?
 
@@ -133,6 +158,15 @@ protected
   end
 
   # used in the 'super' of 'create'
+  def respond_with(resource, *args, location: nil, **kwargs)
+    if location
+      redirect_to location
+    else
+      super(resource, *args, **kwargs)
+    end
+  end
+
+  # used in the 'super' of 'create'
   def sign_up_params
     {
       email: registration_state.email,
@@ -150,6 +184,19 @@ protected
         state
       rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
       end
+  end
+
+  def url_for_state
+    case registration_state.state
+    when "your_information"
+      new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+    when "transition_emails"
+      new_user_registration_transition_emails_path(registration_state_id: @registration_state_id)
+    when "finish"
+      new_user_registration_finish_path(registration_state_id: @registration_state_id)
+    else
+      new_user_session_path
+    end
   end
 
   def persist_attributes(user)

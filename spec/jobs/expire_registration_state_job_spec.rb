@@ -3,8 +3,8 @@ RSpec.describe ExpireRegistrationStateJob, type: :job do
 
   it "deletes hour-old state" do
     freeze_time do
-      RegistrationState.create!(touched_at: 61.minutes.ago, email: "old")
-      RegistrationState.create!(touched_at: 30.minutes.ago, email: "new")
+      RegistrationState.create!(touched_at: 61.minutes.ago, email: "old", state: :start)
+      RegistrationState.create!(touched_at: 30.minutes.ago, email: "new", state: :start)
 
       described_class.perform_now
 

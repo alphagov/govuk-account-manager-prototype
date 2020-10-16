@@ -7,9 +7,7 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_with(url: new_user_registration_finish_path) do %>
-      <%= hidden_field_tag :"registration_state_id", @registration_state_id %>
-
+    <%= form_with(url: new_user_registration_transition_emails_path(registration_state_id: @registration_state_id), method: :post) do %>
       <%= sanitize(t("devise.registrations.transition_emails.description")) %>
 
       <%= render "govuk_publishing_components/components/radio", {
