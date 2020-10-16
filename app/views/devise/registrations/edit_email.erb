@@ -1,0 +1,38 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <%= render "account-navigation", page_is: "manage" %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", { href: user_root_path } %>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.registrations.edit.heading"),
+      heading_level: 1,
+      margin_bottom: 6,
+    } %>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.edit.fields.email.label"),
+        },
+        name: "user[email]",
+        type: "email",
+        id: "email",
+        value: @email,
+        error_message: devise_error_items(:email),
+      } %>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p class="govuk-body"><%= t("devise.registrations.edit.unconfirmed", email: resource.unconfirmed_email) %></p>
+      <% end %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.registrations.edit.fields.submit.label"),
+        margin_bottom: 3,
+      } %>
+    <% end %>
+  </div>
+</div>

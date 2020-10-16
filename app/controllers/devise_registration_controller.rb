@@ -1,4 +1,9 @@
 class DeviseRegistrationController < Devise::RegistrationsController
+  # rubocop:disable Rails/LexicallyScopedActionFilter
+  prepend_before_action :authenticate_scope!, only: %i[edit_password edit_email update destroy]
+  prepend_before_action :set_minimum_password_length, only: %i[new edit_password edit_email]
+  # rubocop:enable Rails/LexicallyScopedActionFilter
+
   before_action :check_registration_state, only: %i[
     your_information
     your_information_post
@@ -22,7 +27,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
         previous_url: params[:previous_url],
         jwt_payload: jwt_payload,
       )
-
       @registration_state_id = registration_state.id
     end
 
@@ -137,6 +141,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
     registration_state&.destroy!
     super
   end
+
+  def edit_email; end
+
+  def edit_password; end
 
 protected
 
