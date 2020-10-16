@@ -41,7 +41,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     if password_format_ok && password_length_ok && password_confirmation_ok
       registration_state.update!(
-        state: :phone,
+        state: MultiFactorAuth.is_enabled ? :phone : :your_information,
         password: password,
       )
       redirect_to new_user_registration_phone_path(registration_state_id: @registration_state_id)

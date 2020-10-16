@@ -2,6 +2,8 @@ RSpec.describe "JWT (register and login)" do
   include ActiveJob::TestHelper
   include Capybara::DSL
 
+  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
+
   let(:application) do
     FactoryBot.create(
       :oauth_application,

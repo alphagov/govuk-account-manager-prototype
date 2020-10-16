@@ -2,6 +2,9 @@ RSpec.describe "register" do
   include ActiveJob::TestHelper
   include Capybara::DSL
 
+  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
+
+  let(:mfa_enabled) { true }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
   let(:phone_number) { "07700900000" }
@@ -142,6 +145,22 @@ RSpec.describe "register" do
       visit "#{new_user_registration_your_information_path}?#{query}"
 
       expect(page).to have_text(I18n.t("devise.registrations.phone.fields.phone.label"))
+    end
+  end
+
+  context "MFA is disabled" do
+    let(:mfa_enabled) { false }
+
+    it "skips over the MFA screens" do
+      enter_email_address
+      enter_password_and_confirmation
+      accept_terms
+
+      expect(page).to have_text(I18n.t("post_registration.heading"))
+
+      expect(User.last).to_not be_nil
+      expect(User.last.email).to eq(email)
+      expect(User.last.phone).to be_nil
     end
   end
 

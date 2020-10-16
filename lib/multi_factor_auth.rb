@@ -7,4 +7,8 @@ module MultiFactorAuth
     )
     phone_code
   end
+
+  def self.is_enabled
+    Rails.configuration.feature_flag_mfa
+  end
 end
