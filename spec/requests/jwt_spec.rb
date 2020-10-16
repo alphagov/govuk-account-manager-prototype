@@ -90,7 +90,7 @@ RSpec.describe "JWT (register and login)" do
       it "asks if the user would like email notifications" do
         start_journey
 
-        expect(page).to have_text(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+        expect(page).to have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
         expect(page).to_not have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
       end
 
@@ -99,7 +99,7 @@ RSpec.describe "JWT (register and login)" do
           start_journey
           i_want_emails
 
-          expect(page).to_not have_text(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+          expect(page).to_not have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
         end
 
         it "creates the subscription" do
@@ -115,7 +115,7 @@ RSpec.describe "JWT (register and login)" do
           start_journey
           i_do_not_want_emails
 
-          expect(page).to_not have_text(I18n.t("devise.registrations.new.needs_email_decision.unsubscribe"))
+          expect(page).to_not have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
         end
 
         it "does not create the subscription" do
@@ -129,7 +129,7 @@ RSpec.describe "JWT (register and login)" do
       context "the user doesn't tick either option for notifications" do
         it "shows an error" do
           start_journey
-          click_on I18n.t("devise.registrations.new.needs_email_decision.fields.submit.label")
+          click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
 
           expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
         end
@@ -159,17 +159,17 @@ RSpec.describe "JWT (register and login)" do
     def start_journey
       post new_user_registration_start_path, params: params
       visit response.redirect_url
-      click_on I18n.t("devise.registrations.new.needs_consent.fields.submit.label")
+      click_on I18n.t("devise.registrations.your_information.fields.submit.label")
     end
 
     def i_want_emails
-      find_field(I18n.t("devise.registrations.new.needs_email_decision.fields.emailsignup.yes")).click
-      click_on I18n.t("devise.registrations.new.needs_email_decision.fields.submit.label")
+      find_field(I18n.t("devise.registrations.transition_emails.fields.emailsignup.yes")).click
+      click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
     end
 
     def i_do_not_want_emails
-      find_field(I18n.t("devise.registrations.new.needs_email_decision.fields.emailsignup.no")).click
-      click_on I18n.t("devise.registrations.new.needs_email_decision.fields.submit.label")
+      find_field(I18n.t("devise.registrations.transition_emails.fields.emailsignup.no")).click
+      click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
     end
   end
 

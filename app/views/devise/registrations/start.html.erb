@@ -1,7 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.registrations.new.needs_password.heading"),
+      text: t("devise.registrations.start.heading"),
       heading_level: 1,
       margin_top: 0,
       margin_bottom: 3,
@@ -17,9 +17,9 @@
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: t("devise.registrations.new.needs_password.fields.password.label"),
+          text: t("devise.registrations.start.fields.password.label"),
         },
-        hint: t("devise.registrations.new.needs_password.fields.password.hint"),
+        hint: t("devise.registrations.start.fields.password.hint"),
         name: "user[password]",
         type: "password",
         id: "password",
@@ -28,7 +28,7 @@
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: t("devise.registrations.new.needs_password.fields.password_confirm.label"),
+          text: t("devise.registrations.start.fields.password_confirm.label"),
         },
         name: "user[password_confirmation]",
         type: "password",
@@ -37,7 +37,7 @@
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("devise.registrations.new.needs_password.fields.submit.label"),
+        text: t("devise.registrations.start.fields.submit.label"),
       } %>
     <% end %>
   </div>

@@ -1,7 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.registrations.new.needs_email_decision.heading"),
+      text: t("devise.registrations.transition_emails.heading"),
       heading_level: 1,
       margin_top: 0,
       margin_bottom: 3,
@@ -10,31 +10,31 @@
     <%= form_with(url: new_user_registration_finish_path) do %>
       <%= hidden_field_tag :"registration_state_id", @registration_state_id %>
 
-      <%= sanitize(t("devise.registrations.new.needs_email_decision.description")) %>
+      <%= sanitize(t("devise.registrations.transition_emails.description")) %>
 
       <%= render "govuk_publishing_components/components/radio", {
         name: "email_decision",
-        heading: t("devise.registrations.new.needs_email_decision.fields.emailsignup.heading"),
+        heading: t("devise.registrations.transition_emails.fields.emailsignup.heading"),
         heading_size: "s",
         error_message: devise_error_items(:email_decision, @resource_error_messages),
         items: [
           {
             value: "yes",
-            text: t("devise.registrations.new.needs_email_decision.fields.emailsignup.yes")
+            text: t("devise.registrations.transition_emails.fields.emailsignup.yes")
           },
           {
             value: "no",
-            text: t("devise.registrations.new.needs_email_decision.fields.emailsignup.no")
+            text: t("devise.registrations.transition_emails.fields.emailsignup.no")
           }
         ]
       } %>
 
       <%= render "govuk_publishing_components/components/inset_text", {
-        text: t("devise.registrations.new.needs_email_decision.unsubscribe")
+        text: t("devise.registrations.transition_emails.unsubscribe")
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("devise.registrations.new.needs_email_decision.fields.submit.label"),
+        text: t("devise.registrations.transition_emails.fields.submit.label"),
       } %>
     <% end %>
   </div>

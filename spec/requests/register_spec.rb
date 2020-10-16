@@ -29,7 +29,7 @@ RSpec.describe "register" do
     enter_email_address
     enter_password_and_confirmation
 
-    expect(page).to have_text(I18n.t("devise.registrations.new.needs_consent.heading"))
+    expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
   end
 
   context "when the email is missing" do
@@ -116,10 +116,10 @@ RSpec.describe "register" do
   def enter_password_and_confirmation
     fill_in "password", with: password
     fill_in "password_confirmation", with: password_confirmation
-    click_on I18n.t("devise.registrations.new.needs_password.fields.submit.label")
+    click_on I18n.t("devise.registrations.start.fields.submit.label")
   end
 
   def accept_terms
-    click_on I18n.t("devise.registrations.new.needs_consent.fields.submit.label")
+    click_on I18n.t("devise.registrations.your_information.fields.submit.label")
   end
 end
