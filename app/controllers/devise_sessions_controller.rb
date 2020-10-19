@@ -34,33 +34,21 @@ class DeviseSessionsController < Devise::SessionsController
   def phone_code; end
 
   def phone_code_send
-    login_state.user.update!(
-      phone_code: MultiFactorAuth.send_phone_mfa(login_state.user.phone),
-      phone_code_generated_at: Time.zone.now,
-      mfa_attempts: 0,
-    )
+    MultiFactorAuth.generate_and_send_code(login_state.user)
 
     render :phone_code
   end
 
   def phone_verify
-    if params[:phone_code] == login_state.user.phone_code && login_state.user.phone_code_generated_at >= MultiFactorAuth::EXPIRATION_AGE.ago
+    state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
+    if state == :ok
       do_sign_in(login_state.user, login_state.redirect_path)
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
-      return
-    end
-
-    if login_state.user.phone_code.nil? || login_state.user.phone_code_generated_at < MultiFactorAuth::EXPIRATION_AGE.ago
-      @phone_code_error_message = I18n.t("devise.sessions.phone_code.errors.expired")
-    elsif login_state.user.mfa_attempts < MultiFactorAuth::ALLOWED_ATTEMPTS
-      login_state.user.update!(mfa_attempts: login_state.user.mfa_attempts + 1)
-      @phone_code_error_message = I18n.t("devise.sessions.phone_code.errors.invalid")
     else
-      login_state.user.update!(phone_code: nil)
-      @phone_code_error_message = I18n.t("devise.sessions.phone_code.errors.expired")
+      @phone_code_error_message = I18n.t("devise.sessions.phone_code.errors.#{state}")
+      render :phone_code
     end
-    render :phone_code
   end
 
   def phone_resend; end
@@ -81,11 +69,7 @@ protected
   end
 
   def initiate_mfa(resource, redirect_path)
-    resource.update!(
-      phone_code: MultiFactorAuth.send_phone_mfa(resource.phone),
-      phone_code_generated_at: Time.zone.now,
-      mfa_attempts: 0,
-    )
+    MultiFactorAuth.generate_and_send_code(resource)
 
     login_state = LoginState.create!(
       created_at: Time.zone.now,
