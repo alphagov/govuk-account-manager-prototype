@@ -9,14 +9,7 @@ RSpec.describe AccountManagerApplication, type: :unit do
       )
     end
 
-    let!(:user) do
-      FactoryBot.create(
-        :user,
-        email: "user@domain.tld",
-        password: "breadbread1", # pragma: allowlist secret
-        password_confirmation: "breadbread1",
-      )
-    end
+    let!(:user) { FactoryBot.create(:user) }
 
     it "returns the application" do
       expect(described_class.application&.id).to eq(application.id)

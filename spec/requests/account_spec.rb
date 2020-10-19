@@ -10,14 +10,7 @@ RSpec.feature "/account" do
     )
   end
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "somebody@example.com",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-    )
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   let(:userinfo) { {} }
 

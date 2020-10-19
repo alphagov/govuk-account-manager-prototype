@@ -17,12 +17,7 @@ RSpec.describe "new-password" do
     end
 
     let(:user) do
-      u = FactoryBot.create(
-        :user,
-        email: "user@domain.tld",
-        password: "breadbread1", # pragma: allowlist secret
-        password_confirmation: "breadbread1",
-      )
+      u = FactoryBot.create(:user)
       # clear confirmation email job
       clear_enqueued_jobs
       u

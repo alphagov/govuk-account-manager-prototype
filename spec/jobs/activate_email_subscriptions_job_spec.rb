@@ -3,15 +3,7 @@ require "gds_api/test_helpers/email_alert_api"
 RSpec.describe ActivateEmailSubscriptionsJob, type: :job do
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-      confirmed_at: Time.zone.now,
-    )
-  end
+  let(:user) { FactoryBot.create(:confirmed_user) }
 
   context "the user has an email subscription" do
     let!(:subscription) do

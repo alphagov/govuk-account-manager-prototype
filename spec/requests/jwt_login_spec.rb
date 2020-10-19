@@ -1,6 +1,4 @@
 RSpec.describe "JWT log in" do
-  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
-
   let(:application) do
     FactoryBot.create(
       :oauth_application,
@@ -40,25 +38,15 @@ RSpec.describe "JWT log in" do
     JWT.encode payload.compact, private_key, "ES256"
   end
 
-  let!(:user) do
-    FactoryBot.create(
-      :user,
-      email: email,
-      password: password,
-      password_confirmation: password,
-    )
-  end
+  let!(:user) { FactoryBot.create(:user) }
 
   let(:params) do
     {
-      "user[email]" => email,
-      "user[password]" => password,
+      "user[email]" => user.email,
+      "user[password]" => user.password,
       "jwt" => jwt,
     }
   end
-
-  let(:email) { "email@example.com" }
-  let(:password) { "abcd1234" }
 
   it "redirects the user to the OAuth consent flow" do
     post user_session_path, params: params

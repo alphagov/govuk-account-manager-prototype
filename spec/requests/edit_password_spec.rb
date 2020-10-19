@@ -1,14 +1,7 @@
 RSpec.describe "edit-password" do
   include ActiveJob::TestHelper
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-    )
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   let(:actual_reset_password_token) { user.send_reset_password_instructions }
 

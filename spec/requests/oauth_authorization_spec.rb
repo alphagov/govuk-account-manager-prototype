@@ -1,14 +1,7 @@
 require "spec_helper"
 
 RSpec.feature "/oauth/authorize" do
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-    )
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   let(:application) do
     FactoryBot.create(

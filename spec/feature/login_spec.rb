@@ -6,19 +6,7 @@ RSpec.feature "Logging in" do
 
   let(:mfa_enabled) { true }
 
-  let!(:user) do
-    FactoryBot.create(
-      :user,
-      email: email,
-      phone: phone_number,
-      password: password,
-      password_confirmation: password,
-    )
-  end
-
-  let(:email) { "email@example.com" }
-  let(:password) { "abcd1234" } # pragma: allowlist secret
-  let(:phone_number) { "01234567890" }
+  let!(:user) { FactoryBot.create(:user) }
 
   it "logs the user in" do
     enter_email_address
@@ -86,7 +74,7 @@ RSpec.feature "Logging in" do
   end
 
   context "the user doesn't have a phone number" do
-    let(:phone_number) { nil }
+    before { user.update!(phone: nil) }
 
     it "skips over the MFA screen" do
       enter_email_address
@@ -109,17 +97,17 @@ RSpec.feature "Logging in" do
 
   def enter_email_address
     visit "/"
-    fill_in "email", with: email
+    fill_in "email", with: user.email
     click_on I18n.t("welcome.show.button.label")
   end
 
   def enter_password
-    fill_in "password", with: password
+    fill_in "password", with: user.password
     click_on I18n.t("devise.sessions.new.fields.submit.label")
   end
 
   def enter_incorrect_password
-    fill_in "password", with: "1#{password}"
+    fill_in "password", with: "1#{user.password}"
     click_on I18n.t("devise.sessions.new.fields.submit.label")
   end
 

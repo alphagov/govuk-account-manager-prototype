@@ -1,14 +1,7 @@
 RSpec.describe RemoteUserInfo, type: :unit do
   let(:attribute_service_url) { "https://attribute-service" }
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-    )
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   let(:bearer_token) { AccountManagerApplication.user_token(user.id).token }
 
