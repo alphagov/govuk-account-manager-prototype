@@ -1,7 +1,7 @@
 module ErrorItemsHelper
-  def error_items(field)
-    if flash[:validation] && flash[:validation].select { |item| item[:field] == field }.any?
-      sanitize(flash[:validation]
+  def error_items(field, error_items)
+    if error_items && error_items.select { |item| item[:field] == field }.any?
+      sanitize(error_items
         .select { |key| key.to_s.match(field) }
         .map { |error| error[:text] }.uniq
         .join("<br>"))

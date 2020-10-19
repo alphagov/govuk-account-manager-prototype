@@ -21,11 +21,17 @@ class FeedbackController < ApplicationController
 
     errors = []
     (REQUIRED_FIELDS + conditionally_required_fields).each do |field|
-      errors << { field: field, text: I18n.t("feedback.show.fields.#{field}.not_present_error") } if @form_responses[field.to_sym].blank?
+      next if @form_responses[field.to_sym].present?
+
+      errors << {
+        field: field,
+        href: "##{field}",
+        text: I18n.t("feedback.show.fields.#{field}.not_present_error"),
+      }
     end
 
     unless errors.empty?
-      flash.now[:validation] = errors
+      @error_items = errors
       return render "show"
     end
 

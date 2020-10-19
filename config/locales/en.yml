@@ -124,6 +124,10 @@ en:
       email_subject: "GOV.UK Accounts Feedback"
       anonymous_name: "Anonymous Feedback"
       anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
+      errors:
+        summary: There was a problem
+        comment_or_feedback: Please give details about your comment or feedback
+        can_we_contact: Please indicate whether we can contact you about your comment or feedback
       fields:
         name:
           label: "Your name"
