@@ -121,6 +121,8 @@ jobs:
           WEBSITE_ROOT: https://www.gov.uk
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+          NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
+          FEATURE_FLAG_MFA: enabled
           OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           OIDC_PEPPER: ((oidc-pepper-staging))
           SECRET_KEY_BASE: ((secret-key-base-staging))
@@ -175,6 +177,8 @@ jobs:
           WEBSITE_ROOT: https://www.gov.uk
           NOTIFY_API_KEY: ((notify-api-key))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
+          NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
+          FEATURE_FLAG_MFA: enabled
           OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           OIDC_PEPPER: ((oidc-pepper-production))
           SECRET_KEY_BASE: ((secret-key-base-production))

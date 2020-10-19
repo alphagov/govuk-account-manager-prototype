@@ -40,6 +40,8 @@ run:
       cf set-env $CF_APP_NAME GOVUK_WEBSITE_ROOT "$WEBSITE_ROOT"
       cf set-env $CF_APP_NAME NOTIFY_API_KEY "$NOTIFY_API_KEY"
       cf set-env $CF_APP_NAME GOVUK_NOTIFY_TEMPLATE_ID "$NOTIFY_TEMPLATE_ID"
+      cf set-env $CF_APP_NAME GOVUK_NOTIFY_SMS_TEMPLATE_ID "$NOTIFY_SMS_TEMPLATE_ID"
+      cf set-env $CF_APP_NAME FEATURE_FLAG_MFA "$FEATURE_FLAG_MFA"
       cf set-env $CF_APP_NAME REDIRECT_BASE_URL "https://${HOSTNAME}.london.cloudapps.digital"
 
       cf set-env $CF_APP_NAME SENTRY_DSN "$SENTRY_DSN"

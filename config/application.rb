@@ -57,5 +57,7 @@ module GovukAccountManagerPrototype
     config.autoload_paths << "lib"
 
     config.exceptions_app = routes
+
+    config.feature_flag_mfa = ENV["FEATURE_FLAG_MFA"] == "enabled"
   end
 end

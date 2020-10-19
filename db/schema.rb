@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_15_140847) do
+ActiveRecord::Schema.define(version: 2020_10_16_142235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -104,6 +104,10 @@ ActiveRecord::Schema.define(version: 2020_10_15_140847) do
     t.string "password"
     t.boolean "yes_to_emails"
     t.jsonb "jwt_payload"
+    t.string "phone"
+    t.string "phone_code"
+    t.datetime "phone_code_generated_at"
+    t.integer "mfa_attempts"
   end
 
   create_table "users", force: :cascade do |t|
@@ -126,6 +130,11 @@ ActiveRecord::Schema.define(version: 2020_10_15_140847) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "phone"
+    t.string "phone_code"
+    t.datetime "phone_code_generated_at"
+    t.integer "mfa_attempts"
+    t.datetime "last_mfa_success"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
