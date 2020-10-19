@@ -63,4 +63,8 @@ class User < ApplicationRecord
   def after_confirmation
     ActivateEmailSubscriptionsJob.perform_later id
   end
+
+  def needs_mfa?
+    !phone.nil?
+  end
 end

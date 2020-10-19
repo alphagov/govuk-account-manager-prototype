@@ -10,15 +10,6 @@ class ApplicationController < ActionController::Base
 
   rescue_from Exception, with: :top_level_error_handler
 
-  def after_sign_in_path_for(_resource)
-    target = params.fetch(:previous_url, user_root_path)
-    if target.start_with?("/account") || target.start_with?("/oauth")
-      target
-    else
-      user_root_path
-    end
-  end
-
 protected
 
   def top_level_error_handler(exception = nil)
