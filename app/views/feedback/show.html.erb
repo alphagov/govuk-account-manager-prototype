@@ -6,7 +6,7 @@
     name: "name",
     type: "name",
     id: "name",
-    error_message: error_items("name"),
+    error_message: error_items("name", @error_items),
     value: @form_responses[:name],
   } %>
 
@@ -17,7 +17,7 @@
     name: "email",
     type: "email",
     id: "email",
-    error_message: error_items("email"),
+    error_message: error_items("email", @error_items),
     value: @form_responses[:email],
   } %>
 <% end %>
@@ -27,9 +27,17 @@
     <%= render "govuk_publishing_components/components/heading", {
       text: t("feedback.show.heading"),
       heading_level: 1,
-      margin_top: 0,
-      margin_bottom: 3,
+      margin_bottom: 4,
+      font_size: "xl"
     } %>
+
+    <% if defined?(@error_items) %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        id: "error-summary",
+        title: t("feedback.show.errors.summary"),
+        items: @error_items
+      } %>
+    <% end %>
 
     <p class="govuk-body"><%= t("feedback.show.caption") %></p>
 
@@ -38,7 +46,6 @@
     } %>
 
     <%= form_tag do %>
-
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
           text: t("feedback.show.fields.comments.label"),
@@ -46,7 +53,7 @@
         },
         name: "comments",
         id: "comments",
-        error_message: error_items("comments"),
+        error_message: error_items("comments", @error_items),
         value: @form_responses[:comments],
       } %>
 
@@ -68,7 +75,7 @@
         ],
         name: "user_requires_response",
         id: "user_requires_response",
-        error_message: error_items("user_requires_response"),
+        error_message: error_items("user_requires_response", @error_items),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
