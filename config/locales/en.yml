@@ -119,8 +119,8 @@ en:
   feedback:
     show:
       heading: "Give feedback about your GOV.UK account"
-      caption: "Use this form to ask a question, report a problem or suggest an improvement to your GOV.UK account."
-      inset_text: "Do not include any personal financial information like your National Insurance number."
+      caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
+      inset_text: Do not include personal or financial information, for example your National Insurance number or credit card details.
       email_subject: "GOV.UK Accounts Feedback"
       anonymous_name: "Anonymous Feedback"
       anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
@@ -132,7 +132,7 @@ en:
           label: "Email address"
           not_present_error: "Enter your email address"
         comments:
-          label: "Please provide details of your question, problem or feedback."
+          label: Please give details about your comment or feedback.
           not_present_error: "Enter your question, problem or feedback"
         user_requires_response:
           label: "Can we contact you about your feedback?"
@@ -147,7 +147,7 @@ en:
     submit:
       heading: "Feedback sent"
       call_to_action: |
-        <p class="govuk-body">Your feedback has been sent ton the GOV.UK Accounts team.</p>
+        <p class="govuk-body">Your feedback has been sent to the GOV.UK Accounts team.</p>
         <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
   update_registration:
     heading: "Check your email"
