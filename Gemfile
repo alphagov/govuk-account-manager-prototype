@@ -25,6 +25,7 @@ gem "sentry-raven", "~> 3.0"
 gem "sidekiq", "~> 6.1"
 gem "sidekiq-scheduler", "~> 3.0.0"
 gem "sprockets-rails"
+gem "telephone_number", "~> 1.4"
 
 group :development, :test do
   gem "byebug"

@@ -71,7 +71,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     phone_number = [nil, ""].include?(params[:phone]) ? registration_state.phone : params[:phone]
 
-    unless phone_number
+    unless TelephoneNumber.valid?(phone_number, :gb)
       @phone_error_message = I18n.t("devise.registrations.phone.errors.invalid")
       render :phone
       return

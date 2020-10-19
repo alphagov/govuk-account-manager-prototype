@@ -163,7 +163,7 @@ RSpec.describe "JWT (register and login)" do
       visit response.redirect_url
 
       # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
-      fill_in "phone", with: "07700900000"
+      fill_in "phone", with: "01234567890"
       click_on I18n.t("devise.registrations.phone.fields.submit.label")
 
       phone_code = RegistrationState.last.phone_code

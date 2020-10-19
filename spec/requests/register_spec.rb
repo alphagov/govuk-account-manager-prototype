@@ -8,7 +8,7 @@ RSpec.describe "register" do
   let(:mfa_enabled) { true }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
-  let(:phone_number) { "07700900000" }
+  let(:phone_number) { "01234567890" }
   let(:password) { "abcd1234" } # pragma: allowlist secret
   let(:password_confirmation) { password }
 
@@ -127,6 +127,16 @@ RSpec.describe "register" do
     end
   end
 
+  context "when the phone number is invalid" do
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_invalid_phone_number
+
+      expect(page).to have_text(I18n.t("devise.registrations.phone.errors.invalid"))
+    end
+  end
+
   context "when the MFA code is incorrect" do
     it "returns an error" do
       enter_email_address
@@ -202,6 +212,11 @@ RSpec.describe "register" do
 
   def enter_phone_number
     fill_in "phone", with: phone_number
+    click_on I18n.t("devise.registrations.phone.fields.submit.label")
+  end
+
+  def enter_invalid_phone_number
+    fill_in "phone", with: "999"
     click_on I18n.t("devise.registrations.phone.fields.submit.label")
   end
 
