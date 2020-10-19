@@ -132,7 +132,7 @@ GEM
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     govuk_app_config (0.1.0)
-    govuk_publishing_components (21.68.1)
+    govuk_publishing_components (21.69.0)
       govuk_app_config
       kramdown
       plek
@@ -256,7 +256,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rexml (3.2.4)
-    rouge (3.23.0)
+    rouge (3.24.0)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -393,7 +393,7 @@ DEPENDENCIES
   gds-api-adapters (~> 67.0.1)
   gds_zendesk (~> 3.2)
   geocoder
-  govuk_publishing_components (= 21.68.1)
+  govuk_publishing_components (= 21.69.0)
   govuk_test (~> 2.0)
   jwt
   listen (~> 3.2)
