@@ -46,14 +46,36 @@
   } %>
 
   <div class="govuk-width-container app-width-container">
+    <% message = capture do %>
+      <%= t("feedback.banners.phase_intro") %>
+      <a class="govuk-link" href='<%= feedback_form_path %>'><%= t("feedback.banners.phase_link") %></a>
+      <%= t("feedback.banners.phase_outro") %>
+    <% end %>
     <%= render "govuk_publishing_components/components/phase_banner", {
       phase: "alpha",
-      message: sanitize("We're trialling GOV.UK Accounts - your <a class=\"govuk-link\" href='/feedback'>feedback</a> will help us improve them.")
+      message: message
     } %>
 
     <main class="govuk-main-wrapper app-main-class" id="main-content" role="main">
       <%= yield %>
     </main>
+  </div>
+
+  <div class="feedback-footer">
+    <div class="govuk-width-container">
+      <%= render "govuk_publishing_components/components/heading", {
+        text: t("feedback.banners.title"),
+        heading_level: 2,
+        font_size: "m",
+        margin_bottom: 4,
+      } %>
+
+      <p class="govuk-body govuk-!-margin-bottom-0">
+        <%= t("feedback.banners.footer_intro") %>
+        <a href="<%= feedback_form_path %>" class="govuk-link"><%= t("feedback.banners.footer_link") %></a>
+        <%= t("feedback.banners.footer_outro") %>
+      </p>
+    </div>
   </div>
 
   <%= render "govuk_publishing_components/components/layout_footer", {

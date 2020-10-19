@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     get  "/", to: "welcome#show", as: :new_user_session
     post "/", to: "welcome#show"
 
-    get "/feedback", to: "feedback#show"
+    get "/feedback", to: "feedback#show", as: :feedback_form
     post "/feedback", to: "feedback#submit"
 
     scope "/login" do

@@ -117,6 +117,14 @@ en:
       button:
         label: Continue
   feedback:
+    banners:
+      title: Help improve GOV.UK accounts
+      phase_intro: We're trialling GOV.UK Accounts - your
+      phase_link: feedback
+      phase_outro: will help us improve them.
+      footer_intro: We're trialling GOV.UK accounts.
+      footer_link: Give feedback
+      footer_outro: on your experience so we can make them better.
     show:
       heading: "Give feedback about your GOV.UK account"
       caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
