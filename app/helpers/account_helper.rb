@@ -8,7 +8,14 @@ module AccountHelper
     finder_frontend_base_uri.sub("finder-frontend", "email-alert-frontend")
   end
 
-  def is_active_menu_item(page_path)
-    "accounts-nav__menu-item--current" if current_page?(page_path)
+  def paths_without_feedback_footer
+    [
+      feedback_form_path,
+      feedback_form_submitted_path,
+    ]
+  end
+
+  def feedback_enabled_page
+    !paths_without_feedback_footer.include?(request.env["PATH_INFO"])
   end
 end
