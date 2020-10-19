@@ -1,7 +1,6 @@
-RSpec.describe "register" do
+RSpec.feature "Registration" do
   include ActiveJob::TestHelper
   include ActiveSupport::Testing::TimeHelpers
-  include Capybara::DSL
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
 
