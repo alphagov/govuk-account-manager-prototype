@@ -44,3 +44,9 @@
   border: solid 1px govuk-colour("mid-grey");
   border-top: solid 3px $govuk-brand-colour;
 }
+
+.feedback-footer {
+  margin-top: govuk-spacing(4);
+  padding: govuk-spacing(8) 0;
+  background: govuk-colour("light-grey");
+}

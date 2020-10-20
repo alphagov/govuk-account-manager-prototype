@@ -1,7 +1,7 @@
 RSpec.describe "feedback", type: :request do
   describe "GET" do
     it "renders the form" do
-      get feedback_path
+      get feedback_form_path
 
       expect(response.body).to have_content(I18n.t("feedback.show.heading"))
     end
@@ -14,7 +14,7 @@ RSpec.describe "feedback", type: :request do
       end
 
       it "pre-populates the email field" do
-        get feedback_path
+        get feedback_form_path
 
         expect(response.body).to have_selector("input[name='email'][value='#{user.email}']")
       end
@@ -46,39 +46,39 @@ RSpec.describe "feedback", type: :request do
         it "queues a worker" do
           expect(ZendeskTicketJob).to receive(:perform_later).once.with(ticket_attributes)
 
-          post feedback_path, params: params
+          post feedback_form_path, params: params
         end
       end
 
       context "when required fields are missing" do
         %w[comments name email user_requires_response].each do |field|
           it "shows an error when required field #{field} is missing" do
-            post feedback_path, params: params.except(field)
+            post feedback_form_path, params: params.except(field)
 
             expect(response.body).to have_content(I18n.t("feedback.show.fields.#{field}.not_present_error"))
           end
         end
 
         it "replays sanitized response for name" do
-          post feedback_path, params: { user_requires_response: "yes", name: "<script>alert()</script>A Person" }
+          post feedback_form_path, params: { user_requires_response: "yes", name: "<script>alert()</script>A Person" }
 
           expect(response.body).to have_selector("input[name='name'][value='A Person']")
         end
 
         it "replays sanitized response for email" do
-          post feedback_path, params: { user_requires_response: "yes", email: "<script>alert()</script>abc@digital.cabinet-office.gov.uk" }
+          post feedback_form_path, params: { user_requires_response: "yes", email: "<script>alert()</script>abc@digital.cabinet-office.gov.uk" }
 
           expect(response.body).to have_selector("input[name='email'][value='abc@digital.cabinet-office.gov.uk']")
         end
 
         it "replays sanitized response for comments" do
-          post feedback_path, params: { user_requires_response: "yes", comments: "<script>alert()</script>Some text" }
+          post feedback_form_path, params: { user_requires_response: "yes", comments: "<script>alert()</script>Some text" }
 
           expect(response.body).to have_selector("textarea[name='comments']", text: "Some text")
         end
 
         it "replays the response for response required" do
-          post feedback_path, params: { user_requires_response: "yes" }
+          post feedback_form_path, params: { user_requires_response: "yes" }
 
           expect(response.body).to have_selector("input[name='user_requires_response'][value='yes'][checked=checked]")
         end
@@ -109,27 +109,27 @@ RSpec.describe "feedback", type: :request do
         it "queues a job" do
           expect(ZendeskTicketJob).to receive(:perform_later).once.with(ticket_attributes)
 
-          post feedback_path, params: params
+          post feedback_form_path, params: params
         end
       end
 
       context "when required fields are missing" do
         %w[comments user_requires_response].each do |field|
           it "shows an error when required field #{field} is missing" do
-            post feedback_path, params: params.except(field)
+            post feedback_form_path, params: params.except(field)
 
             expect(response.body).to have_content(I18n.t("feedback.show.fields.#{field}.not_present_error"))
           end
         end
 
         it "replays sanitized response for comments" do
-          post feedback_path, params: { comments: "<script>alert()</script>Some text" }
+          post feedback_form_path, params: { comments: "<script>alert()</script>Some text" }
 
           expect(response.body).to have_selector("textarea[name='comments']", text: "Some text")
         end
 
         it "replays the response for response not required" do
-          post feedback_path, params: { user_requires_response: "no" }
+          post feedback_form_path, params: { user_requires_response: "no" }
 
           expect(response.body).to have_selector("input[name='user_requires_response'][value='no'][checked=checked]")
         end

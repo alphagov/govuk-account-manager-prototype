@@ -6,8 +6,8 @@ Rails.application.routes.draw do
     get  "/", to: "welcome#show", as: :new_user_session
     post "/", to: "welcome#show"
 
-    get "/feedback", to: "feedback#show"
-    post "/feedback", to: "feedback#submit"
+    get "/feedback", to: "feedback#show", as: :feedback_form
+    post "/feedback", to: "feedback#submit", as: :feedback_form_submitted
 
     scope "/login" do
       post "/", to: "devise_sessions#create", as: :user_session
