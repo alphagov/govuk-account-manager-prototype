@@ -81,8 +81,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
       return
     end
 
-    registration_state.update!(phone: phone_number)
-    MultiFactorAuth.generate_and_send_code(registration_state)
+    registration_state.transaction do
+      registration_state.update!(phone: phone_number)
+      MultiFactorAuth.generate_and_send_code(registration_state)
+    end
 
     render :phone_code
   end
