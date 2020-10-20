@@ -32,8 +32,8 @@
 en:
   general:
     change: Change
-    yes: Yes
-    no: No
+    "yes": "Yes"
+    "no": "No"
     email: Email
     password: Password
     cancel: Cancel
