@@ -94,6 +94,7 @@ en:
       event:
         login: "Login"
         change_email_or_password: "Change Email or Password"
+        change_phone: "Change Phone Number"
     data_exchange:
       heading: How and when your data was used
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.

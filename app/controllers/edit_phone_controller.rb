@@ -37,6 +37,10 @@ class EditPhoneController < ApplicationController
         unconfirmed_phone: nil,
         last_mfa_success: Time.zone.now,
       )
+      Activity.change_phone!(
+        current_user,
+        request.remote_ip,
+      )
       redirect_to edit_user_registration_phone_done_path
     else
       @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
