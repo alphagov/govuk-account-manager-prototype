@@ -5,14 +5,7 @@ RSpec.describe User, type: :unit do
 
   let(:attribute_service_url) { "https://attribute-service" }
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-    )
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   let(:bearer_token) { AccountManagerApplication.user_token(user.id).token }
 
@@ -30,14 +23,7 @@ RSpec.describe User, type: :unit do
     end
 
     context "there is an email subscription" do
-      let!(:subscription) do
-        FactoryBot.create(
-          :email_subscription,
-          user_id: user.id,
-          topic_slug: "transition checker emails",
-          subscription_id: "subscription-id",
-        )
-      end
+      let!(:subscription) { FactoryBot.create(:email_subscription, user_id: user.id) }
 
       it "calls email-alert-api to deactivate the subscription" do
         stub_attribute_service_delete_all

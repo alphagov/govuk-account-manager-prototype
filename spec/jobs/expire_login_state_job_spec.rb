@@ -1,14 +1,7 @@
 RSpec.describe ExpireLoginStateJob, type: :job do
   include ActiveSupport::Testing::TimeHelpers
 
-  let!(:user) do
-    FactoryBot.create(
-      :user,
-      email: "email@example.com",
-      password: "abcd1234", # pragma: allowlist secret
-      password_confirmation: "abcd1234",
-    )
-  end
+  let!(:user) { FactoryBot.create(:user) }
 
   it "deletes hour-old state" do
     freeze_time do

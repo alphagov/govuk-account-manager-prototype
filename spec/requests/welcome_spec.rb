@@ -12,14 +12,7 @@ RSpec.describe "welcome" do
 
     context "email address given" do
       context "the user exists" do
-        let!(:user) do
-          FactoryBot.create(
-            :user,
-            email: "user@domain.tld",
-            password: "breadbread1", # pragma: allowlist secret
-            password_confirmation: "breadbread1",
-          )
-        end
+        let!(:user) { FactoryBot.create(:user) }
 
         it "shows the login form" do
           get new_user_session_url(user: { email: user.email })
@@ -39,14 +32,7 @@ RSpec.describe "welcome" do
   end
 
   context "the user is logged in" do
-    let(:user) do
-      FactoryBot.create(
-        :user,
-        email: "user@domain.tld",
-        password: "breadbread1", # pragma: allowlist secret
-        password_confirmation: "breadbread1",
-      )
-    end
+    let(:user) { FactoryBot.create(:user) }
 
     before do
       sign_in(user)

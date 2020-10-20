@@ -3,27 +3,10 @@ require "gds_api/test_helpers/email_alert_api"
 RSpec.describe ActivateEmailSubscriptionsJob, type: :job do
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-      confirmed_at: Time.zone.now,
-    )
-  end
+  let(:user) { FactoryBot.create(:confirmed_user) }
 
   context "the user has an email subscription" do
-    let!(:subscription) do
-      FactoryBot.create(
-        :email_subscription,
-        user_id: user.id,
-        topic_slug: "emails",
-        subscription_id: email_alert_api_subscription_id,
-      )
-    end
-
-    let(:email_alert_api_subscription_id) { nil }
+    let!(:subscription) { FactoryBot.create(:email_subscription, user_id: user.id, subscription_id: nil) }
 
     it "calls email-alert-api to create the subscription" do
       stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: subscription.topic_slug, returned_attributes: { id: "list-id" })
@@ -37,7 +20,7 @@ RSpec.describe ActivateEmailSubscriptionsJob, type: :job do
     end
 
     context "the email subscription is already active" do
-      let(:email_alert_api_subscription_id) { "an-old-subscription" }
+      before { subscription.update!(subscription_id: "an-old-subscription") }
 
       it "recreates the subscription" do
         stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: subscription.topic_slug, returned_attributes: { id: "list-id" })

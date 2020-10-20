@@ -3,17 +3,7 @@ require "gds_api/test_helpers/email_alert_api"
 RSpec.describe "/api/v1/transition-checker/*" do
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:user) do
-    FactoryBot.create(
-      :user,
-      email: "user@domain.tld",
-      password: "breadbread1", # pragma: allowlist secret
-      password_confirmation: "breadbread1",
-      confirmed_at: user_confirmed_at,
-    )
-  end
-
-  let(:user_confirmed_at) { nil }
+  let(:user) { FactoryBot.create(:user) }
 
   let(:application) do
     FactoryBot.create(
@@ -41,21 +31,13 @@ RSpec.describe "/api/v1/transition-checker/*" do
 
   context "GET /email-subscription" do
     context "with a email subscription" do
-      let!(:subscription) do
-        FactoryBot.create(
-          :email_subscription,
-          user_id: user.id,
-          topic_slug: "transition checker emails",
-          subscription_id: email_alert_api_subscription_id,
-        )
-      end
+      let!(:subscription) { FactoryBot.create(:email_subscription, user_id: user.id) }
 
-      let(:email_alert_api_subscription_id) { "some-id" }
       let(:email_alert_api_subscription_ended) { false }
 
       before do
         stub_email_alert_api_has_subscription(
-          email_alert_api_subscription_id,
+          subscription.subscription_id,
           "daily",
           ended: email_alert_api_subscription_ended,
         )
@@ -76,7 +58,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
       end
 
       context "the subscription hasn't been activated" do
-        let(:email_alert_api_subscription_id) { nil }
+        before { subscription.update!(subscription_id: nil) }
 
         it "returns a 204" do
           get api_v1_transition_checker_email_subscription_path, headers: headers
@@ -98,17 +80,10 @@ RSpec.describe "/api/v1/transition-checker/*" do
     let(:new_topic_slug) { "new-topic-slug" }
 
     context "the user has confirmed their email address" do
-      let(:user_confirmed_at) { Time.zone.now }
+      let(:user) { FactoryBot.create(:confirmed_user) }
 
       context "with an email subscription" do
-        let(:subscription) do
-          FactoryBot.create(
-            :email_subscription,
-            user_id: user.id,
-            topic_slug: "transition checker emails",
-            subscription_id: "old-subscription-id",
-          )
-        end
+        let(:subscription) { FactoryBot.create(:email_subscription, user_id: user.id) }
 
         before do
           stub_email_alert_api_has_subscription(

@@ -7,14 +7,7 @@ RSpec.describe "feedback", type: :request do
     end
 
     context "when user is logged in" do
-      let(:user) do
-        FactoryBot.create(
-          :user,
-          email: "user@domain.tld",
-          password: "breadbread1", # pragma: allowlist secret
-          password_confirmation: "breadbread1", # pragma: allowlist secret
-        )
-      end
+      let(:user) { FactoryBot.create(:user) }
 
       before do
         sign_in(user)
@@ -23,7 +16,7 @@ RSpec.describe "feedback", type: :request do
       it "pre-populates the email field" do
         get feedback_path
 
-        expect(response.body).to have_selector("input[name='email'][value='user@domain.tld']")
+        expect(response.body).to have_selector("input[name='email'][value='#{user.email}']")
       end
     end
   end
