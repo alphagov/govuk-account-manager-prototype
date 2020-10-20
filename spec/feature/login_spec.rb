@@ -20,7 +20,7 @@ RSpec.feature "Logging in" do
     enter_email_address
     enter_password
 
-    expect(page).to have_text(I18n.t("devise.sessions.phone_code.fields.phone_code.label"))
+    expect(page).to have_text(I18n.t("mfa.phone.code.fields.phone_code.label"))
   end
 
   context "the password is incorrect" do
@@ -48,7 +48,7 @@ RSpec.feature "Logging in" do
       enter_password
       enter_incorrect_mfa
 
-      expect(page).to have_text(I18n.t("devise.sessions.phone_code.errors.invalid"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
     end
 
     context "the user keeps entering an incorrect code" do
@@ -57,7 +57,7 @@ RSpec.feature "Logging in" do
         enter_password
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
-        expect(page).to have_text(I18n.t("devise.sessions.phone_code.errors.expired"))
+        expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.feature "Logging in" do
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
-      expect(page).to have_text(I18n.t("devise.sessions.phone_code.errors.expired"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
     end
   end
 
@@ -114,13 +114,13 @@ RSpec.feature "Logging in" do
   def enter_mfa
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: phone_code
-    click_on I18n.t("devise.sessions.phone_code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def enter_incorrect_mfa
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
-    click_on I18n.t("devise.sessions.phone_code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def go_straight_to_account_page

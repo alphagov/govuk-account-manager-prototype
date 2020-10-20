@@ -1,12 +1,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("account.manage.phone.done.heading"),
+      text: t("mfa.phone.update.done.heading"),
       heading_level: 1,
       margin_top: 0,
       margin_bottom: 3,
     } %>
 
-    <%= sanitize(t("account.manage.phone.done.message", account_link: user_root_path)) %>
+    <%= sanitize(t("mfa.phone.update.done.message", account_link: user_root_path)) %>
   </div>
 </div>

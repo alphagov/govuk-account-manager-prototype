@@ -15,7 +15,7 @@ RSpec.feature "Change Phone" do
     enter_new_phone_number
     enter_mfa
 
-    expect(page).to have_text(I18n.t("account.manage.phone.done.heading"))
+    expect(page).to have_text(I18n.t("mfa.phone.update.done.heading"))
     expect(user.reload.phone).to eq(new_phone_number)
   end
 
@@ -25,7 +25,7 @@ RSpec.feature "Change Phone" do
       go_to_change_number_page
       enter_invalid_phone_number
 
-      expect(page).to have_text(I18n.t("account.manage.phone.show.errors.invalid"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.feature "Change Phone" do
       enter_new_phone_number
       enter_incorrect_mfa
 
-      expect(page).to have_text(I18n.t("account.manage.phone.code.errors.invalid"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
     end
 
     context "the user keeps entering an incorrect code" do
@@ -46,7 +46,7 @@ RSpec.feature "Change Phone" do
         enter_new_phone_number
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
-        expect(page).to have_text(I18n.t("account.manage.phone.code.errors.expired"))
+        expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
       end
     end
   end
@@ -59,7 +59,7 @@ RSpec.feature "Change Phone" do
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
-      expect(page).to have_text(I18n.t("account.manage.phone.code.errors.expired"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
     end
   end
 
@@ -72,7 +72,7 @@ RSpec.feature "Change Phone" do
     click_on I18n.t("devise.sessions.new.fields.submit.label")
 
     fill_in "phone_code", with: user.reload.phone_code
-    click_on I18n.t("devise.sessions.phone_code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def go_to_change_number_page
@@ -82,23 +82,23 @@ RSpec.feature "Change Phone" do
 
   def enter_new_phone_number
     fill_in "phone", with: new_phone_number
-    click_on I18n.t("account.manage.phone.show.fields.submit.label")
+    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
   end
 
   def enter_invalid_phone_number
     fill_in "phone", with: "999"
-    click_on I18n.t("account.manage.phone.show.fields.submit.label")
+    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
   end
 
   def enter_mfa
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: phone_code
-    click_on I18n.t("account.manage.phone.code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def enter_incorrect_mfa
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
-    click_on I18n.t("account.manage.phone.code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 end

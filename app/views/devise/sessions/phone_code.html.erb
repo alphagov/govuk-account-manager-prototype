@@ -1,19 +1,19 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.sessions.phone_code.heading"),
+      text: t("mfa.phone.code.heading"),
       heading_level: 1,
       margin_top: 0,
       margin_bottom: 3,
     } %>
 
-    <% t("devise.sessions.phone_code.description").each do |msg| %>
+    <% t("mfa.phone.code.description").each do |msg| %>
       <p class="govuk-body"><%= msg %></p>
     <% end %>
 
     <%= form_with(url: user_session_phone_verify_path(login_state_id: @login_state_id), method: :post) do %>
       <%= render "govuk_publishing_components/components/input", {
-        label: { text: t("devise.sessions.phone_code.fields.phone_code.label") },
+        label: { text: t("mfa.phone.code.fields.phone_code.label") },
         name: "phone_code",
         maxlength: 6,
         type: "number",
@@ -21,14 +21,14 @@
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("devise.sessions.phone_code.fields.submit.label"),
+        text: t("mfa.phone.code.fields.submit.label"),
         margin_bottom: true
       } %>
     <% end %>
 
     <p class="govuk-body">
       <a class="govuk-link" href="<%= user_session_phone_resend_path(login_state_id: @login_state_id) %>">
-        <%= t("devise.sessions.phone_code.not_received") %>
+        <%= t("mfa.phone.code.not_received") %>
       </a>
     </p>
   </div>

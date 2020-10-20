@@ -6,24 +6,24 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/back_link", { href: user_root_path } %>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("account.manage.phone.show.heading"),
+      text: t("mfa.phone.update.start.heading"),
       heading_level: 1,
       margin_bottom: 6,
     } %>
 
     <%= render "govuk_publishing_components/components/inset_text", {
-      text: t("account.manage.phone.show.current", phone_number: current_user.phone)
+      text: t("mfa.phone.update.start.current", phone_number: current_user.phone)
     } %>
 
     <%= form_with(url: edit_user_registration_phone_code_path, method: :post) do %>
       <%= render "govuk_publishing_components/components/input", {
-        label: { text: t("account.manage.phone.show.fields.phone.label") },
+        label: { text: t("mfa.phone.update.start.fields.phone.label") },
         name: "phone",
         error_message: @phone_error_message,
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: t("account.manage.phone.show.fields.submit.label"),
+        text: t("mfa.phone.update.start.fields.submit.label"),
       } %>
     <% end %>
   </div>

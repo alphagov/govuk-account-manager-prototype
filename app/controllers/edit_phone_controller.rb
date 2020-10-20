@@ -10,7 +10,7 @@ class EditPhoneController < ApplicationController
     phone_number = [nil, ""].include?(params[:phone]) ? current_user.unconfirmed_phone : params[:phone]
 
     unless TelephoneNumber.valid?(phone_number, :gb)
-      @phone_error_message = I18n.t("account.manage.phone.show.errors.invalid")
+      @phone_error_message = I18n.t("mfa.errors.phone.invalid")
       render :show
       return
     end
@@ -33,7 +33,7 @@ class EditPhoneController < ApplicationController
       )
       redirect_to edit_user_registration_phone_done_path
     else
-      @phone_code_error_message = I18n.t("account.manage.phone.code.errors.#{state}")
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
       render :code
     end
   end

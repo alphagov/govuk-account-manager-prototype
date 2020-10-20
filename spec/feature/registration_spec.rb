@@ -39,7 +39,7 @@ RSpec.feature "Registration" do
     enter_email_address
     enter_password_and_confirmation
 
-    expect(page).to have_text(I18n.t("devise.registrations.phone.fields.phone.label"))
+    expect(page).to have_text(I18n.t("mfa.phone.create.fields.phone.label"))
   end
 
   it "shows the terms & conditions" do
@@ -132,7 +132,7 @@ RSpec.feature "Registration" do
       enter_password_and_confirmation
       enter_invalid_phone_number
 
-      expect(page).to have_text(I18n.t("devise.registrations.phone.errors.invalid"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
     end
   end
 
@@ -143,7 +143,7 @@ RSpec.feature "Registration" do
       enter_phone_number
       enter_incorrect_mfa
 
-      expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.invalid"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
     end
 
     context "the user keeps entering an incorrect code" do
@@ -153,7 +153,7 @@ RSpec.feature "Registration" do
         enter_phone_number
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
-        expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.expired"))
+        expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
       end
     end
   end
@@ -166,7 +166,7 @@ RSpec.feature "Registration" do
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
-      expect(page).to have_text(I18n.t("devise.registrations.phone_code.errors.expired"))
+      expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
     end
   end
 
@@ -177,7 +177,7 @@ RSpec.feature "Registration" do
       query = current_url.split("?")[1]
       visit "#{new_user_registration_your_information_path}?#{query}"
 
-      expect(page).to have_text(I18n.t("devise.registrations.phone.fields.phone.label"))
+      expect(page).to have_text(I18n.t("mfa.phone.create.fields.phone.label"))
     end
   end
 
@@ -211,24 +211,24 @@ RSpec.feature "Registration" do
 
   def enter_phone_number
     fill_in "phone", with: phone_number
-    click_on I18n.t("devise.registrations.phone.fields.submit.label")
+    click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 
   def enter_invalid_phone_number
     fill_in "phone", with: "999"
-    click_on I18n.t("devise.registrations.phone.fields.submit.label")
+    click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 
   def enter_mfa
     phone_code = RegistrationState.last.phone_code
     fill_in "phone_code", with: phone_code
-    click_on I18n.t("devise.registrations.phone_code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def enter_incorrect_mfa
     phone_code = RegistrationState.last.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
-    click_on I18n.t("devise.registrations.phone_code.fields.submit.label")
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def accept_terms
