@@ -117,8 +117,8 @@ jobs:
           REQUIRE_BASIC_AUTH: "true"
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
-          APP_DOMAIN: www.gov.uk
-          WEBSITE_ROOT: https://www.gov.uk
+          APP_DOMAIN: www.staging.publishing.service.gov.uk
+          WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
           EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
           NOTIFY_API_KEY: ((notify-api-key))
