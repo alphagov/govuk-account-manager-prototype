@@ -89,9 +89,9 @@ jobs:
               - |
                 set -eu
                 service postgresql start
-                su - postgres -c "psql -c \"create role root with createdb login password 'password';\""
+                su - postgres -c "psql -c \"alter user postgres with password 'password';\""
                 service redis-server start
-                export TEST_DATABASE_URL="postgres://root:password@localhost:5432/accounts"
+                export TEST_DATABASE_URL="postgres://postgres:password@localhost:5432/accounts"
                 export RAILS_ENV=test
                 bundle install
                 bundle exec rails db:setup
