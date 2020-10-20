@@ -132,7 +132,30 @@ en:
             label: Continue
       your_information:
         heading: Control how we use information about you
+        description: |
+          <p class="govuk-body">Your GOV.UK account will only store the information you’ve chosen to provide about yourself. You can access, update or permanently delete your account and all the information stored in it at any time.</p>
+          <p class="govuk-body">We will never:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>sell or rent your information to third parties</li>
+            <li>share your information with third parties for marketing purposes</li>
+          </ul>
+          <p class="govuk-body">As we add new features to your account, we may ask if we can share your information with other parts of government to help us provide more efficient online services that are relevant to you. We will always ask your permission beforehand.</p>
+          <p class="govuk-body">You can read the <a href="https://gov.uk/help/privacy-notice" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
+        data_choice_heading: Data about how you use GOV.UK
+        data_choice_description: |
+          <p class="govuk-body">We’d like to use cookies to collect anonymised analytics about how you use GOV.UK, for example what pages you visit and what you click on.</p>
+          <p class="govuk-body">This data shows us what is and isn’t working, and helps us understand where we can male improvements to GOV.UK.</p>
         fields:
+          cookie_consent:
+            heading: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
+            hint: You’ll be able to update this later in your privacy settings if you’re not sure or you change your mind.
+            "yes": "Yes"
+            "no": "No"
+          feedback_consent:
+            heading: Can we email you to ask for feedback about your account?
+            hint: You can update this later in your privacy settings if you’re not sure or you change your mind.
+            "yes": "Yes"
+            "no": "No"
           submit:
             label: Continue
       transition_emails:
@@ -220,5 +243,9 @@ en:
               too_short: "Enter a valid password"
             password_confirmation:
               confirmation: "Passwords do not match"
+            cookie_consent_decision:
+              invalid: "Please select an option"
+            feedback_consent_decision:
+              invalid: "Please select an option"
             email_decision:
               invalid: "Please select one option"
