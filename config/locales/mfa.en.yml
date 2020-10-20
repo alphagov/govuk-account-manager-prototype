@@ -46,6 +46,7 @@ en:
     errors:
       phone:
         invalid: Enter a valid phone number
+        nochange: Enter a new phone number
       phone_code:
         invalid: That is not the right code
         expired: Your code has expired, check your phone number is correct and send another

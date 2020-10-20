@@ -19,6 +19,16 @@ RSpec.feature "Change Phone" do
     expect(user.reload.phone).to eq(new_phone_number)
   end
 
+  context "when the user enters the same phone number" do
+    it "returns an error" do
+      log_in
+      go_to_change_number_page
+      enter_same_phone_number
+
+      expect(page).to have_text(I18n.t("mfa.errors.phone.nochange"))
+    end
+  end
+
   context "when the phone number is invalid" do
     it "returns an error" do
       log_in
@@ -82,6 +92,11 @@ RSpec.feature "Change Phone" do
 
   def enter_new_phone_number
     fill_in "phone", with: new_phone_number
+    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
+  end
+
+  def enter_same_phone_number
+    fill_in "phone", with: user.phone
     click_on I18n.t("mfa.phone.update.start.fields.submit.label")
   end
 

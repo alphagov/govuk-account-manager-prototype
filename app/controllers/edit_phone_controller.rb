@@ -15,6 +15,12 @@ class EditPhoneController < ApplicationController
       return
     end
 
+    if phone_number == current_user.phone
+      @phone_error_message = I18n.t("mfa.errors.phone.nochange")
+      render :show
+      return
+    end
+
     current_user.transaction do
       current_user.update!(unconfirmed_phone: phone_number)
       MultiFactorAuth.generate_and_send_code(current_user, use_unconfirmed: true)
