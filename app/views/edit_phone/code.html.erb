@@ -1,0 +1,35 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.phone.code.heading"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <% t("account.manage.phone.code.description").each do |msg| %>
+      <p class="govuk-body"><%= msg %></p>
+    <% end %>
+
+    <%= form_with(url: edit_user_registration_phone_verify_path, method: :post) do %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: { text: t("account.manage.phone.code.fields.phone_code.label") },
+        name: "phone_code",
+        maxlength: 6,
+        type: "number",
+        error_message: @phone_code_error_message
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("account.manage.phone.code.fields.submit.label"),
+        margin_bottom: true
+      } %>
+    <% end %>
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="<%= edit_user_registration_phone_resend_path %>">
+        <%= t("account.manage.phone.code.not_received") %>
+      </a>
+    </p>
+  </div>
+</div>

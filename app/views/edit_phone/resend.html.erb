@@ -1,0 +1,29 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", { href: edit_user_registration_phone_code_path } %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.phone.resend.heading"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <p class="govuk-body"><%= t("account.manage.phone.resend.description") %></p>
+
+    <%= form_with(url: edit_user_registration_phone_code_path, method: :post) do %>
+      <%= render "govuk_publishing_components/components/details", {
+        title: t("account.manage.phone.resend.change_phone")
+      } do %>
+        <%= render "govuk_publishing_components/components/input", {
+          label: { text: t("account.manage.phone.resend.fields.phone.label") },
+          name: "phone",
+        } %>
+      <% end %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("account.manage.phone.resend.fields.submit.label"),
+      } %>
+    <% end %>
+  </div>
+</div>

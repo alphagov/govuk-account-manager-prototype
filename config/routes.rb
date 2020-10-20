@@ -31,8 +31,14 @@ Rails.application.routes.draw do
       delete "/", to: "devise_registration#destroy"
 
       scope "/edit" do
-        get "/email", to: "devise_registration#edit_email", as: :edit_user_registration_email
-        get "/password", to: "devise_registration#edit_password", as: :edit_user_registration_password
+        get  "/email", to: "devise_registration#edit_email", as: :edit_user_registration_email
+        get  "/password", to: "devise_registration#edit_password", as: :edit_user_registration_password
+        get  "/phone", to: "edit_phone#show", as: :edit_user_registration_phone
+        get  "/phone/code", to: "edit_phone#code", as: :edit_user_registration_phone_code
+        post "/phone/code", to: "edit_phone#code_send"
+        post "/phone/verify", to: "edit_phone#verify", as: :edit_user_registration_phone_verify
+        get  "/phone/resend", to: "edit_phone#resend", as: :edit_user_registration_phone_resend
+        get  "/phone/done", to: "edit_phone#done", as: :edit_user_registration_phone_done
       end
 
       scope "/password" do
