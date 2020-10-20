@@ -1,0 +1,22 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: user_session_phone_code_path(login_state_id: @login_state_id)
+    } %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.sessions.phone_resend.heading"),
+      heading_level: 1,
+      margin_top: 0,
+      margin_bottom: 3,
+    } %>
+
+    <p class="govuk-body"><%= t("devise.sessions.phone_resend.description") %></p>
+
+    <%= form_with(url: user_session_phone_code_path(login_state_id: @login_state_id), method: :post) do %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.sessions.phone_resend.fields.submit.label"),
+      } %>
+    <% end %>
+  </div>
+</div>

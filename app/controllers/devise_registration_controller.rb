@@ -45,7 +45,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     if password_format_ok && password_length_ok && password_confirmation_ok
       registration_state.update!(
-        state: MultiFactorAuth.is_enabled ? :phone : :your_information,
+        state: MultiFactorAuth.is_enabled? ? :phone : :your_information,
         password: password,
       )
       redirect_to new_user_registration_phone_path(registration_state_id: @registration_state_id)
@@ -81,14 +81,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
       return
     end
 
-    phone_code = MultiFactorAuth.send_phone_mfa(phone_number)
-
-    registration_state.update!(
-      phone: phone_number,
-      phone_code: phone_code,
-      phone_code_generated_at: Time.zone.now,
-      mfa_attempts: 0,
-    )
+    registration_state.update!(phone: phone_number)
+    MultiFactorAuth.generate_and_send_code(registration_state)
 
     render :phone_code
   end
@@ -96,22 +90,14 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def phone_verify
     redirect_to url_for_state and return unless registration_state.state == "phone"
 
-    if params[:phone_code] == registration_state.phone_code && registration_state.phone_code_generated_at >= MultiFactorAuth::EXPIRATION_AGE.ago
+    state = MultiFactorAuth.verify_code(registration_state, params[:phone_code])
+    if state == :ok
       registration_state.update!(state: :your_information)
       redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
-      return
-    end
-
-    if registration_state.phone_code.nil? || registration_state.phone_code_generated_at < MultiFactorAuth::EXPIRATION_AGE.ago
-      @phone_code_error_message = I18n.t("devise.registrations.phone_code.errors.expired")
-    elsif registration_state.mfa_attempts < MultiFactorAuth::ALLOWED_ATTEMPTS
-      registration_state.update!(mfa_attempts: registration_state.mfa_attempts + 1)
-      @phone_code_error_message = I18n.t("devise.registrations.phone_code.errors.invalid")
     else
-      registration_state.update!(phone_code: nil)
-      @phone_code_error_message = I18n.t("devise.registrations.phone_code.errors.expired")
+      @phone_code_error_message = I18n.t("devise.registrations.phone_code.errors.#{state}")
+      render :phone_code
     end
-    render :phone_code
   end
 
   def phone_resend

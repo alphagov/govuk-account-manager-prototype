@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_16_142235) do
+ActiveRecord::Schema.define(version: 2020_10_19_105858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -39,6 +39,13 @@ ActiveRecord::Schema.define(version: 2020_10_16_142235) do
     t.string "topic_slug", null: false
     t.string "subscription_id"
     t.index ["user_id"], name: "index_email_subscriptions_on_user_id"
+  end
+
+  create_table "login_states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "user_id", null: false
+    t.string "redirect_path", null: false
+    t.index ["user_id"], name: "index_login_states_on_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -144,6 +151,7 @@ ActiveRecord::Schema.define(version: 2020_10_16_142235) do
   add_foreign_key "activities", "oauth_applications"
   add_foreign_key "activities", "users"
   add_foreign_key "email_subscriptions", "users"
+  add_foreign_key "login_states", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

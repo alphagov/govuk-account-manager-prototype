@@ -6,3 +6,6 @@
   expire_registration_state:
     cron: "0 */15 * * * *"
     class: ExpireRegistrationStateJob
+  expire_login_state:
+    cron: "0 */15 * * * *"
+    class: ExpireLoginStateJob

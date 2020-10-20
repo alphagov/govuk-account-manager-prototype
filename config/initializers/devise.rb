@@ -279,6 +279,9 @@ Devise.setup do |config|
   #
   config.warden do |manager|
     manager.failure_app = CustomFailureApp
+    manager.strategies.add(:multi_factor_authenticatable, Devise::Strategies::MultiFactorAuthenticatable)
+    strategies = manager.default_strategies(scope: :user)
+    strategies[strategies.index(:database_authenticatable)] = :multi_factor_authenticatable
   end
 
   # ==> Mountable engine configurations

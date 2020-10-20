@@ -9,8 +9,15 @@ Rails.application.routes.draw do
     get "/feedback", to: "feedback#show"
     post "/feedback", to: "feedback#submit"
 
-    post "/login", to: "devise_sessions#create", as: :user_session
-    get  "/logout", to: "devise_sessions#destroy", as: :destroy_user_session
+    scope "/login" do
+      post "/", to: "devise_sessions#create", as: :user_session
+      get  "/phone/code", to: "devise_sessions#phone_code", as: :user_session_phone_code
+      post "/phone/code", to: "devise_sessions#phone_code_send"
+      post "/phone/verify", to: "devise_sessions#phone_verify", as: :user_session_phone_verify
+      get  "/phone/resend", to: "devise_sessions#phone_resend", as: :user_session_phone_resend
+    end
+
+    get "/logout", to: "devise_sessions#destroy", as: :destroy_user_session
 
     scope "/account" do
       get "/manage", to: "manage#show", as: :account_manage
