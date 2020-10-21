@@ -115,3 +115,26 @@ puts "client secret: #{a.secret}"
 ```
 
 You will probably want `openid` in the list of scopes.
+
+## Disabling registrations
+
+Set the `ENABLE_REGISTRATION` environment variable to `false` to
+disable the registration form.
+
+To do this in production / staging:
+
+1. Edit `concourse/pipeline.yml`, changing `ENABLE_REGISTRATION: "true"` to  `ENABLE_REGISTRATION: "false"` in the relevant environment
+2. Deploy the pipeline change (happens automatically on push to main)
+3. Deploy the application (happens automatically on push to main)
+
+If changing the pipeline isn't feasible (for example, you are doing
+this out-of-hours and nobody else is around), you can use the PaaS CLI
+to set the environment variable:
+
+1. Log into the PaaS
+2. `cf set-env govuk-account-manager ENABLE_REGISTRATION false`
+3. `cf restage govuk-account-manager`
+
+This approach will cause some brief downtime as the app restarts, and
+the environment variable change will be lost on the next Concourse
+deployment.
