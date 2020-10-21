@@ -7,18 +7,24 @@ class EditPhoneController < ApplicationController
   def code; end
 
   def code_send
-    phone_number = params[:phone].presence || current_user.unconfirmed_phone
+    phone_number = current_user.unconfirmed_phone
 
-    unless MultiFactorAuth.valid? phone_number
-      @phone_error_message = I18n.t("mfa.errors.phone.invalid")
-      render :show
-      return
-    end
+    if params[:phone]
+      phone_number = params[:phone]
 
-    if phone_number == current_user.phone
-      @phone_error_message = I18n.t("mfa.errors.phone.nochange")
-      render :show
-      return
+      unless current_user.valid_password? params[:current_password]
+        @password_error_message = I18n.t("activerecord.errors.models.user.attributes.password.#{params[:current_password].blank? ? 'blank' : 'invalid'}")
+      end
+
+      if phone_number == current_user.phone
+        @phone_error_message = I18n.t("mfa.errors.phone.nochange")
+      end
+
+      unless MultiFactorAuth.valid? phone_number
+        @phone_error_message = I18n.t("mfa.errors.phone.invalid")
+      end
+
+      render :show and return if @password_error_message || @phone_error_message
     end
 
     current_user.transaction do
@@ -49,7 +55,9 @@ class EditPhoneController < ApplicationController
     end
   end
 
-  def resend; end
+  def resend
+    redirect_to edit_user_registration_phone unless current_user.unconfirmed_phone
+  end
 
   def done; end
 

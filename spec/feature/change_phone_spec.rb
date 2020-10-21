@@ -13,6 +13,7 @@ RSpec.feature "Change Phone" do
     log_in
     go_to_change_number_page
     enter_new_phone_number
+    enter_password
     enter_mfa
 
     expect(page).to have_text(I18n.t("mfa.phone.update.done.heading"))
@@ -24,6 +25,7 @@ RSpec.feature "Change Phone" do
       log_in
       go_to_change_number_page
       enter_same_phone_number
+      enter_password
 
       expect(page).to have_text(I18n.t("mfa.errors.phone.nochange"))
     end
@@ -34,8 +36,20 @@ RSpec.feature "Change Phone" do
       log_in
       go_to_change_number_page
       enter_invalid_phone_number
+      enter_password
 
       expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+    end
+  end
+
+  context "when the password is incorrect" do
+    it "returns an error" do
+      log_in
+      go_to_change_number_page
+      enter_same_phone_number
+      enter_incorrect_password
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
     end
   end
 
@@ -44,6 +58,7 @@ RSpec.feature "Change Phone" do
       log_in
       go_to_change_number_page
       enter_new_phone_number
+      enter_password
       enter_incorrect_mfa
 
       expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
@@ -54,6 +69,7 @@ RSpec.feature "Change Phone" do
         log_in
         go_to_change_number_page
         enter_new_phone_number
+        enter_password
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
         expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
@@ -66,6 +82,7 @@ RSpec.feature "Change Phone" do
       log_in
       go_to_change_number_page
       enter_new_phone_number
+      enter_password
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
@@ -92,16 +109,23 @@ RSpec.feature "Change Phone" do
 
   def enter_new_phone_number
     fill_in "phone", with: new_phone_number
-    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
   end
 
   def enter_same_phone_number
     fill_in "phone", with: user.phone
-    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
   end
 
   def enter_invalid_phone_number
     fill_in "phone", with: "999"
+  end
+
+  def enter_password
+    fill_in "current_password", with: user.password
+    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
+  end
+
+  def enter_incorrect_password
+    fill_in "current_password", with: "1#{user.password}"
     click_on I18n.t("mfa.phone.update.start.fields.submit.label")
   end
 
