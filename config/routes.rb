@@ -23,13 +23,13 @@ Rails.application.routes.draw do
       get "/manage", to: "manage#show", as: :account_manage
       get "/security", to: "security#show", as: :account_security
 
-      get "/delete", to: "delete#show", as: :account_delete
-      get "/delete/confirmation", to: "delete#confirmation", as: :account_delete_confiration
+      get    "/delete", to: "delete#show", as: :account_delete
+      delete "/delete", to: "delete#destroy"
+      get    "/delete/confirmation", to: "delete#confirmation", as: :account_delete_confirmation
 
-      get    "/", to: "account#show", as: :user_root
-      patch  "/", to: "devise_registration#update", as: :user_registration
-      put    "/", to: "devise_registration#update"
-      delete "/", to: "devise_registration#destroy"
+      get   "/", to: "account#show", as: :user_root
+      patch "/", to: "devise_registration#update", as: :user_registration
+      put   "/", to: "devise_registration#update"
 
       scope "/edit" do
         get  "/email", to: "devise_registration#edit_email", as: :edit_user_registration_email

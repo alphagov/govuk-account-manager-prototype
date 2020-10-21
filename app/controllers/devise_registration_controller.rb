@@ -218,16 +218,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
     end
   end
 
-  # DELETE /resource
-  # from https://github.com/heartcombo/devise/blob/45b831c4ea5a35914037bd27fe88b76d7b3683a4/app/controllers/devise/registrations_controller.rb#L65
-  def destroy
-    resource&.destroy!
-    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-    set_flash_message! :notice, :destroyed
-    yield resource if block_given?
-    respond_with_navigational(resource) { redirect_to account_delete_confiration_path }
-  end
-
   def cancel
     registration_state&.destroy!
     super

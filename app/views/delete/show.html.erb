@@ -22,7 +22,17 @@
       <% end %>
     </ul>
 
-    <%= form_with(url: user_registration_path, method: :delete) do %>
+    <%= form_with(url: account_delete_path, method: :delete) do %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.edit.fields.current_password.label"),
+        },
+        hint: t("devise.registrations.edit.fields.current_password.hint"),
+        name: "current_password",
+        type: "password",
+        error_message: @password_error_message,
+      } %>
+
       <%= render "govuk_publishing_components/components/button", {
         text: t("account.delete.action"),
         destructive: true,
