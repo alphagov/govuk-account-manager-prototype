@@ -11,7 +11,7 @@
       <p class="govuk-body"><%= msg %></p>
     <% end %>
 
-    <%= form_with(url: new_user_registration_phone_verify_path(registration_state_id: @registration_state_id), method: :post, html: { autocomplete: "off" }) do %>
+    <%= form_with(url: edit_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.code.fields.phone_code.label") },
         name: "phone_code",
@@ -27,7 +27,7 @@
     <% end %>
 
     <p class="govuk-body">
-      <a class="govuk-link" href="<%= new_user_registration_phone_resend_path(registration_state_id: @registration_state_id) %>">
+      <a class="govuk-link" href="<%= edit_user_registration_phone_resend_path %>">
         <%= t("mfa.phone.code.not_received") %>
       </a>
     </p>

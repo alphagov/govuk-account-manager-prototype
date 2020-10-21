@@ -1,0 +1,63 @@
+en:
+  mfa:
+    phone:
+      create:
+        fields:
+          phone:
+            label: Enter your mobile number
+            hint: We'll send you a security code by text message. Security codes help keep your account secure.
+          submit:
+            label: Continue
+      update:
+        start:
+          heading: Change your phone number
+          current: |
+            The phone number currently stored in your GOV.UK account is %{phone_number}
+          fields:
+            phone:
+              label: Enter new phone number
+            submit:
+              label: Continue
+        done:
+          heading: Your phone number has been updated
+          message: |
+            <p class="govuk-body">I don't know what text should go on this page!</p>
+            <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
+      code:
+        heading: Check your phone
+        description:
+          - We've sent you a text message with a security code.
+          - It may take a few minutes to arrive.
+        not_received: Not received a text message?
+        fields:
+          phone_code:
+            label: Enter security code
+          submit:
+            label: Continue
+      resend:
+        heading: Resend security code
+        description: Text messages sometimes take a few minutes to arrive. If you do not receive the text message, you can request a new one.
+        change_phone: Change where the text message is sent
+        fields:
+          phone:
+            label: Enter your mobile number
+          submit:
+            label: Resend security code
+    mailer:
+      phone_change:
+        subject: "GOV.UK Accounts: phone number changed"
+        body: |
+          Hello %{email},
+
+          Your phone number has been changed.
+
+          -----
+
+          Do not reply to this email - it’s an automatic message from an unmonitored account.
+    errors:
+      phone:
+        invalid: Enter a valid phone number
+        nochange: Enter a new phone number
+      phone_code:
+        invalid: That is not the right code
+        expired: Your code has expired, check your phone number is correct and send another

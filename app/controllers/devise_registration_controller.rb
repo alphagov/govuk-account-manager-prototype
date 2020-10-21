@@ -73,16 +73,18 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def phone_code_send
     redirect_to url_for_state and return unless registration_state.state == "phone"
 
-    phone_number = [nil, ""].include?(params[:phone]) ? registration_state.phone : params[:phone]
+    phone_number = params[:phone].presence || registration_state.phone
 
-    unless TelephoneNumber.valid?(phone_number, :gb)
-      @phone_error_message = I18n.t("devise.registrations.phone.errors.invalid")
+    unless MultiFactorAuth.valid?(phone_number)
+      @phone_error_message = I18n.t("mfa.errors.phone.invalid")
       render :phone
       return
     end
 
-    registration_state.update!(phone: phone_number)
-    MultiFactorAuth.generate_and_send_code(registration_state)
+    registration_state.transaction do
+      registration_state.update!(phone: phone_number)
+      MultiFactorAuth.generate_and_send_code(registration_state)
+    end
 
     render :phone_code
   end
@@ -95,7 +97,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       registration_state.update!(state: :your_information)
       redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
     else
-      @phone_code_error_message = I18n.t("devise.registrations.phone_code.errors.#{state}")
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
       render :phone_code
     end
   end

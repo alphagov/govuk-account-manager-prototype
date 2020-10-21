@@ -6,12 +6,18 @@ module MultiFactorAuth
   class Disabled < MFAError; end
   class NotConfigured < MFAError; end
 
-  def self.generate_and_send_code(auth)
+  def self.valid?(phone_number)
+    TelephoneNumber.valid?(phone_number, :gb)
+  end
+
+  def self.generate_and_send_code(auth, use_unconfirmed: false)
+    phone = use_unconfirmed ? auth.unconfirmed_phone : auth.phone
+
     raise Disabled unless is_enabled?
-    raise NotConfigured unless auth.phone
+    raise NotConfigured unless phone
 
     auth.update!(
-      phone_code: send_phone_mfa(auth.phone),
+      phone_code: send_phone_mfa(phone),
       phone_code_generated_at: Time.zone.now,
       mfa_attempts: 0,
     )

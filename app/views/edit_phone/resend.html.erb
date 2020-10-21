@@ -1,8 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/back_link", {
-      href: user_session_phone_code_path(login_state_id: @login_state_id)
-    } %>
+    <%= render "govuk_publishing_components/components/back_link", { href: edit_user_registration_phone_code_path } %>
 
     <%= render "govuk_publishing_components/components/heading", {
       text: t("mfa.phone.resend.heading"),
@@ -13,7 +11,7 @@
 
     <p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
 
-    <%= form_with(url: user_session_phone_code_path(login_state_id: @login_state_id), method: :post) do %>
+    <%= form_with(url: edit_user_registration_phone_code_path, method: :post) do %>
       <%= render "govuk_publishing_components/components/button", {
         text: t("mfa.phone.resend.fields.submit.label"),
       } %>

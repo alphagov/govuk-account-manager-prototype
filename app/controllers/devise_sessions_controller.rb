@@ -46,7 +46,7 @@ class DeviseSessionsController < Devise::SessionsController
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
     else
-      @phone_code_error_message = I18n.t("devise.sessions.phone_code.errors.#{state}")
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
       render :phone_code
     end
   end

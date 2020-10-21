@@ -130,38 +130,6 @@ en:
             label: Retype password
           submit:
             label: Continue
-      phone:
-        errors:
-          invalid: Enter a valid phone number
-        fields:
-          phone:
-            label: Enter your mobile number
-            hint: We'll send you a security code by text message. Security codes help keep your account secure.
-          submit:
-            label: Continue
-      phone_code:
-        heading: Check your phone
-        description:
-          - We've sent you a text message with a security code.
-          - It may take a few minutes to arrive.
-        not_received: Not received a text message?
-        errors:
-          invalid: That is not the right code
-          expired: Your code has expired, check your phone number is correct and send another
-        fields:
-          phone_code:
-            label: Enter security code
-          submit:
-            label: Continue
-      phone_resend:
-        heading: Resend security code
-        description: Text messages sometimes take a few minutes to arrive. If you do not receive the text message, you can request a new one.
-        change_phone: Change where the text message is sent
-        fields:
-          phone:
-            label: Enter your mobile number
-          submit:
-            label: Resend security code
       your_information:
         heading: Control how we use information about you
         fields:
@@ -223,26 +191,6 @@ en:
             label: "Remember me"
           submit:
             label: "Log in"
-      phone_code:
-        heading: Check your phone
-        description:
-          - We've sent you a text message with a security code.
-          - It may take a few minutes to arrive.
-        not_received: Not received a text message?
-        errors:
-          invalid: That is not the right code
-          expired: Your code has expired, check your phone number is correct and send another
-        fields:
-          phone_code:
-            label: Enter security code
-          submit:
-            label: Continue
-      phone_resend:
-        heading: Resend security code
-        description: Text messages sometimes take a few minutes to arrive. If you do not receive the text message, you can request a new one.
-        fields:
-          submit:
-            label: Resend security code
     unlocks:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
