@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 ruby File.read(".ruby-version").strip
 
+gem "aws-ip"
 gem "bootsnap", ">= 1.4.2"
 gem "composite_primary_keys", "~> 12.0.0"
 gem "devise"
