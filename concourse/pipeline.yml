@@ -114,6 +114,7 @@ jobs:
           APP_INSTANCES: 1
           WORKER_INSTANCES: 1
           CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          ENABLE_REGISTRATION: "true"
           REQUIRE_BASIC_AUTH: "true"
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
@@ -183,6 +184,7 @@ jobs:
           APP_INSTANCES: 1
           WORKER_INSTANCES: 1
           CDN_DOMAIN: account.publishing.service.gov.uk
+          ENABLE_REGISTRATION: "true"
           REQUIRE_BASIC_AUTH: "true"
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
