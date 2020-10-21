@@ -121,7 +121,7 @@ jobs:
           WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
           EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
-          NOTIFY_API_KEY: ((notify-api-key))
+          NOTIFY_API_KEY: ((notify-api-key-staging))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
           NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
           FEATURE_FLAG_MFA: enabled
@@ -179,7 +179,7 @@ jobs:
           WEBSITE_ROOT: https://www.gov.uk
           EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
-          NOTIFY_API_KEY: ((notify-api-key))
+          NOTIFY_API_KEY: ((notify-api-key-production))
           NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
           NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
           FEATURE_FLAG_MFA: enabled
