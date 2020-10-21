@@ -1,0 +1,13 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.delete.confirmation.heading"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 4,
+    } %>
+
+    <%= sanitize(I18n.t("account.delete.confirmation.description")) %>
+  </div>
+</div>

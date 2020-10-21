@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get "/security", to: "security#show", as: :account_security
 
       get "/delete", to: "delete#show", as: :account_delete
+      get "/delete/confirmation", to: "delete#confirmation", as: :account_delete_confiration
 
       get    "/", to: "account#show", as: :user_root
       patch  "/", to: "devise_registration#update", as: :user_registration

@@ -86,6 +86,10 @@ en:
         - UK transition results
         - email notification
       action: Delete account
+      confirmation:
+        heading: Your account has been deleted
+        description: |
+          <p class="govuk-body"><a class="govuk-link" href="https://gov.uk/">Navigate back to GOV.UK</a>.</p>
     security:
       heading: Security
       account_use: When your GOV.UK account was used
