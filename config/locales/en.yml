@@ -63,8 +63,7 @@ en:
       heading: Manage your account
       details:
         heading: Account details
-        could_not_fetch_data: An error occurred retrieving your data. This problem has been reported. Please try again later.
-        no_data_found: We cannot find any personally identifying data held against your account. If you choose to add some in the future, it will appear here so you can see what you have told GOV.UK about you and your circumstances.
+        unconfirmed: unconfirmed
       privacy:
         heading: Privacy settings
         cookies_question: Can your account use cookies to learn about how you use GOV.UK?

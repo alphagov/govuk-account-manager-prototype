@@ -17,22 +17,6 @@
       items: core_account_details
     } %>
 
-    <% user_details_items = user_details(@user_info) %>
-
-    <% if user_details_items.nil? %>
-      <p class="govuk-body">
-        <%= t("account.manage.details.could_not_fetch_data") %>
-      </p>
-    <% elsif user_details_items.empty? %>
-      <p class="govuk-body">
-        <%= t("account.manage.details.no_data_found") %>
-      </p>
-    <% else %>
-      <%= render "govuk_publishing_components/components/summary_list", {
-        items: user_details_items
-      } %>
-    <% end %>
-
     <%= render "govuk_publishing_components/components/summary_list", {
       title: t("account.manage.privacy.heading"),
       heading_level: 2,
