@@ -25,6 +25,17 @@
         error_message: devise_error_items(:email),
       } %>
 
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.edit.fields.current_password.label"),
+        },
+        hint: t("devise.registrations.edit.fields.current_password.hint"),
+        name: "user[current_password]",
+        type: "password",
+        id: "current__confirmation",
+        error_message: devise_error_items(:current_password),
+      } %>
+
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <p class="govuk-body"><%= t("devise.registrations.edit.unconfirmed", email: resource.unconfirmed_email) %></p>
       <% end %>
