@@ -144,7 +144,7 @@ en:
         data_choice_heading: Data about how you use GOV.UK
         data_choice_description: |
           <p class="govuk-body">We’d like to use cookies to collect anonymised analytics about how you use GOV.UK, for example what pages you visit and what you click on.</p>
-          <p class="govuk-body">This data shows us what is and isn’t working, and helps us understand where we can male improvements to GOV.UK.</p>
+          <p class="govuk-body">This data shows us what is and isn’t working, and helps us understand where we can make improvements to GOV.UK.</p>
         fields:
           cookie_consent:
             heading: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
