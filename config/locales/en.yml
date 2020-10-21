@@ -63,6 +63,7 @@ en:
       heading: Manage your account
       details:
         heading: Account details
+        unconfirmed: unconfirmed
       privacy:
         heading: Privacy settings
         cookies_question: Can your account use cookies to learn about how you use GOV.UK?
