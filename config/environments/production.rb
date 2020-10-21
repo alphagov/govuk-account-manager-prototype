@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "aws_ip"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -123,4 +125,11 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :notify
   config.action_mailer.default_url_options = { host: ENV["REDIRECT_BASE_URL"] }
+
+  # Add all AWS IP ranges to TRUSTED_PROXIES
+  config.action_dispatch.trusted_proxies = AwsIp.new
+    .all_ranges
+    .select { |range| range["service"] == "CLOUDFRONT" }
+    .pluck("ip_prefix")
+    .map { |proxy| IPAddr.new(proxy) }
 end
