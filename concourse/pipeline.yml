@@ -131,6 +131,17 @@ jobs:
           PASSWORD_PEPPER: ((password-pepper-staging))
           ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
           ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
+        on_failure:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts-tech'
+            username: 'Concourse (GOV.UK Accounts)'
+            icon_emoji: ':concourse:'
+            silent: true
+            text: |
+              :kaboom:
+              Staging deployment for the GOV.UK Account manager has failed
+              Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
   - name: ping-test-staging
     serial: true
@@ -189,6 +200,17 @@ jobs:
           PASSWORD_PEPPER: ((password-pepper-production))
           ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
           ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
+        on_failure:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts-tech'
+            username: 'Concourse (GOV.UK Accounts)'
+            icon_emoji: ':concourse:'
+            silent: true
+            text: |
+              :kaboom:
+              Production deployment for the GOV.UK Account manager has failed
+              Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
   - name: ping-test-production
     serial: true
