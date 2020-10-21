@@ -11,7 +11,7 @@
       <p class="govuk-body"><%= msg %></p>
     <% end %>
 
-    <%= form_with(url: user_session_phone_verify_path(login_state_id: @login_state_id), method: :post) do %>
+    <%= form_with(url: user_session_phone_verify_path(login_state_id: @login_state_id), method: :post, html: { autocomplete: "off" }) do %>
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.code.fields.phone_code.label") },
         name: "phone_code",
