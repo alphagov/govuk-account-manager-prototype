@@ -46,6 +46,9 @@ en:
           <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
         register: |
           <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
+  navigation:
+    user_root_path: Account
+    destroy_user_session: Sign Out
   account:
     your_account:
       heading: Your GOV.UK account
