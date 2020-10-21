@@ -9,7 +9,7 @@ class EditPhoneController < ApplicationController
   def code_send
     phone_number = params[:phone].presence || current_user.unconfirmed_phone
 
-    unless TelephoneNumber.valid?(phone_number, :gb)
+    unless MultiFactorAuth.valid? phone_number
       @phone_error_message = I18n.t("mfa.errors.phone.invalid")
       render :show
       return

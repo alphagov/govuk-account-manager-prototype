@@ -75,7 +75,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     phone_number = params[:phone].presence || registration_state.phone
 
-    unless TelephoneNumber.valid?(phone_number, :gb)
+    unless MultiFactorAuth.valid?(phone_number)
       @phone_error_message = I18n.t("mfa.errors.phone.invalid")
       render :phone
       return
