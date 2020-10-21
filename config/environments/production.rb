@@ -127,7 +127,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV["REDIRECT_BASE_URL"] }
 
   # Add all AWS IP ranges to TRUSTED_PROXIES
-  config.action_dispatch.trusted_proxies = AwsIp.new
+  config.action_dispatch.trusted_proxies = ActionDispatch::RemoteIp::TRUSTED_PROXIES + AwsIp.new
     .all_ranges
     .select { |range| range["service"] == "CLOUDFRONT" }
     .pluck("ip_prefix")
