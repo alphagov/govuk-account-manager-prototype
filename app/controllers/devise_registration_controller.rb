@@ -18,6 +18,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
   ]
 
   def start
+    render :closed and return unless Rails.configuration.enable_registration
+
     @registration_state_id = params[:registration_state_id]
     # if this is unset we've been sent here from the welcome form
     unless @registration_state_id

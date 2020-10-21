@@ -58,6 +58,8 @@ module GovukAccountManagerPrototype
 
     config.exceptions_app = routes
 
+    config.enable_registration = ENV["ENABLE_REGISTRATION"] != "false"
+
     config.feature_flag_mfa = ENV["FEATURE_FLAG_MFA"] == "enabled"
   end
 end

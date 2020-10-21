@@ -14,8 +14,10 @@ class WelcomeController < ApplicationController
       if Devise.email_regexp.match? @email
         if User.exists?(email: @email)
           render "devise/sessions/new"
-        else
+        elsif Rails.configuration.enable_registration
           render "devise/registrations/start"
+        else
+          render "devise/registrations/closed"
         end
       else
         @email_error_message = I18n.t("welcome.show.fields.email.errors.format")
