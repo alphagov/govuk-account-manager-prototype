@@ -3,12 +3,59 @@
     <%= render "govuk_publishing_components/components/heading", {
       text: t("devise.registrations.your_information.heading"),
       heading_level: 1,
-      margin_top: 0,
       margin_bottom: 3,
     } %>
 
+    <%= sanitize(t("devise.registrations.your_information.description")) %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.registrations.your_information.data_choice_heading"),
+      heading_level: 2,
+      font_size: "m",
+      margin_bottom: 3,
+    } %>
+
+    <%= sanitize(t("devise.registrations.your_information.data_choice_description")) %>
+
     <%= form_with(url: new_user_registration_your_information_path(registration_state_id: @registration_state_id), method: :post) do %>
-      <p class="govuk-body">When we have the final terms & conditions text, it will go here.</p>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "cookie_consent",
+        heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
+        heading_size: "s",
+        error_message: devise_error_items(:cookie_consent, @resource_error_messages),
+        items: [
+          {
+            value: "yes",
+            text: t("devise.registrations.your_information.fields.cookie_consent.yes"),
+            checked: @consents.fetch(:cookie_consent_decision, nil) == "yes"
+          },
+          {
+            value: "no",
+            text: t("devise.registrations.your_information.fields.cookie_consent.no"),
+            checked: @consents.fetch(:cookie_consent_decision, nil) == "no"
+          }
+        ]
+      } %>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "feedback_consent",
+        heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
+        heading_size: "s",
+        error_message: devise_error_items(:feedback_consent, @resource_error_messages),
+        items: [
+          {
+            value: "yes",
+            text: t("devise.registrations.your_information.fields.feedback_consent.yes"),
+            checked: @consents.fetch(:feedback_consent_decision, nil) == "yes"
+          },
+          {
+            value: "no",
+            text: t("devise.registrations.your_information.fields.feedback_consent.no"),
+            checked: @consents.fetch(:feedback_consent_decision, nil) == "no"
+          }
+        ]
+      } %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.your_information.fields.submit.label"),

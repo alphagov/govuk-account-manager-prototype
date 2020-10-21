@@ -16,7 +16,7 @@ RSpec.feature "Registration" do
     enter_password_and_confirmation
     enter_phone_number
     enter_mfa
-    accept_terms
+    provide_consent
 
     expect(page).to have_text(I18n.t("post_registration.heading"))
 
@@ -30,7 +30,7 @@ RSpec.feature "Registration" do
     enter_password_and_confirmation
     enter_phone_number
     enter_mfa
-    accept_terms
+    provide_consent
 
     assert_enqueued_jobs 1, only: NotifyDeliveryJob
   end
@@ -187,7 +187,7 @@ RSpec.feature "Registration" do
     it "skips over the MFA screens" do
       enter_email_address
       enter_password_and_confirmation
-      accept_terms
+      provide_consent
 
       expect(page).to have_text(I18n.t("post_registration.heading"))
 
@@ -231,7 +231,9 @@ RSpec.feature "Registration" do
     click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
-  def accept_terms
+  def provide_consent
+    within(".govuk-form-group:first-of-type") { choose "Yes" }
+    within(".govuk-form-group:last-of-type") { choose "No" }
     click_on I18n.t("devise.registrations.your_information.fields.submit.label")
   end
 end

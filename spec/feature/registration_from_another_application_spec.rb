@@ -162,6 +162,12 @@ RSpec.feature "Registration (coming from another application)" do
     fill_in "phone_code", with: phone_code
     click_on I18n.t("mfa.phone.code.fields.submit.label")
 
+    i_consent_my_information_being_used
+  end
+
+  def i_consent_my_information_being_used
+    within(".govuk-form-group:first-of-type") { choose "Yes" }
+    within(".govuk-form-group:last-of-type") { choose "Yes" }
     click_on I18n.t("devise.registrations.your_information.fields.submit.label")
   end
 

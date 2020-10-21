@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_102250) do
+ActiveRecord::Schema.define(version: 2020_10_20_131956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 2020_10_20_102250) do
     t.string "phone_code"
     t.datetime "phone_code_generated_at"
     t.integer "mfa_attempts"
+    t.boolean "cookie_consent"
+    t.boolean "feedback_consent"
   end
 
   create_table "users", force: :cascade do |t|
