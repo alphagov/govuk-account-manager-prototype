@@ -130,10 +130,10 @@ en:
           email:
             label: Enter your email address
           password:
-            label: Create a new password
+            label: Create a password
             hint: It needs to be at least 8 characters long.
           password_confirm:
-            label: Retype password
+            label: Retype your password
           submit:
             label: Continue
       your_information:
