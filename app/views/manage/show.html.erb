@@ -31,9 +31,9 @@
         },
         {
           field: t("account.manage.privacy.email_question") + t("account.manage.privacy.email_description"),
-          value: t("general.yes"),
+          value: current_user.feedback_consent == true ? t("general.yes") : t("general.no"),
           edit: {
-            href: "",
+            href: edit_user_consent_feedback_path,
             text: t("general.change"),
           }
         }
