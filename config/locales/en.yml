@@ -56,7 +56,7 @@ en:
         heading: "Get ready for new rules in 2021: Your results"
         description: A personalised list of actions to help you, your family, and your business prepare for the end of the UK transition.
         link1: See your results
-        link1_description: Go back to the UK transition results you've saved.
+        link1_description: Go back to the UK transition results you’ve saved.
         link2: Update your results
         link2_description: Answer the UK transition questions again to update your results.
     manage:
@@ -128,10 +128,10 @@ en:
   feedback:
     banners:
       title: Help improve GOV.UK accounts
-      phase_intro: We're trialling GOV.UK Accounts - your
+      phase_intro: We’re trialling GOV.UK Accounts - your
       phase_link: feedback
       phase_outro: will help us improve them.
-      footer_intro: We're trialling GOV.UK accounts.
+      footer_intro: We’re trialling GOV.UK accounts.
       footer_link: Give feedback
       footer_outro: on your experience so we can make them better.
     show:
