@@ -16,7 +16,7 @@ resource_errors = raw_errors.map { |field, errors| errors.map { |error| { field:
 <% end %>
 
 <% if flash[:alert] %>
-  <% if previous_url_is_on_ignore_list(params[:previous_url]) %>
+  <% if params[:previous_url] && previous_url_is_on_ignore_list(params[:previous_url]) %>
       <% remove_flash_alert %>
   <% else %>
     <%= render "govuk_publishing_components/components/error_summary", {
