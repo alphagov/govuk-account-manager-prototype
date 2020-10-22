@@ -417,7 +417,7 @@ Doorkeeper.configure do
   # end
   #
   after_successful_authorization do |controller, context|
-    Activity.login_with!(
+    SecurityActivity.login_with!(
       controller.current_user,
       context.issued_token.application,
       controller.request.remote_ip,

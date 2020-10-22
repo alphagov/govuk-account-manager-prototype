@@ -201,7 +201,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
     yield resource if block_given?
     if resource_updated
       # this is the change to the standard controller method:
-      Activity.change_email_or_password!(
+      SecurityActivity.change_email_or_password!(
         resource,
         request.remote_ip,
       )

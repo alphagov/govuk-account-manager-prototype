@@ -28,7 +28,7 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :destroy
 
-  has_many :activities,
+  has_many :security_activities,
            dependent: :destroy
 
   has_many :email_subscriptions,
@@ -48,7 +48,7 @@ class User < ApplicationRecord
 
   def update_tracked_fields!(request)
     super(request)
-    Activity.login!(self, request.remote_ip) unless new_record?
+    SecurityActivity.login!(self, request.remote_ip) unless new_record?
   end
 
   def update_remote_user_info

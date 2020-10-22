@@ -1,4 +1,4 @@
-class Activity < ApplicationRecord
+class SecurityActivity < ApplicationRecord
   enum event_type: {
     login: 0,
     change_email_or_password: 1, # pragma: allowlist secret
