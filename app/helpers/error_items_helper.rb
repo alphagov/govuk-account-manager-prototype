@@ -21,9 +21,9 @@ module ErrorItemsHelper
     resource_errors = all_errors.flatten.select { |item| item[:field] == field }
 
     if resource_errors.any?
-      resource_errors
+      sanitize(resource_errors
         .pluck(:error)
-        .join("<br>")
+        .join("<br>"))
     end
   end
 
