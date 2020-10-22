@@ -4,21 +4,21 @@ class SecurityController < ApplicationController
   def show
     @activity = current_user.security_activities.order(created_at: :desc)
     @data_exchanges = current_user
-      .access_grants
+      .data_activities
       .order(created_at: :desc)
-      .map { |g| grant_to_exchange(g) }
+      .map { |a| activity_to_exchange(a) }
       .compact
   end
 
 private
 
-  def grant_to_exchange(grant)
-    scopes = grant.scopes.map(&:to_sym) - ScopeDefinition.new.hidden_scopes
+  def activity_to_exchange(activity)
+    scopes = activity.scopes.split(" ").map(&:to_sym) - ScopeDefinition.new.hidden_scopes
     return if scopes.empty?
 
     {
-      application_name: grant.application.name,
-      created_at: grant.created_at,
+      application_name: activity.oauth_application.name,
+      created_at: activity.created_at,
       scopes: scopes,
     }
   end

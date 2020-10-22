@@ -12,15 +12,23 @@ RSpec.feature "/account/your-data" do
     )
   end
 
-  let!(:access_grant) do
+  let(:token) do
     FactoryBot.create(
-      :oauth_access_grant,
+      :oauth_access_token,
       resource_owner_id: user.id,
       application_id: application.id,
+      scopes: application.scopes,
+    )
+  end
+
+  let!(:activity) do
+    FactoryBot.create(
+      :data_activity,
+      user_id: user.id,
+      oauth_application_id: application.id,
       created_at: Time.zone.now,
       scopes: "openid email transition_checker",
-      redirect_uri: "https://www.gov.uk",
-      expires_in: 600,
+      token: token.token,
     )
   end
 
