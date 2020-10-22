@@ -36,7 +36,7 @@ Check out the following branches on the different repos:
 - `main` branch on the GOV.UK attribute service prototype repo
 - `master` branch on the transition checker repo
 
-## Start the prototype
+## Set up the docker image and database
 
 In the command line, go to the `govuk/govuk-docker` repo folder and run the following commands:
 
@@ -80,6 +80,36 @@ If you have set up the apps correctly, you will be able to access the following 
 When you have set up your local account, you can [sign into your account](http://www.login.service.dev.gov.uk/) and view the manage screens.
 
 You have now set up and run the GOV.UK account manager prototype, and integrated the `finder-frontend` transition checker with the GOV.UK account manager.
+
+## Troubleshooting
+
+If you are having issues setting up and running the GOV.UK account manager prototype, it might be because:
+
+- you have not allocated enough resources to GOV.UK Docker
+- there have been backend changes to the database or the prototypes
+- there have been [Ruby on Rails](https://rubyonrails.org/) configuration changes to the app
+
+### Not enough resources allocated to GOV.UK Docker
+
+To change the resource allocation for GOV.UK Docker, see the [GOV.UK Docker settings guidance](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#docker-settings).
+
+### Backend changes to the database or the prototypes
+
+To account for recent backend changes, go to the main branch of your local GOV.UK Docker repo and run the following in the command line:
+
+```
+govuk-docker run govuk-account-manager-prototype-lite bundle exec rake db:migrate
+govuk-docker run govuk-account-manager-prototype-lite bundle exec rake db:migrate RAILS_ENV=test
+```
+
+Then [restart the transition checker and account manager prototype apps](#start-the-transition-checker-and-account-manager-prototype-apps).
+
+### Ruby on Rails configuration changes to the app
+
+If there have been Ruby on Rails configuration changes to the app, you must restart the app to see these changes reflected.
+
+1. Run `govuk-docker down` in the command line to stop all GOV.UK Docker containers.
+1. Run `govuk-docker-up` in the folder of the app you want to run to restart the GOV.UK Docker containers.
 
 ## Sending emails locally
 
