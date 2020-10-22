@@ -37,7 +37,7 @@
               </span>
               <br>
               <%= t("account.data_exchange.used") %>
-              <%= exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence %>
+              <%= sanitize(exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence) %>
             </dd>
           </div>
         <% end %>
