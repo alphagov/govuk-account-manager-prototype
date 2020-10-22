@@ -233,8 +233,8 @@ RSpec.feature "Registration" do
   end
 
   def provide_consent
-    within(".govuk-form-group:first-of-type") { choose "Yes" }
-    within(".govuk-form-group:last-of-type") { choose "No" }
+    find(:css, "input[name='cookie_consent'][value='yes']").set(true)
+    find(:css, "input[name='feedback_consent'][value='no']").set(true)
     click_on I18n.t("devise.registrations.your_information.fields.submit.label")
   end
 end

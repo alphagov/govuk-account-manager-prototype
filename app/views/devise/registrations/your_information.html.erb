@@ -19,6 +19,7 @@
 
     <%= form_with(url: new_user_registration_your_information_path(registration_state_id: @registration_state_id), method: :post) do %>
 
+    <div class="js-cookie-consent">
       <%= render "govuk_publishing_components/components/radio", {
         name: "cookie_consent",
         heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
@@ -38,6 +39,7 @@
           }
         ]
       } %>
+    </div>
 
       <%= render "govuk_publishing_components/components/heading", {
         text:  t("devise.registrations.your_information.fields.feedback_consent.section_heading"),
