@@ -31,7 +31,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
         touched_at: Time.zone.now,
         state: :start,
         email: params[:user][:email],
-        previous_url: params[:previous_url],
+        previous_url: jwt_payload&.dig(:post_register_oauth).presence || params[:previous_url],
         jwt_payload: jwt_payload,
       )
       @registration_state_id = registration_state.id
