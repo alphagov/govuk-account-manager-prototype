@@ -5,7 +5,7 @@ en:
         fields:
           phone:
             label: Enter your mobile number
-            hint: We'll send you a security code by text message. Security codes help keep your account secure.
+            hint: We’ll send you a security code by text message. Security codes help keep your account secure.
           submit:
             label: Continue
       update:
@@ -21,12 +21,12 @@ en:
         done:
           heading: Your phone number has been updated
           message: |
-            <p class="govuk-body">I don't know what text should go on this page!</p>
+            <p class="govuk-body">I don’t know what text should go on this page!</p>
             <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
       code:
         heading: Check your phone
         description:
-          - We've sent you a text message with a security code.
+          - We’ve sent you a text message with a security code.
           - It may take a few minutes to arrive.
         not_received: Not received a text message?
         fields:
