@@ -43,7 +43,7 @@ class EditPhoneController < ApplicationController
         unconfirmed_phone: nil,
         last_mfa_success: Time.zone.now,
       )
-      Activity.change_phone!(
+      SecurityActivity.change_phone!(
         current_user,
         request.remote_ip,
       )

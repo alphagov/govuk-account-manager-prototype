@@ -201,10 +201,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
     yield resource if block_given?
     if resource_updated
       # this is the change to the standard controller method:
-      Activity.change_email_or_password!(
-        resource,
-        request.remote_ip,
-      )
+      SecurityActivity.change_email!(resource, request.remote_ip) if params.dig(:user, :email)
+      SecurityActivity.change_password!(resource, request.remote_ip) if params.dig(:user, :password)
       # back to normal:
 
       set_flash_message_for_update(resource, prev_unconfirmed_email)

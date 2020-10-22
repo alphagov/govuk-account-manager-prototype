@@ -10,22 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_131956) do
+ActiveRecord::Schema.define(version: 2020_10_22_075518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-
-  create_table "activities", force: :cascade do |t|
-    t.integer "event_type", null: false
-    t.bigint "user_id", null: false
-    t.string "ip_address", null: false
-    t.bigint "oauth_application_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["oauth_application_id"], name: "index_activities_on_oauth_application_id"
-    t.index ["user_id"], name: "index_activities_on_user_id"
-  end
 
   create_table "application_keys", primary_key: ["application_uid", "key_id"], force: :cascade do |t|
     t.string "application_uid", null: false
@@ -119,6 +108,17 @@ ActiveRecord::Schema.define(version: 2020_10_20_131956) do
     t.boolean "feedback_consent"
   end
 
+  create_table "security_activities", force: :cascade do |t|
+    t.integer "event_type", null: false
+    t.bigint "user_id", null: false
+    t.string "ip_address", null: false
+    t.bigint "oauth_application_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["oauth_application_id"], name: "index_security_activities_on_oauth_application_id"
+    t.index ["user_id"], name: "index_security_activities_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -151,8 +151,6 @@ ActiveRecord::Schema.define(version: 2020_10_20_131956) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "activities", "oauth_applications"
-  add_foreign_key "activities", "users"
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "login_states", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
@@ -160,4 +158,6 @@ ActiveRecord::Schema.define(version: 2020_10_20_131956) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "oauth_openid_requests", "oauth_access_grants", column: "access_grant_id", on_delete: :cascade
+  add_foreign_key "security_activities", "oauth_applications"
+  add_foreign_key "security_activities", "users"
 end
