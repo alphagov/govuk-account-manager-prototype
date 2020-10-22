@@ -102,6 +102,15 @@ en:
         change_email: "Change Email Address"
         change_password: "Change Password"
         change_phone: "Change Phone Number"
+        report_suspicious_activity: Report Suspicious Activity
+      report:
+        heading: Report suspicious activity
+        description: |
+          <p class="govuk-body">Use the feedback form to tell us if you think something does not look right with your GOV.UK account.</p>
+          <p class="govuk-body">We’ll get back to you as soon as possible.</p>
+        action:
+          report: Report suspicious activity
+          cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
     data_exchange:
       heading: How and when your data was used
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.

@@ -10,6 +10,8 @@ class SecurityController < ApplicationController
       .compact
   end
 
+  def report; end
+
 private
 
   def activity_to_exchange(activity)

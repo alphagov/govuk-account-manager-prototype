@@ -68,6 +68,12 @@
                 <%= activity.client %>
               <br>
               <%= "#{ip_to_country(activity.ip_address)} (#{activity.ip_address})" %>
+              <br>
+               <p class="govuk-body">
+                <a class="govuk-link" href="<%= account_security_report_path %>">
+                  <%= t("account.security.event.report_suspicious_activity") %>
+                </a>
+              </p>
             </dd>
           </div>
         <% end %>
