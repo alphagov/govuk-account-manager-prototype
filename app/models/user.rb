@@ -28,6 +28,9 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :destroy
 
+  has_many :data_activities,
+           dependent: :destroy
+
   has_many :security_activities,
            dependent: :destroy
 

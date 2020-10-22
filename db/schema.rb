@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_22_075518) do
+ActiveRecord::Schema.define(version: 2020_10_22_082056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 2020_10_22_075518) do
     t.uuid "key_id", null: false
     t.string "pem", null: false
     t.index ["application_uid"], name: "index_application_keys_on_application_uid"
+  end
+
+  create_table "data_activities", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "oauth_application_id", null: false
+    t.string "token", null: false
+    t.string "scopes", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["oauth_application_id"], name: "index_data_activities_on_oauth_application_id"
+    t.index ["user_id"], name: "index_data_activities_on_user_id"
   end
 
   create_table "email_subscriptions", force: :cascade do |t|
@@ -151,6 +162,8 @@ ActiveRecord::Schema.define(version: 2020_10_22_075518) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "data_activities", "oauth_applications"
+  add_foreign_key "data_activities", "users"
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "login_states", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
