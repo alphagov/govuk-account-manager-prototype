@@ -43,17 +43,28 @@ RSpec.describe ApplicationKey, type: :unit do
     let(:jwt_scopes) { %i[test_scope_write] }
     let(:jwt_attributes) { { test: "value" } }
     let(:jwt_post_login_oauth) { "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-query-string" }
+    let(:jwt_post_register_oauth) { "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-other-query-string" }
     let(:jwt_signing_key) { private_key }
 
     let(:jwt) do
-      payload = { uid: jwt_uid, key: jwt_key, scopes: jwt_scopes, attributes: jwt_attributes, post_login_oauth: jwt_post_login_oauth }.compact
+      payload = {
+        uid: jwt_uid,
+        key: jwt_key,
+        scopes: jwt_scopes,
+        attributes: jwt_attributes,
+        post_register_oauth: jwt_post_register_oauth,
+        post_login_oauth: jwt_post_login_oauth,
+      }.compact
       JWT.encode payload.compact, jwt_signing_key, "ES256"
     end
 
     it "accepts" do
-      expect(ApplicationKey.validate_jwt!(jwt)).to include(:application, :signing_key, scopes: jwt_scopes, attributes: jwt_attributes, post_login_oauth: jwt_post_login_oauth)
-      expect(ApplicationKey.validate_jwt!(jwt)[:application].uid).to eq(jwt_uid)
-      expect(ApplicationKey.validate_jwt!(jwt)[:signing_key].to_key.to_pem).to eq(public_key.to_pem)
+      payload = ApplicationKey.validate_jwt!(jwt)
+      expect(payload).to include(:application, :signing_key, :post_login_oauth, :post_register_oauth, scopes: jwt_scopes, attributes: jwt_attributes)
+      expect(payload[:post_register_oauth]).to eq(jwt_post_register_oauth.delete_prefix(Rails.application.config.redirect_base_url))
+      expect(payload[:post_login_oauth]).to eq(jwt_post_login_oauth.delete_prefix(Rails.application.config.redirect_base_url))
+      expect(payload[:application].uid).to eq(jwt_uid)
+      expect(payload[:signing_key].to_key.to_pem).to eq(public_key.to_pem)
     end
 
     context "the JWT is missing a UID" do
@@ -123,11 +134,19 @@ RSpec.describe ApplicationKey, type: :unit do
       end
     end
 
-    context "the JWT is missing the redirect" do
+    context "the JWT is missing the post-login redirect" do
       let(:jwt_post_login_oauth) { nil }
 
       it "rejects" do
         expect { ApplicationKey.validate_jwt! jwt }.to raise_error(ApplicationKey::MissingFieldPostLoginOAuth)
+      end
+    end
+
+    context "the JWT is missing the optional post-register redirect" do
+      let(:jwt_post_register_oauth) { nil }
+
+      it "accepts" do
+        expect { ApplicationKey.validate_jwt! jwt }.to_not raise_error(ApplicationKey::InvalidJWT)
       end
     end
 

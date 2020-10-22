@@ -42,12 +42,18 @@ class ApplicationKey < ApplicationRecord
     raise MissingFieldPostLoginOAuth unless post_login_oauth
     raise InvalidOAuthRedirect unless post_login_oauth.starts_with? "/oauth/authorize"
 
+    post_register_oauth = payload["post_register_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
+    if post_register_oauth
+      raise InvalidOAuthRedirect unless post_register_oauth.starts_with? "/oauth/authorize"
+    end
+
     {
       application: application,
       signing_key: signing_key,
       scopes: scopes,
       attributes: attributes,
       post_login_oauth: post_login_oauth,
+      post_register_oauth: post_register_oauth,
     }
   rescue JWT::DecodeError
     raise JWTDecodeError
