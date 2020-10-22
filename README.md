@@ -1,32 +1,87 @@
-# GOV.UK Account Manager - Prototype
+# Set up the GOV.UK account manager prototype
 
-A Prototype to explore how users might authenticate, authorise their data to be exchanged, be informed of data use and manage their consent for it.
+The GOV.UK account manager prototype is an application to test how users:
 
-## Developer setup
+- authenticate their data
+- authorise their data for exchange
+- stay informed of the use of their data
+- manage consent for use of their data
 
-If you are a GOV.UK developer you can use [govuk-docker](https://github.com/alphagov/govuk-docker) to run this app with the attribute store.
+This content tells you how to:
 
-For the GOV.UK Account team discovery, we are running the app alongside [finder-frontend's](https://github.com/alphagov/finder-frontend) transition checker.
-Until our prototype is live you will need [a branch](https://github.com/alphagov/govuk-docker/tree/enable-account-finder-frontend) of govuk-docker `enable-account-finder-frontend`, which has the required environment variables to spin up the service.
+- set up and run the GOV.UK account manager prototype
+- integrate the `finder-frontend` transition checker with the GOV.UK account manager
 
-If you are on a mac, running finder-frontend will spin up a large number of apps and require many resources.
-Ensure you have read [the installation guide](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#docker-settings) about increasing system resources to docker, or you may see errors transitioning between apps.
+This content is for GOV.UK developers working on Macs or Linux. If you are not a GOV.UK developer, you cannot use this prototype.
 
-We also maintain [govuk-accounts-docker](https://github.com/alphagov/govuk-accounts-docker) which is intended to help government services outside GOV.UK set up a development environment.
+## Install GOV.UK Docker
 
-### Pre-commit hooks & Detect Secrets
+[Install GOV.UK Docker](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md). Make sure that you allocate at least the minimum resources specified in the [GOV.UK Docker settings guidance](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#docker-settings) as running the prototype on your local machine is resource-intensive.
 
-This repo uses pre-commit hooks (https://pre-commit.com/) and the plugin detect-secrets (https://github.com/Yelp/detect-secrets) to prevent developers deploying secrets.
-Developers working with this repo should ensure they have pre-commit installed on their system before they attempt to commit and push changes.
+## Clone repositories to local machine
 
-The [pre-commit project page](https://pre-commit.com/) has instructions on the many ways the tool can be installed.
-If you are using Brew on Mac or linuxbrew, an easy way is to:
+To set up GOV.UK account manager, clone the following repositories (repos) to the `~/govuk` folder on your local machine:
 
-```
-brew install pre-commit
-```
+- the [GOV.UK account manager prototype](https://github.com/alphagov/govuk-account-manager-prototype)
+- the [GOV.UK attribute service prototype](https://github.com/alphagov/govuk-attribute-service-prototype)
+- the [finder frontend](https://github.com/alphagov/finder-frontend) that contains the transition checker
+- the [email alert API](https://github.com/alphagov/email-alert-api/)
 
-### Sending emails locally
+You [create the `~/govuk` folder](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#prerequisites) when you install GOV.UK Docker.
+
+Check out the following branches on the different repos:
+
+- `enable-account-finder-frontend` branch on the GOV.UK Docker repo
+- `main` branch on the GOV.UK account manager prototype repo
+- `main` branch on the GOV.UK attribute service prototype repo
+- `master` branch on the transition checker repo
+
+## Start the prototype
+
+In the command line, go to the `govuk/govuk-docker` repo folder and run the following commands:
+
+- `make govuk-attribute-service-prototype`
+- `make govuk-account-manager-prototype`
+- `make finder-frontend`
+- `make email-alert-api`
+
+These commands set up a docker image, build the required system and gem dependencies, and set up the database.
+
+## Prevent developers from deploying secrets
+
+The Account Manager prototype uses the [Pre-Commit framework](https://pre-commit.com/) and the [`detect-secrets`](https://github.com/Yelp/detect-secrets) plugin to prevent developers deploying secrets.
+
+### Install Pre-Commit framework
+
+If you are using the [Homebrew Package Manager](https://brew.sh/) or [Linuxbrew](https://docs.brew.sh/Homebrew-on-Linux) on Mac, install Pre-Commit by running `brew install pre-commit` in the command line.
+
+See [the Pre-Commit framework installation documentation](https://pre-commit.com/#installation) for more instructions on how to install Pre-Commit.
+
+You must have Python 3 installed for this to work. Running the `brew install` command will install Python 3 as well. See the [Python downloads page](https://www.python.org/downloads/) for other ways to install Python 3 if required.
+
+### Install `detect-secrets`
+
+The `detect-secrets` plugin to the Pre-Commit framework detects secrets within a codebase.
+
+To alert developers when they attempt to enter a secret in the codebase, [install the client-side pre-commit hook](https://github.com/Yelp/detect-secrets#client-side-pre-commit-hook).
+
+## Start the transition checker and account manager prototype apps
+
+In the command line, go to the `finder-frontend` repo folder and run `govuk-docker-up`. This starts the `finder-frontend` transition checker and its dependencies.
+
+Open up a web browser and go to `https://finder-frontend.dev.gov.uk`.
+
+If you have set up the apps correctly, you will be able to access the following links:
+
+- the [transition checker journey start page](http://finder-frontend.dev.gov.uk/transition-check/questions)
+- the [transition checker results page](http://finder-frontend.dev.gov.uk/transition-check/results?c[]=living-ie) that reflects the answers you give during the transition checker journey
+- select the subscribe banner or button to access the [account sign up page](http://finder-frontend.dev.gov.uk/transition-check/save-your-results?c%5B%5D=living-ie)
+
+When you have set up your local account, you can [sign into your account](http://www.login.service.dev.gov.uk/) and view the manage screens.
+
+You have now set up and run the GOV.UK account manager prototype, and integrated the `finder-frontend` transition checker with the GOV.UK account manager.
+
+## Sending emails locally
 
 You'll need to pass a GOV.UK Notify API key as an environment variable
 `NOTIFY_API_KEY`, and change the delivery method in [development.rb][]:
@@ -43,7 +98,7 @@ The template should have a Message of `((body))` only.
 [development.rb]: config/environments/development.rb
 [your Notify service]: https://www.notifications.service.gov.uk/accounts
 
-### Running the tests
+## Running the tests
 
 You don't need govuk-accounts-docker to run the tests, a local postgres database is enough:
 
@@ -72,7 +127,7 @@ You will need to be logged into the GDS VPN to access concourse.
 
 The concourse pipeline has credentials for the govuk-accounts-developers user in GOV.UK PaaS. This user has the SpaceDeveloper role, so it can `cf push` the application.
 
-### Secrets
+## Secrets
 
 Secrets are defined via the [gds-cli](https://github.com/alphagov/gds-cli) and Concourse secrets manager.
 
