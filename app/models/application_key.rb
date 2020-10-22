@@ -38,9 +38,14 @@ class ApplicationKey < ApplicationRecord
       raise InsufficientScopes unless scopes.any? { |scope| allowed_write_scopes.include? scope }
     end
 
-    post_login_oauth = payload["post_login_oauth"]
+    post_login_oauth = payload["post_login_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
     raise MissingFieldPostLoginOAuth unless post_login_oauth
-    raise InvalidOAuthRedirect unless post_login_oauth.starts_with? "#{Rails.application.config.redirect_base_url}/oauth/authorize"
+    raise InvalidOAuthRedirect unless post_login_oauth.starts_with? "/oauth/authorize"
+
+    post_register_oauth = payload["post_register_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
+    if post_register_oauth
+      raise InvalidOAuthRedirect unless post_register_oauth.starts_with? "/oauth/authorize"
+    end
 
     {
       application: application,
@@ -48,6 +53,7 @@ class ApplicationKey < ApplicationRecord
       scopes: scopes,
       attributes: attributes,
       post_login_oauth: post_login_oauth,
+      post_register_oauth: post_register_oauth,
     }
   rescue JWT::DecodeError
     raise JWTDecodeError

@@ -50,6 +50,6 @@ RSpec.describe "JWT log in" do
 
   it "redirects the user to the OAuth consent flow" do
     post user_session_path, params: params
-    expect(response).to redirect_to(jwt_post_login_oauth)
+    expect(response).to redirect_to(jwt_post_login_oauth.delete_prefix(Rails.application.config.redirect_base_url))
   end
 end
