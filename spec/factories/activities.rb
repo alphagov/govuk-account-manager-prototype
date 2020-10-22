@@ -5,4 +5,7 @@ FactoryBot.define do
     client_id { "MyString" }
     ip_address { "MyString" }
   end
+
+  factory :data_activity do
+  end
 end

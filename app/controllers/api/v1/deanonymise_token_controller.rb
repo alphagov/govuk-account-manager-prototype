@@ -13,6 +13,13 @@ class Api::V1::DeanonymiseTokenController < Doorkeeper::ApplicationController
     elsif token.expired?
       head 410
     else
+      DataActivity.create!(
+        user_id: token.resource_owner_id,
+        oauth_application_id: token.application_id,
+        token: token.token,
+        scopes: token.scopes.to_a.join(" "),
+      )
+
       render json: {
         true_subject_identifier: token.resource_owner_id,
         pairwise_subject_identifier: Doorkeeper::OpenidConnect::UserInfo.new(token).claims[:sub],
