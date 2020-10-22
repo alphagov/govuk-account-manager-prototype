@@ -40,7 +40,7 @@ module MultiFactorAuth
     end
   end
 
-  def self.send_phone_mfa(phone_number, digits: 6)
+  def self.send_phone_mfa(phone_number, digits: 5)
     raise Disabled unless is_enabled?
 
     phone_code = (1..digits).map { |_| SecureRandom.random_number(10).to_s }.join("")
