@@ -11,6 +11,8 @@
       margin_bottom: 4,
     } %>
 
+    <%= sanitize(t("account.security.description")) %>
+
     <%= render "govuk_publishing_components/components/heading", {
       text: t("account.security.account_use"),
       heading_level: 2,
@@ -35,7 +37,7 @@
               </span>
               <br>
               <%= t("account.data_exchange.used") %>
-              <%= exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence %>
+              <%= sanitize(exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence) %>
             </dd>
           </div>
         <% end %>
@@ -68,6 +70,12 @@
                 <%= activity.client %>
               <br>
               <%= "#{ip_to_country(activity.ip_address)} (#{activity.ip_address})" %>
+              <br>
+               <p class="govuk-body">
+                <a class="govuk-link" href="<%= account_security_report_path %>">
+                  <%= t("account.security.event.report_suspicious_activity") %>
+                </a>
+              </p>
             </dd>
           </div>
         <% end %>

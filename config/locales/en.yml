@@ -94,14 +94,25 @@ en:
           <p class="govuk-body"><a class="govuk-link" href="https://gov.uk/">Navigate back to GOV.UK</a>.</p>
     security:
       heading: Security
-      account_use: When your GOV.UK account was used
-      activity: When and where someone has signed into your account
+      description: |
+        <p class="govuk-body">Read the <a class="govuk-link" href="https://gov.uk/help/privacy-notice">full GOV.UK Accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
+      account_use: Services that have used information about you
+      activity: Sign-in attempts and changes to account details
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
       event:
         login: "Login"
         change_email: "Change Email Address"
         change_password: "Change Password"
         change_phone: "Change Phone Number"
+        report_suspicious_activity: Report Suspicious Activity
+      report:
+        heading: Report suspicious activity
+        description: |
+          <p class="govuk-body">Use the feedback form to tell us if you think something does not look right with your GOV.UK account.</p>
+          <p class="govuk-body">We’ll get back to you as soon as possible.</p>
+        action:
+          report: Report suspicious activity
+          cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
     data_exchange:
       heading: How and when your data was used
       no_data_exchanged: You have not yet consented for your information to be exchanged with any services. If you choose to in future, a log of what has been shared and when will appear here.
