@@ -11,6 +11,8 @@
       margin_bottom: 4,
     } %>
 
+    <%= sanitize(t("account.security.description")) %>
+
     <%= render "govuk_publishing_components/components/heading", {
       text: t("account.security.account_use"),
       heading_level: 2,
