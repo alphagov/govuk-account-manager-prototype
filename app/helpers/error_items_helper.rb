@@ -18,12 +18,12 @@ module ErrorItemsHelper
       end
     end
 
-    resource_errors = all_errors.flatten.select { |item| item[:field] == field }
+    resource_errors = all_errors.flatten.select { |item| item[:field] == field && item[:error].present? }
 
     if resource_errors.any?
-      resource_errors
+      sanitize(resource_errors
         .pluck(:error)
-        .join("<br>")
+        .join("<br>"))
     end
   end
 

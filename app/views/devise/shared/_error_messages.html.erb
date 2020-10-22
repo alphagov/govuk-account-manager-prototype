@@ -1,6 +1,6 @@
 <%
 raw_errors = resource ? resource.errors.messages : resource_error_messages
-resource_errors = raw_errors.map { |field, errors| errors.map { |error| { field: field, error: error } } }.flatten
+resource_errors = raw_errors.map { |field, errors| errors.map { |error| { field: field, error: error } } }.flatten.select { |error| error[:error].present? }
 %>
 
 <% if resource_errors.any? %>
