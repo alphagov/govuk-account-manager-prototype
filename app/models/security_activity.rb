@@ -1,8 +1,9 @@
 class SecurityActivity < ApplicationRecord
   enum event_type: {
     login: 0,
-    change_email_or_password: 1, # pragma: allowlist secret
+    change_email: 1,
     change_phone: 2,
+    change_password: 3, # pragma: allowlist secret
   }
 
   belongs_to :user
@@ -24,9 +25,17 @@ class SecurityActivity < ApplicationRecord
     ).save!
   end
 
-  def self.change_email_or_password!(user, ip_address)
+  def self.change_email!(user, ip_address)
     new(
-      event_type: :change_email_or_password,
+      event_type: :change_email,
+      user_id: user.id,
+      ip_address: ip_address,
+    ).save!
+  end
+
+  def self.change_password!(user, ip_address)
+    new(
+      event_type: :change_password,
       user_id: user.id,
       ip_address: ip_address,
     ).save!
