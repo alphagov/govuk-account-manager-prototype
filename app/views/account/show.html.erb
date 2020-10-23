@@ -19,51 +19,23 @@
 
     <% if @user_info %>
       <% if @user_info[:transition_checker_state] %>
-        <%= render "govuk_publishing_components/components/heading", {
-          text: t("service_card.transition_checker.heading"),
-          heading_level: 2,
-          margin_bottom: 3,
-          font_size: 19,
-        } %>
+        <div class="accounts-panel">
+          <%= render "govuk_publishing_components/components/heading", {
+            text: t("account.your_account.transition.heading"),
+            heading_level: 2,
+            font_size: "m",
+            margin_bottom: 4,
+          } %>
 
-        <p class="govuk-body"><%= t("service_card.transition_checker.description") %></p>
-        <p class="govuk-body"><%= t("service_card.transition_checker.last_used", date: date_with_time_ago(Time.zone.at(@user_info[:transition_checker_state][:timestamp]))) %></p>
+          <p class="govuk-body"><%= t("account.your_account.transition.description") %></p>
 
-        <ul class="govuk-list govuk-!-margin-bottom-7">
-          <li>
-            <a href="<%= finder_frontend_base_uri %>/transition-check/saved-results" class="govuk-link">
-              <%= t("service_card.transition_checker.results_link") %>
-            </a>
-          </li>
-          <li>
-            <a href="<%= finder_frontend_base_uri %>/transition-check/edit-saved-results" class="govuk-link">
-              <%= t("service_card.transition_checker.update_link") %>
-            </a>
-          </li>
-          <li>
-            <a href="<%= email_alert_frontend_base_uri %>/email/manage" class="govuk-link">
-              <%= t("service_card.transition_checker.notifications_link") %>
-            </a>
-          </li>
-        </ul>
+          <p class="govuk-body govuk-!-margin-0"><a href="<%= finder_frontend_base_uri %>/transition-check/saved-results" class="govuk-link"><%= t("account.your_account.transition.link1") %></a></p>
+          <p class="govuk-body"><%= t("account.your_account.transition.link1_description") %></p>
+
+          <p class="govuk-body govuk-!-margin-0"><a href="<%= finder_frontend_base_uri %>/transition-check/edit-saved-results" class="govuk-link"><%= t("account.your_account.transition.link2") %></a></p>
+          <p class="govuk-body"><%= t("account.your_account.transition.link2_description") %></p>
+        </div>
       <% end %>
     <% end %>
-
-    <div class="accounts-panel">
-      <%= render "govuk_publishing_components/components/heading", {
-        text: t("account.your_account.transition.heading"),
-        heading_level: 2,
-        font_size: "m",
-        margin_bottom: 4,
-      } %>
-
-      <p class="govuk-body"><%= t("account.your_account.transition.description") %></p>
-
-      <p class="govuk-body govuk-!-margin-0"><a href="" class="govuk-link"><%= t("account.your_account.transition.link1") %></a></p>
-      <p class="govuk-body"><%= t("account.your_account.transition.link1_description") %></p>
-
-      <p class="govuk-body govuk-!-margin-0"><a href="" class="govuk-link"><%= t("account.your_account.transition.link2") %></a></p>
-      <p class="govuk-body"><%= t("account.your_account.transition.link2_description") %></p>
-    </div>
   </div>
 </div>
