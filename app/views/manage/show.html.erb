@@ -23,9 +23,9 @@
       items: [
         {
           field: t("account.manage.privacy.cookies_question") + t("account.manage.privacy.cookies_description"),
-          value: t("general.yes"),
+          value: current_user.cookie_consent == true ? t("general.yes") : t("general.no"),
           edit: {
-            href: "",
+            href: edit_user_consent_cookie_path,
             text: t("general.change"),
           }
         },
