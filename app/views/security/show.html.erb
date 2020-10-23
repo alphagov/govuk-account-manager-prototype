@@ -35,9 +35,11 @@
               <span class="date-text">
                 <%= date_with_time_ago(exchange[:created_at]) %>
               </span>
-              <br>
-              <%= t("account.data_exchange.used") %>
-              <%= sanitize(exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence) %>
+              <% unless exchange[:scopes].empty? %>
+                <br>
+                <%= t("account.data_exchange.used") %>
+                <%= sanitize(exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence) %>
+              <% end %>
             </dd>
           </div>
         <% end %>
