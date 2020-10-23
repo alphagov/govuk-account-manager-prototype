@@ -106,6 +106,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
   def phone_resend
     redirect_to url_for_state and return unless registration_state.state == "phone"
+
+    @phone = registration_state.phone
   end
 
   def your_information
