@@ -11,4 +11,11 @@ run:
     - |
       set -eu
       echo "$MESSAGE"
+
+      echo
+      echo "ping test"
       curl --fail --silent --verbose "$URL"
+
+      echo
+      echo "healthcheck"
+      [ "$(curl --fail --silent --verbose "$URL/healthcheck" | jq -r .status)" == "ok" ]

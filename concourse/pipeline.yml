@@ -144,18 +144,18 @@ jobs:
               Staging deployment for the GOV.UK Account manager has failed
               Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
-  - name: ping-test-staging
+  - name: smoke-test-staging
     serial: true
     plan:
       - get: git-main
         trigger: true
         passed: [deploy-app-staging]
-      - task: ping-smoke-test
-        file: git-main/concourse/tasks/ping-smoke-test.yml
+      - task: smoke-test
+        file: git-main/concourse/tasks/smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@www.account.staging.publishing.service.gov.uk/'
-          MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@www.account.staging.publishing.service.gov.uk'
+          MESSAGE: "Checks that the application deployed to staging is not critically broken. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack
           params:
@@ -173,7 +173,7 @@ jobs:
     plan:
       - get: git-main
         trigger: true
-        passed: [ping-test-staging]
+        passed: [smoke-test-staging]
       - task: deploy-to-paas
         file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
@@ -214,18 +214,18 @@ jobs:
               Production deployment for the GOV.UK Account manager has failed
               Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
-  - name: ping-test-production
+  - name: smoke-test-production
     serial: true
     plan:
       - get: git-main
         trigger: true
         passed: [deploy-app-production]
-      - task: ping-smoke-test
-        file: git-main/concourse/tasks/ping-smoke-test.yml
+      - task: smoke-test
+        file: git-main/concourse/tasks/smoke-test.yml
         timeout: 5m
         params:
-          URL: 'https://((basic-auth-username)):((basic-auth-password))@www.account.publishing.service.gov.uk/'
-          MESSAGE: "Checks that the application deployed to production is not serving HTTP error codes. If this fails, you should investigate immediately."
+          URL: 'https://((basic-auth-username)):((basic-auth-password))@www.account.publishing.service.gov.uk'
+          MESSAGE: "Checks that the application deployed to production is not critically broken. If this fails, you should investigate immediately."
         on_failure:
           put: govuk-slack
           params:
