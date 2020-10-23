@@ -185,6 +185,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
       persist_phone_mfa(resource)
       persist_attributes(resource)
+      persist_consent(resource)
       persist_email_subscription(resource)
 
       @previous_url = registration_state.previous_url
@@ -286,6 +287,12 @@ protected
     else
       new_user_session_path
     end
+  end
+
+  def persist_consent(user)
+    user.update!(
+      feedback_consent: registration_state.feedback_consent,
+    )
   end
 
   def persist_phone_mfa(user)

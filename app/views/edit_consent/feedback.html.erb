@@ -1,0 +1,32 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <%= render "account-navigation", page_is: "manage" %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+   <%= form_with(url: edit_user_consent_feedback_url, method: :post) do %>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "feedback_consent",
+        heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
+        heading_size: "l",
+        items: [
+          {
+            value: "yes",
+            text: t("devise.registrations.your_information.fields.feedback_consent.yes"),
+            checked: current_user.feedback_consent,
+          },
+          {
+            value: "no",
+            text: t("devise.registrations.your_information.fields.feedback_consent.no"),
+            checked: !current_user.feedback_consent,
+          }
+        ]
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("devise.registrations.your_information.fields.submit.label"),
+      } %>
+    <% end %>
+  </div>
+</div>
