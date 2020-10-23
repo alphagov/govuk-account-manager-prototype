@@ -14,16 +14,18 @@ RSpec.describe "welcome" do
       context "the user exists" do
         let!(:user) { FactoryBot.create(:user) }
 
-        it "shows the login form" do
+        it "redirects to the login form" do
           get new_user_session_url(user: { email: user.email })
+          follow_redirect!
 
           expect(response.body).to have_content(I18n.t("devise.sessions.new.heading"))
         end
       end
 
       context "the user doesn't exist" do
-        it "shows the registration form" do
+        it "redirects to the registration form" do
           get new_user_session_url(user: { email: "no-such-user@domain.tld" })
+          follow_redirect!
 
           expect(response.body).to have_content(I18n.t("devise.registrations.start.heading"))
         end

@@ -4,18 +4,17 @@ class WelcomeController < ApplicationController
   def show
     payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
 
-    if current_user
-      redirect_to(payload ? payload[:post_login_oauth] : user_root_path)
-      return
-    end
+    redirect_to after_login_path(payload, current_user) and return if current_user
 
     @email = params.dig(:user, :email)
     if @email
       if Devise.email_regexp.match? @email
         if User.exists?(email: @email)
-          render "devise/sessions/new"
+          login_state = create_login_state(payload, @email)
+          redirect_to user_session_path(login_state_id: login_state.id)
         elsif Rails.configuration.enable_registration
-          render "devise/registrations/start"
+          registration_state = create_registration_state(payload, @email)
+          redirect_to new_user_registration_start_path(registration_state_id: registration_state.id)
         else
           render "devise/registrations/closed"
         end
@@ -25,12 +24,29 @@ class WelcomeController < ApplicationController
     end
   end
 
-  # methods needed for the devise templates
-  helper_method :devise_mapping, :resource
+protected
 
-  def devise_mapping
-    @devise_mapping ||= request.env["devise.mapping"]
+  def after_login_path(payload, user)
+    payload&.dig(:post_login_oauth).presence || after_sign_in_path_for(user)
   end
 
-  def resource; end
+  def create_login_state(payload, email)
+    user = User.find_by(email: email).id
+
+    LoginState.create!(
+      created_at: Time.zone.now,
+      user_id: user,
+      redirect_path: after_login_path(payload, user),
+    )
+  end
+
+  def create_registration_state(payload, email)
+    RegistrationState.create!(
+      touched_at: Time.zone.now,
+      state: :start,
+      email: email,
+      previous_url: payload&.dig(:post_register_oauth).presence || params[:previous_url],
+      jwt_payload: payload,
+    )
+  end
 end
