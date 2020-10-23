@@ -11,6 +11,10 @@
       margin_bottom: 4,
     } %>
 
+    <% if flash[:notice] == t("devise.confirmations.confirmed") %>
+      <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+    <% end %>
+
     <% if current_user.email %>
       <p class="govuk-body">
         <%= current_user.email %>

@@ -8,6 +8,10 @@
         <%= hidden_field_tag :jwt, params[:jwt] %>
       <% end %>
 
+      <% if flash[:notice] == t("devise.confirmations.confirmed") %>
+        <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+      <% end %>
+
       <%= render "govuk_publishing_components/components/input", {
         heading_size: "l",
         label: {
