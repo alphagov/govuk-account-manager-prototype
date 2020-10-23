@@ -32,10 +32,7 @@ RSpec.feature "/account" do
     it "shows the service card" do
       visit user_root_path
 
-      expect(page).to have_text(I18n.t("service_card.transition_checker.heading"))
-      expect(page).to have_text(I18n.t("service_card.transition_checker.results_link"))
-      expect(page).to have_text(I18n.t("service_card.transition_checker.update_link"))
-      expect(page).to have_text(I18n.t("service_card.transition_checker.notifications_link"))
+      expect(page).to have_text(I18n.t("account.your_account.transition.heading"))
     end
   end
 end
