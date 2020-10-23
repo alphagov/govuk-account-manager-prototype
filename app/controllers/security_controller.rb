@@ -15,6 +15,8 @@ class SecurityController < ApplicationController
 private
 
   def activity_to_exchange(activity)
+    return if activity.oauth_application == AccountManagerApplication.application
+
     scopes = activity.scopes.split(" ").map(&:to_sym) - ScopeDefinition.new.hidden_scopes
     return if scopes.empty?
 
