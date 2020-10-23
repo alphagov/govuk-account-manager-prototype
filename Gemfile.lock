@@ -385,40 +385,40 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   aws-ip
-  bootsnap (>= 1.4.2)
+  bootsnap
   byebug
   capybara
   climate_control
-  composite_primary_keys (~> 12.0.0)
+  composite_primary_keys
   devise
   doorkeeper
   doorkeeper-openid_connect
   dotenv-rails
   factory_bot_rails
-  gds-api-adapters (~> 67.0.1)
-  gds_zendesk (~> 3.2)
+  gds-api-adapters
+  gds_zendesk
   geocoder
-  govuk_publishing_components (= 21.69.0)
-  govuk_test (~> 2.0)
+  govuk_publishing_components
+  govuk_test
   jwt
-  listen (~> 3.2)
-  notifications-ruby-client (~> 5.3)
+  listen
+  notifications-ruby-client
   oauth2
   pg
   pry-rails
-  puma (~> 5.0)
-  rails (~> 6.0.3)
+  puma
+  rails (= 6.0.3.4)
   railties
-  rest-client (~> 2.1.0)
+  rest-client
   rspec-rails
   rubocop-govuk
-  sass-rails (~> 5.0.8)
-  sentry-raven (~> 3.0)
-  sidekiq (~> 6.1)
-  sidekiq-scheduler (~> 3.0.0)
+  sass-rails
+  sentry-raven
+  sidekiq
+  sidekiq-scheduler
   simplecov
   sprockets-rails
-  telephone_number (~> 1.4)
+  telephone_number
   webmock
 
 RUBY VERSION
