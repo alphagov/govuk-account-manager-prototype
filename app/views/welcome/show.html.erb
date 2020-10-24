@@ -29,6 +29,12 @@
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("welcome.show.button.label"),
+        data_attributes: {
+          module: "gem-track-click",
+          "track-category": "account-create",
+          "track-action": "create",
+          "track-label": "email"
+        }
       } %>
     <% end %>
   </div>

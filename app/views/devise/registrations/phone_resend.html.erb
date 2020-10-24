@@ -28,6 +28,12 @@
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("mfa.phone.resend.fields.submit.label"),
+        data_attributes: {
+          module: "gem-track-click",
+          "track-category": "account-create",
+          "track-action": "create",
+          "track-label": "resend-security-code"
+        }
       } %>
     <% end %>
   </div>
