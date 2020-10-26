@@ -95,6 +95,27 @@ RSpec.feature "Logging in" do
     end
   end
 
+  context "user has not confirmed email address" do
+    it "allows login when confirmation was sent less than 7 days ago" do
+      user.update!(confirmation_sent_at: Time.zone.now - 6.days)
+
+      enter_email_address
+      enter_password
+      enter_mfa
+
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
+    end
+
+    it "shows an error when confirmation was sent more than 7 days ago" do
+      user.update!(confirmation_sent_at: Time.zone.now - 7.days)
+
+      enter_email_address
+      enter_password
+
+      expect(page).to have_text(I18n.t("devise.failure.unconfirmed"))
+    end
+  end
+
   def enter_email_address
     visit "/"
     fill_in "email", with: user.email
