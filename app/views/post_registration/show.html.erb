@@ -1,4 +1,4 @@
-<% service_name = service_name_for(params[:previous_url]) %>
+<% service = service_for(params[:previous_url], current_user) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -25,8 +25,8 @@
       <%= t("post_registration.delay_consequence") %>
     </p>
 
-    <% if service_name %>
-      <%= sanitize(t("post_registration.continue_to_service", service_name: service_name, service_link: params[:previous_url])) %>
+    <% if service %>
+      <%= sanitize(t("post_registration.continue_to_service", service_name: service[:name], service_link: service[:url])) %>
     <% else %>
       <%= sanitize(t("post_registration.continue_to_account", account_link: user_root_path)) %>
     <% end %>
