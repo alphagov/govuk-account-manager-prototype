@@ -21,6 +21,7 @@
         type: "password",
         id: "password",
         error_message: devise_error_items(:password, @resource_error_messages),
+        autocomplete: "new-password",
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
@@ -31,6 +32,7 @@
         type: "password",
         id: "password_confirmation",
         error_message: devise_error_items(:password_confirmation, @resource_error_messages),
+        autocomplete: "new-password",
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

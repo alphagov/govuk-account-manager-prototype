@@ -22,6 +22,7 @@
         type: "password",
         id: "password",
         error_message: @password_error_message,
+        autocomplete: "current-password",
       } %>
 
       <% if devise_mapping.rememberable? %>

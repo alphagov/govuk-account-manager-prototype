@@ -35,6 +35,7 @@
         type: "password",
         id: "current__confirmation",
         error_message: devise_error_items(:current_password),
+        autocomplete: "current-password",
       } %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
