@@ -5,6 +5,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
   # rubocop:enable Rails/LexicallyScopedActionFilter
 
   before_action :check_registration_state, only: %i[
+    start
     phone
     phone_code
     phone_code_send
@@ -19,23 +20,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
   def start
     render :closed and return unless Rails.configuration.enable_registration
-
-    @registration_state_id = params[:registration_state_id]
-    # if this is unset we've been sent here from the welcome form
-    unless @registration_state_id
-      redirect_to new_user_session_path and return unless params.dig(:user, :email)
-
-      jwt_payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
-
-      @registration_state = RegistrationState.create!(
-        touched_at: Time.zone.now,
-        state: :start,
-        email: params[:user][:email],
-        previous_url: jwt_payload&.dig(:post_register_oauth).presence || params[:previous_url],
-        jwt_payload: jwt_payload,
-      )
-      @registration_state_id = registration_state.id
-    end
 
     redirect_to url_for_state and return unless registration_state.state == "start"
 

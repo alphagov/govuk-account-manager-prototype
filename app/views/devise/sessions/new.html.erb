@@ -7,19 +7,12 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_with(url: user_session_path) do %>
+    <%= form_with(url: user_session_path(login_state_id: @login_state_id)) do %>
       <% if resource %>
         <%= render "devise/shared/error_messages", resource: resource %>
       <% end %>
 
-      <% if params[:previous_url] %>
-        <%= hidden_field_tag :previous_url, params[:previous_url] %>
-      <% end %>
-      <% if params[:jwt] %>
-        <%= hidden_field_tag :jwt, params[:jwt] %>
-      <% end %>
-
-      <%= hidden_field_tag :"user[email]", params.dig(:user, :email) %>
+      <%= hidden_field_tag :"user[email]", @login_state.user.email %>
 
       <%= render "govuk_publishing_components/components/input", {
         label: {

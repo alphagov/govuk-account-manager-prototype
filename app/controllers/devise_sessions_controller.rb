@@ -1,5 +1,6 @@
 class DeviseSessionsController < Devise::SessionsController
   before_action :check_login_state, only: %i[
+    create
     phone_code
     phone_code_send
     phone_verify
@@ -7,16 +8,15 @@ class DeviseSessionsController < Devise::SessionsController
   ]
 
   def create
-    payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
+    render :new and return unless params.dig(:user, :password)
 
     self.resource = warden.authenticate(auth_options)
     if resource
-      redirect_path = payload ? payload[:post_login_oauth] : after_sign_in_path_for(resource)
-
       if request.env["warden.mfa.required"]
-        initiate_mfa(resource, redirect_path)
+        MultiFactorAuth.generate_and_send_code(resource)
+        redirect_to user_session_phone_code_path(login_state_id: @login_state_id)
       else
-        do_sign_in(resource, redirect_path)
+        do_sign_in
       end
     else
       @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.incorrect")
@@ -42,7 +42,7 @@ class DeviseSessionsController < Devise::SessionsController
   def phone_verify
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
     if state == :ok
-      do_sign_in(login_state.user, login_state.redirect_path)
+      do_sign_in
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
     else
@@ -68,30 +68,9 @@ protected
       end
   end
 
-  def initiate_mfa(resource, redirect_path)
-    MultiFactorAuth.generate_and_send_code(resource)
-
-    login_state = LoginState.create!(
-      created_at: Time.zone.now,
-      user_id: resource.id,
-      redirect_path: redirect_path,
-    )
-
-    redirect_to user_session_phone_code_path(login_state_id: login_state.id)
-  end
-
-  def do_sign_in(resource, redirect_path)
+  def do_sign_in
     set_flash_message!(:notice, :signed_in)
-    sign_in(resource_name, resource)
-    redirect_to redirect_path
-  end
-
-  def after_sign_in_path_for(_resource)
-    target = params.fetch(:previous_url, user_root_path)
-    if target.start_with?("/account") || target.start_with?("/oauth")
-      target
-    else
-      user_root_path
-    end
+    sign_in(resource_name, login_state.user)
+    redirect_to login_state.redirect_path
   end
 end

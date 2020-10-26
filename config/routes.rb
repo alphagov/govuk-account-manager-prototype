@@ -10,7 +10,8 @@ Rails.application.routes.draw do
     post "/feedback", to: "feedback#submit", as: :feedback_form_submitted
 
     scope "/login" do
-      post "/", to: "devise_sessions#create", as: :user_session
+      get  "/", to: "devise_sessions#create", as: :user_session
+      post "/", to: "devise_sessions#create"
       get  "/phone/code", to: "devise_sessions#phone_code", as: :user_session_phone_code
       post "/phone/code", to: "devise_sessions#phone_code_send"
       post "/phone/verify", to: "devise_sessions#phone_verify", as: :user_session_phone_verify
@@ -83,7 +84,8 @@ Rails.application.routes.draw do
     end
 
     scope "/new-account" do
-      post "/", to: "devise_registration#start", as: :new_user_registration_start
+      get  "/", to: "devise_registration#start", as: :new_user_registration_start
+      post "/", to: "devise_registration#start"
       get  "/phone", to: "devise_registration#phone", as: :new_user_registration_phone
       get  "/phone/code", to: "devise_registration#phone_code", as: :new_user_registration_phone_code
       post "/phone/code", to: "devise_registration#phone_code_send"
