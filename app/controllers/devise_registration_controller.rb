@@ -293,6 +293,7 @@ protected
 
   def persist_consent(user)
     user.update!(
+      cookie_consent: registration_state.cookie_consent,
       feedback_consent: registration_state.feedback_consent,
     )
   end

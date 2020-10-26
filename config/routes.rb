@@ -35,14 +35,22 @@ Rails.application.routes.draw do
       scope "/edit" do
         get  "/email", to: "devise_registration#edit_email", as: :edit_user_registration_email
         get  "/password", to: "devise_registration#edit_password", as: :edit_user_registration_password
-        get  "/phone", to: "edit_phone#show", as: :edit_user_registration_phone
-        get  "/phone/code", to: "edit_phone#code", as: :edit_user_registration_phone_code
-        post "/phone/code", to: "edit_phone#code_send"
-        post "/phone/verify", to: "edit_phone#verify", as: :edit_user_registration_phone_verify
-        get  "/phone/resend", to: "edit_phone#resend", as: :edit_user_registration_phone_resend
-        get  "/phone/done", to: "edit_phone#done", as: :edit_user_registration_phone_done
-        get  "/consent/feedback", to: "edit_consent#feedback", as: :edit_user_consent_feedback
-        post "/consent/feedback", to: "edit_consent#feedback_send"
+
+        scope "/phone" do
+          get  "/", to: "edit_phone#show", as: :edit_user_registration_phone
+          get  "/code", to: "edit_phone#code", as: :edit_user_registration_phone_code
+          post "/code", to: "edit_phone#code_send"
+          post "/verify", to: "edit_phone#verify", as: :edit_user_registration_phone_verify
+          get  "/resend", to: "edit_phone#resend", as: :edit_user_registration_phone_resend
+          get  "/done", to: "edit_phone#done", as: :edit_user_registration_phone_done
+        end
+
+        scope "/consent" do
+          get  "/cookie", to: "edit_consent#cookie", as: :edit_user_consent_cookie
+          post "/cookie", to: "edit_consent#cookie_send"
+          get  "/feedback", to: "edit_consent#feedback", as: :edit_user_consent_feedback
+          post "/feedback", to: "edit_consent#feedback_send"
+        end
       end
 
       scope "/password" do
