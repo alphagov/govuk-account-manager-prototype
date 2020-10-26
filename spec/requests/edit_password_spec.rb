@@ -87,15 +87,5 @@ RSpec.describe "edit-password" do
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
       end
     end
-
-    context "when the password does not contain a number" do
-      let(:password) { "qwertyui" }
-
-      it "returns an error" do
-        post user_password_path, params: params
-
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
-      end
-    end
   end
 end

@@ -25,11 +25,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     password = params.dig(:user, :password) # pragma: allowlist secret
     password_confirmation = params.dig(:user, :password_confirmation)
-    password_format_ok = User::PASSWORD_REGEX.match? password
     password_length_ok = Devise.password_length.include? password&.length
     password_confirmation_ok = password == password_confirmation
 
-    if password_format_ok && password_length_ok && password_confirmation_ok
+    if password_length_ok && password_confirmation_ok
       registration_state.update!(
         state: MultiFactorAuth.is_enabled? ? :phone : :your_information,
         password: password,
@@ -38,7 +37,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
     else
       @resource_error_messages = {
         password: [ # pragma: allowlist secret
-          password_format_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.invalid"),
           password_length_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
         ].uniq,
         password_confirmation: [
