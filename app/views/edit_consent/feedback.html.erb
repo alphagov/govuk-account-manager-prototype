@@ -4,6 +4,7 @@
   </div>
 
   <div class="govuk-grid-column-two-thirds">
+   <%= render "govuk_publishing_components/components/back_link", { href: account_manage_path } %>
    <%= form_with(url: edit_user_consent_feedback_url, method: :post) do %>
 
       <%= render "govuk_publishing_components/components/radio", {
