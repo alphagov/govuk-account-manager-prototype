@@ -184,6 +184,11 @@ class DeviseRegistrationController < Devise::RegistrationsController
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
+    if params.dig(:user, :email) && params.dig(:user, :email) == resource.email
+      redirect_to edit_user_registration_email_path, flash: { alert: I18n.t("devise.failure.same_email") }
+      return
+    end
+
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
     if resource_updated

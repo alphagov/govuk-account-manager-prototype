@@ -20,6 +20,7 @@ en:
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
+      same_email: "Your new email address is the same as your current email address."
     mailer:
       confirmation_instructions:
         subject: "GOV.UK Accounts: confirm your email address"
