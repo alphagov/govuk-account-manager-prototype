@@ -23,6 +23,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     redirect_to url_for_state and return unless registration_state.state == "start"
 
+    return if request.get?
+
     password = params.dig(:user, :password) # pragma: allowlist secret
     password_confirmation = params.dig(:user, :password_confirmation)
     password_format_ok = User::PASSWORD_REGEX.match? password
