@@ -117,17 +117,6 @@ RSpec.feature "Registration" do
     end
   end
 
-  context "when the password does not contain a number" do
-    let(:password) { "qwertyui" }
-
-    it "returns an error" do
-      enter_email_address
-      enter_password_and_confirmation
-
-      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.invalid"))
-    end
-  end
-
   context "when the phone number is invalid" do
     it "returns an error" do
       enter_email_address

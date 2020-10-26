@@ -98,7 +98,7 @@ en:
         heading: "Change your password"
         password:
           label: "Create a new password"
-          hint: "It needs to be at least 8 characters long and must include at least one number."
+          hint: "It needs to be at least 8 characters long."
         password_confirm:
           label: "Retype password"
         submit:
@@ -130,7 +130,7 @@ en:
             label: Enter your email address
           password:
             label: Create a new password
-            hint: It needs to be at least 8 characters long and must include at least one number.
+            hint: It needs to be at least 8 characters long.
           password_confirm:
             label: Retype password
           submit:
@@ -189,7 +189,7 @@ en:
             label: "Enter a new email address"
           password:
             label: "Create a new password"
-            hint: "It needs to be at least 8 characters long and must include at least one number. Leave blank if you don’t want to change it."
+            hint: "It needs to be at least 8 characters long. Leave blank if you don’t want to change it."
           password_confirm:
             label: "Retype password"
           current_password:
