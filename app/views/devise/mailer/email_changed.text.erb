@@ -2,10 +2,12 @@
   <%= t("devise.mailer.email_changed.is_being_changed.body",
       email: @email,
       new_address: @resource.unconfirmed_email,
+      feedback_link: feedback_form_url,
   ) %>
 <% else %>
   <%= t("devise.mailer.email_changed.has_been_changed.body",
       email: @email,
       new_address: @resource.email,
+      govuk_account_link: new_user_session_url,
   ) %>
 <% end %>
