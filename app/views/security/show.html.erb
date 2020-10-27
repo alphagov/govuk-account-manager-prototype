@@ -74,7 +74,7 @@
               <%= "#{ip_to_country(activity.ip_address)} (#{activity.ip_address})" %>
               <br>
                <p class="govuk-body">
-                <a class="govuk-link" href="<%= account_security_report_path %>">
+                <a class="govuk-link" href="<%= account_security_report_path %>" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">
                   <%= t("account.security.event.report_suspicious_activity") %>
                 </a>
               </p>
