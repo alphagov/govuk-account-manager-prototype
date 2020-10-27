@@ -38,6 +38,7 @@ en:
     phone: Mobile number
     password: Password
     cancel: Cancel
+    or: or
   devise: # Overrides for Devise built in text
     sessions:
       new:
@@ -91,12 +92,13 @@ en:
       email_verification_sent: |
         A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
     delete:
-      heading: Delete your account
-      description: "This will permanently delete your account and all the information stored in it, including your:"
+      heading: Delete this GOV.UK account
+      description: "This will permanently delete this account and all the information stored in it, including:"
       doomed:
-        - contact details
-        - UK transition results
-        - email notification
+        - your contact details
+        - your UK transition results
+        - email alerts about your UK transition results
+      insert_text: Deleting your GOV.UK account will not affect any of your other GOV.UK email subscriptions.
       action: Delete account
       confirmation:
         heading: Success
