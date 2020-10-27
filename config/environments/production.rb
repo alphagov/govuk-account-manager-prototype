@@ -132,4 +132,8 @@ Rails.application.configure do
     .select { |range| range["service"] == "CLOUDFRONT" }
     .pluck("ip_prefix")
     .map { |proxy| IPAddr.new(proxy) }
+
+  config.hosts = [
+    ENV["REDIRECT_BASE_URL"].split("://")[1],
+  ]
 end
