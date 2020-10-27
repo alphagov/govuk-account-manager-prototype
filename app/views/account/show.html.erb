@@ -33,10 +33,18 @@
 
           <p class="govuk-body"><%= t("account.your_account.transition.description") %></p>
 
-          <p class="govuk-body govuk-!-margin-0"><a href="<%= finder_frontend_base_uri %>/transition-check/saved-results" class="govuk-link"><%= t("account.your_account.transition.link1") %></a></p>
+          <p class="govuk-body govuk-!-margin-0">
+            <a href="<%= finder_frontend_base_uri %>/transition-check/saved-results" class="govuk-link" data-module="gem-track-click" data-track-category="account-manage" data-track-action="your-account" data-track-label="see-results">
+              <%= t("account.your_account.transition.link1") %>
+            </a>
+          </p>
           <p class="govuk-body"><%= t("account.your_account.transition.link1_description") %></p>
 
-          <p class="govuk-body govuk-!-margin-0"><a href="<%= finder_frontend_base_uri %>/transition-check/edit-saved-results" class="govuk-link"><%= t("account.your_account.transition.link2") %></a></p>
+          <p class="govuk-body govuk-!-margin-0">
+            <a href="<%= finder_frontend_base_uri %>/transition-check/edit-saved-results" class="govuk-link" data-module="gem-track-click" data-track-category="account-manage" data-track-action="your-account" data-track-label="update-results">
+              <%= t("account.your_account.transition.link2") %>
+            </a>
+          </p>
           <p class="govuk-body"><%= t("account.your_account.transition.link2_description") %></p>
         </div>
       <% end %>
