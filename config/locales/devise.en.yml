@@ -105,7 +105,7 @@ en:
       updated: "Your password has been changed successfully. You are now signed in."
       updated_not_active: "Your password has been changed successfully."
       edit:
-        heading: "Change your password"
+        heading: "Reset your password"
         password:
           label: "Create a new password"
           hint: "It needs to be at least 8 characters long."
