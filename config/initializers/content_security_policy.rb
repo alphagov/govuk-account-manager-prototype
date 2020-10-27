@@ -16,7 +16,9 @@ Rails.application.config.content_security_policy do |policy|
 
   # we're also setting a nonce, which will cause browsers which
   # support nonces to ignore the :unsafe_inline directive.
-  policy.script_src      :self, :unsafe_inline
+  policy.script_src      :self, :unsafe_inline, "https://www.google-analytics.com"
+  policy.img_src         :self, "https://www.google-analytics.com"
+  policy.connect_src     :self, "https://www.google-analytics.com"
 
   # Specify URI for violation reports
   # policy.report_uri "/csp-violation-report-endpoint"

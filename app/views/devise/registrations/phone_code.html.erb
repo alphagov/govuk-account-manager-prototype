@@ -23,7 +23,13 @@
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("mfa.phone.code.fields.submit.label"),
-        margin_bottom: true
+        margin_bottom: true,
+        data_attributes: {
+          module: "gem-track-click",
+          "track-category": "account-create",
+          "track-action": "create",
+          "track-label": "security-code"
+        }
       } %>
     <% end %>
 

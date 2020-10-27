@@ -17,8 +17,16 @@
 
     <%= sanitize(t("devise.registrations.your_information.data_choice_description")) %>
 
-    <%= form_with(url: new_user_registration_your_information_path(registration_state_id: @registration_state_id), method: :post) do %>
+    <%= form_with(
+      url: new_user_registration_your_information_path(registration_state_id: @registration_state_id),
+      method: :post,
+      data: {
+        module: "track-form",
+        "track-category": "account-create"
+      }
+    ) do %>
 
+    <div class="js-cookie-consent">
       <%= render "govuk_publishing_components/components/radio", {
         name: "cookie_consent",
         heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
@@ -29,15 +37,22 @@
           {
             value: "yes",
             text: t("devise.registrations.your_information.fields.cookie_consent.yes"),
-            checked: @consents.fetch(:cookie_consent_decision, nil) == "yes"
+            checked: @consents.fetch(:cookie_consent_decision, nil) == "yes",
+            data_attributes: {
+              "track-action": "personal-information-cookies"
+            }
           },
           {
             value: "no",
             text: t("devise.registrations.your_information.fields.cookie_consent.no"),
-            checked: @consents.fetch(:cookie_consent_decision, nil) == "no"
+            checked: @consents.fetch(:cookie_consent_decision, nil) == "no",
+            data_attributes: {
+              "track-action": "personal-information-cookies"
+            }
           }
         ]
       } %>
+    </div>
 
       <%= render "govuk_publishing_components/components/heading", {
         text:  t("devise.registrations.your_information.fields.feedback_consent.section_heading"),
@@ -60,12 +75,18 @@
           {
             value: "yes",
             text: t("devise.registrations.your_information.fields.feedback_consent.yes"),
-            checked: @consents.fetch(:feedback_consent_decision, nil) == "yes"
+            checked: @consents.fetch(:feedback_consent_decision, nil) == "yes",
+            data_attributes: {
+              "track-action": "personal-information-feedback"
+            }
           },
           {
             value: "no",
             text: t("devise.registrations.your_information.fields.feedback_consent.no"),
-            checked: @consents.fetch(:feedback_consent_decision, nil) == "no"
+            checked: @consents.fetch(:feedback_consent_decision, nil) == "no",
+            data_attributes: {
+              "track-action": "personal-information-feedback"
+            }
           }
         ]
       } %>
