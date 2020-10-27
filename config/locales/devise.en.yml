@@ -166,6 +166,7 @@ en:
             "yes": "Yes"
             "no": "No"
           submit:
+            update_label: Save
             label: Continue
       transition_emails:
         heading: Do you want to receive emails about the UK transition?
