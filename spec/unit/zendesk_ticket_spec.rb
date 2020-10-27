@@ -24,6 +24,7 @@ RSpec.describe Zendesk::Ticket, type: :unit do
         "comment" => {
           "body" => "[Details]\nThis site is awesome\n\n[Response Required]\nNo\n",
         },
+        "group_id" => "123",
       }
       expect(logger).to receive(:info).with("Zendesk ticket created: #{expected_attributes.inspect}")
 

@@ -11,6 +11,7 @@ module Zendesk
         "subject" => @contact[:subject],
         "requester" => { "locale_id" => 1, "email" => @contact[:email], "name" => @contact[:name] },
         "comment" => { "body" => rendered_body },
+        "group_id" => ZENDESK_GROUP_ID,
       }
     end
 

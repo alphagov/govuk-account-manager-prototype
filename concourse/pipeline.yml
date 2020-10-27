@@ -132,6 +132,7 @@ jobs:
           PASSWORD_PEPPER: ((password-pepper-staging))
           ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
           ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
+          ZENDESK_GROUP_ID: 360005155059
         on_failure:
           put: govuk-slack
           params:
@@ -202,6 +203,7 @@ jobs:
           PASSWORD_PEPPER: ((password-pepper-production))
           ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
           ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
+          ZENDESK_GROUP_ID: 360005155059
         on_failure:
           put: govuk-slack
           params:
