@@ -191,7 +191,7 @@ en:
   post_registration:
     heading: "Confirm your email address"
     instruction_one: We’ve sent an email to
-    instruction_two: You need to click on the confirmation link in the email to activate your GOV.UK account.
+    instruction_two: "You need to click on the confirmation link in the email to:"
     instruction_list: |
       <ul class="govuk-list govuk-list--bullet">
         <li>finish creating your account</li>
