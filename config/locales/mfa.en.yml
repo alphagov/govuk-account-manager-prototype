@@ -44,14 +44,14 @@ en:
           submit:
             label: Continue
       resend:
-        heading: Resend security code
-        description: Text messages sometimes take a few minutes to arrive. If you do not receive the text message, you can request a new one.
-        change_phone: Change where the text message is sent
+        heading: Send a new security code
+        description: Text messages can take a few minutes to arrive. If you do not receive the text message, you can ask for a new one.
+        change_phone: Send the text message to a different phone number
         fields:
           phone:
             label: Enter your mobile number
           submit:
-            label: Resend security code
+            label: Send a new security code
     mailer:
       phone_change:
         subject: "GOV.UK Accounts: phone number changed"
