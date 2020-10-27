@@ -115,7 +115,7 @@ en:
         change_email: "Change Email Address"
         change_password: "Change Password"
         change_phone: "Change Phone Number"
-        report_suspicious_activity: Report Suspicious Activity
+        report_suspicious_activity: Report Suspicious activity
       report:
         heading: Report suspicious activity
         description: |
