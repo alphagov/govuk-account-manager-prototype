@@ -193,11 +193,19 @@ en:
         <p class="govuk-body">Your feedback has been sent to the GOV.UK Accounts team.</p>
         <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
   update_registration:
-    heading: "Check your email"
-    instructions: |
-      <p class="govuk-body">We’ve sent you an email to confirm these changes.</p>
-      <p class="govuk-body">You will need to click on the confirmation link in the email to finish updating your account.</p>
-      <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
+    heading: "Confirm your new email address"
+    instruction_one: "We’ve sent an email to %{new_email}."
+    instruction_two: "You need to click on the confirmation link in the email to:"
+    instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish updating the email address for your account</li>
+        <li>get email updates about the UK transition sent to your new email address</li>
+      </ul>
+    back_link: <p class="govuk-body"><a class="govuk-link" href="%{user_root_path}">Go to your GOV.UK account</a></p>
+    alternative_actions:
+      heading: If you did not get the email or want to use a different address
+      resend: <p class="govuk-body">We can <a class="govuk-link" href="%{resend_link}">send the confirmation email again</a> if you did not get it.</p>
+      retry: <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}">use a different email address</a> if %{new_email} is not correct.</p>
   post_registration:
     heading: "Confirm your email address"
     instruction_one: We’ve sent an email to

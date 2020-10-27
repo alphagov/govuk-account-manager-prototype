@@ -3,10 +3,30 @@
     <%= render "govuk_publishing_components/components/heading", {
       text: t("update_registration.heading"),
       heading_level: 1,
-      margin_top: 0,
       margin_bottom: 3,
     } %>
 
-    <%= sanitize(t("update_registration.instructions", account_link: user_root_path)) %>
+    <p class="govuk-body">
+      <%= t("update_registration.instruction_one", new_email: current_user.unconfirmed_email) %>
+    </p>
+
+    <p class="govuk-body">
+      <%= t("update_registration.instruction_two") %>
+    </p>
+
+    <%= sanitize(t("update_registration.instruction_list")) %>
+
+
+    <%= sanitize(t("update_registration.back_link", user_root_path: user_root_path)) %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("update_registration.alternative_actions.heading"),
+      heading_level: 2,
+      margin_bottom: 3,
+      heading_size: "s",
+    } %>
+
+    <%= sanitize(t("update_registration.alternative_actions.retry", retry_link: edit_user_registration_email_path, new_email: current_user.unconfirmed_email)) %>
+
   </div>
 </div>
