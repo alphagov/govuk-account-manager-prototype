@@ -8,6 +8,7 @@
     id: "name",
     error_message: error_items("name", @error_items),
     value: @form_responses[:name],
+    autocomplete: "name"
   } %>
 
   <%= render "govuk_publishing_components/components/input", {
@@ -19,6 +20,7 @@
     id: "email",
     error_message: error_items("email", @error_items),
     value: @form_responses[:email],
+    autocomplete: "email",
   } %>
 <% end %>
 
