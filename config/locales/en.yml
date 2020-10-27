@@ -82,8 +82,9 @@ en:
         email_question: Can GOV.UK email you to ask for feedback about your account?
         email_description: For example when new features are added to your account
       delete:
+        heading: Delete your account
+        description: You can permanently delete this account and all the information stored in it.
         link: Delete this GOV.UK account
-        description: You can permanently delete your account and all the information stored in it.
         button: Cancel my account
         confirm: Are you sure?
       security:

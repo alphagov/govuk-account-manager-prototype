@@ -40,7 +40,15 @@
       ]
     } %>
 
-    <p class="govuk-body"><a href="<%= account_delete_path %>" class="govuk-link"><%= t("account.manage.delete.link") %></a></p>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.delete.heading"),
+      heading_level: 2,
+      font_size: "m",
+      margin_bottom: 4,
+    } %>
+
     <p class="govuk-body"><%= t("account.manage.delete.description") %></p>
+
+    <p class="govuk-body"><a href="<%= account_delete_path %>" class="govuk-link"><%= t("account.manage.delete.link") %></a></p>
   </div>
 </div>
