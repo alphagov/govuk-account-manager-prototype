@@ -1,16 +1,16 @@
 <nav>
   <ul class="accounts-menu">
     <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "your-account" %>">
-      <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= user_root_path %>">Your account</a>
-      <span class="accounts-menu__link-description">See services you've used</span>
+      <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= user_root_path %>"><%= t("navigation.menu_bar.account.link_text") %></a>
+      <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.account.description") %></span>
     </li>
     <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "manage" %>">
-      <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= account_manage_path %>">Manage your account</a>
-      <span class="accounts-menu__link-description">Make changes to your account details and privacy settings</span>
+      <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= account_manage_path %>"><%= t("navigation.menu_bar.manage.link_text") %></a>
+      <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.manage.description") %></span>
     </li>
     <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "security" %>">
-      <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= account_security_path %>">Security</a>
-      <span class="accounts-menu__link-description">See sign-in attempts and how your account has used information about you</span>
+      <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= account_security_path %>"><%= t("navigation.menu_bar.security.link_text") %></a>
+      <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.security.description") %></span>
     </li>
   </ul>
 </nav>

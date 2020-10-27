@@ -49,6 +49,16 @@ en:
   navigation:
     user_root_path: Account
     destroy_user_session: Sign Out
+    menu_bar:
+      account:
+        link_text: Your account
+        description: See services you’ve used
+      manage:
+        link_text: Manage your account
+        description: Make changes to your account details and privacy settings
+      security:
+        link_text: Security
+        description: See sign-in attempts and how information about you is used.
   account:
     your_account:
       heading: Your GOV.UK account
