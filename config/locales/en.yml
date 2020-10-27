@@ -232,8 +232,8 @@ en:
     content: |
       Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
   reset_sent:
-    heading: Password change request sent
-    content_with_email: We’ve sent an email to %{email} with instructions for changing your password.
+    heading: Reset your password
+    content_with_email: We’ve sent an email to %{email} with instructions for resetting your password.
     content_without_email: We’ve sent an email to the address you provided with instructions for changing your password.
     subheading: If you did not get the email
     try_again: |
