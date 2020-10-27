@@ -61,6 +61,14 @@ class User < ApplicationRecord
     ActivateEmailSubscriptionsJob.perform_later id
   end
 
+  def authenticatable_salt
+    "#{super}#{session_token}"
+  end
+
+  def invalidate_all_sessions!
+    update!(session_token: SecureRandom.hex)
+  end
+
   def needs_mfa?
     !phone.nil?
   end
