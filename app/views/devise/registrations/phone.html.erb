@@ -1,6 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(url: new_user_registration_phone_code_path(registration_state_id: @registration_state_id), method: :post) do %>
+    <%= form_with(url: new_user_registration_phone_code_path(registration_state_id: @registration_state_id), method: :post, class: "mfa-phone-create") do %>
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.create.fields.phone.label") },
         hint: t("mfa.phone.create.fields.phone.hint"),
@@ -22,5 +22,11 @@
         }
       } %>
     <% end %>
+
+    <p class="govuk-body">
+      <% if has_criteria_keys?(@registration_state) %>
+        <%= sanitize(t("mfa.phone.create.email_only_alternative", email_link: email_alerts_only_path(@registration_state))) %>
+      <% end %>
+    </p>
   </div>
 </div>
