@@ -159,7 +159,7 @@ en:
     show:
       heading: "Give feedback about your GOV.UK account"
       caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
-      inset_text: Do not include personal or financial information, for example your National Insurance number or credit card details.
+      inset_text: Do not include personal information, for example your National Insurance number.
       email_subject: "GOV.UK Accounts Feedback"
       anonymous_name: "Anonymous Feedback"
       anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
