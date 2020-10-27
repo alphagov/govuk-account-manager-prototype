@@ -7,7 +7,14 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_with(url: new_user_registration_transition_emails_path(registration_state_id: @registration_state_id), method: :post) do %>
+    <%= form_with(
+      url: new_user_registration_transition_emails_path(registration_state_id: @registration_state_id),
+      method: :post,
+      data: {
+        module: "track-form",
+        "track-category": "account-create"
+      }
+    ) do %>
       <%= sanitize(t("devise.registrations.transition_emails.description")) %>
 
       <%= render "govuk_publishing_components/components/radio", {
@@ -18,11 +25,17 @@
         items: [
           {
             value: "yes",
-            text: t("devise.registrations.transition_emails.fields.emailsignup.yes")
+            text: t("devise.registrations.transition_emails.fields.emailsignup.yes"),
+            data_attributes: {
+              "track-action": "email-transition"
+            }
           },
           {
             value: "no",
-            text: t("devise.registrations.transition_emails.fields.emailsignup.no")
+            text: t("devise.registrations.transition_emails.fields.emailsignup.no"),
+            data_attributes: {
+              "track-action": "email-transition"
+            }
           }
         ]
       } %>
