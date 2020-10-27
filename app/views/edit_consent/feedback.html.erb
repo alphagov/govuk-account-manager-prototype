@@ -4,8 +4,15 @@
   </div>
 
   <div class="govuk-grid-column-two-thirds">
-   <%= render "govuk_publishing_components/components/back_link", { href: account_manage_path } %>
-   <%= form_with(url: edit_user_consent_feedback_url, method: :post) do %>
+    <%= render "govuk_publishing_components/components/back_link", { href: account_manage_path } %>
+    <%= form_with(
+      url: edit_user_consent_feedback_url,
+      method: :post,
+      data: {
+        module: "track-form",
+        "track-category": "account-manage"
+      }
+    ) do %>
 
       <%= render "govuk_publishing_components/components/radio", {
         name: "feedback_consent",
@@ -16,11 +23,17 @@
             value: "yes",
             text: t("devise.registrations.your_information.fields.feedback_consent.yes"),
             checked: current_user.feedback_consent,
+            data_attributes: {
+              "track-action": "personal-information-feedback"
+            }
           },
           {
             value: "no",
             text: t("devise.registrations.your_information.fields.feedback_consent.no"),
             checked: !current_user.feedback_consent,
+            data_attributes: {
+              "track-action": "personal-information-feedback"
+            }
           }
         ]
       } %>

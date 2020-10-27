@@ -9,6 +9,12 @@ module ManageHelper
         href: edit_user_registration_email_url,
         text: t("general.change"),
       },
+      data_attributes: {
+        module: "gem-track-click",
+        "track-category": "account-manage",
+        "track-action": "manage-account",
+        "track-label": "email",
+      },
     }
 
     password = {
@@ -18,6 +24,12 @@ module ManageHelper
         href: edit_user_registration_password_url,
         text: t("general.change"),
       },
+      data_attributes: {
+        module: "gem-track-click",
+        "track-category": "account-manage",
+        "track-action": "manage-account",
+        "track-label": "password",
+      },
     }
 
     phone = {
@@ -26,6 +38,12 @@ module ManageHelper
       edit: {
         href: edit_user_registration_phone_url,
         text: t("general.change"),
+      },
+      data_attributes: {
+        module: "gem-track-click",
+        "track-category": "account-manage",
+        "track-action": "manage-account",
+        "track-label": "phone",
       },
     }
 
