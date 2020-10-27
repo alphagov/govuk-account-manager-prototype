@@ -31,7 +31,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
       reset_password_instructions:
         subject: "GOV.UK Accounts: reset your password"
         body: |
@@ -43,7 +43,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
       unlock_instructions:
         subject: "GOV.UK Accounts: unlock your account"
         body: |
@@ -55,7 +55,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
       email_changed:
         subject: "Updating the email address for your GOV.UK account"
         is_being_changed:
@@ -69,7 +69,7 @@ en:
             If this was not you, contact us (%{feedback_link}).
             -----
 
-            Do not reply to this email - it’s an automatic message from an unmonitored account.
+            This is an automated email, please do not reply as we do not monitor responses.
         has_been_changed:
           body: |
             Hello,
@@ -80,7 +80,7 @@ en:
 
             -----
 
-            Do not reply to this email - it’s an automatic message from an unmonitored account.
+            This is an automated email, please do not reply as we do not monitor responses.
       password_change:
         subject: You’ve updated the password for your GOV.UK account"
         body: |
@@ -94,7 +94,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."

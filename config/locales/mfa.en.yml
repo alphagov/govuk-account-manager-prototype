@@ -62,7 +62,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
     errors:
       phone:
         invalid: Enter a valid phone number
