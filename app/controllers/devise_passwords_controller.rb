@@ -11,7 +11,9 @@ class DevisePasswordsController < Devise::PasswordsController
     end
   end
 
-  def sent; end
+  def sent
+    @email = params&.dig(:email)
+  end
 
 protected
 
