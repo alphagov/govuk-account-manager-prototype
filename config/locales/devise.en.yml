@@ -188,18 +188,20 @@ en:
             label: Continue
       edit:
         heading: "Change your email address or password"
+        heading_password: "Change your password"
+        heading_email: "Change your email address"
         unconfirmed: "Currently waiting confirmation for: %{email}"
         fields:
           email:
             label: "Enter a new email address"
           password:
             label: "Create a new password"
+            change_hint: "It needs to be at least 8 characters long."
             hint: "It needs to be at least 8 characters long. Leave blank if you don’t want to change it."
           password_confirm:
             label: "Retype password"
           current_password:
-            label: "Current password"
-            hint: "We need your current password to confirm your changes."
+            label: Enter your current password
           submit:
             label: "Update"
         cancel:
