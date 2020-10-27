@@ -28,7 +28,14 @@ en:
         description:
           - We’ve sent you a text message with a security code.
           - It may take a few minutes to arrive.
-        not_received: Not received a text message?
+        description_with_phone_number:
+          - We’ve sent a text message with a security code to %{phone_number}.
+          - It may take a few minutes to arrive.
+        not_received_link_text: Not received a text message?
+        not_received:
+          heading: Resend security code or change your phone number
+          message: |
+            We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
         fields:
           phone_code:
             label: Enter security code

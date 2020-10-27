@@ -7,7 +7,7 @@
       margin_bottom: 3,
     } %>
 
-    <% t("mfa.phone.code.description").each do |msg| %>
+    <% t("mfa.phone.code.description_with_phone_number", phone_number: @registration_state.phone).each do |msg| %>
       <p class="govuk-body"><%= msg %></p>
     <% end %>
 
@@ -27,10 +27,15 @@
       } %>
     <% end %>
 
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("mfa.phone.code.not_received.heading"),
+      heading_level: 2,
+      margin_bottom: 4,
+      font_size: "m",
+    } %>
+
     <p class="govuk-body">
-      <a class="govuk-link" href="<%= new_user_registration_phone_resend_path(registration_state_id: @registration_state_id) %>">
-        <%= t("mfa.phone.code.not_received") %>
-      </a>
+      <%= sanitize(t("mfa.phone.code.not_received.message", link: new_user_registration_phone_resend_path(registration_state_id: @registration_state_id))) %>
     </p>
   </div>
 </div>

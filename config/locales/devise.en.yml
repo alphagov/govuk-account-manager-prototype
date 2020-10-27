@@ -125,15 +125,15 @@ en:
           - We are temporarily preventing people from creating new GOV.UK accounts.
           - You can still sign in to any accounts you already have.
       start:
-        heading: Create password
+        heading: Create a password
         fields:
           email:
             label: Enter your email address
           password:
-            label: Create a new password
+            label: Create a password
             hint: It needs to be at least 8 characters long.
           password_confirm:
-            label: Retype password
+            label: Retype your password
           submit:
             label: Continue
       your_information:

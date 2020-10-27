@@ -8,6 +8,16 @@
       margin_bottom: 4,
     } %>
 
-    <%= sanitize(I18n.t("account.delete.confirmation.description")) %>
+    <p class="govuk-body">
+      <%= I18n.t("account.delete.confirmation.description_1") %>
+    </p>
+
+    <p class="govuk-body">
+      <%= sanitize(I18n.t("account.delete.confirmation.description_2", link: feedback_form_path)) %>
+    </p>
+
+    <p class="govuk-body">
+      <%= sanitize(I18n.t("account.delete.confirmation.return_link", link: Plek.new.website_root)) %>
+    </p>
   </div>
 </div>

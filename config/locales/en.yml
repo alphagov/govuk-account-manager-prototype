@@ -89,9 +89,10 @@ en:
         - email notification
       action: Delete account
       confirmation:
-        heading: Your account has been deleted
-        description: |
-          <p class="govuk-body"><a class="govuk-link" href="https://gov.uk/">Navigate back to GOV.UK</a>.</p>
+        heading: Success
+        description_1: You’ve successfully deleted your GOV.UK account.
+        description_2: If you did not mean to do this, <a class="govuk-link" href="%{link}">contact us</a>.
+        return_link: <a class="govuk-link" href="%{link}">Go to the GOV.UK homepage</a>.
     security:
       heading: Security
       description: |
@@ -191,6 +192,12 @@ en:
     heading: "Confirm your email address"
     instruction_one: We’ve sent an email to
     instruction_two: You need to click on the confirmation link in the email to activate your GOV.UK account.
+    instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish creating your account</li>
+        <li>start receiving email updates about the UK transition</li>
+      </ul>
+    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
     transition_results_link: Go back to your UK transition results
     continue_to_service: |
       <p class="govuk-body"><a class="govuk-link" href="%{service_link}">Go back to %{service_name}</a></p>
