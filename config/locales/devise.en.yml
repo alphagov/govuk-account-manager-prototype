@@ -155,7 +155,7 @@ en:
             <li>share your information with third parties for marketing purposes</li>
           </ul>
           <p class="govuk-body">As we add new features to your account, we may ask if we can share your information with other parts of government to help us provide more efficient online services that are relevant to you. We will always ask your permission beforehand.</p>
-          <p class="govuk-body">You can read the <a href="https://gov.uk/help/privacy-notice" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
+          <p class="govuk-body">You can read the <a href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
         data_choice_heading: Data about how you use GOV.UK
         data_choice_description: |
           <p class="govuk-body">We’d like to use cookies to collect anonymised analytics about how you use GOV.UK, for example what pages you visit and what you click on.</p>
