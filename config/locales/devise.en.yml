@@ -188,6 +188,8 @@ en:
             label: Continue
       edit:
         heading: "Change your email address or password"
+        heading_password: "Change your password"
+        heading_email: "Change your email address"
         unconfirmed: "Currently waiting confirmation for: %{email}"
         fields:
           email:
