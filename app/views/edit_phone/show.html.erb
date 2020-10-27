@@ -11,6 +11,10 @@
       margin_bottom: 6,
     } %>
 
+    <p class="govuk-body">
+      <%= t("mfa.phone.update.start.message") %>
+    </p>
+
     <%= render "govuk_publishing_components/components/inset_text", {
       text: t("mfa.phone.update.start.current", phone_number: current_user.phone)
     } %>
@@ -26,7 +30,6 @@
         label: {
           text: t("devise.registrations.edit.fields.current_password.label"),
         },
-        hint: t("devise.registrations.edit.fields.current_password.hint"),
         name: "current_password",
         type: "password",
         error_message: @password_error_message,
