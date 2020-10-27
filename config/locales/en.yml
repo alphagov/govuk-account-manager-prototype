@@ -111,11 +111,11 @@ en:
       activity: Sign-in attempts and changes to account details
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
       event:
-        login: "Login"
+        login: "Sign in"
         change_email: "Change Email Address"
         change_password: "Change Password"
         change_phone: "Change Phone Number"
-        report_suspicious_activity: Report Suspicious Activity
+        report_suspicious_activity: Report suspicious activity
       report:
         heading: Report suspicious activity
         description: |
