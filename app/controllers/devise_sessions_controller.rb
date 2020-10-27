@@ -53,6 +53,11 @@ class DeviseSessionsController < Devise::SessionsController
 
   def phone_resend; end
 
+  def destroy
+    current_user.invalidate_all_sessions!
+    super
+  end
+
 protected
 
   def check_login_state
