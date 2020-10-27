@@ -24,6 +24,7 @@
         heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
         heading_size: "s",
         error_message: devise_error_items(:cookie_consent, @resource_error_messages),
+        hint: t("devise.registrations.your_information.fields.cookie_consent.hint"),
         items: [
           {
             value: "yes",
@@ -38,11 +39,23 @@
         ]
       } %>
 
+      <%= render "govuk_publishing_components/components/heading", {
+        text:  t("devise.registrations.your_information.fields.feedback_consent.section_heading"),
+        heading_level: 2,
+        font_size: "m",
+        margin_bottom: 3,
+      } %>
+
+      <p class="govuk-body">
+        <%=  t("devise.registrations.your_information.fields.feedback_consent.message") %>
+      </p>
+
       <%= render "govuk_publishing_components/components/radio", {
         name: "feedback_consent",
         heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
         heading_size: "s",
         error_message: devise_error_items(:feedback_consent, @resource_error_messages),
+        hint: t("devise.registrations.your_information.fields.feedback_consent.hint"),
         items: [
           {
             value: "yes",
