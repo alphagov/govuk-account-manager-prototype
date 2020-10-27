@@ -40,6 +40,12 @@
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.sessions.new.fields.submit.label"),
         margin_bottom: 3,
+        data_attributes: {
+          module: "gem-track-click",
+          "track-category": "account-signin",
+          "track-action": "signin",
+          "track-label": "password"
+        }
       } %>
     <% end %>
 
