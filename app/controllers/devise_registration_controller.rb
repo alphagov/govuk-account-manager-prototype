@@ -200,7 +200,12 @@ class DeviseRegistrationController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      respond_with resource, location: after_update_path_for(resource)
+      if params.dig(:user, :email)
+        respond_with resource, location: confirmation_email_sent_path
+      elsif params.dig(:user, :password)
+        flash[:notice] = I18n.t("devise.registrations.edit.success")
+        render :edit_password
+      end
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -222,10 +227,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def edit_password; end
 
 protected
-
-  def after_update_path_for(_resource)
-    confirmation_email_sent_path
-  end
 
   def after_sign_up_path_for(resource)
     new_user_after_sign_up_path(previous_url: @previous_url, email: resource.email)
