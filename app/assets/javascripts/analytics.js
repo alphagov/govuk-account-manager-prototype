@@ -6,6 +6,15 @@ $(document).ready(function() {
   if (typeof window.GOVUK.analyticsInit !== 'undefined') {
     window.GOVUK.analyticsInit(linkedDomains)
 
+    if (window.GOVUK.cookie('cookies_preferences_set') && window.GOVUK.cookie('cookies_policy')) {
+      var currentConsentCookie = JSON.parse(window.GOVUK.cookie('cookies_policy'))
+      if (currentConsentCookie.usage === true) {
+        $('input[name=cookie_consent][value=yes]').prop('checked', true)
+      } else {
+        $('input[name=cookie_consent][value=no]').prop('checked', true)
+      }
+    }
+
     $('.js-cookie-consent .govuk-radios__input').on('click', function() {
       var response = $(this).val()
 
