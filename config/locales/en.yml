@@ -44,7 +44,7 @@ en:
     description: Cookies help us see where we can make improvements to GOV.UK.
     confirmation_message: You have accepted cookies.
     cookie_preferences_text: How GOV.UK accounts use cookies
-    cookie_settings_href: "https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice"
+    cookie_settings_href: "https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement"
   devise: # Overrides for Devise built in text
     sessions:
       new:
