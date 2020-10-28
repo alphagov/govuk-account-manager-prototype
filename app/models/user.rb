@@ -62,6 +62,7 @@ class User < ApplicationRecord
 
   # from devise
   def after_confirmation
+    UserMailer.with(user: self).onboarding_email.deliver_later
     ActivateEmailSubscriptionsJob.perform_later id
   end
 

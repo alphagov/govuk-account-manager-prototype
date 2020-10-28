@@ -173,7 +173,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
       persist_attributes(resource)
       persist_consent(resource)
       persist_email_subscription(resource)
-      send_onboarding_email(resource)
 
       @previous_url = registration_state.previous_url
       registration_state.destroy!
@@ -299,10 +298,6 @@ protected
       phone: registration_state.phone,
       last_mfa_success: Time.zone.now,
     )
-  end
-
-  def send_onboarding_email(user)
-    UserMailer.with(user: user).onboarding_email.deliver_later
   end
 
   def persist_attributes(user)
