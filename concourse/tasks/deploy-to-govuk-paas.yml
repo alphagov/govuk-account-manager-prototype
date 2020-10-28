@@ -34,6 +34,10 @@ run:
         cf set-env $CF_APP_NAME REQUIRE_BASIC_AUTH "$REQUIRE_BASIC_AUTH"
         cf set-env $CF_APP_NAME BASIC_AUTH_USERNAME "$BASIC_AUTH_USERNAME"
         cf set-env $CF_APP_NAME BASIC_AUTH_PASSWORD "$BASIC_AUTH_PASSWORD"
+      else
+        cf unset-env $CF_APP_NAME REQUIRE_BASIC_AUTH
+        cf unset-env $CF_APP_NAME BASIC_AUTH_USERNAME
+        cf unset-env $CF_APP_NAME BASIC_AUTH_PASSWORD
       fi
 
       cf set-env $CF_APP_NAME ENABLE_REGISTRATION "$ENABLE_REGISTRATION"
