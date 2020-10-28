@@ -1,0 +1,30 @@
+en:
+  mailer:
+    onboarding:
+      subject: "Welcome to your GOV.UK account"
+      body: |
+        Hello
+
+        You’ve finished creating your GOV.UK account.
+
+        GOV.UK accounts are a trial. They’re a first step towards creating a GOV.UK that is more tailored to you and your circumstances.
+
+        At the moment, you can only use your account with the UK transition checker (%{transition_checker_link}) to:
+
+          - get email updates about UK transition changes that may affect you
+          - save your UK transition checker results
+
+        In future, we want to add more features to your account so you can:
+
+          - see content that’s more tailored to you
+          - get recommendations for services relevant to you
+          - get updates about guidance that might be helpful to you
+          - reuse data about you between different services
+
+        If you have any questions, problems or suggestions for how we could make your GOV.UK account better, please give us feedback (%{feedback_link}).
+
+        Sign in to your GOV.UK account (%{login_link})
+
+        -----
+
+        Do not reply to this email - it’s an automatic message from an unmonitored account.
