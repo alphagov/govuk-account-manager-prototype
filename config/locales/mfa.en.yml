@@ -54,7 +54,7 @@ en:
             label: Send a new security code
     mailer:
       phone_change:
-        subject: "GOV.UK Accounts: phone number changed"
+        subject: "GOV.UK Account: phone number changed"
         body: |
           Hello %{email},
 
