@@ -57,7 +57,7 @@
 
         <p class="govuk-body"><%= t("account.your_account.account_not_used.description") %></p>
 
-        <p class="govuk-body"><%= sanitize(t("account.your_account.account_not_used.action", link: link_to(t("account.your_account.account_not_used.link_text"), transition_checker_path.to_s, html_options = { class: "govuk-link"} ))) %></p>
+        <p class="govuk-body"><%= sanitize(t("account.your_account.account_not_used.action", link: link_to(t("account.your_account.account_not_used.link_text"), "#{transition_checker_path.to_s}/edit-saved-results", html_options = { class: "govuk-link"} ))) %></p>
       </div>
     <% end %>
   </div>
