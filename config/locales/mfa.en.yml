@@ -33,7 +33,6 @@ en:
         description_with_phone_number:
           - We’ve sent a text message with a security code to %{phone_number}.
           - It may take a few minutes to arrive.
-        not_received_link_text: Not received a text message?
         not_received:
           heading: Resend security code or change your phone number
           message: |

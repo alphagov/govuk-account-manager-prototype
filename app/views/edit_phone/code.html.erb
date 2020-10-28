@@ -26,10 +26,15 @@
       } %>
     <% end %>
 
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("mfa.phone.code.not_received.heading"),
+      heading_level: 2,
+      margin_bottom: 4,
+      font_size: "m",
+    } %>
+
     <p class="govuk-body">
-      <a class="govuk-link" href="<%= edit_user_registration_phone_resend_path %>">
-        <%= t("mfa.phone.code.not_received_link_text") %>
-      </a>
+      <%= sanitize(t("mfa.phone.code.not_received.message", link: edit_user_registration_phone_resend_path)) %>
     </p>
   </div>
 </div>
