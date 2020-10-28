@@ -1,4 +1,5 @@
 <%= t("devise.mailer.unlock_instructions.body",
     email: @resource.email,
-    link: unlock_url(@resource, unlock_token: @token)
+    link: unlock_url(@resource, unlock_token: @token),
+    feedback_link: feedback_form_url,
 ) %>

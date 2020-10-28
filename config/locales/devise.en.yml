@@ -23,11 +23,18 @@ en:
       same_email: "Your new email address is the same as your current email address."
     mailer:
       confirmation_instructions:
-        subject: "GOV.UK Account: confirm your email address"
+        subject: "Confirm the email address for your GOV.UK account"
         body: |
-          Hello %{email},
+          Hello,
 
-          Click this link %{link}
+          You need to click on the confirmation link to:
+            - finish creating your account
+            - start receiving email updates about the UK transition
+
+          You will be locked out of your account if you do not confirm your email address within 7 days.
+
+          Confirm your email address:
+          %{link}
 
           -----
 
@@ -35,11 +42,15 @@ en:
       reset_password_instructions:
         subject: "GOV.UK Account: reset your password"
         body: |
-          Hello %{email},
+          Hello,
 
-          Click this link to change your password: %{link}
+          You’ve asked to reset the password for your GOV.UK account.
 
-          If you didn’t request this, please ignore this email.
+          To choose a new password, you need to click on this link:
+          %{link}
+
+          If you’re still having trouble signing in, contact us:
+          %{feedback_link}
 
           -----
 
@@ -47,11 +58,15 @@ en:
       unlock_instructions:
         subject: "GOV.UK Account: unlock your account"
         body: |
-          Hello %{email},
+          Hello,
 
-          Your account has been locked for an excessive number of unsuccessful sign in attempts.
+          You’ve been locked out of your GOV.UK account because you entered an incorrect password or security code too many times.
 
-          Click this link to unlock your account: %{link}
+          To unlock your account you need to click on this link and try to sign in again:
+          %{link}
+
+          If this was not you, contact us:
+          %{feedback_link}.
 
           -----
 
@@ -65,7 +80,9 @@ en:
 
           We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
 
-          If this was not you, contact us (%{feedback_link}).
+          If this was not you, contact us:
+          %{feedback_link}.
+
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
@@ -76,7 +93,8 @@ en:
 
           You’ve successfully updated the email address for your GOV.UK account.
 
-          Go to your GOV.UK account (%{govuk_account_link})
+          Go to your GOV.UK account:
+          %{govuk_account_link}
 
           -----
 
@@ -88,9 +106,11 @@ en:
 
           You’ve successfully updated the password for your GOV.UK account.
 
-          If this was not you, contact us (%{feedback_link}).
+          If this was not you, contact us:
+          %{feedback_link}
 
-          Go to your GOV.UK account (%{govuk_account_link})
+          Go to your GOV.UK account:
+          %{govuk_account_link}
 
           -----
 
