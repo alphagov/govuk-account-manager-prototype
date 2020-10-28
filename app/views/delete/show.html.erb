@@ -27,11 +27,14 @@
         label: {
           text: t("devise.registrations.edit.fields.current_password.label"),
         },
-        hint: t("devise.registrations.edit.fields.current_password.hint"),
         name: "current_password",
         type: "password",
         error_message: @password_error_message,
         autocomplete: "current-password",
+      } %>
+
+      <%= render "govuk_publishing_components/components/inset_text", {
+        text: t("account.delete.insert_text")
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
@@ -39,8 +42,8 @@
         destructive: true,
         inline_layout: true
       } %>
-
-      <a href="<%= account_manage_path %>" class="govuk-link"><%= t("general.cancel") %></a>
+      <span class="govuk-body"><%= t("general.or") %></span>
+      <<%= link_to(t("general.cancel"), account_manage_path, html_options = { class: "govuk-link" }) %>
     <% end %>
   </div>
 </div>
