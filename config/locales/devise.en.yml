@@ -200,6 +200,7 @@ en:
         heading_password: "Change your password"
         heading_email: "Change your email address"
         unconfirmed: "Currently waiting confirmation for: %{email}"
+        success: "Your password has been changed"
         fields:
           email:
             label: "Enter a new email address"
