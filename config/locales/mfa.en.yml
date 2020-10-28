@@ -32,8 +32,9 @@ en:
           - It may take a few minutes to arrive.
         not_received:
           sign_in_heading: Resend security code
+          sign_up_heading: Resend security code or change your phone number
           change_heading: If you did not get the text message or want to use a different phone number
-          message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
+          sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
           sign_in_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code.
           resend_message: We can <a class="govuk-link" href="%{link}">send another security code</a> if you did not get it.
           change_number_message: You can <a class="govuk-link" href="%{link}">use a different phone number</a> if %{phone_number} is not correct.
