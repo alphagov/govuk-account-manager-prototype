@@ -46,7 +46,7 @@ module MultiFactorAuth
     phone_code = (1..digits).map { |_| SecureRandom.random_number(10).to_s }.join("")
     NotifySmsDeliveryJob.perform_later(
       phone_number,
-      "Your two-factor authentication code is #{phone_code}",
+      I18n.t("mfa.text_message.security_code.body", phone_code: phone_code),
     )
     phone_code
   end

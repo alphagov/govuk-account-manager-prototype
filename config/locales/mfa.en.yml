@@ -63,6 +63,9 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
+    text_message:
+      security code:
+        body: "%{phone_code} is your security code."
     errors:
       phone:
         invalid: Enter a valid phone number
