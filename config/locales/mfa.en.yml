@@ -22,6 +22,7 @@ en:
               label: Continue
       code:
         heading: Check your phone
+        change_heading: Enter your security code
         description:
           - We’ve sent you a text message with a security code.
           - It may take a few minutes to arrive.
@@ -30,8 +31,11 @@ en:
           - It may take a few minutes to arrive.
         not_received:
           heading: Resend security code or change your phone number
+          change_heading: If you did not get the text message or want to use a different phone number
           message: |
             We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
+          resend_message: We can <a class="govuk-link" href="%{link}">send another security code</a> if you did not get it.
+          change_number_message: You can <a class="govuk-link" href="%{link}">use a different phone number</a> if %{phone_number} is not correct.
         fields:
           phone_code:
             label: Enter security code
