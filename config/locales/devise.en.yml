@@ -23,7 +23,7 @@ en:
       same_email: "Your new email address is the same as your current email address."
     mailer:
       confirmation_instructions:
-        subject: "GOV.UK Accounts: confirm your email address"
+        subject: "GOV.UK Account: confirm your email address"
         body: |
           Hello %{email},
 
@@ -33,7 +33,7 @@ en:
 
           This is an automated email, please do not reply as we do not monitor responses.
       reset_password_instructions:
-        subject: "GOV.UK Accounts: reset your password"
+        subject: "GOV.UK Account: reset your password"
         body: |
           Hello %{email},
 
@@ -45,7 +45,7 @@ en:
 
           This is an automated email, please do not reply as we do not monitor responses.
       unlock_instructions:
-        subject: "GOV.UK Accounts: unlock your account"
+        subject: "GOV.UK Account: unlock your account"
         body: |
           Hello %{email},
 
