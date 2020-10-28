@@ -29,12 +29,11 @@
 
   <%= render "govuk_publishing_components/components/skip_link" %>
 
-  <% cookie_settings_href = current_user ? edit_user_consent_cookie_path : new_user_registration_your_information_path %>
   <%= render "govuk_publishing_components/components/cookie_banner", {
     title: t("cookie_banner.title"),
     text: t("cookie_banner.description"),
     confirmation_message: t("cookie_banner.confirmation_message"),
-    cookie_preferences_href: cookie_settings_href,
+    cookie_preferences_href: t("cookie_banner.cookie_settings_href"),
     services_cookies: {
       yes: {
         text: "Yes",
@@ -49,8 +48,8 @@
         },
       },
       cookie_preferences: {
-        text: "How we use cookies",
-        href: cookie_settings_href,
+        text: t("cookie_banner.cookie_preferences_text"),
+        href: t("cookie_banner.cookie_settings_href"),
       },
     },
   } %>
