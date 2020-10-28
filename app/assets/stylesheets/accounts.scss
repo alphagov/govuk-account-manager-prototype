@@ -54,3 +54,18 @@
 .mfa-phone-create {
   margin-bottom: govuk-spacing(4);
 }
+
+// Remove this override when fixing this upstream in the cookie-banner component
+.gem-c-cookie-banner {
+  .govuk-grid-column-two-thirds {
+    @include govuk-media-query($from: tablet) {
+      width: 100%;
+    }
+  }
+
+  .govuk-button.gem-c-button--inline {
+    @include govuk-media-query($from: tablet) {
+      max-width: 200px;
+    }
+  }
+}
