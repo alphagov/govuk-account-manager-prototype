@@ -204,7 +204,11 @@ class DeviseRegistrationController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
+      if params.dig(:user, :email)
+        render :edit_email
+      elsif params.dig(:user, :password)
+        render :edit_password
+      end
     end
   end
 
