@@ -1,8 +1,4 @@
 module AccountHelper
-  def finder_frontend_base_uri
-    Plek.new.website_root
-  end
-
   def email_alert_frontend_base_uri
     Plek.new.website_root
   end

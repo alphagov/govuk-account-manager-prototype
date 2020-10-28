@@ -31,9 +31,14 @@ module ApplicationHelper
 
   def email_alerts_only_path(registration_state)
     checker_results = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "criteria_keys")
-    email_signup_path = "/transition-check/email-signup"
+    email_signup_path = "/email-signup"
     checker_results = "?c[]=" + checker_results.join('.join("&c[]=")')
+    URI.join(transition_checker_path, email_signup_path, checker_results)
+  end
+
+  def transition_checker_path
     base_url = Rails.env.development? ? Plek.find("finder-frontend") : Plek.new.website_root
-    URI.join(base_url, email_signup_path, checker_results)
+    base_path = "/transition-check"
+    URI.join(base_url, base_path)
   end
 end
