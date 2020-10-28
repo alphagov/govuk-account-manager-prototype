@@ -20,11 +20,6 @@ en:
               label: Enter new phone number
             submit:
               label: Continue
-        done:
-          heading: Your phone number has been updated
-          message: |
-            <p class="govuk-body">I don’t know what text should go on this page!</p>
-            <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
       code:
         heading: Check your phone
         description:

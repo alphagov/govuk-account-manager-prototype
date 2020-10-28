@@ -16,7 +16,7 @@ RSpec.feature "Change Phone" do
     enter_password
     enter_mfa
 
-    expect(page).to have_text(I18n.t("mfa.phone.update.done.heading"))
+    expect(page).to have_text(I18n.t("account.manage.heading"))
     expect(user.reload.phone).to eq(new_phone_number)
   end
 

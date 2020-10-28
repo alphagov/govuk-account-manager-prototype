@@ -43,7 +43,6 @@ Rails.application.routes.draw do
           post "/code", to: "edit_phone#code_send"
           post "/verify", to: "edit_phone#verify", as: :edit_user_registration_phone_verify
           get  "/resend", to: "edit_phone#resend", as: :edit_user_registration_phone_resend
-          get  "/done", to: "edit_phone#done", as: :edit_user_registration_phone_done
         end
 
         scope "/consent" do
