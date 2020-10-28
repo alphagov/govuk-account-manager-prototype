@@ -56,31 +56,31 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
-      email_changed:
+      email_changing:
         subject: "Updating the email address for your GOV.UK account"
-        is_being_changed:
-          body: |
-            Hello,
+        body: |
+          Hello,
 
-            You said you want to update the email address for your GOV.UK account.
+          You said you want to update the email address for your GOV.UK account.
 
-            We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
+          We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
 
-            If this was not you, contact us (%{feedback_link}).
-            -----
+          If this was not you, contact us (%{feedback_link}).
+          -----
 
-            This is an automated email, please do not reply as we do not monitor responses.
-        has_been_changed:
-          body: |
-            Hello,
+          This is an automated email, please do not reply as we do not monitor responses.
+      email_changed:
+        subject: "You’ve updated the email address for your GOV.UK account"
+        body: |
+          Hello,
 
-            You’ve successfully updated the email address for your GOV.UK account.
+          You’ve successfully updated the email address for your GOV.UK account.
 
-            Go to your GOV.UK account (%{govuk_account_link})
+          Go to your GOV.UK account (%{govuk_account_link})
 
-            -----
+          -----
 
-            This is an automated email, please do not reply as we do not monitor responses.
+          This is an automated email, please do not reply as we do not monitor responses.
       password_change:
         subject: You’ve updated the password for your GOV.UK account"
         body: |
