@@ -27,7 +27,7 @@ RSpec.describe "welcome" do
           get new_user_session_url(user: { email: "no-such-user@domain.tld" })
           follow_redirect!
 
-          expect(response.body).to have_content(I18n.t("devise.registrations.start.heading"))
+          expect(response.body).to have_content(I18n.t("devise.registrations.start.fields.password.label"))
         end
       end
     end
