@@ -11,46 +11,68 @@
       margin_bottom: 4,
     } %>
 
-    <%= render "govuk_publishing_components/components/summary_list", {
-      title: t("account.manage.details.heading"),
+    <div class="accounts-summary-list">
+      <%= render "govuk_publishing_components/components/summary_list", {
+        title: t("account.manage.details.heading"),
+        heading_level: 2,
+        items: core_account_details
+      } %>
+    </div>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.manage.privacy.heading"),
       heading_level: 2,
-      items: core_account_details
+      font_size: "m",
+      margin_bottom: 4,
     } %>
 
-    <%= render "govuk_publishing_components/components/summary_list", {
-      title: t("account.manage.privacy.heading"),
-      heading_level: 2,
-      items: [
-        {
-          field: sanitize([t("account.manage.privacy.cookies_question"), t("account.manage.privacy.cookies_description")].join("<br>")),
-          value: current_user.cookie_consent == true ? t("general.yes") : t("general.no"),
-          edit: {
-            href: edit_user_consent_cookie_path,
-            text: t("general.change"),
-            data_attributes: {
-              module: "gem-track-click",
-              "track-category": "account-manage",
-              "track-action": "manage-account",
-              "track-label": "personal-information-cookies"
-            }
-          }
-        },
-        {
-          field: sanitize([t("account.manage.privacy.email_question"), t("account.manage.privacy.email_description")].join("<br>")),
-          value: current_user.feedback_consent == true ? t("general.yes") : t("general.no"),
-          edit: {
-            href: edit_user_consent_feedback_path,
-            text: t("general.change"),
-            data_attributes: {
-              module: "gem-track-click",
-              "track-category": "account-manage",
-              "track-action": "manage-account",
-              "track-label": "personal-information-feedback"
-            }
-          }
-        }
-      ]
-    } %>
+    <div class="accounts-summary-list accounts-summary-list--wide">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <p class="govuk-body accounts-summary-list__key-heading"><%= t("account.manage.privacy.cookies_question") %></p>
+            <p class="govuk-body accounts-summary-list__key-description"><%= t("account.manage.privacy.cookies_description") %></p>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= current_user.cookie_consent == true ? t("general.yes") : t("general.no") %>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a href="<%= edit_user_consent_cookie_path %>"
+              class="govuk-link"
+              title="<%= t("general.change") %> <%= t("account.manage.privacy.cookies_link_extra") %>"
+              data-module = "gem-track-click"
+              data-track-category = "account-manage"
+              data-track-action = "manage-account"
+              data-track-label = "personal-information-cookies">
+              <%= t("general.change") %>
+              <span class="govuk-visually-hidden"><%= t("account.manage.privacy.cookies_link_extra") %></span>
+            </a>
+          </dd>
+        </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <p class="govuk-body accounts-summary-list__key-heading"><%= t("account.manage.privacy.email_question") %></p>
+            <p class="govuk-body accounts-summary-list__key-description"><%= t("account.manage.privacy.email_description") %></p>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= current_user.feedback_consent == true ? t("general.yes") : t("general.no") %>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a href="<%= edit_user_consent_feedback_path %>"
+              class="govuk-link"
+              title="<%= t("general.change") %> <%= t("account.manage.privacy.email_link_extra") %>"
+              data-module = "gem-track-click"
+              data-track-category = "account-manage"
+              data-track-action = "manage-account"
+              data-track-label = "personal-information-feedback">
+              <%= t("general.change") %>
+              <span class="govuk-visually-hidden"><%= t("account.manage.privacy.email_link_extra") %></span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </div>
 
     <%= render "govuk_publishing_components/components/heading", {
       text: t("account.manage.delete.heading"),
