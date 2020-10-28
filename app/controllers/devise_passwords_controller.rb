@@ -7,6 +7,7 @@ class DevisePasswordsController < Devise::PasswordsController
     if successfully_sent?(resource)
       respond_with({}, location: after_sending_reset_password_instructions_path_for(resource.email))
     else
+      SecurityActivity.change_password!(resource, request.remote_ip)
       respond_with(resource)
     end
   end
