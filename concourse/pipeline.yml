@@ -182,8 +182,8 @@ jobs:
           CF_APP_NAME: govuk-account-manager
           CF_SPACE: production
           CF_STARTUP_TIMEOUT: 15 # minutes
-          APP_INSTANCES: 1
-          WORKER_INSTANCES: 1
+          APP_INSTANCES: 3
+          WORKER_INSTANCES: 3
           CDN_DOMAIN: account.publishing.service.gov.uk
           ENABLE_REGISTRATION: "true"
           REQUIRE_BASIC_AUTH: "true"
