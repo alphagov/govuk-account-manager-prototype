@@ -31,7 +31,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
       reset_password_instructions:
         subject: "GOV.UK Accounts: reset your password"
         body: |
@@ -43,7 +43,7 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
       unlock_instructions:
         subject: "GOV.UK Accounts: unlock your account"
         body: |
@@ -55,37 +55,46 @@ en:
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
       email_changed:
-        subject: "GOV.UK Accounts: email address changed"
+        subject: "Updating the email address for your GOV.UK account"
         is_being_changed:
           body: |
-            Hello %{email},
+            Hello,
 
-            You’re changing your email address to %{new_address}.  A confirmation email has been sent to that address.
+            You said you want to update the email address for your GOV.UK account.
 
+            We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
+
+            If this was not you, contact us (%{feedback_link}).
             -----
 
-            Do not reply to this email - it’s an automatic message from an unmonitored account.
+            This is an automated email, please do not reply as we do not monitor responses.
         has_been_changed:
           body: |
-            Hello %{email},
+            Hello,
 
-            Your email address has been changed to %{new_address}.  A confirmation email has been sent to that address.
+            You’ve successfully updated the email address for your GOV.UK account.
+
+            Go to your GOV.UK account (%{govuk_account_link})
 
             -----
 
-            Do not reply to this email - it’s an automatic message from an unmonitored account.
+            This is an automated email, please do not reply as we do not monitor responses.
       password_change:
-        subject: "GOV.UK Accounts: password changed"
+        subject: You’ve updated the password for your GOV.UK account"
         body: |
-          Hello %{email},
+          Hello,
 
-          Your password has been changed.
+          You’ve successfully updated the password for your GOV.UK account.
+
+          If this was not you, contact us (%{feedback_link}).
+
+          Go to your GOV.UK account (%{govuk_account_link})
 
           -----
 
-          Do not reply to this email - it’s an automatic message from an unmonitored account.
+          This is an automated email, please do not reply as we do not monitor responses.
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
