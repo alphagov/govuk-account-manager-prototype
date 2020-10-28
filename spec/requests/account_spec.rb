@@ -26,6 +26,14 @@ RSpec.feature "/account" do
     end
   end
 
+  context "without any states" do
+    it "shows the zero state service card" do
+      visit user_root_path
+
+      expect(page).to have_text(I18n.t("account.your_account.account_not_used.heading"))
+    end
+  end
+
   context "with transition checker state" do
     let(:userinfo) { { transition_checker_state: { timestamp: 42 } } }
 

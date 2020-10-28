@@ -63,6 +63,11 @@ en:
   account:
     your_account:
       heading: Your GOV.UK account
+      account_not_used:
+        heading: "You have not used your account to access any services yet"
+        description: "GOV.UK accounts are designed to make it easier for you to use online government services. At the moment you can only use your account with the UK transition checker."
+        action: "%{link} to start getting the most out of your account."
+        link_text: "Answer the questions in the UK transition checker"
       transition:
         heading: "Get ready for new rules in 2021: Your results"
         description: A personalised list of actions to help you, your family, and your business prepare for the end of the UK transition.
