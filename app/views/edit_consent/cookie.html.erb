@@ -14,29 +14,31 @@
       }
     ) do %>
 
-      <%= render "govuk_publishing_components/components/radio", {
-        name: "cookie_consent",
-        heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
-        heading_size: "l",
-        items: [
-          {
-            value: "yes",
-            text: t("devise.registrations.your_information.fields.cookie_consent.yes"),
-            checked: current_user.cookie_consent,
-            data_attributes: {
-              "track-action": "personal-information-cookies"
+      <div class="js-cookie-consent">
+        <%= render "govuk_publishing_components/components/radio", {
+          name: "cookie_consent",
+          heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
+          heading_size: "l",
+          items: [
+            {
+              value: "yes",
+              text: t("devise.registrations.your_information.fields.cookie_consent.yes"),
+              checked: current_user.cookie_consent,
+              data_attributes: {
+                "track-action": "personal-information-cookies"
+              }
+            },
+            {
+              value: "no",
+              text: t("devise.registrations.your_information.fields.cookie_consent.no"),
+              checked: !current_user.cookie_consent,
+              data_attributes: {
+                "track-action": "personal-information-cookies"
+              }
             }
-          },
-          {
-            value: "no",
-            text: t("devise.registrations.your_information.fields.cookie_consent.no"),
-            checked: !current_user.cookie_consent,
-            data_attributes: {
-              "track-action": "personal-information-cookies"
-            }
-          }
-        ]
-      } %>
+          ]
+        } %>
+      </div>
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.your_information.fields.submit.update_label"),
