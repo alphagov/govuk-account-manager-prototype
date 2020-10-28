@@ -27,6 +27,12 @@
           edit: {
             href: edit_user_consent_cookie_path,
             text: t("general.change"),
+            data_attributes: {
+              module: "gem-track-click",
+              "track-category": "account-manage",
+              "track-action": "manage-account",
+              "track-label": "personal-information-cookies"
+            }
           }
         },
         {
@@ -35,6 +41,12 @@
           edit: {
             href: edit_user_consent_feedback_path,
             text: t("general.change"),
+            data_attributes: {
+              module: "gem-track-click",
+              "track-category": "account-manage",
+              "track-action": "manage-account",
+              "track-label": "personal-information-feedback"
+            }
           }
         }
       ]
@@ -49,6 +61,10 @@
 
     <p class="govuk-body"><%= t("account.manage.delete.description") %></p>
 
-    <p class="govuk-body"><a href="<%= account_delete_path %>" class="govuk-link"><%= t("account.manage.delete.link") %></a></p>
+    <p class="govuk-body">
+      <a href="<%= account_delete_path %>" class="govuk-link" data-module="gem-track-click" data-track-category="account-manage" data-track-action="manage-account" data-track-label="delete-account">
+        <%= t("account.manage.delete.link") %>
+      </a>
+    </p>
   </div>
 </div>

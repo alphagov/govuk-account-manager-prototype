@@ -16,6 +16,13 @@
     <%= form_with(url: user_session_phone_code_path(login_state_id: @login_state_id), method: :post) do %>
       <%= render "govuk_publishing_components/components/button", {
         text: t("mfa.phone.resend.fields.submit.label"),
+        margin_bottom: true,
+        data_attributes: {
+          module: "gem-track-click",
+          "track-category": "account-signin",
+          "track-action": "signin",
+          "track-label": "resend-security-code"
+        }
       } %>
     <% end %>
   </div>

@@ -45,6 +45,12 @@
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.edit.fields.submit.label"),
         margin_bottom: 3,
+        data_attributes: {
+          module: "gem-track-click",
+          "track-category": "account-manage",
+          "track-action": "email",
+          "track-label": ""
+        }
       } %>
     <% end %>
   </div>
