@@ -74,6 +74,14 @@ protected
   end
 
   def do_sign_in
+    cookies[:cookies_preferences_set] = "true"
+    cookies[:cookies_policy] = {
+      essential: true,
+      settings: false,
+      usage: login_state.user.cookie_consent.to_s,
+      campaigns: false,
+    }.to_json
+
     set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, login_state.user)
     redirect_to login_state.redirect_path
