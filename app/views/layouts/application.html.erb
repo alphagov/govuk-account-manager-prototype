@@ -29,6 +29,28 @@
 
   <%= render "govuk_publishing_components/components/skip_link" %>
 
+  <% cookie_settings_href = current_user ? edit_user_consent_cookie_path : new_user_registration_your_information_path %>
+  <%= render "govuk_publishing_components/components/cookie_banner", {
+    title: t("cookie_banner.title"),
+    text: t("cookie_banner.description"),
+    confirmation_message: t("cookie_banner.confirmation_message"),
+    cookie_preferences_href: cookie_settings_href,
+    services_cookies: {
+      yes: {
+        text: "Yes",
+        data_attributes: {
+          "track-category": "cookieBanner",
+        },
+      },
+      no: {
+        text: "No",
+        data_attributes: {
+          "track-category": "cookieBanner",
+        },
+      }
+    },
+  } %>
+
   <%= render "govuk_publishing_components/components/layout_header", {
     environment: "public",
     product_name: "Account",

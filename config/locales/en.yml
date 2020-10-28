@@ -39,6 +39,10 @@ en:
     password: Password
     cancel: Cancel
     or: or
+  cookie_banner:
+    title: Can we store analytics cookies on your device?
+    description: Analytics cookies help us understand how our website is being used.
+    confirmation_message: You’ve accepted all cookies.
   devise: # Overrides for Devise built in text
     sessions:
       new:
