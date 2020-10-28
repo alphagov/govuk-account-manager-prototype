@@ -20,24 +20,24 @@ en:
               label: Enter new phone number
             submit:
               label: Continue
-        done:
-          heading: Your phone number has been updated
-          message: |
-            <p class="govuk-body">I don’t know what text should go on this page!</p>
-            <p class="govuk-body"><a class="govuk-link" href="%{account_link}">Go to your GOV.UK account</a>
       code:
-        heading: Check your phone
+        sign_up_heading: Check your phone
+        change_heading: Enter your security code
+        sign_in_heading: Check your phone
         description:
           - We’ve sent you a text message with a security code.
           - It may take a few minutes to arrive.
         description_with_phone_number:
           - We’ve sent a text message with a security code to %{phone_number}.
           - It may take a few minutes to arrive.
-        not_received_link_text: Not received a text message?
         not_received:
-          heading: Resend security code or change your phone number
-          message: |
-            We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
+          sign_in_heading: Resend security code
+          sign_up_heading: Resend security code or change your phone number
+          change_heading: If you did not get the text message or want to use a different phone number
+          sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
+          sign_in_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code.
+          resend_message: We can <a class="govuk-link" href="%{link}">send another security code</a> if you did not get it.
+          change_number_message: You can <a class="govuk-link" href="%{link}">use a different phone number</a> if %{phone_number} is not correct.
         fields:
           phone_code:
             label: Enter security code
@@ -63,6 +63,9 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
+    text_message:
+      security code:
+        body: "%{phone_code} is your security code."
     errors:
       phone:
         invalid: Enter a valid phone number

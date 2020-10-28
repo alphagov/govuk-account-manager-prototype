@@ -48,7 +48,7 @@ class EditPhoneController < ApplicationController
         request.remote_ip,
       )
       MultiFactorAuthMailer.with(user: current_user).phone_change.deliver_later
-      redirect_to edit_user_registration_phone_done_path
+      redirect_to account_manage_path
     else
       @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
       render :code
@@ -58,8 +58,6 @@ class EditPhoneController < ApplicationController
   def resend
     redirect_to edit_user_registration_phone unless current_user.unconfirmed_phone
   end
-
-  def done; end
 
 protected
 
