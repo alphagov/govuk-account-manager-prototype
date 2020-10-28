@@ -1,0 +1,5 @@
+<%= t("devise.mailer.email_changing.body",
+    email: @email,
+    new_address: @resource.unconfirmed_email,
+    feedback_link: feedback_form_url,
+) %>
