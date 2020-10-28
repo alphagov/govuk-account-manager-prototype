@@ -188,9 +188,6 @@ jobs:
           WORKER_INSTANCES: 3
           CDN_DOMAIN: account.publishing.service.gov.uk
           ENABLE_REGISTRATION: "true"
-          REQUIRE_BASIC_AUTH: "true"
-          BASIC_AUTH_USERNAME: ((basic-auth-username))
-          BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.gov.uk
           WEBSITE_ROOT: https://www.gov.uk
           EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
