@@ -21,9 +21,9 @@
       <%= sanitize(t("post_registration.instruction_list")) %>
     </p>
 
-    <p class="govuk-body">
-      <%= t("post_registration.delay_consequence") %>
-    </p>
+    <%= render "govuk_publishing_components/components/inset_text", {
+      text: t("post_registration.delay_consequence")
+    } %>
 
     <% if service %>
       <%= sanitize(t("post_registration.continue_to_service", service_name: service[:name], service_link: service[:url])) %>
