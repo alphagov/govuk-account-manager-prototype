@@ -55,7 +55,7 @@ en:
           <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
   navigation:
     user_root_path: Account
-    destroy_user_session: Sign Out
+    destroy_user_session: Sign out
     menu_bar:
       account:
         link_text: Your account
