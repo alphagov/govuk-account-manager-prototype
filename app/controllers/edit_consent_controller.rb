@@ -8,12 +8,7 @@ class EditConsentController < ApplicationController
     current_user.update!(cookie_consent: cookie_consent)
 
     cookies[:cookies_preferences_set] = "true"
-    cookies[:cookies_policy] = {
-      essential: true,
-      settings: false,
-      usage: cookie_consent.to_s,
-      campaigns: false,
-    }.to_json
+    response["Set-Cookie"] = "cookies_policy={\"essential\": true, \"settings\": false, \"usage\": #{cookie_consent}, \"campaigns\": false}"
 
     redirect_to(account_manage_path)
   end
