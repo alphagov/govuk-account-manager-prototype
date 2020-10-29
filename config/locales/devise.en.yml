@@ -154,7 +154,6 @@ en:
           - We are temporarily preventing people from creating new GOV.UK accounts.
           - You can still sign in to any accounts you already have.
       start:
-        heading: Create a password
         fields:
           email:
             label: Enter your email address
