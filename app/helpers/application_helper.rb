@@ -32,9 +32,9 @@ module ApplicationHelper
 
   def email_alerts_only_path(registration_state)
     checker_results = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "criteria_keys")
+    checker_results_query = { c: checker_results }.to_query
     email_signup_path = "/email-signup"
-    checker_results = "?c[]=" + checker_results.join('.join("&c[]=")')
-    URI.join(transition_checker_path, email_signup_path, checker_results)
+    URI("#{transition_checker_path}#{email_signup_path}?#{checker_results_query}")
   end
 
   def transition_checker_path
