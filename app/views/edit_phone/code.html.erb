@@ -8,7 +8,7 @@
     } %>
 
     <% t("mfa.phone.code.description_with_phone_number", phone_number: current_user.unconfirmed_phone).each do |msg| %>
-      <p class="govuk-body"><%= msg %></p>
+      <p class="govuk-body"><%= sanitize(msg) %></p>
     <% end %>
 
     <%= form_with(url: edit_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
