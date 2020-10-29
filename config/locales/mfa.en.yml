@@ -28,7 +28,7 @@ en:
           - We’ve sent you a text message with a security code.
           - It may take a few minutes to arrive.
         description_with_phone_number:
-          - We’ve sent a text message with a security code to %{phone_number}.
+          - We’ve sent a text message with a security code to <span class="govuk-!-font-weight-bold">%{phone_number}</span>.
           - It may take a few minutes to arrive.
         not_received:
           sign_in_heading: Resend security code
