@@ -7,6 +7,14 @@
       margin_bottom: 3,
     } %>
 
+    <% if defined?(@error_items) %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        id: "error-summary",
+        title: t("feedback.show.errors.summary"),
+        items: @error_items
+      } %>
+    <% end %>
+
     <%= sanitize(t("devise.registrations.your_information.description")) %>
 
     <%= render "govuk_publishing_components/components/heading", {
@@ -30,9 +38,10 @@
     <div class="js-cookie-consent">
       <%= render "govuk_publishing_components/components/radio", {
         name: "cookie_consent",
+        id: "cookie_consent",
         heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
         heading_size: "s",
-        error_message: devise_error_items(:cookie_consent, @resource_error_messages),
+        error_message: error_items("cookie_consent", @error_items),
         hint: t("devise.registrations.your_information.fields.cookie_consent.hint"),
         items: [
           {
@@ -68,9 +77,10 @@
 
       <%= render "govuk_publishing_components/components/radio", {
         name: "feedback_consent",
+        id: "feedback_consent",
         heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
         heading_size: "s",
-        error_message: devise_error_items(:feedback_consent, @resource_error_messages),
+        error_message: error_items("feedback_consent", @error_items),
         hint: t("devise.registrations.your_information.fields.feedback_consent.hint"),
         items: [
           {
