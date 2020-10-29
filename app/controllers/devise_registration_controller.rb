@@ -204,7 +204,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
         respond_with resource, location: confirmation_email_sent_path
       elsif params.dig(:user, :password)
         flash[:notice] = I18n.t("devise.registrations.edit.success")
-        render :edit_password
+        redirect_to :user_root
       end
     else
       clean_up_passwords resource
