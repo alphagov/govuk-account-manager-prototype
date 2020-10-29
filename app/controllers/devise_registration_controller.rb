@@ -108,21 +108,21 @@ class DeviseRegistrationController < Devise::RegistrationsController
     feedback_consent_decision = params.dig(:feedback_consent)
     feedback_consent_decision_format_ok = %w[yes no].include? feedback_consent_decision
 
-    @resource_error_messages = {}
+    @error_items = []
     @consents = {}
 
     if cookie_consent_decision_format_ok
       registration_state.update!(cookie_consent: cookie_consent_decision == "yes")
       @consents[:cookie_consent_decision] = cookie_consent_decision
     else
-      @resource_error_messages[:cookie_consent] = [I18n.t("activerecord.errors.models.user.attributes.cookie_consent_decision.invalid")]
+      @error_items << { field: "cookie_consent", href: "#cookie_consent", text: I18n.t("activerecord.errors.models.user.attributes.cookie_consent_decision.invalid") }
     end
 
     if feedback_consent_decision_format_ok
       registration_state.update!(feedback_consent: feedback_consent_decision == "yes")
       @consents[:feedback_consent_decision] = feedback_consent_decision
     else
-      @resource_error_messages[:feedback_consent] = [I18n.t("activerecord.errors.models.user.attributes.feedback_consent_decision.invalid")]
+      @error_items << { field: "feedback_consent", href: "#feedback_consent", text: I18n.t("activerecord.errors.models.user.attributes.feedback_consent_decision.invalid") }
     end
 
     if !registration_state.cookie_consent.nil? && !registration_state.feedback_consent.nil?
