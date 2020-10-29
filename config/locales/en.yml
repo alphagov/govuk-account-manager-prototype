@@ -120,7 +120,7 @@ en:
     security:
       heading: Security
       description: |
-        <p class="govuk-body">Read the <a class="govuk-link" href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK Accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
+        <p class="govuk-body">Read the <a class="govuk-link" href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
       account_use: Services that have used information about you
       activity: Sign-in attempts and changes to account details
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
@@ -164,7 +164,7 @@ en:
   feedback:
     banners:
       title: Help improve GOV.UK accounts
-      phase_intro: We’re trialling GOV.UK Accounts - your
+      phase_intro: We’re trialling GOV.UK accounts - your
       phase_link: feedback
       phase_outro: will help us improve them.
       footer_intro: We’re trialling GOV.UK accounts.
@@ -204,7 +204,7 @@ en:
     submit:
       heading: "Feedback sent"
       call_to_action: |
-        <p class="govuk-body">Your feedback has been sent to the GOV.UK Accounts team.</p>
+        <p class="govuk-body">Your feedback has been sent to the GOV.UK Account team.</p>
         <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
   update_registration:
     heading: "Confirm your new email address"
