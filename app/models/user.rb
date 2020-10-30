@@ -62,7 +62,12 @@ class User < ApplicationRecord
 
   # from devise
   def after_confirmation
-    unless has_received_onboarding_email
+    if email_before_last_save != email
+      UserMailer.with(old_address: email_before_last_save).change_email_from_email.deliver_later
+    end
+    if has_received_onboarding_email
+      UserMailer.with(user: self).change_email_to_email.deliver_later
+    else
       UserMailer.with(user: self).onboarding_email.deliver_later
       update!(has_received_onboarding_email: true)
     end
