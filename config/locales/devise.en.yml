@@ -113,9 +113,9 @@ en:
         body: |
           Hello
 
-          You’ve successfully updated the email address for your GOV.UK account.
+          You’ve successfully updated the email address for your GOV.UK account. You can no longer use this email address to sign in to your account.
 
-          Go to your GOV.UK account:
+          Sign in to your GOV.UK account:
           %{govuk_account_link}
 
           -----
