@@ -1,3 +1,4 @@
+<% content_for :title, t("devise.registrations.your_information.fields.cookie_consent.heading") %>
 <% content_for :location, "manage" %>
 
 <div class="govuk-grid-row">
@@ -19,8 +20,9 @@
       <div class="js-cookie-consent">
         <%= render "govuk_publishing_components/components/radio", {
           name: "cookie_consent",
-          heading: t("devise.registrations.your_information.fields.cookie_consent.heading"),
+          heading: yield(:title),
           heading_size: "l",
+          is_page_heading: true,
           items: [
             {
               value: "yes",

@@ -1,3 +1,4 @@
+<% content_for :title, t("account.delete.heading") %>
 <% content_for :location, nil %>
 
 <div class="govuk-grid-row">
@@ -11,7 +12,7 @@
     } %>
 
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("account.delete.heading"),
+      text: yield(:title),
       heading_level: 1,
       font_size: "xl",
       margin_bottom: 4,

@@ -1,3 +1,4 @@
+<% content_for :title, t("devise.registrations.edit.heading_email") %>
 <% content_for :location, "manage" %>
 
 <div class="govuk-grid-row">
@@ -8,8 +9,9 @@
   <div class="govuk-grid-column-two-thirds-from-desktop">
     <%= render "govuk_publishing_components/components/back_link", { href: account_manage_path } %>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.registrations.edit.heading_email"),
+      text: yield(:title),
       heading_level: 1,
+      font_size: "l",
       margin_bottom: 6,
     } %>
 
