@@ -100,7 +100,7 @@ en:
 
           This is an automated email, please do not reply as we do not monitor responses.
       password_change:
-        subject: You’ve updated the password for your GOV.UK account"
+        subject: You’ve updated the password for your GOV.UK account
         body: |
           Hello,
 
