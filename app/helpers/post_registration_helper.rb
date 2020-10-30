@@ -14,7 +14,7 @@ module PostRegistrationHelper
     return unless app
 
     url =
-      if current_user.cookie_consent && previous_url.end_with?("%3A%2Ftransition-check%2Fsaved-results")
+      if current_user&.cookie_consent && previous_url.end_with?("%3A%2Ftransition-check%2Fsaved-results")
         "#{previous_url}%3Acookies-yes"
       else
         previous_url
