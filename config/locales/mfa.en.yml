@@ -52,17 +52,6 @@ en:
             label: Enter your mobile number
           submit:
             label: Send a new security code
-    mailer:
-      phone_change:
-        subject: "GOV.UK Account: phone number changed"
-        body: |
-          Hello %{email},
-
-          Your phone number has been changed.
-
-          -----
-
-          This is an automated email, please do not reply as we do not monitor responses.
     text_message:
       security_code:
         body: "%{phone_code} is your security code."
