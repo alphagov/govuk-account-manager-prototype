@@ -78,7 +78,7 @@ en:
 
           This is an automated email, please do not reply as we do not monitor responses.
       unlock_instructions:
-        subject: "GOV.UK Account: unlock your account"
+        subject: "You’ve been locked out of your GOV.UK account"
         body: |
           Hello
 
