@@ -1,3 +1,5 @@
+<% content_for :title, t("devise.registrations.start.fields.password.label") %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(url: new_user_registration_start_path(registration_state_id: @registration_state_id), method: :post) do %>
@@ -7,7 +9,7 @@
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: t("devise.registrations.start.fields.password.label"),
+          text: yield(:title),
         },
         heading_level: 1,
         heading_size: "xl",

@@ -1,3 +1,4 @@
+<% content_for :title, t("devise.registrations.your_information.fields.feedback_consent.heading") %>
 <% content_for :location, "manage" %>
 
 <div class="govuk-grid-row">
@@ -18,8 +19,9 @@
 
       <%= render "govuk_publishing_components/components/radio", {
         name: "feedback_consent",
-        heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
+        heading: yield(:title),
         heading_size: "l",
+        is_page_heading: true,
         items: [
           {
             value: "yes",
