@@ -25,7 +25,7 @@ en:
       confirmation_instructions:
         subject: "Confirm the email address for your GOV.UK account"
         body: |
-          Hello,
+          Hello
 
           You need to click on the confirmation link to:
             - finish creating your account
@@ -64,7 +64,7 @@ en:
       reset_password_instructions:
         subject: "GOV.UK Account: reset your password"
         body: |
-          Hello,
+          Hello
 
           You’ve asked to reset the password for your GOV.UK account.
 
@@ -80,7 +80,7 @@ en:
       unlock_instructions:
         subject: "GOV.UK Account: unlock your account"
         body: |
-          Hello,
+          Hello
 
           You’ve been locked out of your GOV.UK account because you entered an incorrect password or security code too many times.
 
@@ -96,7 +96,7 @@ en:
       email_changing:
         subject: "Updating the email address for your GOV.UK account"
         body: |
-          Hello,
+          Hello
 
           You said you want to update the email address for your GOV.UK account.
 
@@ -111,7 +111,7 @@ en:
       email_changed:
         subject: "You’ve updated the email address for your GOV.UK account"
         body: |
-          Hello,
+          Hello
 
           You’ve successfully updated the email address for your GOV.UK account.
 
@@ -124,7 +124,7 @@ en:
       password_change:
         subject: You’ve updated the password for your GOV.UK account
         body: |
-          Hello,
+          Hello
 
           You’ve successfully updated the password for your GOV.UK account.
 
