@@ -47,7 +47,7 @@ class EditPhoneController < ApplicationController
         current_user,
         request.remote_ip,
       )
-      MultiFactorAuthMailer.with(user: current_user).phone_change.deliver_later
+      UserMailer.with(user: current_user).change_phone_email.deliver_later
       redirect_to account_manage_path
     else
       @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")

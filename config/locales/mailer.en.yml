@@ -28,6 +28,19 @@ en:
         -----
 
         Do not reply to this email - it’s an automatic message from an unmonitored account.
+    change_phone:
+      subject: You’ve updated the phone number for your GOV.UK account
+      body: |
+        Hello
+
+        You’ve successfully updated the phone number for your GOV.UK account.
+
+        Go to your GOV.UK account:
+        %{govuk_account_link}
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.
     post_delete:
       subject: You’ve deleted your GOV.UK account
       body: |
