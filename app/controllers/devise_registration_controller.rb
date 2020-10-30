@@ -59,13 +59,13 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def phone_code_send
     redirect_to url_for_state and return unless registration_state.state == "phone"
 
-    phone_number = params[:phone].presence || registration_state.phone
-
-    unless MultiFactorAuth.valid?(phone_number)
+    if params[:phone] && !MultiFactorAuth.valid?(params[:phone].presence)
       @phone_error_message = I18n.t("mfa.errors.phone.invalid")
       render :phone
       return
     end
+
+    phone_number = params[:phone].presence || registration_state.phone
 
     registration_state.transaction do
       registration_state.update!(phone: phone_number)
