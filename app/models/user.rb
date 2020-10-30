@@ -62,7 +62,10 @@ class User < ApplicationRecord
 
   # from devise
   def after_confirmation
-    UserMailer.with(user: self).onboarding_email.deliver_later
+    unless has_received_onboarding_email
+      UserMailer.with(user: self).onboarding_email.deliver_later
+      update!(has_received_onboarding_email: true)
+    end
     ActivateEmailSubscriptionsJob.perform_later id
   end
 
