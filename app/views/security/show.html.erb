@@ -10,44 +10,48 @@
     <%= render "govuk_publishing_components/components/heading", {
       text: yield(:title),
       heading_level: 1,
-      font_size: "xl",
+      font_size: "l",
       margin_bottom: 4,
     } %>
 
-    <%= sanitize(t("account.security.description")) %>
+    <div class="govuk-!-margin-bottom-9">
+      <%= sanitize(t("account.security.description")) %>
+    </div>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("account.security.account_use"),
-      heading_level: 2,
-      font_size: "m",
-      margin_bottom: 4,
-    } %>
+    <div class="govuk-!-margin-bottom-9">
+      <%= render "govuk_publishing_components/components/heading", {
+        text: t("account.security.account_use"),
+        heading_level: 2,
+        font_size: "m",
+        margin_bottom: 4,
+      } %>
 
-    <% if @data_exchanges.empty? %>
-      <p class="govuk-body">
-        <%= t("account.data_exchange.no_data_exchanged") %>
-      <p>
-    <% else %>
-      <dl class="govuk-summary-list">
-        <% @data_exchanges.each do |exchange| %>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              <%= exchange[:application_name] %>
-            </dt>
-            <dd class="govuk-summary-list__value">
-              <span class="date-text">
-                <%= date_with_time_ago(exchange[:created_at]) %>
-              </span>
-              <% unless exchange[:scopes].empty? %>
-                <br>
-                <%= t("account.data_exchange.used") %>
-                <%= sanitize(exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence) %>
-              <% end %>
-            </dd>
-          </div>
-        <% end %>
-      </dl>
-    <% end %>
+      <% if @data_exchanges.empty? %>
+        <p class="govuk-body">
+          <%= t("account.data_exchange.no_data_exchanged") %>
+        <p>
+      <% else %>
+        <dl class="govuk-summary-list">
+          <% @data_exchanges.each do |exchange| %>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                <%= exchange[:application_name] %>
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <span class="date-text">
+                  <%= date_with_time_ago(exchange[:created_at]) %>
+                </span>
+                <% unless exchange[:scopes].empty? %>
+                  <br>
+                  <%= t("account.data_exchange.used") %>
+                  <%= sanitize(exchange[:scopes].map { |scope| t("account.data_exchange.scope.#{scope}") }.to_sentence) %>
+                <% end %>
+              </dd>
+            </div>
+          <% end %>
+        </dl>
+      <% end %>
+    </div>
 
     <% if @activity.empty? %>
       <p class="govuk-body">
