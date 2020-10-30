@@ -8,4 +8,10 @@ class UserMailer < ApplicationMailer
     @feedback_form_link = feedback_form_url
     mail(to: user.email, subject: I18n.t("mailer.onboarding.subject"))
   end
+
+  def post_delete_email
+    email = params[:email]
+    @feedback_form_link = feedback_form_url
+    mail(to: email, subject: I18n.t("mailer.post_delete.subject"))
+  end
 end

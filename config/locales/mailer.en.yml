@@ -28,3 +28,16 @@ en:
         -----
 
         Do not reply to this email - it’s an automatic message from an unmonitored account.
+    post_delete:
+      subject: You’ve deleted your GOV.UK account
+      body: |
+        Hello
+
+        You’ve successfully deleted your GOV.UK account.
+
+        If you did not mean to do this, contact us:
+        %{feedback_link}
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.

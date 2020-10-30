@@ -10,8 +10,10 @@ class DeleteController < ApplicationController
       return
     end
 
+    email = current_user.email
     current_user.destroy!
     sign_out
+    UserMailer.with(email: email).post_delete_email.deliver_later
     redirect_to account_delete_confirmation_path
   end
 
