@@ -7,16 +7,16 @@
   </div>
 
   <div class="govuk-grid-column-two-thirds-from-desktop">
+    <% if flash[:notice] %>
+      <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+    <% end %>
+
     <%= render "govuk_publishing_components/components/heading", {
       text: yield(:title),
       heading_level: 1,
       font_size: "xl",
       margin_bottom: 4,
     } %>
-
-    <% if flash[:notice] %>
-      <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
-    <% end %>
 
     <% if current_user.email %>
       <p class="govuk-body">
