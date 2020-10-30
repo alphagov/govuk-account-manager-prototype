@@ -240,7 +240,7 @@ en:
     re_register_subtitle: "If you did not get the email or want to use a different address"
     re_register_instructions: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>
-      <p class="govuk-body">You can <a class="govuk-link" href="%{register_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
+      <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
   change_password:
     heading: Change your password
     content: |
