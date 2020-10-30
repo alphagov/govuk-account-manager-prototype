@@ -1,0 +1,11 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("devise.registrations.transition_checker.heading"),
+      heading_level: 1,
+      margin_bottom: 3,
+    } %>
+
+    <p class="govuk-body"><%= sanitize(t("devise.registrations.transition_checker.message", link: "#{transition_checker_path}/questions")) %></p>
+  </div>
+</div>
