@@ -279,8 +279,8 @@ en:
             reset_password_token:
               invalid: "This password reset link is invalid"
             email:
-              blank: "Enter your email address"
-              invalid: "Enter a valid email address"
+              blank: "This does not look like a valid email address. Enter an email address in this format: name@example.com."
+              invalid: "This does not look like a valid email address. Enter an email address in this format: name@example.com."
               taken: "Email address has already been taken"
             password:
               blank: "Enter a valid password"
