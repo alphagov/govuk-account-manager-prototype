@@ -158,7 +158,7 @@ en:
       new:
         heading: "Reset your password"
         email:
-          label: "Email address"
+          label: "Enter your email address"
         submit:
           label: "Send"
     registrations:
@@ -273,7 +273,7 @@ en:
           email:
             label: "Email address"
           password:
-            label: "Password"
+            label: "Enter your password"
             errors:
               incorrect: "Password is incorrect."
               locked: "This account has been locked."

@@ -1,8 +1,11 @@
+<% content_for :title, t("devise.passwords.new.heading") %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.passwords.new.heading"),
+      text: yield(:title),
       heading_level: 1,
+      font_size: "l",
       margin_top: 0,
       margin_bottom: 3,
     } %>
