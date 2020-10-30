@@ -39,6 +39,28 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
+      change_confirmation_instructions:
+        subject: Confirm the new email address for your GOV.UK account
+        body: |
+          Hello
+
+          You’ve said you want to update the email address for your GOV.UK account.
+
+          You need to click on the confirmation link to:
+            - finish updating the email address for your account
+            - get email updates about the UK transition sent to your new email address
+
+          If this was not you, you can ignore this email.
+
+          Confirm your email address:
+          %{link}
+
+          If you need help confirming your email address, contact us:
+          %{feedback_link}
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
       reset_password_instructions:
         subject: "GOV.UK Account: reset your password"
         body: |
