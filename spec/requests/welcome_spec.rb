@@ -1,8 +1,4 @@
 RSpec.describe "welcome" do
-  include ActiveJob::TestHelper
-
-  let(:actual_reset_password_token) { user.send_reset_password_instructions }
-
   describe "GET" do
     it "renders the email address form" do
       get new_user_session_url
@@ -23,6 +19,8 @@ RSpec.describe "welcome" do
       end
 
       context "the user doesn't exist" do
+        before { allow(Rails.configuration).to receive(:force_jwt_at_registration).and_return(false) }
+
         it "redirects to the registration form" do
           get new_user_session_url(user: { email: "no-such-user@domain.tld" })
           follow_redirect!

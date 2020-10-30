@@ -148,6 +148,10 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to confirm your new email address. Please check your email and follow the confirmation link to confirm your new email address."
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
+      transition_checker:
+        heading: This email address does not have a GOV.UK account
+        message: |
+          To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the UK transition checker</a> and subscribe to email updates.
       closed:
         heading: Registrations are closed
         message:

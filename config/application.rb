@@ -63,6 +63,10 @@ module GovukAccountManagerPrototype
 
     config.enable_registration = ENV["ENABLE_REGISTRATION"] != "false"
 
+    # show a page prompting the user to complete the transition
+    # checker if they try to register without a JWT
+    config.force_jwt_at_registration = true
+
     config.feature_flag_mfa = ENV["FEATURE_FLAG_MFA"] == "enabled"
   end
 end

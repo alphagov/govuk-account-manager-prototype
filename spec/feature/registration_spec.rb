@@ -4,9 +4,11 @@ RSpec.feature "Registration" do
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
   before { allow(Rails.configuration).to receive(:enable_registration).and_return(registration_enabled) }
+  before { allow(Rails.configuration).to receive(:force_jwt_at_registration).and_return(force_jwt) }
 
   let(:mfa_enabled) { true }
   let(:registration_enabled) { true }
+  let(:force_jwt) { false }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
   let(:phone_number) { "01234567890" }
@@ -195,6 +197,16 @@ RSpec.feature "Registration" do
       enter_email_address
 
       expect(page).to have_text(I18n.t("devise.registrations.closed.heading"))
+    end
+  end
+
+  context "a JWT is required" do
+    let(:force_jwt) { true }
+
+    it "shows an error message" do
+      enter_email_address
+
+      expect(page).to have_text(I18n.t("devise.registrations.transition_checker.heading"))
     end
   end
 
