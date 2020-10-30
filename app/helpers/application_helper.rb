@@ -39,7 +39,6 @@ module ApplicationHelper
 
   def transition_checker_path
     base_url = Rails.env.development? ? Plek.find("finder-frontend") : Plek.new.website_root
-    base_path = "/transition-check"
-    URI.join(base_url, base_path)
+    URI("#{base_url}/transition-check")
   end
 end

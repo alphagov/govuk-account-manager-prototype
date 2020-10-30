@@ -59,12 +59,12 @@ class DeviseSessionsController < Devise::SessionsController
     if params[:continue]
       current_user.invalidate_all_sessions!
       Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-      redirect_to URI.join(transition_checker_path, "logout", "?done=1")
+      redirect_to "#{transition_checker_path}/logout?done=1"
     elsif params[:done]
       current_user.invalidate_all_sessions!
       super
     else
-      redirect_to URI.join(transition_checker_path, "logout", "?continue=1")
+      redirect_to "#{transition_checker_path}/logout?continue=1"
     end
   end
 
