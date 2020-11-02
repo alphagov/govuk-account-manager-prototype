@@ -34,16 +34,16 @@ module ApplicationHelper
     checker_results = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "criteria_keys")
     checker_results_query = { c: checker_results }.to_query
     email_signup_path = "/email-signup"
-    URI("#{transition_checker_path}#{email_signup_path}?#{checker_results_query}")
+    "#{transition_checker_path}#{email_signup_path}?#{checker_results_query}"
   end
 
   def transition_checker_path
     base_url = Rails.env.development? ? Plek.find("finder-frontend") : Plek.new.website_root
-    URI("#{base_url}/transition-check")
+    "#{base_url}/transition-check"
   end
 
   def transition_path
     base_url = Rails.env.development? ? Plek.find("collections") : Plek.new.website_root
-    URI("#{base_url}/transition")
+    "#{base_url}/transition"
   end
 end
