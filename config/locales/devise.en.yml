@@ -93,7 +93,7 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
-      email_changing:
+      email_changed:
         subject: "Updating the email address for your GOV.UK account"
         body: |
           Hello
@@ -104,19 +104,6 @@ en:
 
           If this was not you, contact us:
           %{feedback_link}.
-
-          -----
-
-          This is an automated email, please do not reply as we do not monitor responses.
-      email_changed:
-        subject: "You’ve updated the email address for your GOV.UK account"
-        body: |
-          Hello
-
-          You’ve successfully updated the email address for your GOV.UK account. You can no longer use this email address to sign in to your account.
-
-          Sign in to your GOV.UK account:
-          %{govuk_account_link}
 
           -----
 
