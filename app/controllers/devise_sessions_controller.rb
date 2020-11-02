@@ -1,5 +1,6 @@
 class DeviseSessionsController < Devise::SessionsController
   include ApplicationHelper
+  include CookiesHelper
 
   before_action :check_login_state, only: %i[
     create
@@ -85,7 +86,7 @@ protected
 
   def do_sign_in
     cookies[:cookies_preferences_set] = "true"
-    response["Set-Cookie"] = "cookies_policy={\"essential\": true, \"settings\": false, \"usage\": #{login_state.user.cookie_consent}, \"campaigns\": false}"
+    response["Set-Cookie"] = cookies_policy_header(login_state.user)
 
     set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, login_state.user)
