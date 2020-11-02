@@ -11,13 +11,13 @@ en:
         email_only_alternative: If you do not have a mobile phone, you can still <a class="govuk-link" href="%{email_link}">get email alerts and a link to your results</a>.
       update:
         start:
-          heading: Change your phone number
+          heading: Change your mobile number
           message: We’ll send you a security code by text message. You’ll need this code to finish changing the phone number for your account.
           current: |
             The phone number currently stored in your GOV.UK account is %{phone_number}
           fields:
             phone:
-              label: Enter new phone number
+              label: Enter new mobile number
             submit:
               label: Continue
       code:
@@ -32,12 +32,12 @@ en:
           - It may take a few minutes to arrive.
         not_received:
           sign_in_heading: Resend security code
-          sign_up_heading: Resend security code or change your phone number
-          change_heading: If you did not get the text message or want to use a different phone number
-          sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong phone number.
+          sign_up_heading: Resend security code or change your mobile number
+          change_heading: If you did not get the text message or want to use a different mobile number
+          sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong mobile number.
           sign_in_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code.
           resend_message: We can <a class="govuk-link" href="%{link}">send another security code</a> if you did not get it.
-          change_number_message: You can <a class="govuk-link" href="%{link}">use a different phone number</a> if %{phone_number} is not correct.
+          change_number_message: You can <a class="govuk-link" href="%{link}">use a different mobile number</a> if %{phone_number} is not correct.
         fields:
           phone_code:
             label: Enter security code
@@ -46,7 +46,7 @@ en:
       resend:
         heading: Send a new security code
         description: Text messages can take a few minutes to arrive. If you do not receive the text message, you can ask for a new one.
-        change_phone: Send the text message to a different phone number
+        change_phone: Send the text message to a different mobile number
         fields:
           phone:
             label: Enter your mobile number
@@ -57,8 +57,8 @@ en:
         body: "%{phone_code} is your security code."
     errors:
       phone:
-        invalid: Enter a valid phone number
-        nochange: Enter a new phone number
+        invalid: Enter a valid mobile number
+        nochange: Enter a new mobile number
       phone_code:
         invalid: That is not the right code
-        expired: Your code has expired, check your phone number is correct and send another
+        expired: Your code has expired, check your mobile number is correct and send another
