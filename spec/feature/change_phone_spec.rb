@@ -7,7 +7,7 @@ RSpec.feature "Change Phone" do
   let(:user) { FactoryBot.create(:user) }
 
   # BT line test number
-  let(:new_phone_number) { "02087599036" }
+  let(:new_phone_number) { "07581123456" }
 
   it "updates the phone number" do
     log_in
@@ -28,6 +28,17 @@ RSpec.feature "Change Phone" do
       enter_password
 
       expect(page).to have_text(I18n.t("mfa.errors.phone.nochange"))
+    end
+  end
+
+  context "when the phone number is not a mobile" do
+    it "returns an error" do
+      log_in
+      go_to_change_number_page
+      enter_non_mobile_phone_number
+      enter_password
+
+      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
     end
   end
 
@@ -115,6 +126,10 @@ RSpec.feature "Change Phone" do
 
   def enter_same_phone_number
     fill_in "phone", with: user.phone
+  end
+
+  def enter_non_mobile_phone_number
+    fill_in "phone", with: "01234567890"
   end
 
   def enter_invalid_phone_number
