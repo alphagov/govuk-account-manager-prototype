@@ -223,3 +223,18 @@ to set the environment variable:
 This approach will cause some brief downtime as the app restarts, and
 the environment variable change will be lost on the next Concourse
 deployment.
+
+## Exporting registration statistics
+
+We may periodically be asked to produce reports with information about the
+number of registrations, logins, etc. There is a rake task to handle this and
+has to be run manually in production, e.g. to produce statistics for the 28th
+October 2020:
+
+```
+cf login -u <your_email> -a https://api.london.cloud.service.gov.uk --sso
+cf target -s production
+cf v3-ssh govuk-account-manager
+$ /tmp/lifecycle/shell
+$ rake "statistics:general[2020-10-28 00:00, 2020-10-28 23:59]"
+```
