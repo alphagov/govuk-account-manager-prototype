@@ -5,6 +5,8 @@ resource_types:
     source:
       repository: cfcommunity/slack-notification-resource
       tag: latest
+      username: ((docker_hub_username))
+      password: ((docker_hub_authtoken))
 resources:
   - name: git-main
     type: git
@@ -41,6 +43,8 @@ resources:
     source:
       repository: ((readonly_private_ecr_repo_url))
       tag: govuk-accounts-manager-tests-image
+      username: ((docker_hub_username))
+      password: ((docker_hub_authtoken))
 
 jobs:
   - name: update-pipeline
