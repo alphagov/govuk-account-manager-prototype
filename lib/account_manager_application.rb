@@ -1,5 +1,5 @@
 class AccountManagerApplication
-  NAME = "GOV.UK Account Manager".freeze
+  NAME = "GOV.UK Account".freeze
   REDIRECT_URI = Rails.application.config.redirect_base_url
   SCOPES = %i[account_manager_access].freeze
 
