@@ -16,20 +16,5 @@ $(document).ready(function() {
         $('input[name=cookie_consent][value=no]').prop('checked', true)
       }
     }
-
-    $('.js-cookie-consent .govuk-radios__input').on('click', function() {
-      var response = $(this).val()
-
-      if (response === 'yes') {
-        window.GOVUK.approveAllCookieTypes()
-      }
-
-      else {
-        window.GOVUK.setDefaultConsentCookie()
-      }
-
-      window.GOVUK.cookie('cookies_preferences_set', 'true', { days: 365 })
-      window.GOVUK.analyticsInit(gaProperty, gaPropertyCrossDomain, linkedDomains)
-    })
   }
 })
