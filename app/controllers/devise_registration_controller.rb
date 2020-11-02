@@ -1,4 +1,6 @@
 class DeviseRegistrationController < Devise::RegistrationsController
+  include CookiesHelper
+
   # rubocop:disable Rails/LexicallyScopedActionFilter
   prepend_before_action :authenticate_scope!, only: %i[edit_password edit_email update destroy]
   prepend_before_action :set_minimum_password_length, only: %i[new edit_password edit_email]
@@ -176,6 +178,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
       @previous_url = registration_state.previous_url
       registration_state.destroy!
+
+      cookies[:cookies_preferences_set] = "true"
+      response["Set-Cookie"] = cookies_policy_header(resource)
     end
   end
 
