@@ -79,7 +79,7 @@ en:
         description: A personalised list of actions to help you, your family, and your business prepare for the end of the UK transition.
         link1: See your results
         link1_description: Go back to the UK transition results you’ve saved.
-        link2: Update your results
+        link2: Update your results and email alerts
         link2_description: Answer the UK transition questions again to update your results.
     manage:
       heading: Manage your account
