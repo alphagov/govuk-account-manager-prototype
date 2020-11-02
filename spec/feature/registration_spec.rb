@@ -11,7 +11,7 @@ RSpec.feature "Registration" do
   let(:force_jwt) { false }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
-  let(:phone_number) { "01234567890" }
+  let(:phone_number) { "07958123456" }
   let(:password) { "abcd1234" } # pragma: allowlist secret
   let(:password_confirmation) { password }
 
@@ -116,6 +116,16 @@ RSpec.feature "Registration" do
       enter_password_and_confirmation
 
       expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
+    end
+  end
+
+  context "when the phone number is not a mobile" do
+    it "returns an error" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_non_mobile_phone_number
+
+      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
     end
   end
 
@@ -224,6 +234,11 @@ RSpec.feature "Registration" do
 
   def enter_phone_number
     fill_in "phone", with: phone_number
+    click_on I18n.t("mfa.phone.create.fields.submit.label")
+  end
+
+  def enter_non_mobile_phone_number
+    fill_in "phone", with: "01234567890"
     click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 

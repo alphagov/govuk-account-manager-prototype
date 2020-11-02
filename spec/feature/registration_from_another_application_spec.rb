@@ -157,7 +157,7 @@ RSpec.feature "Registration (coming from another application)" do
     fill_in "password_confirmation", with: password
     click_on I18n.t("devise.registrations.start.fields.submit.label")
 
-    fill_in "phone", with: "01234567890"
+    fill_in "phone", with: "07958123456"
     click_on I18n.t("mfa.phone.create.fields.submit.label")
 
     phone_code = RegistrationState.last.phone_code
