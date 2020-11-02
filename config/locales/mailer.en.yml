@@ -41,6 +41,21 @@ en:
         -----
 
         This is an automated email, please do not reply as we do not monitor responses.
+    changing_email:
+      subject: "Updating the email address for your GOV.UK account"
+      body: |
+        Hello
+
+        You said you want to update the email address for your GOV.UK account.
+
+        We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
+
+        If this was not you, contact us:
+        %{feedback_link}.
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.
     change_email_to:
       subject: You’ve updated the email address for your GOV.UK account
       body: |
