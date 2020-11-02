@@ -1,6 +1,6 @@
 module MultiFactorAuth
   ALLOWED_ATTEMPTS = 6
-  EXPIRATION_AGE = 5.minutes
+  EXPIRATION_AGE = 10.minutes
 
   class MFAError < StandardError; end
   class Disabled < MFAError; end
