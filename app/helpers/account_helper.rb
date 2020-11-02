@@ -13,4 +13,10 @@ module AccountHelper
   def feedback_enabled_page
     !paths_without_feedback_footer.include?(request.env["PATH_INFO"])
   end
+
+  def flash_as_notice(notice)
+    [
+      I18n.t("devise.registrations.update_needs_confirmation"),
+    ].include? notice
+  end
 end
