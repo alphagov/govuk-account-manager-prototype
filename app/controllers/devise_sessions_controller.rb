@@ -92,4 +92,8 @@ protected
     sign_in(resource_name, login_state.user)
     redirect_to login_state.redirect_path
   end
+
+  def after_sign_out_path_for(_resource)
+    transition_path
+  end
 end
