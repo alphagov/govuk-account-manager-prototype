@@ -201,6 +201,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
       if params.dig(:user, :email)
+        UserMailer.with(user: resource, new_address: params.dig(:user, :email)).changing_email_email.deliver_later
         respond_with resource, location: confirmation_email_sent_path
       elsif params.dig(:user, :password)
         flash[:notice] = I18n.t("devise.registrations.edit.success")

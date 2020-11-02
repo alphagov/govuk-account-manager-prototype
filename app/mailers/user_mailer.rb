@@ -15,6 +15,13 @@ class UserMailer < ApplicationMailer
     mail(to: user.email, subject: I18n.t("mailer.change_phone.subject"))
   end
 
+  def changing_email_email
+    user = params[:user]
+    @new_address = params[:new_address]
+    @feedback_form_link = feedback_form_url
+    mail(to: user.email, subject: I18n.t("mailer.changing_email.subject"))
+  end
+
   def change_email_to_email
     user = params[:user]
     @login_link = new_user_session_url
