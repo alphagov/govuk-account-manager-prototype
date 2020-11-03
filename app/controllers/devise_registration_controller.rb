@@ -128,6 +128,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
     end
 
     if !registration_state.cookie_consent.nil? && !registration_state.feedback_consent.nil?
+      cookies[:cookies_preferences_set] = "true"
+      response["Set-Cookie"] = cookies_policy_header(registration_state)
+
       email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
       if email_topic_slug
         registration_state.update!(state: :transition_emails)
@@ -178,9 +181,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
       @previous_url = registration_state.previous_url
       registration_state.destroy!
-
-      cookies[:cookies_preferences_set] = "true"
-      response["Set-Cookie"] = cookies_policy_header(resource)
     end
   end
 
