@@ -65,6 +65,17 @@ jobs:
         params:
           build: git-main-gems-dockerfile
           dockerfile: git-main-gems-dockerfile/concourse/Dockerfile
+        on_failure:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts-tech'
+            username: 'Concourse (GOV.UK Accounts)'
+            icon_emoji: ':concourse:'
+            silent: true
+            text: |
+              :kaboom:
+              Test image build for the GOV.UK Account manager has failed
+              Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
   - name: run-quality-checks
     serial: true
@@ -99,6 +110,17 @@ jobs:
                 bundle exec rails db:setup
                 bundle exec rails db:migrate
                 bundle exec rake
+        on_failure:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts-tech'
+            username: 'Concourse (GOV.UK Accounts)'
+            icon_emoji: ':concourse:'
+            silent: true
+            text: |
+              :kaboom:
+              Quality checks for the GOV.UK Account manager have failed
+              Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
   - name: deploy-app-staging
     serial: true
