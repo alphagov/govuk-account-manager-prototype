@@ -57,23 +57,24 @@ class DeviseSessionsController < Devise::SessionsController
   def phone_resend; end
 
   def destroy
+    redirect_to account_delete_confirmation_path and return if params[:done] == "delete"
+    redirect_to transition_path and return if all_signed_out?
+
     if params[:continue]
       current_user.invalidate_all_sessions!
       Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
       redirect_to "#{transition_checker_path}/logout?done=#{params[:continue]}"
     elsif params[:done]
-      if params[:done] == "delete"
-        redirect_to account_delete_confirmation_path
-      else
-        current_user.invalidate_all_sessions!
-        super
-      end
+      current_user.invalidate_all_sessions!
+      super
     else
       redirect_to "#{transition_checker_path}/logout?continue=1"
     end
   end
 
 protected
+
+  def verify_signed_out_user; end
 
   def check_login_state
     @login_state_id = params[:login_state_id]
