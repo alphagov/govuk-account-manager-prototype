@@ -1,4 +1,6 @@
 class DeleteController < ApplicationController
+  include ApplicationHelper
+
   before_action :authenticate_user!, only: %i[show destroy]
 
   def show; end
@@ -14,7 +16,7 @@ class DeleteController < ApplicationController
     current_user.destroy!
     sign_out
     UserMailer.with(email: email).post_delete_email.deliver_later
-    redirect_to account_delete_confirmation_path
+    redirect_to "#{transition_checker_path}/logout?continue=delete"
   end
 
   def confirmation; end
