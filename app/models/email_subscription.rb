@@ -16,7 +16,7 @@ class EmailSubscription < ApplicationRecord
       frequency: "daily",
     )
 
-    update!(subscription_id: subscription.to_hash.dig("subscription_id"))
+    update!(subscription_id: subscription.to_hash.dig("id"))
   end
 
   def deactivate_immediately
