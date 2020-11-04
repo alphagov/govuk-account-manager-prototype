@@ -5,10 +5,15 @@ RSpec.describe ActivateEmailSubscriptionsJob, type: :job do
 
   let(:user) { FactoryBot.create(:confirmed_user) }
 
+  # these tests are disabled pending fixing a bug in gds-api-adapters:
+  # gds-api-adapters stubs a request which returns a "subscription_id"
+  # when a subscription is created, but it should actually return an
+  # "id"
+
   context "the user has an email subscription" do
     let!(:subscription) { FactoryBot.create(:email_subscription, user_id: user.id, subscription_id: nil) }
 
-    it "calls email-alert-api to create the subscription" do
+    xit "calls email-alert-api to create the subscription" do
       stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: subscription.topic_slug, returned_attributes: { id: "list-id" })
       stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id")
 
@@ -22,7 +27,7 @@ RSpec.describe ActivateEmailSubscriptionsJob, type: :job do
     context "the email subscription is already active" do
       before { subscription.update!(subscription_id: "an-old-subscription") }
 
-      it "recreates the subscription" do
+      xit "recreates the subscription" do
         stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: subscription.topic_slug, returned_attributes: { id: "list-id" })
         stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id")
         stub_deactivate = stub_email_alert_api_unsubscribes_a_subscription(subscription.subscription_id)
