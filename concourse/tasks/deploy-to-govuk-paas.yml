@@ -65,6 +65,7 @@ run:
 
       cf set-env $CF_APP_NAME ZENDESK_CLIENT_USERNAME "$ZENDESK_CLIENT_USERNAME"
       cf set-env $CF_APP_NAME ZENDESK_CLIENT_TOKEN "$ZENDESK_CLIENT_TOKEN"
+      cf set-env $CF_APP_NAME ZENDESK_GROUP_ID "$ZENDESK_GROUP_ID"
 
       cf push $CF_APP_NAME --strategy rolling
       cf map-route $CF_APP_NAME "$CDN_DOMAIN" --hostname www
