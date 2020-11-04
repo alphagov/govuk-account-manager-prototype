@@ -102,7 +102,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
   end
 
   def your_information_post
-    redirect_to url_for_state unless registration_state.state == "your_information"
+    redirect_to url_for_state and return unless registration_state.state == "your_information"
 
     cookie_consent_decision = params.dig(:cookie_consent)
     cookie_consent_decision_format_ok = %w[yes no].include? cookie_consent_decision
@@ -149,7 +149,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
   end
 
   def transition_emails_post
-    redirect_to url_for_state unless registration_state.state == "transition_emails"
+    redirect_to url_for_state and return unless registration_state.state == "transition_emails"
 
     decision = params.dig(:email_decision)
     decision_format_ok = %w[yes no].include? decision
