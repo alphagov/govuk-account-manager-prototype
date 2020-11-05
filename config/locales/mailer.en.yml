@@ -1,7 +1,61 @@
+---
 en:
   mailer:
+    change_email_from:
+      body: |
+        Hello
+
+        You’ve successfully updated the email address for your GOV.UK account. You can no longer use this email address to sign in to your account.
+
+        Sign in to your GOV.UK account:
+        %{govuk_account_link}
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.
+      subject: You’ve updated the email address for your GOV.UK account
+    change_email_to:
+      body: |
+        Hello
+
+        You’ve successfully updated the email address for your GOV.UK account.
+
+        Go to to your GOV.UK account:
+        %{govuk_account_link}
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.
+      subject: You’ve updated the email address for your GOV.UK account
+    change_phone:
+      body: |
+        Hello
+
+        You’ve successfully updated the phone number for your GOV.UK account.
+
+        Go to your GOV.UK account:
+        %{govuk_account_link}
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.
+      subject: You’ve updated the phone number for your GOV.UK account
+    changing_email:
+      body: |
+        Hello
+
+        You said you want to update the email address for your GOV.UK account.
+
+        We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
+
+        If this was not you, contact us:
+        %{feedback_link}.
+
+        -----
+
+        This is an automated email, please do not reply as we do not monitor responses.
+      subject: Updating the email address for your GOV.UK account
     onboarding:
-      subject: "Welcome to your GOV.UK account"
       body: |
         Hello
 
@@ -28,62 +82,8 @@ en:
         -----
 
         Do not reply to this email - it’s an automatic message from an unmonitored account.
-    change_phone:
-      subject: You’ve updated the phone number for your GOV.UK account
-      body: |
-        Hello
-
-        You’ve successfully updated the phone number for your GOV.UK account.
-
-        Go to your GOV.UK account:
-        %{govuk_account_link}
-
-        -----
-
-        This is an automated email, please do not reply as we do not monitor responses.
-    changing_email:
-      subject: "Updating the email address for your GOV.UK account"
-      body: |
-        Hello
-
-        You said you want to update the email address for your GOV.UK account.
-
-        We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
-
-        If this was not you, contact us:
-        %{feedback_link}.
-
-        -----
-
-        This is an automated email, please do not reply as we do not monitor responses.
-    change_email_to:
-      subject: You’ve updated the email address for your GOV.UK account
-      body: |
-        Hello
-
-        You’ve successfully updated the email address for your GOV.UK account.
-
-        Go to to your GOV.UK account:
-        %{govuk_account_link}
-
-        -----
-
-        This is an automated email, please do not reply as we do not monitor responses.
-    change_email_from:
-      subject: "You’ve updated the email address for your GOV.UK account"
-      body: |
-        Hello
-
-        You’ve successfully updated the email address for your GOV.UK account. You can no longer use this email address to sign in to your account.
-
-        Sign in to your GOV.UK account:
-        %{govuk_account_link}
-
-        -----
-
-        This is an automated email, please do not reply as we do not monitor responses.
+      subject: Welcome to your GOV.UK account
     post_delete:
-      subject: You’ve deleted your GOV.UK account
       body: |
         Hello
 
@@ -95,3 +95,4 @@ en:
         -----
 
         This is an automated email, please do not reply as we do not monitor responses.
+      subject: You’ve deleted your GOV.UK account

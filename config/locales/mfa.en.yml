@@ -1,64 +1,64 @@
+---
 en:
   mfa:
-    phone:
-      create:
-        fields:
-          phone:
-            label: Enter your mobile number
-            hint: We’ll send you a security code by text message. You’ll need the security code to finish creating your account. Security codes help keep your account secure.
-          submit:
-            label: Continue
-        email_only_alternative: If you do not have a mobile phone, you can still <a class="govuk-link" href="%{email_link}">get email alerts and a link to your results</a>.
-      update:
-        start:
-          heading: Change your mobile number
-          message: We’ll send you a security code by text message. You’ll need this code to finish changing the phone number for your account.
-          current: |
-            The phone number currently stored in your GOV.UK account is %{phone_number}
-          fields:
-            phone:
-              label: Enter new mobile number
-            submit:
-              label: Continue
-      code:
-        sign_up_heading: Check your phone
-        change_heading: Enter your security code
-        sign_in_heading: Check your phone
-        description:
-          - We’ve sent you a text message with a security code.
-          - It may take a few minutes to arrive.
-        description_with_phone_number:
-          - We’ve sent a text message with a security code to <span class="govuk-!-font-weight-bold">%{phone_number}</span>.
-          - It may take a few minutes to arrive.
-        not_received:
-          sign_in_heading: Resend security code
-          sign_up_heading: Resend security code or change your mobile number
-          change_heading: If you did not get the text message or want to use a different mobile number
-          sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong mobile number.
-          sign_in_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code.
-          resend_message: We can <a class="govuk-link" href="%{link}">send another security code</a> if you did not get it.
-          change_number_message: You can <a class="govuk-link" href="%{link}">use a different mobile number</a> if %{phone_number} is not correct.
-        fields:
-          phone_code:
-            label: Enter security code
-          submit:
-            label: Continue
-      resend:
-        heading: Send a new security code
-        description: Text messages can take a few minutes to arrive. If you do not receive the text message, you can ask for a new one.
-        change_phone: Send the text message to a different mobile number
-        fields:
-          phone:
-            label: Enter your mobile number
-          submit:
-            label: Send a new security code
-    text_message:
-      security_code:
-        body: "%{phone_code} is your security code."
     errors:
       phone:
         invalid: Enter a valid mobile number
         nochange: Enter a new mobile number
       phone_code:
-        invalid: That is not the right code
         expired: Your code has expired, check your mobile number is correct and send another
+        invalid: That is not the right code
+    phone:
+      code:
+        change_heading: Enter your security code
+        description:
+        - We’ve sent you a text message with a security code.
+        - It may take a few minutes to arrive.
+        description_with_phone_number:
+        - We’ve sent a text message with a security code to <span class="govuk-!-font-weight-bold">%{phone_number}</span>.
+        - It may take a few minutes to arrive.
+        fields:
+          phone_code:
+            label: Enter security code
+          submit:
+            label: Continue
+        not_received:
+          change_heading: If you did not get the text message or want to use a different mobile number
+          change_number_message: You can <a class="govuk-link" href="%{link}">use a different mobile number</a> if %{phone_number} is not correct.
+          resend_message: We can <a class="govuk-link" href="%{link}">send another security code</a> if you did not get it.
+          sign_in_heading: Resend security code
+          sign_in_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code.
+          sign_up_heading: Resend security code or change your mobile number
+          sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong mobile number.
+        sign_in_heading: Check your phone
+        sign_up_heading: Check your phone
+      create:
+        email_only_alternative: If you do not have a mobile phone, you can still <a class="govuk-link" href="%{email_link}">get email alerts and a link to your results</a>.
+        fields:
+          phone:
+            hint: We’ll send you a security code by text message. You’ll need the security code to finish creating your account. Security codes help keep your account secure.
+            label: Enter your mobile number
+          submit:
+            label: Continue
+      resend:
+        change_phone: Send the text message to a different mobile number
+        description: Text messages can take a few minutes to arrive. If you do not receive the text message, you can ask for a new one.
+        fields:
+          phone:
+            label: Enter your mobile number
+          submit:
+            label: Send a new security code
+        heading: Send a new security code
+      update:
+        start:
+          current: The phone number currently stored in your GOV.UK account is %{phone_number}
+          fields:
+            phone:
+              label: Enter new mobile number
+            submit:
+              label: Continue
+          heading: Change your mobile number
+          message: We’ll send you a security code by text message. You’ll need this code to finish changing the phone number for your account.
+    text_message:
+      security_code:
+        body: "%{phone_code} is your security code."
