@@ -44,7 +44,7 @@ en:
     security:
       account_use: Services that have used information about you
       activity: Sign-in attempts and changes to account details
-      description: <p class="govuk-body">Read the <a class="govuk-link" href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
+      description: <p class="govuk-body">Read the <a class="govuk-link" href="https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
       event:
         change_email: Changed email address
         change_password: Changed password

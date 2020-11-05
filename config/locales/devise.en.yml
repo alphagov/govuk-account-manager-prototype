@@ -238,7 +238,7 @@ en:
           </ul>
           <p class="govuk-body">As we add new features to your account, we may ask if we can share your information with other organisations to help us provide more efficient online services that are relevant to you. We will always ask your permission beforehand.</p>
           <p class="govuk-body">We may also use your information to produce de-identified data to get a better understanding of GOV.UK account users. For example, to create a report on the proportion of users who are students in the UK. We’ll use this data to decide what features or services to add to GOV.UK accounts in future. These reports will not identify you personally.</p>
-          <p class="govuk-body">You can read the <a href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
+          <p class="govuk-body">You can read the <a href="https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
         fields:
           cookie_consent:
             heading: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
