@@ -91,9 +91,11 @@ en:
         cookies_question: Can your account use cookies to learn about how you use GOV.UK?
         cookies_description: For example what pages you visit and what you click on
         cookies_link_extra: your cookie settings
+        cookies_success: Your cookie settings have been changed
         email_question: Can GOV.UK email you to ask for feedback about your account?
         email_description: For example when new features are added to your account
         email_link_extra: your feedback settings
+        email_success: Your feedback settings have been changed
       delete:
         heading: Delete your account
         description: You can permanently delete this account and all the information stored in it.

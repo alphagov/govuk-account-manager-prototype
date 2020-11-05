@@ -14,6 +14,14 @@
       margin_bottom: 7,
     } %>
 
+    <% if flash[:notice] %>
+      <% if flash_as_notice(flash[:notice]) %>
+        <%= render "govuk_publishing_components/components/notice", { description_text: flash[:notice] } %>
+      <% else %>
+        <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+      <% end %>
+    <% end%>
+
     <div class="accounts-summary-list">
       <%= render "govuk_publishing_components/components/summary_list", {
         title: t("account.manage.details.heading"),
