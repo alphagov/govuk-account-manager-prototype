@@ -11,7 +11,7 @@
     } %>
 
     <p class="govuk-body">
-      <%= t("post_registration.instruction_one") %> <strong><%= params[:email] %></strong>
+      <%= t("post_registration.instruction_one") %> <strong><%= current_user.email %></strong>
     </p>
 
     <p class="govuk-body">
