@@ -12,6 +12,8 @@ class EditConsentController < ApplicationController
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(current_user.reload)
 
+    flash[:notice] = I18n.t("account.manage.privacy.cookies_success")
+
     redirect_to(account_manage_path)
   end
 
@@ -19,6 +21,9 @@ class EditConsentController < ApplicationController
 
   def feedback_send
     current_user.update!(feedback_consent: params[:feedback_consent] == "yes")
+
+    flash[:notice] = I18n.t("account.manage.privacy.email_success")
+
     redirect_to(account_manage_path)
   end
 end
