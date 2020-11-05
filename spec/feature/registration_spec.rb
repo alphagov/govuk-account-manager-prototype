@@ -65,8 +65,28 @@ RSpec.feature "Registration" do
     end
   end
 
-  context "when the email is invalid" do
+  context "when the email is missing an '@'" do
     let(:email) { "foo" }
+
+    it "shows an error" do
+      enter_email_address
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
+    end
+  end
+
+  context "when the email is missing a '.' after the '@'" do
+    let(:email) { "foo@bar" }
+
+    it "shows an error" do
+      enter_email_address
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
+    end
+  end
+
+  context "when the email has multiple '@'s" do
+    let(:email) { "foo@bar@baz" }
 
     it "shows an error" do
       enter_email_address
