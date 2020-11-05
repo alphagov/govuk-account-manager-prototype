@@ -264,7 +264,7 @@ en:
       already_confirmed: "was already confirmed, please try signing in"
       confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
       expired: "has expired, please request a new one"
-      not_found: "not found"
+      not_found: "This email address does not have a GOV.UK account"
       not_locked: "was not locked"
   activerecord:
     errors:
