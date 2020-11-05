@@ -2,7 +2,6 @@
 en:
   account:
     data_exchange:
-      heading: How and when your data was used
       no_data_exchanged: No services have used your data yet.
       scope:
         email: email address
@@ -25,15 +24,12 @@ en:
       insert_text: Deleting your GOV.UK account will not affect any of your other GOV.UK email subscriptions.
     manage:
       delete:
-        button: Cancel my account
-        confirm: Are you sure?
         description: You can permanently delete this account and all the information stored in it.
         heading: Delete your account
         link: Delete this GOV.UK account
       details:
         heading: Account details
         unconfirmed: unconfirmed
-      email_verification_sent: A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
       heading: Manage your account
       privacy:
         cookies_description: For example what pages you visit and what you click on
@@ -45,14 +41,6 @@ en:
         email_question: Can GOV.UK email you to ask for feedback about your account?
         email_success: Your feedback settings have been changed
         heading: Privacy settings
-      security:
-        activity_link: See all activity on your account
-        data_exchange_link: See how and when your data has been used
-    profile:
-      user_details:
-        email: Email address
-        test: Local development testing data
-        transition_checker: Transition checker data
     security:
       account_use: Services that have used information about you
       activity: Sign-in attempts and changes to account details
@@ -116,8 +104,6 @@ en:
       caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
       email_subject: 'GOV.UK Account: Feedback'
       errors:
-        can_we_contact: Please indicate whether we can contact you about your comment or feedback
-        comment_or_feedback: Please give details about your comment or feedback
         summary: There was a problem
       fields:
         comments:
@@ -184,7 +170,6 @@ en:
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>
       <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
     re_register_subtitle: If you did not get the email or want to use a different address
-    transition_results_link: Go back to your UK transition results
   reset_sent:
     content_with_email: We’ve sent an email to %{email} with instructions for resetting your password.
     content_without_email: We’ve sent an email to the address you provided with instructions for changing your password.
@@ -210,7 +195,6 @@ en:
   update_registration:
     alternative_actions:
       heading: If you did not get the email or want to use a different address
-      resend: <p class="govuk-body">We can <a class="govuk-link" href="%{resend_link}">send the confirmation email again</a> if you did not get it.</p>
       retry: <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}">use a different email address</a> if %{new_email} is not correct.</p>
     back_link: <p class="govuk-body"><a class="govuk-link" href="%{user_root_path}">Go to your GOV.UK account</a></p>
     heading: Confirm your new email address
@@ -230,4 +214,3 @@ en:
           errors:
             format: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
           label: Enter your email address
-      heading: Enter your email address
