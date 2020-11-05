@@ -17,14 +17,6 @@ if Rails.env.development?
   token.save!
 
   Doorkeeper::Application.create!(
-    name: "Apply for a Barking Permit",
-    redirect_uri: "http://apply-for-a-barking-permit.service.dev.gov.uk/login/callback",
-    scopes: %i[email test_scope_read openid],
-    uid: "barking-permit-id",
-    secret: "barking-permit-secret", # pragma: allowlist secret
-  )
-
-  Doorkeeper::Application.create!(
     name: "Transition Checker",
     redirect_uri: "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
     scopes: %i[email openid transition_checker],
