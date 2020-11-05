@@ -1,46 +1,50 @@
-# Additional translations at https://github.com/heartcombo/devise/wiki/I18n
-
+---
 en:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            cookie_consent_decision:
+              invalid: Please select an option
+            email:
+              blank: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
+              invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
+              taken: Email address has already been taken
+            email_decision:
+              invalid: Please select one option
+            feedback_consent_decision:
+              invalid: Please select an option
+            password:
+              blank: Enter a valid password
+              invalid: Enter a valid password
+              too_short: Enter a valid password
+            password_confirmation:
+              confirmation: Passwords do not match
+            reset_password_token:
+              invalid: This password reset link is invalid
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: Your email address has been successfully confirmed.
       resend:
-        heading: "Resend confirmation instructions"
-        label: "Enter your email address"
-        button: "Resend confirmation instructions"
+        button: Resend confirmation instructions
+        heading: Resend confirmation instructions
+        label: Enter your email address
+      send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
-      same_email: "Your new email address is the same as your current email address."
+      already_authenticated: You are already signed in.
+      inactive: Your account is not activated yet.
+      invalid: Invalid %{authentication_keys} or password.
+      last_attempt: You have one more attempt before your account is locked.
+      locked: Your account is locked.
+      not_found_in_database: Invalid %{authentication_keys} or password.
+      same_email: Your new email address is the same as your current email address.
+      timeout: Your session expired. Please sign in again to continue.
+      unauthenticated: You need to sign in or sign up before continuing.
+      unconfirmed: You have to confirm your email address before continuing.
     mailer:
-      confirmation_instructions:
-        subject: "Confirm the email address for your GOV.UK account"
-        body: |
-          Hello
-
-          You need to click on the confirmation link to:
-            - finish creating your account
-            - start receiving email updates about the UK transition
-
-          You will be locked out of your account if you do not confirm your email address within 7 days.
-
-          Confirm your email address:
-          %{link}
-
-          -----
-
-          This is an automated email, please do not reply as we do not monitor responses.
       change_confirmation_instructions:
-        subject: Confirm the new email address for your GOV.UK account
         body: |
           Hello
 
@@ -61,40 +65,25 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
-      reset_password_instructions:
-        subject: "Reset the password for your GOV.UK account"
+        subject: Confirm the new email address for your GOV.UK account
+      confirmation_instructions:
         body: |
           Hello
 
-          You’ve asked to reset the password for your GOV.UK account.
+          You need to click on the confirmation link to:
+            - finish creating your account
+            - start receiving email updates about the UK transition
 
-          To choose a new password, you need to click on this link:
+          You will be locked out of your account if you do not confirm your email address within 7 days.
+
+          Confirm your email address:
           %{link}
-
-          If you’re still having trouble signing in, contact us:
-          %{feedback_link}
 
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
-      unlock_instructions:
-        subject: "You’ve been locked out of your GOV.UK account"
-        body: |
-          Hello
-
-          You’ve been locked out of your GOV.UK account because you entered an incorrect password or security code too many times.
-
-          To unlock your account you need to click on this link and try to sign in again:
-          %{link}
-
-          If this was not you, contact us:
-          %{feedback_link}.
-
-          -----
-
-          This is an automated email, please do not reply as we do not monitor responses.
+        subject: Confirm the email address for your GOV.UK account
       password_change:
-        subject: You’ve updated the password for your GOV.UK account
         body: |
           Hello
 
@@ -109,61 +98,137 @@ en:
           -----
 
           This is an automated email, please do not reply as we do not monitor responses.
+        subject: You’ve updated the password for your GOV.UK account
+      reset_password_instructions:
+        body: |
+          Hello
+
+          You’ve asked to reset the password for your GOV.UK account.
+
+          To choose a new password, you need to click on this link:
+          %{link}
+
+          If you’re still having trouble signing in, contact us:
+          %{feedback_link}
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: Reset the password for your GOV.UK account
+      unlock_instructions:
+        body: |
+          Hello
+
+          You’ve been locked out of your GOV.UK account because you entered an incorrect password or security code too many times.
+
+          To unlock your account you need to click on this link and try to sign in again:
+          %{link}
+
+          If this was not you, contact us:
+          %{feedback_link}.
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: You’ve been locked out of your GOV.UK account
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
     passwords:
-      no_token: "You can’t access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
-      updated: "You’ve successfully updated the password for your GOV.UK account. You are now signed in."
-      updated_not_active: "You’ve successfully updated the password for your GOV.UK account."
       edit:
-        heading: "Reset your password"
+        heading: Reset your password
         password:
-          label: "Create a new password"
-          hint: "It needs to be at least 8 characters long."
+          hint: It needs to be at least 8 characters long.
+          label: Create a new password
         password_confirm:
-          label: "Retype password"
+          label: Retype password
         submit:
-          label: "Continue"
+          label: Continue
       new:
-        heading: "Reset your password"
         email:
-          label: "Enter your email address"
+          label: Enter your email address
+        heading: Reset your password
         submit:
-          label: "Send"
+          label: Send
+      no_token: You can’t access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+      updated: You’ve successfully updated the password for your GOV.UK account. You are now signed in.
+      updated_not_active: You’ve successfully updated the password for your GOV.UK account.
     registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
-      signed_up: "Welcome! You have signed up successfully."
-      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
-      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-      update_needs_confirmation: "The email address for your account has not been updated yet. You need to click on the confirmation link we’ve emailed you to finish the update."
-      updated: "Your account has been updated successfully."
-      updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
-      transition_checker:
-        heading: This email address does not have a GOV.UK account
-        message: |
-          To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the UK transition checker</a> and subscribe to email updates.
       closed:
         heading: Registrations are closed
         message:
-          - We are temporarily preventing people from creating new GOV.UK accounts.
-          - You can still sign in to any accounts you already have.
+        - We are temporarily preventing people from creating new GOV.UK accounts.
+        - You can still sign in to any accounts you already have.
+      destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
+      edit:
+        cancel:
+          button: Cancel my account
+          confirm: Are you sure?
+          heading: Cancel my account
+        fields:
+          current_password:
+            label: Enter your current password
+          email:
+            label: Enter a new email address
+          password:
+            change_hint: It needs to be at least 8 characters long.
+            hint: It needs to be at least 8 characters long. Leave blank if you don’t want to change it.
+            label: Create a new password
+          password_confirm:
+            label: Retype password
+          submit:
+            label: Update
+        heading: Change your email address or password
+        heading_email: Change your email address
+        heading_password: Change your password
+        success: You’ve successfully updated the password for your GOV.UK account.
+        unconfirmed: 'Currently waiting confirmation for: %{email}'
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+      signed_up_but_locked: You have signed up successfully. However, we could not sign you in because your account is locked.
+      signed_up_but_unconfirmed: A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.
       start:
         fields:
           email:
             label: Enter your email address
           password:
-            label: Create a password
             hint: It needs to be at least 8 characters long.
+            label: Create a password
           password_confirm:
             label: Retype your password
           submit:
             label: Continue
+      transition_checker:
+        heading: This email address does not have a GOV.UK account
+        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the UK transition checker</a> and subscribe to email updates.
+      transition_emails:
+        description: |
+          <p class="govuk-body">The emails will tell you what you, your family, or your business should do to prepare for new rules from 1 January 2021.</p>
+          <p class="govuk-body">You will only get updates if:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>there are changes to your results</li>
+            <li>questions or results are added which may affect you</li>
+          </ul>
+          <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
+        fields:
+          emailsignup:
+            heading: Do you want to receive emails about the UK transition?
+            'no': No, I just want to save my results
+            'yes': 'Yes'
+          submit:
+            label: Continue
+        heading: Do you want to receive emails about the UK transition?
+        unsubscribe: You can unsubscribe from emails or change your subscription at any time.
+      update_needs_confirmation: The email address for your account has not been updated yet. You need to click on the confirmation link we’ve emailed you to finish the update.
+      updated: Your account has been updated successfully.
+      updated_but_not_signed_in: Your account has been updated successfully, but since your password was changed, you need to sign in again
       your_information:
-        heading: Control how we use information about you
+        data_choice_description: |
+          <p class="govuk-body">We’d like to use cookies to collect anonymised analytics about how you use GOV.UK, for example what pages you visit and what you click on.</p>
+          <p class="govuk-body">This data shows us what is and isn’t working, and helps us understand where we can make improvements to GOV.UK.</p>
+        data_choice_heading: Data about how you use GOV.UK
         description: |
           <p class="govuk-body">Your GOV.UK account will only store the information you’ve chosen to provide about yourself. You can access, update or permanently delete your account and all the information stored in it at any time.</p>
           <p class="govuk-body">We will never:</p>
@@ -174,118 +239,50 @@ en:
           <p class="govuk-body">As we add new features to your account, we may ask if we can share your information with other organisations to help us provide more efficient online services that are relevant to you. We will always ask your permission beforehand.</p>
           <p class="govuk-body">We may also use your information to produce de-identified data to get a better understanding of GOV.UK account users. For example, to create a report on the proportion of users who are students in the UK. We’ll use this data to decide what features or services to add to GOV.UK accounts in future. These reports will not identify you personally.</p>
           <p class="govuk-body">You can read the <a href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
-        data_choice_heading: Data about how you use GOV.UK
-        data_choice_description: |
-          <p class="govuk-body">We’d like to use cookies to collect anonymised analytics about how you use GOV.UK, for example what pages you visit and what you click on.</p>
-          <p class="govuk-body">This data shows us what is and isn’t working, and helps us understand where we can make improvements to GOV.UK.</p>
         fields:
           cookie_consent:
             heading: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
-            hint: "You’ll be able to update this later in your privacy settings if you’re not sure or you change your mind."
-            "yes": "Yes"
-            "no": "No"
+            hint: You’ll be able to update this later in your privacy settings if you’re not sure or you change your mind.
+            'no': 'No'
+            'yes': 'Yes'
           feedback_consent:
-            section_heading: Feedback about your GOV.UK account
-            message: |
-              As we add more features to your account, we would like to email you to find out any thoughts or suggestions you might have.
             heading: Can we email you to ask for feedback about your account?
             hint: You can update this later in your privacy settings if you’re not sure or you change your mind.
-            "yes": "Yes"
-            "no": "No"
+            message: As we add more features to your account, we would like to email you to find out any thoughts or suggestions you might have.
+            'no': 'No'
+            section_heading: Feedback about your GOV.UK account
+            'yes': 'Yes'
           submit:
+            label: Continue
             update_label: Save
-            label: Continue
-      transition_emails:
-        heading: Do you want to receive emails about the UK transition?
-        description: |
-          <p class="govuk-body">The emails will tell you what you, your family, or your business should do to prepare for new rules from 1 January 2021.</p>
-          <p class="govuk-body">You will only get updates if:</p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>there are changes to your results</li>
-            <li>questions or results are added which may affect you</li>
-          </ul>
-          <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
-        unsubscribe: You can unsubscribe from emails or change your subscription at any time.
-        fields:
-          emailsignup:
-            heading: Do you want to receive emails about the UK transition?
-            "yes": "Yes"
-            "no": No, I just want to save my results
-          submit:
-            label: Continue
-      edit:
-        heading: "Change your email address or password"
-        heading_password: "Change your password"
-        heading_email: "Change your email address"
-        unconfirmed: "Currently waiting confirmation for: %{email}"
-        success: "You’ve successfully updated the password for your GOV.UK account."
-        fields:
-          email:
-            label: "Enter a new email address"
-          password:
-            label: "Create a new password"
-            change_hint: "It needs to be at least 8 characters long."
-            hint: "It needs to be at least 8 characters long. Leave blank if you don’t want to change it."
-          password_confirm:
-            label: "Retype password"
-          current_password:
-            label: Enter your current password
-          submit:
-            label: "Update"
-        cancel:
-          heading: "Cancel my account"
-          button: "Cancel my account"
-          confirm: "Are you sure?"
+        heading: Control how we use information about you
     sessions:
-      signed_in: "Signed in successfully."
-      signed_out: "Signed out successfully."
-      already_signed_out: "Signed out successfully."
+      already_signed_out: Signed out successfully.
       new:
-        heading: "Enter password"
         fields:
           email:
-            label: "Email address"
+            label: Email address
           password:
-            label: "Enter your password"
             errors:
-              incorrect: "Password is incorrect."
-              locked: "This account has been locked."
+              incorrect: Password is incorrect.
+              locked: This account has been locked.
+            label: Enter your password
           remember:
-            label: "Remember me"
+            label: Remember me
           submit:
-            label: "Sign in"
+            label: Sign in
+        heading: Enter password
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
     unlocks:
-      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
-      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
-      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
   errors:
     messages:
-      headline: "There is a problem"
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "This email address does not have a GOV.UK account"
-      not_locked: "was not locked"
-  activerecord:
-    errors:
-      models:
-        user:
-          attributes:
-            reset_password_token:
-              invalid: "This password reset link is invalid"
-            email:
-              blank: "This does not look like a valid email address. Enter an email address in this format: name@example.com."
-              invalid: "This does not look like a valid email address. Enter an email address in this format: name@example.com."
-              taken: "Email address has already been taken"
-            password:
-              blank: "Enter a valid password"
-              invalid: "Enter a valid password"
-              too_short: "Enter a valid password"
-            password_confirmation:
-              confirmation: "Passwords do not match"
-            cookie_consent_decision:
-              invalid: "Please select an option"
-            feedback_consent_decision:
-              invalid: "Please select an option"
-            email_decision:
-              invalid: "Please select one option"
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      headline: There is a problem
+      not_found: This email address does not have a GOV.UK account
+      not_locked: was not locked

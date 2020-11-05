@@ -33,6 +33,7 @@ group :development, :test do
   gem "capybara"
   gem "dotenv-rails"
   gem "factory_bot_rails"
+  gem "i18n-tasks", "~> 0.9.31"
   gem "rspec-rails"
 end
 

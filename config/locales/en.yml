@@ -1,272 +1,216 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
+---
 en:
-  general:
-    change: Change
-    "yes": "Yes"
-    "no": "No"
-    email: Email
-    phone: Mobile number
-    password: Password
-    cancel: Cancel
-    or: or
-  cookie_banner:
-    title: Can we use cookies to collect information about how you use GOV.UK?
-    description: Cookies help us see where we can make improvements to GOV.UK.
-    confirmation_message: You have accepted cookies.
-    cookie_preferences_text: How GOV.UK accounts use cookies
-    cookie_settings_href: "https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement"
-  devise: # Overrides for Devise built in text
-    sessions:
-      new:
-        heading: Sign in to GOV.UK
-        reset_password: |
-          <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
-        register: |
-          <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
-  navigation:
-    user_root_path: Account
-    destroy_user_session: Sign out
-    menu_bar:
-      account:
-        link_text: Your account
-        description: See services you’ve used
-      manage:
-        link_text: Manage your account
-        description: Make changes to your account details and privacy settings
-      security:
-        link_text: Security
-        description: See sign-in attempts and how information about you is used.
   account:
+    data_exchange:
+      no_data_exchanged: No services have used your data yet.
+      scope:
+        email: email address
+        test_scope_read: local development testing data
+        test_scope_write: local development testing data
+      used: used
+    delete:
+      action: Delete account
+      confirmation:
+        description_1: You’ve successfully deleted your GOV.UK account.
+        description_2: If you did not mean to do this, <a class="govuk-link" href="%{link}">contact us</a>.
+        heading: Success
+        return_link: <a class="govuk-link" href="%{link}">Go to the GOV.UK homepage</a>.
+      description: 'This will permanently delete this account and all the information stored in it, including:'
+      doomed:
+      - your contact details
+      - your UK transition results
+      - email alerts about your UK transition results
+      heading: Delete this GOV.UK account
+      insert_text: Deleting your GOV.UK account will not affect any of your other GOV.UK email subscriptions.
+    manage:
+      delete:
+        description: You can permanently delete this account and all the information stored in it.
+        heading: Delete your account
+        link: Delete this GOV.UK account
+      details:
+        heading: Account details
+        unconfirmed: unconfirmed
+      heading: Manage your account
+      privacy:
+        cookies_description: For example what pages you visit and what you click on
+        cookies_link_extra: your cookie settings
+        cookies_question: Can your account use cookies to learn about how you use GOV.UK?
+        cookies_success: Your cookie settings have been changed
+        email_description: For example when new features are added to your account
+        email_link_extra: your feedback settings
+        email_question: Can GOV.UK email you to ask for feedback about your account?
+        email_success: Your feedback settings have been changed
+        heading: Privacy settings
+    security:
+      account_use: Services that have used information about you
+      activity: Sign-in attempts and changes to account details
+      description: <p class="govuk-body">Read the <a class="govuk-link" href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
+      event:
+        change_email: Changed email address
+        change_password: Changed password
+        change_phone: Changed phone number
+        login: Signed in
+        report_suspicious_activity: Report suspicious activity
+      heading: Security
+      no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
+      report:
+        action:
+          cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
+          report: Report suspicious activity
+        description: |
+          <p class="govuk-body">Use the feedback form to tell us if you think something does not look right with your GOV.UK account.</p>
+          <p class="govuk-body">We’ll get back to you as soon as possible.</p>
+        heading: Report suspicious activity
     your_account:
-      heading: Your GOV.UK account
       account_not_used:
-        heading: "You have not used your account to access any services yet"
-        description: "GOV.UK accounts are designed to make it easier for you to use online government services. At the moment you can only use your account with the UK transition checker."
         action: "%{link} to start getting the most out of your account."
-        link_text: "Answer the questions in the UK transition checker"
+        description: GOV.UK accounts are designed to make it easier for you to use online government services. At the moment you can only use your account with the UK transition checker.
+        heading: You have not used your account to access any services yet
+        link_text: Answer the questions in the UK transition checker
+      heading: Your GOV.UK account
       transition:
-        heading: "Get ready for new rules in 2021: Your results"
         description: A personalised list of actions to help you, your family, and your business prepare for the end of the UK transition.
+        heading: 'Get ready for new rules in 2021: Your results'
         link1: See your results
         link1_description: Go back to the UK transition results you’ve saved.
         link2: Update your results and email alerts
         link2_description: Answer the UK transition questions again to update your results.
-    manage:
-      heading: Manage your account
-      details:
-        heading: Account details
-        unconfirmed: unconfirmed
-      privacy:
-        heading: Privacy settings
-        cookies_question: Can your account use cookies to learn about how you use GOV.UK?
-        cookies_description: For example what pages you visit and what you click on
-        cookies_link_extra: your cookie settings
-        cookies_success: Your cookie settings have been changed
-        email_question: Can GOV.UK email you to ask for feedback about your account?
-        email_description: For example when new features are added to your account
-        email_link_extra: your feedback settings
-        email_success: Your feedback settings have been changed
-      delete:
-        heading: Delete your account
-        description: You can permanently delete this account and all the information stored in it.
-        link: Delete this GOV.UK account
-        button: Cancel my account
-        confirm: Are you sure?
-      security:
-        data_exchange_link: See how and when your data has been used
-        activity_link: See all activity on your account
-      email_verification_sent: |
-        A verification email has been sent to your account, once you click the link your email will be confirmed and updated.
-    delete:
-      heading: Delete this GOV.UK account
-      description: "This will permanently delete this account and all the information stored in it, including:"
-      doomed:
-        - your contact details
-        - your UK transition results
-        - email alerts about your UK transition results
-      insert_text: Deleting your GOV.UK account will not affect any of your other GOV.UK email subscriptions.
-      action: Delete account
-      confirmation:
-        heading: Success
-        description_1: You’ve successfully deleted your GOV.UK account.
-        description_2: If you did not mean to do this, <a class="govuk-link" href="%{link}">contact us</a>.
-        return_link: <a class="govuk-link" href="%{link}">Go to the GOV.UK homepage</a>.
-    security:
-      heading: Security
-      description: |
-        <p class="govuk-body">Read the <a class="govuk-link" href="http://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
-      account_use: Services that have used information about you
-      activity: Sign-in attempts and changes to account details
-      no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
-      event:
-        login: "Signed in"
-        change_email: "Changed email address"
-        change_password: "Changed password"
-        change_phone: "Changed phone number"
-        report_suspicious_activity: Report suspicious activity
-      report:
-        heading: Report suspicious activity
-        description: |
-          <p class="govuk-body">Use the feedback form to tell us if you think something does not look right with your GOV.UK account.</p>
-          <p class="govuk-body">We’ll get back to you as soon as possible.</p>
-        action:
-          report: Report suspicious activity
-          cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
-    data_exchange:
-      heading: How and when your data was used
-      no_data_exchanged: No services have used your data yet.
-      used: "used"
-      scope:
-        email: "email address"
-        test_scope_read: "local development testing data"
-        test_scope_write: "local development testing data"
-    profile:
-      user_details:
-        email: "Email address"
-        test: "Local development testing data"
-        transition_checker: "Transition checker data"
-  welcome:
-    show:
-      heading: Enter your email address
-      fields:
-        email:
-          label: Enter your email address
-          errors:
-            format: "This does not look like a valid email address. Enter an email address in this format: name@example.com."
-      button:
-        label: Continue
+  change_password:
+    content: Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
+    heading: Change your password
+  cookie_banner:
+    confirmation_message: You have accepted cookies.
+    cookie_preferences_text: How GOV.UK accounts use cookies
+    cookie_settings_href: https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement
+    description: Cookies help us see where we can make improvements to GOV.UK.
+    title: Can we use cookies to collect information about how you use GOV.UK?
+  devise:
+    sessions:
+      new:
+        register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
+        reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
   feedback:
     banners:
-      title: Help improve GOV.UK accounts
-      phase_intro: We’re trialling GOV.UK accounts - your
-      phase_link: feedback
-      phase_outro: will help us improve them.
       footer_intro: We’re trialling GOV.UK accounts.
       footer_link: Give feedback
       footer_outro: on your experience so we can make them better.
+      phase_intro: We’re trialling GOV.UK accounts - your
+      phase_link: feedback
+      phase_outro: will help us improve them.
+      title: Help improve GOV.UK accounts
     show:
-      heading: "Give feedback about your GOV.UK account"
+      anonymous_email: anonymous-feedback@digital.cabinet-office.gov.uk
+      anonymous_name: Anonymous Feedback
       caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
-      inset_text: Do not include personal information, for example your National Insurance number.
-      email_subject: "GOV.UK Account: Feedback"
-      anonymous_name: "Anonymous Feedback"
-      anonymous_email: "anonymous-feedback@digital.cabinet-office.gov.uk"
+      email_subject: 'GOV.UK Account: Feedback'
       errors:
         summary: There was a problem
-        comment_or_feedback: Please give details about your comment or feedback
-        can_we_contact: Please indicate whether we can contact you about your comment or feedback
       fields:
-        name:
-          label: "Your name"
-          not_present_error: "Enter your name"
-        email:
-          label: "Email address"
-          not_present_error: "This does not look like a valid email address. Enter an email address in this format: name@example.com."
         comments:
           label: Please give details about your comment or feedback.
-          not_present_error: "Enter your question, problem or feedback"
-        user_requires_response:
-          label: "Can we contact you about your feedback?"
-          options:
-            option_yes:
-              label: "Yes"
-            option_no:
-              label: "No"
-          not_present_error: "Select if you would like a response"
+          not_present_error: Enter your question, problem or feedback
+        email:
+          label: Email address
+          not_present_error: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
+        name:
+          label: Your name
+          not_present_error: Enter your name
         submit:
-          label: "Send"
+          label: Send
+        user_requires_response:
+          label: Can we contact you about your feedback?
+          not_present_error: Select if you would like a response
+          options:
+            option_no:
+              label: 'No'
+            option_yes:
+              label: 'Yes'
+      heading: Give feedback about your GOV.UK account
+      inset_text: Do not include personal information, for example your National Insurance number.
     submit:
-      heading: "Feedback sent"
       call_to_action: |
         <p class="govuk-body">Your feedback has been sent to the GOV.UK Account team.</p>
         <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
-  update_registration:
-    heading: "Confirm your new email address"
-    instruction_one: "We’ve sent an email to %{new_email}."
-    instruction_two: "You need to click on the confirmation link in the email to:"
-    instruction_list: |
-      <ul class="govuk-list govuk-list--bullet">
-        <li>finish updating the email address for your account</li>
-        <li>get email updates about the UK transition sent to your new email address</li>
-      </ul>
-    back_link: <p class="govuk-body"><a class="govuk-link" href="%{user_root_path}">Go to your GOV.UK account</a></p>
-    alternative_actions:
-      heading: If you did not get the email or want to use a different address
-      resend: <p class="govuk-body">We can <a class="govuk-link" href="%{resend_link}">send the confirmation email again</a> if you did not get it.</p>
-      retry: <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}">use a different email address</a> if %{new_email} is not correct.</p>
+      heading: Feedback sent
+  general:
+    cancel: Cancel
+    change: Change
+    email: Email
+    'no': 'No'
+    or: or
+    password: Password
+    phone: Mobile number
+    'yes': 'Yes'
+  navigation:
+    destroy_user_session: Sign out
+    menu_bar:
+      account:
+        description: See services you’ve used
+        link_text: Your account
+      manage:
+        description: Make changes to your account details and privacy settings
+        link_text: Manage your account
+      security:
+        description: See sign-in attempts and how information about you is used.
+        link_text: Security
+    user_root_path: Account
   post_registration:
-    heading: "Confirm your email address"
-    instruction_one: We’ve sent an email to
-    instruction_two: "You need to click on the confirmation link in the email to:"
+    continue_to_account: <p class="govuk-body"><a class="govuk-link" href="%{account_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">Go to your GOV.UK account</a></p>
+    continue_to_service: <p class="govuk-body"><a class="govuk-link" href="%{service_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="%{service_name}">Go back to %{service_name}</a></p>
+    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
+    heading: Confirm your email address
     instruction_list: |
       <ul class="govuk-list govuk-list--bullet">
         <li>finish creating your account</li>
         <li>start receiving email updates about the UK transition</li>
       </ul>
-    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
-    transition_results_link: Go back to your UK transition results
-    continue_to_service: |
-      <p class="govuk-body"><a class="govuk-link" href="%{service_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="%{service_name}">Go back to %{service_name}</a></p>
-    continue_to_account: |
-      <p class="govuk-body"><a class="govuk-link" href="%{account_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">Go to your GOV.UK account</a></p>
-    re_register_subtitle: "If you did not get the email or want to use a different address"
+    instruction_one: We’ve sent an email to
+    instruction_two: 'You need to click on the confirmation link in the email to:'
     re_register_instructions: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>
       <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
-  change_password:
-    heading: Change your password
-    content: |
-      Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
+    re_register_subtitle: If you did not get the email or want to use a different address
   reset_sent:
-    heading: Reset your password - check your email
     content_with_email: We’ve sent an email to %{email} with instructions for resetting your password.
     content_without_email: We’ve sent an email to the address you provided with instructions for changing your password.
+    heading: Reset your password - check your email
     subheading: If you did not get the email
-    try_again: |
-      <p class="govuk-body">We can <a class="govuk-link" href="%{link}"">send the password reset email again</a> if you did not get it.</p>
+    try_again: <p class="govuk-body">We can <a class="govuk-link" href="%{link}"">send the password reset email again</a> if you did not get it.</p>
   standard_errors:
-    not_found:
-      heading: Page not found
-      content: |
-        <p class="govuk-body">If you entered a web address, check it is correct.</p>
-        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
-    unprocessable_entity:
-      heading: Something went wrong
-      content: |
-        <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>
-        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
     internal_server_error:
-      heading: Something went wrong
       content: |
         <p class="govuk-body">We are experiencing technical difficulties.  This error has been reported.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
+      heading: Something went wrong
+    not_found:
+      content: |
+        <p class="govuk-body">If you entered a web address, check it is correct.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
+      heading: Page not found
+    unprocessable_entity:
+      content: |
+        <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
+      heading: Something went wrong
+  update_registration:
+    alternative_actions:
+      heading: If you did not get the email or want to use a different address
+      retry: <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}">use a different email address</a> if %{new_email} is not correct.</p>
+    back_link: <p class="govuk-body"><a class="govuk-link" href="%{user_root_path}">Go to your GOV.UK account</a></p>
+    heading: Confirm your new email address
+    instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish updating the email address for your account</li>
+        <li>get email updates about the UK transition sent to your new email address</li>
+      </ul>
+    instruction_one: We’ve sent an email to %{new_email}.
+    instruction_two: 'You need to click on the confirmation link in the email to:'
+  welcome:
+    show:
+      button:
+        label: Continue
+      fields:
+        email:
+          errors:
+            format: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
+          label: Enter your email address

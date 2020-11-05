@@ -3,7 +3,7 @@ RSpec.describe "welcome" do
     it "renders the email address form" do
       get new_user_session_url
 
-      expect(response.body).to have_content(I18n.t("welcome.show.heading"))
+      expect(response.body).to have_content(I18n.t("welcome.show.button.label"))
     end
 
     context "email address given" do

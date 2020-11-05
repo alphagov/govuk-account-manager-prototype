@@ -5,7 +5,7 @@ RSpec.describe "new-password" do
     it "renders the form" do
       get new_user_password_path
 
-      expect(response.body).to have_content(I18n.t("devise.passwords.new.heading"))
+      expect(response.body).to have_content(I18n.t("change_password.heading"))
     end
   end
 
