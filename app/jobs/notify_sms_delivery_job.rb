@@ -13,7 +13,7 @@ class NotifySmsDeliveryJob < ApplicationJob
 
   def perform(phone_number, body)
     Notifications::Client.new(Rails.application.secrets.notify_api_key).send_sms(
-      phone_number: phone_number,
+      phone_number: TelephoneNumber.parse(phone_number, :gb).e164_number,
       template_id: ENV.fetch("GOVUK_NOTIFY_SMS_TEMPLATE_ID"),
       personalisation: {
         body: body,
