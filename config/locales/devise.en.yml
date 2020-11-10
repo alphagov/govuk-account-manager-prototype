@@ -143,7 +143,7 @@ en:
         password_confirm:
           label: Retype password
         submit:
-          label: Continue
+          label: Save
       new:
         email:
           label: Enter your email address
@@ -169,17 +169,17 @@ en:
           heading: Cancel my account
         fields:
           current_password:
-            label: Enter your current password
+            hint: Enter your current password to make this change
+            label: Confirm it’s you
           email:
             label: Enter a new email address
           password:
-            change_hint: It needs to be at least 8 characters long.
-            hint: It needs to be at least 8 characters long. Leave blank if you don’t want to change it.
-            label: Create a new password
+            hint: It needs to be at least 8 characters long.
+            label: Create your new password
           password_confirm:
-            label: Retype password
+            label: Retype new password
           submit:
-            label: Update
+            label: Save
         heading: Change your email address or password
         heading_email: Change your email address
         heading_password: Change your password
