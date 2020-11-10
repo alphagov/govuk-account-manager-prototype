@@ -17,7 +17,7 @@ RSpec.feature "Change Phone" do
     enter_mfa
 
     expect(page).to have_text(I18n.t("account.manage.heading"))
-    expect(user.reload.phone).to eq(new_phone_number)
+    expect(user.reload.phone).to eq("+447581123456")
   end
 
   context "when the user enters the same phone number" do

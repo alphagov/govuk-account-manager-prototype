@@ -10,7 +10,11 @@ class EditPhoneController < ApplicationController
     phone_number = current_user.unconfirmed_phone
 
     if params[:phone]
-      phone_number = params[:phone]
+      phone_number = if TelephoneNumber.valid?(params[:phone], :gb)
+                       TelephoneNumber.parse(params[:phone], :gb).e164_number
+                     else
+                       TelephoneNumber.parse(params[:phone]).e164_number
+                     end
 
       unless current_user.valid_password? params[:current_password]
         @password_error_message = I18n.t("activerecord.errors.models.user.attributes.password.#{params[:current_password].blank? ? 'blank' : 'invalid'}")
