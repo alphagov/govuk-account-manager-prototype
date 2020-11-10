@@ -34,7 +34,7 @@ module ManageHelper
 
     phone = {
       field: t("general.phone"),
-      value: current_user.phone,
+      value: formatted_phone_number(current_user.phone),
       edit: {
         href: edit_user_registration_phone_url,
         text: t("general.change"),

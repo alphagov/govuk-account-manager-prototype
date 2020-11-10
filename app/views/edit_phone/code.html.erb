@@ -7,7 +7,7 @@
       margin_bottom: 3,
     } %>
 
-    <% t("mfa.phone.code.description_with_phone_number", phone_number: current_user.unconfirmed_phone).each do |msg| %>
+    <% t("mfa.phone.code.description_with_phone_number", phone_number: formatted_phone_number(current_user.unconfirmed_phone)).each do |msg| %>
       <p class="govuk-body"><%= sanitize(msg) %></p>
     <% end %>
 
@@ -39,7 +39,7 @@
     </p>
 
     <p class="govuk-body">
-      <%= sanitize(t("mfa.phone.code.not_received.change_number_message", link: edit_user_registration_phone_path,  phone_number: current_user.unconfirmed_phone)) %>
+      <%= sanitize(t("mfa.phone.code.not_received.change_number_message", link: edit_user_registration_phone_path,  phone_number: formatted_phone_number(current_user.unconfirmed_phone))) %>
     </p>
   </div>
 </div>
