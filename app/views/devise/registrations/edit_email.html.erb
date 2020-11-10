@@ -18,6 +18,10 @@
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
+      <%= render "govuk_publishing_components/components/inset_text", {
+        text: t("devise.registrations.edit.fields.email.inset_text", email: resource.email),
+      } %>
+
       <%= render "govuk_publishing_components/components/input", {
         label: {
           text: t("devise.registrations.edit.fields.email.label"),
@@ -34,16 +38,14 @@
         label: {
           text: t("devise.registrations.edit.fields.current_password.label"),
         },
+        heading_size: "m",
+        hint: t("devise.registrations.edit.fields.current_password.hint"),
         name: "user[current_password]",
         type: "password",
         id: "current__confirmation",
         error_message: devise_error_items(:current_password),
         autocomplete: "current-password",
       } %>
-
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p class="govuk-body"><%= t("devise.registrations.edit.unconfirmed", email: resource.unconfirmed_email) %></p>
-      <% end %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.edit.fields.submit.label"),

@@ -143,7 +143,7 @@ en:
         password_confirm:
           label: Retype password
         submit:
-          label: Continue
+          label: Save
       new:
         email:
           label: Enter your email address
@@ -169,22 +169,22 @@ en:
           heading: Cancel my account
         fields:
           current_password:
-            label: Enter your current password
+            hint: Enter your current password to make this change
+            label: Confirm it’s you
           email:
-            label: Enter a new email address
+            inset_text: 'The email address currently stored in your GOV.UK account is: %{email}'
+            label: Enter new email address
           password:
-            change_hint: It needs to be at least 8 characters long.
-            hint: It needs to be at least 8 characters long. Leave blank if you don’t want to change it.
-            label: Create a new password
+            hint: It needs to be at least 8 characters long.
+            label: Create your new password
           password_confirm:
-            label: Retype password
+            label: Retype new password
           submit:
-            label: Update
+            label: Save
         heading: Change your email address or password
         heading_email: Change your email address
         heading_password: Change your password
         success: You’ve successfully updated the password for your GOV.UK account.
-        unconfirmed: 'Currently waiting confirmation for: %{email}'
       signed_up: Welcome! You have signed up successfully.
       signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
       signed_up_but_locked: You have signed up successfully. However, we could not sign you in because your account is locked.
