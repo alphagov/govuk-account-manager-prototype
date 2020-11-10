@@ -10,7 +10,7 @@ The GOV.UK account manager prototype is an application to test how users:
 This content tells you how to:
 
 - set up and run the GOV.UK account manager prototype
-- integrate the `finder-frontend` transition checker with the GOV.UK account manager
+- integrate the `finder-frontend` Brexit transition checker with the GOV.UK account manager
 
 This content is for GOV.UK developers working on Macs or Linux. If you are not a GOV.UK developer, you cannot use this prototype.
 
@@ -24,7 +24,7 @@ To set up GOV.UK account manager, clone the following repositories (repos) to th
 
 - the [GOV.UK account manager prototype](https://github.com/alphagov/govuk-account-manager-prototype)
 - the [GOV.UK attribute service prototype](https://github.com/alphagov/govuk-attribute-service-prototype)
-- the [finder frontend](https://github.com/alphagov/finder-frontend) that contains the transition checker
+- the [finder frontend](https://github.com/alphagov/finder-frontend) that contains the Brexit transition checker
 - the [email alert API](https://github.com/alphagov/email-alert-api/)
 
 You [create the `~/govuk` folder](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#prerequisites) when you install GOV.UK Docker.
@@ -34,7 +34,7 @@ Check out the following branches on the different repos:
 - `enable-account-finder-frontend` branch on the GOV.UK Docker repo
 - `main` branch on the GOV.UK account manager prototype repo
 - `main` branch on the GOV.UK attribute service prototype repo
-- `master` branch on the transition checker repo
+- `master` branch on the Brexit transition checker repo
 
 ## Set up the docker image and database
 
@@ -65,21 +65,21 @@ The `detect-secrets` plugin to the Pre-Commit framework detects secrets within a
 
 To alert developers when they attempt to enter a secret in the codebase, [install the client-side pre-commit hook](https://github.com/Yelp/detect-secrets#client-side-pre-commit-hook).
 
-## Start the transition checker and account manager prototype apps
+## Start the Brexit transition checker and account manager prototype apps
 
-In the command line, go to the `finder-frontend` repo folder and run `govuk-docker-up`. This starts the `finder-frontend` transition checker and its dependencies.
+In the command line, go to the `finder-frontend` repo folder and run `govuk-docker-up`. This starts the `finder-frontend` Brexit transition checker and its dependencies.
 
 Open up a web browser and go to `https://finder-frontend.dev.gov.uk`.
 
 If you have set up the apps correctly, you will be able to access the following links:
 
-- the [transition checker journey start page](http://finder-frontend.dev.gov.uk/transition-check/questions)
-- the [transition checker results page](http://finder-frontend.dev.gov.uk/transition-check/results?c[]=living-ie) that reflects the answers you give during the transition checker journey
+- the [Brexit transition checker journey start page](http://finder-frontend.dev.gov.uk/transition-check/questions)
+- the [Brexit transition checker results page](http://finder-frontend.dev.gov.uk/transition-check/results?c[]=living-ie) that reflects the answers you give during the Brexit transition checker journey
 - select the subscribe banner or button to access the [account sign up page](http://finder-frontend.dev.gov.uk/transition-check/save-your-results?c%5B%5D=living-ie)
 
 When you have set up your local account, you can [sign into your account](http://www.login.service.dev.gov.uk/) and view the manage screens.
 
-You have now set up and run the GOV.UK account manager prototype, and integrated the `finder-frontend` transition checker with the GOV.UK account manager.
+You have now set up and run the GOV.UK account manager prototype, and integrated the `finder-frontend` Brexit transition checker with the GOV.UK account manager.
 
 ## Troubleshooting
 
@@ -102,7 +102,7 @@ govuk-docker run govuk-account-manager-prototype-lite bundle exec rake db:migrat
 govuk-docker run govuk-account-manager-prototype-lite bundle exec rake db:migrate RAILS_ENV=test
 ```
 
-Then [restart the transition checker and account manager prototype apps](#start-the-transition-checker-and-account-manager-prototype-apps).
+Then [restart the Brexit transition checker and account manager prototype apps](#start-the-transition-checker-and-account-manager-prototype-apps).
 
 ### Ruby on Rails configuration changes to the app
 

@@ -52,7 +52,7 @@ en:
 
           You need to click on the confirmation link to:
             - finish updating the email address for your account
-            - get email updates about the UK transition sent to your new email address
+            - get email updates about the Brexit transition sent to your new email address
 
           If this was not you, you can ignore this email.
 
@@ -72,7 +72,7 @@ en:
 
           You need to click on the confirmation link to:
             - finish creating your account
-            - start receiving email updates about the UK transition
+            - start receiving email updates about the Brexit transition
 
           You will be locked out of your account if you do not confirm your email address within 7 days.
 
@@ -202,7 +202,7 @@ en:
             label: Continue
       transition_checker:
         heading: This email address does not have a GOV.UK account
-        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the UK transition checker</a> and subscribe to email updates.
+        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit transition checker</a> and subscribe to email updates.
       transition_emails:
         description: |
           <p class="govuk-body">The emails will tell you what you, your family, or your business should do to prepare for new rules from 1 January 2021.</p>
@@ -214,12 +214,12 @@ en:
           <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
         fields:
           emailsignup:
-            heading: Do you want to receive emails about the UK transition?
+            heading: Do you want to receive emails about the Brexit transition?
             'no': No, I just want to save my results
             'yes': 'Yes'
           submit:
             label: Continue
-        heading: Do you want to receive emails about the UK transition?
+        heading: Do you want to receive emails about the Brexit transition?
         unsubscribe: You can unsubscribe from emails or change your subscription at any time.
       update_needs_confirmation: The email address for your account has not been updated yet. You need to click on the confirmation link we’ve emailed you to finish the update.
       updated: Your account has been updated successfully.
