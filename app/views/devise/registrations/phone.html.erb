@@ -5,7 +5,7 @@
     <%= form_with(url: new_user_registration_phone_code_path(registration_state_id: @registration_state_id), method: :post, class: "mfa-phone-create") do %>
       <%= render "govuk_publishing_components/components/input", {
         label: { text: yield(:title), },
-        hint: t("mfa.phone.create.fields.phone.hint"),
+        hint: sanitize(t("mfa.phone.create.fields.phone.hint")),
         name: "phone",
         heading_size: "xl",
         heading_level: 1,
