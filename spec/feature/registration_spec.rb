@@ -11,7 +11,7 @@ RSpec.feature "Registration" do
   let(:force_jwt) { false }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
-  let(:phone_number) { "07958123456" }
+  let(:phone_number) { "07958 123 456" }
   let(:password) { "abcd1234" } # pragma: allowlist secret
   let(:password_confirmation) { password }
 
@@ -26,7 +26,7 @@ RSpec.feature "Registration" do
 
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
-    expect(User.last.phone).to eq(phone_number)
+    expect(User.last.phone).to eq("+447958123456")
   end
 
   it "sends an email" do
