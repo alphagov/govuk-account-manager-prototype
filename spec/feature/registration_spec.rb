@@ -159,6 +159,18 @@ RSpec.feature "Registration" do
     end
   end
 
+  context "when the phone number is international" do
+    it "sends an email" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_international_phone_number
+      enter_mfa
+      provide_consent
+
+      assert_enqueued_jobs 1, only: NotifyDeliveryJob
+    end
+  end
+
   context "when the MFA code is incorrect" do
     it "returns an error" do
       enter_email_address
@@ -264,6 +276,11 @@ RSpec.feature "Registration" do
 
   def enter_invalid_phone_number
     fill_in "phone", with: "999"
+    click_on I18n.t("mfa.phone.create.fields.submit.label")
+  end
+
+  def enter_international_phone_number
+    fill_in "phone", with: "+15417543010"
     click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 

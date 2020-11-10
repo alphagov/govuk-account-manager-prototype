@@ -6,7 +6,6 @@ RSpec.feature "Change Phone" do
 
   let(:user) { FactoryBot.create(:user) }
 
-  # BT line test number
   let(:new_phone_number) { "07581123456" }
 
   it "updates the phone number" do
