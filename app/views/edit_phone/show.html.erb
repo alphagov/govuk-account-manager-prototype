@@ -10,6 +10,7 @@
     <%= render "govuk_publishing_components/components/heading", {
       text: t("mfa.phone.update.start.heading"),
       heading_level: 1,
+      font_size: "l",
       margin_bottom: 6,
     } %>
 
@@ -32,6 +33,8 @@
         label: {
           text: t("devise.registrations.edit.fields.current_password.label"),
         },
+        heading_size: "m",
+        hint: t("devise.registrations.edit.fields.current_password.hint"),
         name: "current_password",
         type: "password",
         error_message: @password_error_message,
