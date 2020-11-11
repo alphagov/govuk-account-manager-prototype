@@ -11,7 +11,7 @@ RSpec.feature "Registration" do
   let(:force_jwt) { false }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
-  let(:phone_number) { "07958123456" }
+  let(:phone_number) { "07958 123 456" }
   let(:password) { "abcd1234" } # pragma: allowlist secret
   let(:password_confirmation) { password }
 
@@ -26,7 +26,7 @@ RSpec.feature "Registration" do
 
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
-    expect(User.last.phone).to eq(phone_number)
+    expect(User.last.phone).to eq("+447958123456")
   end
 
   it "sends an email" do
@@ -159,6 +159,18 @@ RSpec.feature "Registration" do
     end
   end
 
+  context "when the phone number is international" do
+    it "sends an email" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_international_phone_number
+      enter_mfa
+      provide_consent
+
+      assert_enqueued_jobs 1, only: NotifyDeliveryJob
+    end
+  end
+
   context "when the MFA code is incorrect" do
     it "returns an error" do
       enter_email_address
@@ -264,6 +276,11 @@ RSpec.feature "Registration" do
 
   def enter_invalid_phone_number
     fill_in "phone", with: "999"
+    click_on I18n.t("mfa.phone.create.fields.submit.label")
+  end
+
+  def enter_international_phone_number
+    fill_in "phone", with: "+15417543010"
     click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 

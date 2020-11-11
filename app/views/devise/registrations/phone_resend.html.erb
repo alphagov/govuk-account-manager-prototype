@@ -23,7 +23,7 @@
         <%= render "govuk_publishing_components/components/input", {
           label: { text: t("mfa.phone.resend.fields.phone.label") },
           name: "phone",
-          value: @phone,
+          value: formatted_phone_number(@phone),
           width: 10,
           autocomplete: "tel",
         } %>

@@ -10,6 +10,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from Exception, with: :top_level_error_handler
 
+  def e164_number(phone_number)
+    if TelephoneNumber.valid?(phone_number, :gb)
+      TelephoneNumber.parse(phone_number, :gb).e164_number
+    else
+      TelephoneNumber.parse(phone_number).e164_number
+    end
+  end
+
 protected
 
   def top_level_error_handler(exception = nil)

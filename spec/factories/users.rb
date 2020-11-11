@@ -3,7 +3,7 @@ FactoryBot.define do
     email { "email@example.com" }
     password { "abcd1234" }
     password_confirmation { "abcd1234" }
-    phone { "07958123456" }
+    phone { "+447958123456" }
 
     factory :confirmed_user do
       confirmed_at { Time.zone.now }
