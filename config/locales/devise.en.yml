@@ -170,6 +170,7 @@ en:
         fields:
           current_password:
             hint: Enter your current password to make this change
+            hint_delete: Enter your password to delete your account
             label: Confirm it’s you
           email:
             inset_text: 'The email address currently stored in your GOV.UK account is: %{email}'
