@@ -50,6 +50,7 @@
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.registrations.edit.fields.submit.label"),
         margin_bottom: 3,
+        inline_layout: true,
         data_attributes: {
           module: "gem-track-click",
           "track-category": "account-manage",
@@ -57,6 +58,17 @@
           "track-label": ""
         }
       } %>
+      <span class="govuk-body"><%= t("general.or") %></span>
+      <%= link_to t("general.cancel"),
+        account_manage_path,
+        class: "govuk-body govuk-link",
+        data: {
+          module: "gem-track-click",
+          "track-category": "account-manage",
+          "track-action": "email",
+          "track-label": "cancel"
+        }
+      %>
     <% end %>
   </div>
 </div>

@@ -133,7 +133,7 @@ en:
         <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
       heading: Feedback sent
   general:
-    cancel: Cancel
+    cancel: cancel
     change: Change
     email: Email
     'no': 'No'

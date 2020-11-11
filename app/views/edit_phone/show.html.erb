@@ -43,7 +43,13 @@
 
       <%= render "govuk_publishing_components/components/button", {
         text: t("mfa.phone.update.start.fields.submit.label"),
+        inline_layout: true,
       } %>
+      <span class="govuk-body"><%= t("general.or") %></span>
+      <%= link_to t("general.cancel"),
+        account_manage_path,
+        class: "govuk-body govuk-link"
+      %>
     <% end %>
   </div>
 </div>
