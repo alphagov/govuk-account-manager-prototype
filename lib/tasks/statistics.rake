@@ -3,15 +3,55 @@ namespace :statistics do
   task :general, %i[start_date end_date] => [:environment] do |_, args|
     args.with_defaults(start_date: Date.yesterday.midnight.to_s, end_date: Date.yesterday.end_of_day.to_s)
 
-    total_users = User
+    all_users = User
       .where("created_at < ?", args.end_date)
+
+    total_users = all_users
       .count
     puts "All registrations to #{args.end_date}: \n#{total_users}\n\n"
 
-    new_users = User
+    all_new_users = User
       .where("created_at BETWEEN ? AND ?", args.start_date, args.end_date)
+
+    new_users = all_new_users
       .count
     puts "New registrations between #{args.start_date} and #{args.end_date}: \n#{new_users}\n\n"
+
+    all_cookie_consent = all_users
+      .pluck(:cookie_consent)
+      .tally
+    puts "Cookie consents to #{args.end_date}:\n"
+    all_cookie_consent.each do |value, count|
+      puts "#{value} #{count}"
+    end
+    puts "\n"
+
+    new_cookie_consent = all_new_users
+      .pluck(:cookie_consent)
+      .tally
+    puts "Cookie consents for registrations between #{args.start_date} and #{args.end_date}:\n"
+    new_cookie_consent.each do |value, count|
+      puts "#{value} #{count}"
+    end
+    puts "\n"
+
+    all_feedback_consent = all_users
+      .pluck(:feedback_consent)
+      .tally
+    puts "Feedback consents to #{args.end_date}:\n"
+    all_feedback_consent.each do |value, count|
+      puts "#{value} #{count}"
+    end
+    puts "\n"
+
+    new_feedback_consent = all_new_users
+      .pluck(:feedback_consent)
+      .tally
+    puts "Feedback consents for registrations between #{args.start_date} and #{args.end_date}:\n"
+    new_feedback_consent.each do |value, count|
+      puts "#{value} #{count}"
+    end
+    puts "\n"
 
     all_logins = SecurityActivity
       .where(event_type: "login")
