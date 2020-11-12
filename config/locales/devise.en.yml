@@ -169,7 +169,8 @@ en:
           heading: Cancel my account
         fields:
           current_password:
-            hint: Enter your current password to make this change
+            hint: Enter your password to make this change
+            hint_current: Enter your current password to make this change
             hint_delete: Enter your password to delete your account
             label: Confirm it’s you
           email:
