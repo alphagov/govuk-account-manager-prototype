@@ -84,11 +84,6 @@ en:
     cookie_settings_href: https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement
     description: Cookies help us see where we can make improvements to GOV.UK.
     title: Can we use cookies to collect information about how you use GOV.UK?
-  devise:
-    sessions:
-      new:
-        register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
-        reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
   feedback:
     banners:
       footer_intro: We’re trialling GOV.UK accounts.
