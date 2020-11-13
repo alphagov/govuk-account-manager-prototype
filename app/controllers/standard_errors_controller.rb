@@ -11,6 +11,16 @@ class StandardErrorsController < ApplicationController
     end
   end
 
+  def too_many_requests
+    respond_to do |format|
+      format.html do
+        @error = :too_many_requests
+        render status: :too_many_requests, template: "standard_errors/generic"
+      end
+      format.all { head :too_many_requests }
+    end
+  end
+
   def unprocessable_entity
     respond_to do |format|
       format.html do
