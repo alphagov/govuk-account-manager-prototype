@@ -23,5 +23,8 @@ class EmailSubscription < ApplicationRecord
     return unless subscription_id
 
     Services.email_alert_api.unsubscribe(subscription_id)
+  rescue GdsApi::HTTPGone, GdsApi::HTTPNotFound
+    # this can happen if the subscription has been deactivated by the
+    # user through email-alert-frontend
   end
 end
