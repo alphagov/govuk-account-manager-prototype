@@ -2,33 +2,15 @@ class StandardErrorsController < ApplicationController
   before_action :report_error, only: %i[unprocessable_entity internal_server_error]
 
   def not_found
-    respond_to do |format|
-      format.html do
-        @error = :not_found
-        render status: :not_found, template: "standard_errors/generic"
-      end
-      format.all { head :not_found }
-    end
+    error_page :not_found
   end
 
   def too_many_requests
-    respond_to do |format|
-      format.html do
-        @error = :too_many_requests
-        render status: :too_many_requests, template: "standard_errors/generic"
-      end
-      format.all { head :too_many_requests }
-    end
+    error_page :too_many_requests
   end
 
   def unprocessable_entity
-    respond_to do |format|
-      format.html do
-        @error = :unprocessable_entity
-        render status: :unprocessable_entity, template: "standard_errors/generic"
-      end
-      format.all { head :unprocessable_entity }
-    end
+    error_page :unprocessable_entity
   end
 
   def internal_server_error
@@ -36,6 +18,16 @@ class StandardErrorsController < ApplicationController
   end
 
 private
+
+  def error_page(error)
+    respond_to do |format|
+      format.html do
+        @error = error
+        render status: error, template: "standard_errors/generic"
+      end
+      format.all { head error }
+    end
+  end
 
   def report_error
     error = request.env["action_dispatch.exception"]
