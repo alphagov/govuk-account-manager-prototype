@@ -35,6 +35,13 @@ resources:
     source:
       interval: 24h
 
+  - name: every-afternoon
+    type: time
+    source:
+      start: 15:00
+      stop: 16:00
+      location: Europe/London
+
   - name: tests-image
     type: docker-image
     icon: docker
@@ -258,3 +265,24 @@ jobs:
               :kaboom:
               Production smoke tests for the GOV.UK Account manager have failed
               Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+
+  - name: daily-statistics-export
+    serial: true
+    plan:
+      - get: every-afternoon
+        trigger: true
+      - get: git-main
+        trigger: true
+      - task: daily-statistics
+        file: git-main/concourse/tasks/daily-statistics.yml
+        params:
+          CF_ORG: govuk-accounts
+          CF_APP_NAME: govuk-account-manager
+          CF_SPACE: production
+        on_success:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts'
+            username: 'Daily GOV.UK Account Statistics'
+            icon_emoji: ':chart_with_upwards_trend:'
+            attachments_file: statistics/output.json
