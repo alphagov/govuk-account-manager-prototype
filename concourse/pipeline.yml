@@ -272,7 +272,6 @@ jobs:
       - get: every-afternoon
         trigger: true
       - get: git-main
-        trigger: true
       - task: daily-statistics
         file: git-main/concourse/tasks/daily-statistics.yml
         params:
