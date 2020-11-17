@@ -57,6 +57,7 @@ namespace :statistics do
 
     all_logins = SecurityActivity
       .where(event_type: "login")
+      .where(oauth_application_id: nil)
       .where("created_at < ?", args.end_date)
     results += "Total number of logins to #{args.end_date}: \n#{all_logins.count}\n\n"
 
@@ -76,6 +77,7 @@ namespace :statistics do
 
     all_login_frequency = SecurityActivity
       .where(event_type: "login")
+      .where(oauth_application_id: nil)
       .where("created_at < ?", args.end_date)
       .pluck(:user_id)
       .tally
@@ -90,6 +92,7 @@ namespace :statistics do
 
     login_frequency = SecurityActivity
       .where(event_type: "login")
+      .where(oauth_application_id: nil)
       .where("created_at BETWEEN ? AND ?", args.start_date, args.end_date)
       .pluck(:user_id)
       .tally
