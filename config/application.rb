@@ -22,6 +22,7 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 
 Raven.configure do |config|
+  config.silence_ready = true
   config.dsn = ENV["SENTRY_DSN"]
   config.before_send = lambda { |event, _hint|
     if event.extra.dig(:sidekiq, :job, :args, :arguments)
