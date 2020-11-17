@@ -24,7 +24,7 @@ namespace :statistics do
       .tally
     results += "Cookie consents to #{args.end_date}:\n"
     all_cookie_consent.each do |value, count|
-      results += "#{value} #{count}"
+      results += "#{value} #{count}\n"
     end
     results += "\n"
 
@@ -33,7 +33,7 @@ namespace :statistics do
       .tally
     results += "Cookie consents for registrations between #{args.start_date} and #{args.end_date}:\n"
     new_cookie_consent.each do |value, count|
-      results += "#{value} #{count}"
+      results += "#{value} #{count}\n"
     end
     results += "\n"
 
@@ -42,7 +42,7 @@ namespace :statistics do
       .tally
     results += "Feedback consents to #{args.end_date}:\n"
     all_feedback_consent.each do |value, count|
-      results += "#{value} #{count}"
+      results += "#{value} #{count}\n"
     end
     results += "\n"
 
@@ -51,7 +51,7 @@ namespace :statistics do
       .tally
     results += "Feedback consents for registrations between #{args.start_date} and #{args.end_date}:\n"
     new_feedback_consent.each do |value, count|
-      results += "#{value} #{count}"
+      results += "#{value} #{count}\n"
     end
     results += "\n"
 
@@ -84,7 +84,7 @@ namespace :statistics do
       .sort
     results += "Number of logins per account to #{args.end_date}:\n"
     all_login_frequency.each do |frequency, count|
-      results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}"
+      results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
     end
     results += "\n"
 
@@ -98,7 +98,7 @@ namespace :statistics do
       .sort
     results += "Number of logins between #{args.start_date} and #{args.end_date}:\n"
     login_frequency.each do |frequency, count|
-      results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}"
+      results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
     end
 
     output = [{
