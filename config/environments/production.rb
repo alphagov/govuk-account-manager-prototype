@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require "aws_ip"
+require "log_formatter"
+require "log_formatter/ruby_json_formatter"
 
 Rails.application.configure do
-
   config.cache_classes = true
   config.eager_load = true
   config.consider_all_requests_local       = false
@@ -18,7 +19,7 @@ Rails.application.configure do
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
+    logger.formatter = Ruby::JSONFormatter::Base
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
