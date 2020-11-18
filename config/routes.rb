@@ -103,7 +103,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "/deanonymise-token", to: "deanonymise_token#show"
-      post "/register-client", to: "register_client#create"
 
       scope "transition-checker", module: :transition_checker, as: :transition_checker do
         get "/email-subscription", to: "emails#show"
