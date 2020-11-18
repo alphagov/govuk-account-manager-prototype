@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.feature "/account" do
+RSpec.describe "/account" do
   let!(:application) do
     FactoryBot.create(
       :oauth_application,
@@ -15,7 +15,7 @@ RSpec.feature "/account" do
   let(:userinfo) { {} }
 
   before do
-    log_in(user.email, user.password)
+    sign_in user
 
     stub_request(:get, "http://attribute-service/oidc/user_info").to_return(body: userinfo.to_json)
   end
@@ -28,9 +28,9 @@ RSpec.feature "/account" do
 
   context "without any states" do
     it "shows the zero state service card" do
-      visit user_root_path
+      get user_root_path
 
-      expect(page).to have_text(I18n.t("account.your_account.account_not_used.heading"))
+      expect(response.body).to have_content(I18n.t("account.your_account.account_not_used.heading"))
     end
   end
 
@@ -38,9 +38,9 @@ RSpec.feature "/account" do
     let(:userinfo) { { transition_checker_state: { timestamp: 42 } } }
 
     it "shows the service card" do
-      visit user_root_path
+      get user_root_path
 
-      expect(page).to have_text(I18n.t("account.your_account.transition.heading"))
+      expect(response.body).to have_content(I18n.t("account.your_account.transition.heading"))
     end
   end
 end

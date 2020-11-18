@@ -1,4 +1,4 @@
-RSpec.describe "Doorkeeper::OpenidConnect::DiscoveryController", type: :request do
+RSpec.describe "Doorkeeper::OpenidConnect::DiscoveryController" do
   let(:attribute_service_url) { "https://attribute-service" }
 
   around do |example|

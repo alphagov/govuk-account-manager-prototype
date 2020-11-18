@@ -13,6 +13,15 @@ SimpleCov.start
 
 ActiveJob::Base.queue_adapter = :test
 
+# Checks for pending migrations and applies them before tests are run.
+# If you are not using ActiveRecord, you can remove these lines.
+begin
+  ActiveRecord::Migration.maintain_test_schema!
+rescue ActiveRecord::PendingMigrationError => e
+  puts e.to_s.strip
+  exit 1
+end
+
 RSpec.configure do |config|
   config.render_views
   config.expose_dsl_globally = false

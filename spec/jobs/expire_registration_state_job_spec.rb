@@ -1,4 +1,4 @@
-RSpec.describe ExpireRegistrationStateJob, type: :job do
+RSpec.describe ExpireRegistrationStateJob do
   include ActiveSupport::Testing::TimeHelpers
 
   it "deletes hour-old state" do

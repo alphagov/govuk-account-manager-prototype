@@ -1,4 +1,4 @@
-RSpec.describe PostRegistrationHelper, type: :helper do
+RSpec.describe PostRegistrationHelper do
   describe "#service_for" do
     let(:user) { FactoryBot.create(:user) }
 

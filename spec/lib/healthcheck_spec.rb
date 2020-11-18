@@ -1,4 +1,4 @@
-RSpec.describe Healthcheck, type: :unit do
+RSpec.describe Healthcheck do
   let(:subject) { Healthcheck.check }
 
   let(:active_record) { double(:active_record, connection: true) }

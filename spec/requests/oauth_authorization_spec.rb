@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.feature "/oauth/authorize" do
+RSpec.describe "/oauth/authorize" do
   let(:user) { FactoryBot.create(:user) }
 
   let(:application) do
@@ -13,41 +13,36 @@ RSpec.feature "/oauth/authorize" do
   end
 
   context "with a user logged in" do
-    before do
-      log_in(user.email, user.password)
-    end
+    before { sign_in user }
 
-    it "asks for authorization to access listed scopes" do
-      visit authorization_endpoint_url(client: application, scope: "openid email")
+    it "asks for authorization to access the email address" do
+      get authorization_endpoint_url(client: application, scope: "openid email transition_checker")
 
-      expect(page).not_to have_current_path(application.redirect_uri, ignore_query: true)
-      expect(page).to have_text(I18n.t("doorkeeper.scopes.email"))
+      expect(response.body).to have_content(I18n.t("doorkeeper.scopes.email"))
     end
 
     it "does not ask for authorization to access transition checker state" do
-      visit authorization_endpoint_url(client: application, scope: "openid email transition_checker")
+      get authorization_endpoint_url(client: application, scope: "openid email transition_checker")
 
-      expect(page).not_to have_current_path(application.redirect_uri, ignore_query: true)
-      expect(page).not_to have_text(I18n.t("doorkeeper.scopes.transition_checker"))
+      expect(response.body).not_to have_content(I18n.t("doorkeeper.scopes.transition_checker"))
     end
 
     it "does not ask for authorization to login" do
-      visit authorization_endpoint_url(client: application, scope: "openid email transition_checker")
+      get authorization_endpoint_url(client: application, scope: "openid email transition_checker")
 
-      expect(page).not_to have_current_path(application.redirect_uri, ignore_query: true)
-      expect(page).not_to have_text(I18n.t("doorkeeper.scopes.openid"))
+      expect(response.body).not_to have_content(I18n.t("doorkeeper.scopes.openid"))
     end
 
     it "does not ask for authorization to login and redirects to application when no other permissions needed" do
-      visit authorization_endpoint_url(client: application, scope: "openid")
+      get authorization_endpoint_url(client: application, scope: "openid")
 
-      expect(page).to have_current_path(application.redirect_uri, ignore_query: true)
+      expect(response.redirect_url).not_to be_nil
     end
 
     it "does not ask for authorization to login and redirects to application when only hidden needed" do
-      visit authorization_endpoint_url(client: application, scope: "openid transition_checker")
+      get authorization_endpoint_url(client: application, scope: "openid transition_checker")
 
-      expect(page).to have_current_path(application.redirect_uri, ignore_query: true)
+      expect(response.redirect_url).not_to be_nil
     end
   end
 end
