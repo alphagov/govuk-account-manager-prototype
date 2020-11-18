@@ -107,7 +107,7 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     e2mmap (0.1.0)
-    erubi (1.9.0)
+    erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
     factory_bot (6.1.0)
@@ -139,7 +139,7 @@ GEM
       sentry-raven (~> 3.1.1)
       statsd-ruby (~> 1.4.0)
       unicorn (>= 5.4, < 5.8)
-    govuk_publishing_components (23.5.1)
+    govuk_publishing_components (23.6.0)
       govuk_app_config
       kramdown
       plek
