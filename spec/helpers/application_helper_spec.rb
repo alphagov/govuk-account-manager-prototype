@@ -1,4 +1,4 @@
-RSpec.describe ApplicationHelper, type: :helper do
+RSpec.describe ApplicationHelper do
   include ActiveSupport::Testing::TimeHelpers
 
   describe "#date_with_time_ago" do

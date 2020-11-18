@@ -1,4 +1,4 @@
-RSpec.describe ApplicationKey, type: :unit do
+RSpec.describe ApplicationKey do
   let!(:application) do
     FactoryBot.create(
       :oauth_application,

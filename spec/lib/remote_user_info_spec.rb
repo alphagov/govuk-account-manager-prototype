@@ -1,4 +1,4 @@
-RSpec.describe RemoteUserInfo, type: :unit do
+RSpec.describe RemoteUserInfo do
   let(:attribute_service_url) { "https://attribute-service" }
 
   let(:user) { FactoryBot.create(:user) }

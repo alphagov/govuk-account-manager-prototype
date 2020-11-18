@@ -1,6 +1,6 @@
 require "gds_api/test_helpers/email_alert_api"
 
-RSpec.describe User, type: :unit do
+RSpec.describe User do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:attribute_service_url) { "https://attribute-service" }

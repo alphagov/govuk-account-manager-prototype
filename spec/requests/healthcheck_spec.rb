@@ -1,4 +1,4 @@
-RSpec.describe "/healthcheck", type: :request do
+RSpec.describe "/healthcheck" do
   before do
     # redis is not connected in test mode
     stub_const("Sidekiq", double(:sidekiq, redis_info: double(:redis_info)))

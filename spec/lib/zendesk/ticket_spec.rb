@@ -1,4 +1,4 @@
-RSpec.describe Zendesk::Ticket, type: :unit do
+RSpec.describe Zendesk::Ticket do
   context "with a valid request" do
     let(:ticket_attributes) do
       {

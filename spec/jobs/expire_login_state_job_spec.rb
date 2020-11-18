@@ -1,4 +1,4 @@
-RSpec.describe ExpireLoginStateJob, type: :job do
+RSpec.describe ExpireLoginStateJob do
   include ActiveSupport::Testing::TimeHelpers
 
   let!(:user) { FactoryBot.create(:user) }

@@ -1,6 +1,6 @@
 require "gds_api/test_helpers/email_alert_api"
 
-RSpec.describe ActivateEmailSubscriptionsJob, type: :job do
+RSpec.describe ActivateEmailSubscriptionsJob do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:user) { FactoryBot.create(:confirmed_user) }

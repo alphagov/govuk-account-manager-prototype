@@ -1,4 +1,4 @@
-RSpec.describe AccountManagerApplication, type: :unit do
+RSpec.describe AccountManagerApplication do
   context "the application exists" do
     let!(:application) do
       FactoryBot.create(

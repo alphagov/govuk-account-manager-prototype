@@ -1,4 +1,4 @@
-RSpec.describe "feedback", type: :request do
+RSpec.describe "feedback" do
   describe "GET" do
     it "renders the form" do
       get feedback_form_path

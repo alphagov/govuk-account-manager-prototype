@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.feature "/account/your-data" do
+RSpec.describe "/account/your-data" do
   let(:user) { FactoryBot.create(:user) }
 
   let(:application) do
@@ -33,21 +33,19 @@ RSpec.feature "/account/your-data" do
   end
 
   context "with a user logged in" do
-    before do
-      log_in(user.email, user.password)
-    end
+    before { sign_in user }
 
     it "lists how and when data was used" do
-      visit account_security_path(client: application, scope: "openid email")
+      get account_security_path(client: application, scope: "openid email")
 
-      expect(page).to have_text(application.name)
-      expect(page).to have_text("used #{I18n.t('account.data_exchange.scope.email')}")
+      expect(response.body).to have_content(application.name)
+      expect(response.body).to have_content(I18n.t("account.data_exchange.scope.email"))
     end
 
     it "does not list transition checker data usage" do
-      visit account_security_path(client: application, scope: "openid email transition_checker")
+      get account_security_path(client: application, scope: "openid email transition_checker")
 
-      expect(page).not_to have_text(I18n.t("account.data_exchange.scope.transition_checker"))
+      expect(response.body).not_to have_content(I18n.t("account.data_exchange.scope.transition_checker"))
     end
   end
 end
