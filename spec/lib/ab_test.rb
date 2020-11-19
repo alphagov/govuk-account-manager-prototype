@@ -1,7 +1,7 @@
 RSpec.describe AbTest do
   include ActiveSupport::Testing::TimeHelpers
 
-  let(:ab_test) { AbTest.new("Test", dimension: 999) }
+  let(:ab_test) { AbTest.new("Test", dimension: 999, allowed_variants: { A: 1, B: 1, C: 1 }) }
 
   describe "#requested_variant" do
     let(:request) do
@@ -47,7 +47,13 @@ RSpec.describe AbTest do
     end
 
     context "the user is logged in" do
-      let(:user) { FactoryBot.create(:user, cookie_consent: cookie_consent) }
+      let(:user) do
+        double(cookie_consent: cookie_consent, ab_test_test: account_variant).tap do |user|
+          allow(user).to receive(:update!)
+        end
+      end
+
+      let(:account_variant) { nil }
       let(:cookie_consent) { false }
 
       it "assigns the control variant" do
@@ -67,12 +73,26 @@ RSpec.describe AbTest do
           expect(requested_variant.variant_name).to eq("B")
         end
 
+        it "persists the variant in the account" do
+          expect(user).to receive(:update!).with(ab_test_test: "B")
+          requested_variant
+        end
+
         it "sets the response cookie" do
           freeze_time do
             cookies = {}
             requested_variant.configure_response(double(headers: {}), cookies)
             expect(cookies.dig("ABTest-Test", :value)).to eq(requested_variant.variant_name)
             expect(cookies.dig("ABTest-Test", :expires)).to eq(ab_test.expires.from_now)
+          end
+        end
+
+        context "the user has a variant saved in their account" do
+          let(:account_variant) { "C" }
+
+          it "assigns the persisted variant" do
+            expect(user).to receive(:update!).with(ab_test_test: "C")
+            requested_variant
           end
         end
       end

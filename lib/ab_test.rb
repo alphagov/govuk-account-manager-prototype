@@ -22,7 +22,9 @@ class AbTest
     request_headers = {}
     request_headers[ab_test.request_header] =
       if cookie_consent
-        find_or_assign_variant(request, cookies)
+        find_or_assign_variant(request, cookies, user).tap do |variant|
+          persist_variant(user, variant)
+        end
       else
         ab_test.control_variant
       end
@@ -51,14 +53,21 @@ protected
     false
   end
 
-  # Simulate the variant assignment logic from govuk-cdn-config:
+  # Based on the variant assignment logic from govuk-cdn-config:
   #
   # 1. If the param ABTest-<name>=<variant> is set, use that
-  # 2. If the cookie ABTest-<name>=<variant> is set, use that
-  # 3. Otherwise bucket based on the variant frequencies
-  def find_or_assign_variant(request, cookies)
-    variant_from_request = request.params[cookie_name] || cookies[cookie_name]
-    return variant_from_request if variant_from_request
+  # 2. If a variant is set on the user model use that
+  # 3. If the cookie ABTest-<name>=<variant> is set, use that
+  # 4. Otherwise bucket based on the variant frequencies
+  def find_or_assign_variant(request, cookies, user)
+    request_variant = request.params[cookie_name]
+    return request_variant if request_variant
+
+    user_variant = user&.public_send(user_field_name)
+    return user_variant if user_variant
+
+    cookie_variant = cookies[cookie_name]
+    return cookie_variant if cookie_variant
 
     index = SecureRandom.random_number(frequency_sum)
     allowed_variants.each do |variant, freq|
@@ -68,6 +77,16 @@ protected
         index -= freq
       end
     end
+  end
+
+  def persist_variant(user, variant)
+    return unless user
+
+    user.update!(user_field_name => variant)
+  end
+
+  def user_field_name
+    "ab_test_#{ab_test_name.downcase}".to_sym
   end
 
   class RequestedVariant

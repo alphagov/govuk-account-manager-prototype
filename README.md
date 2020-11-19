@@ -241,8 +241,17 @@ $ rake "statistics:general[2020-10-28 00:00, 2020-10-28 23:59]"
 
 ## Starting an A/B test
 
-Before starting an A/B test you'll need a custom dimension for Google
-Analytics from a performance analyst.
+A/B testing works similarly as on GOV.UK, but with two exceptions:
+
+- We don't use Fastly, so the variant selection and persistence logic
+  is done in the app.
+- If a user is logged in, we persist the selected variant in their
+  account, regardless of device.
+
+Before starting an A/B test you'll need:
+
+- A custom dimension for Google Analytics from a performance analyst.
+- A migration creating a field `ab_test_<testname>` on the user model.
 
 Here's an example of a controller with an A/B test:
 
@@ -277,6 +286,18 @@ being tested: the existing version (control) being shown 1/5th of the
 time, and two changes each being shown 2/5ths of the time.  The
 minimum number of variants in any test should be two.
 
+When first switching on this A/B test, make sure to also deploy a
+migration:
+
+```ruby
+# db/migrations/xxxxxxxxxxxxxx_start_ab_test_your_test_name.rb
+class StartAbTestYourTestName < ActiveRecord::Migration[6.0]
+  def change
+    add_column :users, :ab_test_your_ab_test_name, :string
+  end
+end
+```
+
 Then, add this to your layouts, so that we have a meta tag that can be
 picked up by analytics:
 
@@ -285,6 +306,19 @@ picked up by analytics:
 <head>
   <%= @requested_variant.analytics_meta_tag.html_safe %>
 </head>
+```
+
+When switching off an A/B test, first remove the test from the
+controller and view, then deploy a migration removing the field from
+the users model:
+
+```ruby
+# db/migrations/xxxxxxxxxxxxxx_stop_ab_test_your_test_name.rb
+class StopAbTestYourTestName < ActiveRecord::Migration[6.0]
+  def change
+    remove_column :users, :ab_test_your_ab_test_name
+  end
+end
 ```
 
 See [the govuk_ab_testing README][] for full documentation on usage
