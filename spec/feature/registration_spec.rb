@@ -22,7 +22,7 @@ RSpec.feature "Registration" do
     enter_mfa
     provide_consent
 
-    expect(page).to have_text(I18n.t("post_registration.heading"))
+    expect(page).to have_text(I18n.t("confirmation_sent.heading"))
 
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
@@ -224,7 +224,7 @@ RSpec.feature "Registration" do
       enter_password_and_confirmation
       provide_consent
 
-      expect(page).to have_text(I18n.t("post_registration.heading"))
+      expect(page).to have_text(I18n.t("confirmation_sent.heading"))
 
       expect(User.last).to_not be_nil
       expect(User.last.email).to eq(email)

@@ -78,6 +78,27 @@ en:
   change_password:
     content: Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
     heading: Change your password
+  confirmation_sent:
+    continue_to_account: <p class="govuk-body"><a class="govuk-link" href="%{account_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">Go to your GOV.UK account</a></p>
+    continue_to_service: <p class="govuk-body"><a class="govuk-link" href="%{service_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="%{service_name}">Go back to %{service_name}</a></p>
+    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
+    existing_user_instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish updating the email address for your account</li>
+        <li>get email updates about the Brexit transition sent to your new email address</li>
+      </ul>
+    heading: Confirm your email address
+    instruction_one: We’ve sent an email to
+    instruction_two: 'You need to click on the confirmation link in the email to:'
+    new_user_instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish creating your account</li>
+        <li>start receiving email updates about the Brexit transition</li>
+      </ul>
+    re_register_instructions: |
+      <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>
+      <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
+    re_register_subtitle: If you did not get the email or want to use a different address
   cookie_banner:
     confirmation_message: You have accepted cookies.
     cookie_preferences_text: How GOV.UK accounts use cookies
@@ -149,22 +170,6 @@ en:
         description: See sign-in attempts and how information about you is used.
         link_text: Security
     user_root_path: Account
-  post_registration:
-    continue_to_account: <p class="govuk-body"><a class="govuk-link" href="%{account_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">Go to your GOV.UK account</a></p>
-    continue_to_service: <p class="govuk-body"><a class="govuk-link" href="%{service_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="%{service_name}">Go back to %{service_name}</a></p>
-    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
-    heading: Confirm your email address
-    instruction_list: |
-      <ul class="govuk-list govuk-list--bullet">
-        <li>finish creating your account</li>
-        <li>start receiving email updates about the Brexit transition</li>
-      </ul>
-    instruction_one: We’ve sent an email to
-    instruction_two: 'You need to click on the confirmation link in the email to:'
-    re_register_instructions: |
-      <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>
-      <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
-    re_register_subtitle: If you did not get the email or want to use a different address
   reset_sent:
     content_with_email: We’ve sent an email to %{email} with instructions for resetting your password.
     content_without_email: We’ve sent an email to the address you provided with instructions for changing your password.
@@ -187,19 +192,6 @@ en:
         <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
       heading: Something went wrong
-  update_registration:
-    alternative_actions:
-      heading: If you did not get the email or want to use a different address
-      retry: <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}">use a different email address</a> if %{new_email} is not correct.</p>
-    back_link: <p class="govuk-body"><a class="govuk-link" href="%{user_root_path}">Go to your GOV.UK account</a></p>
-    heading: Confirm your new email address
-    instruction_list: |
-      <ul class="govuk-list govuk-list--bullet">
-        <li>finish updating the email address for your account</li>
-        <li>get email updates about the Brexit transition sent to your new email address</li>
-      </ul>
-    instruction_one: We’ve sent an email to %{new_email}.
-    instruction_two: 'You need to click on the confirmation link in the email to:'
   welcome:
     show:
       button:
