@@ -72,7 +72,7 @@ Rails.application.routes.draw do
         post "/", to: "devise_confirmations#create"
 
         get "/new", to: "devise_confirmations#new", as: :new_user_confirmation
-        get "/sent", to: "devise_registration#confirmation_email_sent", as: :confirmation_email_sent
+        get "/sent", to: "devise_confirmations#sent", as: :confirmation_email_sent
       end
 
       scope "/unlock" do
@@ -96,7 +96,6 @@ Rails.application.routes.draw do
       post "/transition-emails", to: "devise_registration#transition_emails_post"
       get  "/finish", to: "devise_registration#create", as: :new_user_registration_finish
       get  "/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
-      get  "/welcome", to: "post_registration#show", as: :new_user_after_sign_up
     end
   end
 
