@@ -9,5 +9,10 @@ Rack::Attack.throttle("limit login attempts per IP", limit: LIMIT_LOGIN_ATTEMPTS
 end
 
 Rack::Attack.throttled_response = lambda do |_request|
-  [302, { "Location" => "/429" }, ["You are being redirected.\n"]]
+  html = ApplicationController.render(
+    template: "standard_errors/generic",
+    assigns: { error: :too_many_requests },
+  )
+
+  [429, { "Content-Type" => "text/html" }, [html]]
 end
