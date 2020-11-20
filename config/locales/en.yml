@@ -182,6 +182,11 @@ en:
         <p class="govuk-body">If you entered a web address, check it is correct.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
       heading: Page not found
+    too_many_requests:
+      content: |
+        <p class="govuk-body">You’ve tried to sign in using incorrect details too many times. You’ve been blocked from trying to sign in again for security reasons.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/feedback">Contact us</a> if you need help signing in.</p>
+      heading: You’ve tried to sign in too many times
     unprocessable_entity:
       content: |
         <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>

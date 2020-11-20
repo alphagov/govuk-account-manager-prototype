@@ -117,6 +117,7 @@ Rails.application.routes.draw do
   use_doorkeeper_openid_connect
 
   get "/404", to: "standard_errors#not_found"
+  get "/429", to: "standard_errors#too_many_requests"
   get "/422", to: "standard_errors#unprocessable_entity"
   get "/500", to: "standard_errors#internal_server_error"
 

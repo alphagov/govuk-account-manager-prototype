@@ -46,4 +46,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "http://localhost", port: 3000 }
 
   config.redirect_base_url = "http://localhost"
+
+  # disable throttling by default
+  Rack::Attack.enabled = false
 end
