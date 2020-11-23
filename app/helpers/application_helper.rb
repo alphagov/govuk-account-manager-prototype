@@ -22,6 +22,11 @@ module ApplicationHelper
     else
       []
     end
+  rescue Devise::MissingWarden
+    # Since we render the 429 page directly from the rack-attack
+    # middleware, there is no warden in the env, so Devise throws an
+    # error.  Treat this the same as being logged out.
+    []
   end
 
   def has_criteria_keys?(registration_state)
