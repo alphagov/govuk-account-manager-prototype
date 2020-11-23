@@ -31,8 +31,9 @@ en:
     confirmations:
       confirmed: You’ve successfully confirmed your email address.
       resend:
-        button: Resend confirmation instructions
-        heading: Resend confirmation instructions
+        button: Send confirmation email
+        heading: Resend instructions to confirm your email address
+        instructions: We’ll send you an email with instructions for confirming the email address for your GOV.UK account.
         label: Enter your email address
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.

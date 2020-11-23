@@ -30,6 +30,12 @@ module ApplicationHelper
     []
   end
 
+  def show_confirmation_reminder?
+    return false unless current_user
+
+    !current_user.confirmed_at? || current_user.unconfirmed_email?
+  end
+
   def has_criteria_keys?(registration_state)
     return false if registration_state.blank?
 

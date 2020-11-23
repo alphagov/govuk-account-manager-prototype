@@ -5,8 +5,13 @@ FactoryBot.define do
     password_confirmation { "abcd1234" }
     phone { "+447958123456" }
 
-    factory :confirmed_user do
+    trait :confirmed do
       confirmed_at { Time.zone.now }
+    end
+
+    trait :email_change_requested do
+      unconfirmed_email { "new_email@example.com" }
+      confirmation_token { "abc123" }
     end
   end
 end

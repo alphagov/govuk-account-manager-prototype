@@ -36,6 +36,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "i18n-tasks", "~> 0.9.31"
+  gem "pry-rails"
   gem "rspec-rails"
 end
 
@@ -50,6 +51,5 @@ end
 group :development do
   gem "awesome_print"
   gem "listen"
-  gem "pry-rails"
   gem "rubocop-govuk"
 end

@@ -80,7 +80,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
     let(:new_topic_slug) { "new-topic-slug" }
 
     context "the user has confirmed their email address" do
-      let(:user) { FactoryBot.create(:confirmed_user) }
+      let(:user) { FactoryBot.create(:user, :confirmed) }
 
       context "with an email subscription" do
         let(:subscription) { FactoryBot.create(:email_subscription, user_id: user.id) }

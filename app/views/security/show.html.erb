@@ -1,6 +1,10 @@
 <% content_for :title, t("account.security.heading") %>
 <% content_for :location, "security" %>
 
+<% if show_confirmation_reminder? %>
+  <%= render "email-confirmation-reminder" %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third">
     <%= render "account-navigation", page_is: yield(:location) %>
