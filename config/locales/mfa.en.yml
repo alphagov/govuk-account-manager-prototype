@@ -3,7 +3,7 @@ en:
   mfa:
     errors:
       phone:
-        invalid: Enter a valid mobile number
+        invalid: That does not look like a valid mobile number. Try entering your number again.
         nochange: Enter a new mobile number
       phone_code:
         expired: Your code has expired, check your mobile number is correct and send another
