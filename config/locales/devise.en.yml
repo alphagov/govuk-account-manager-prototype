@@ -21,7 +21,7 @@ en:
               new_blank: Your new password cannot be blank. Try entering a new password again.
               too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
             password_confirmation:
-              confirmation: Passwords do not match
+              confirmation: The passwords you’ve entered are not the same. Try retyping your password again.
             reset_password_token:
               invalid: This password reset link is invalid
   devise:
