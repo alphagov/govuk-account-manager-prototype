@@ -286,7 +286,8 @@ en:
     messages:
       already_confirmed: You have already confirmed your email address. Sign in to your account with this email address.
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-      expired: has expired, please request a new one
+      expired: Your password reset link has expired.
+      expired_link_text: Get a new link for changing your password
       headline: There is a problem
       not_found: This email address does not have a GOV.UK account
       not_locked: was not locked
