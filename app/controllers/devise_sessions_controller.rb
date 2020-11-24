@@ -22,14 +22,15 @@ class DeviseSessionsController < Devise::SessionsController
         do_sign_in
       end
     else
-      @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.incorrect")
-      begin
-        user = User.find_by!(email: params.dig(:user, :email))
-        if user.locked_at?
-          @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.locked")
+      @password_error_message =
+        case User.find_by(email: params.dig(:user, :email))&.unauthenticated_message
+        when :last_attempt
+          I18n.t("devise.failure.last_attempt")
+        when :locked
+          I18n.t("devise.failure.locked")
+        else
+          I18n.t("devise.sessions.new.fields.password.errors.incorrect")
         end
-      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
-      end
       render :new
     end
   end

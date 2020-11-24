@@ -34,8 +34,8 @@ en:
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
-      last_attempt: You have one more attempt before your account is locked.
-      locked: Your account is locked.
+      last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
+      locked: You’ve been locked out of your account because you entered an incorrect password too many times. We’ve sent you an email with instructions for unlocking your account.
       same_email: Your new email address is the same as your current email address.
       timeout: Your session expired. Please sign in again to continue.
       unauthenticated: You need to sign in or sign up before continuing.
@@ -263,7 +263,6 @@ en:
           password:
             errors:
               incorrect: Password is incorrect.
-              locked: This account has been locked.
             label: Enter your password
           remember:
             label: Remember me
