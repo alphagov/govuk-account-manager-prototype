@@ -284,7 +284,7 @@ en:
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
   errors:
     messages:
-      already_confirmed: was already confirmed, please try signing in
+      already_confirmed: You have already confirmed your email address. Sign in to your account with this email address.
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
       expired: has expired, please request a new one
       headline: There is a problem
