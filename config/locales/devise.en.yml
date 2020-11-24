@@ -12,7 +12,7 @@ en:
               invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
               taken: That email address already has a GOV.UK account. Enter a different email address.
             email_decision:
-              invalid: Please select one option
+              invalid: Choose whether or not you would like to receive emails about new rules in 2021.
             feedback_consent_decision:
               invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
