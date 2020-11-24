@@ -7,6 +7,8 @@ en:
           attributes:
             cookie_consent_decision:
               invalid: Choose whether or not you agree to analytics cookies while you’re signed in to your account.
+            current_password:
+              blank: Enter your current password
             email:
               blank: Enter your email address
               invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
