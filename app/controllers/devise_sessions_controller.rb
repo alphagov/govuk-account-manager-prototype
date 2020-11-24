@@ -94,7 +94,6 @@ protected
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(login_state.user)
 
-    set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, login_state.user)
     redirect_to login_state.redirect_path
   end
