@@ -36,7 +36,7 @@ en:
     failure:
       last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
       locked: You’ve been locked out of your account because you entered an incorrect password too many times. We’ve sent you an email with instructions for unlocking your account.
-      same_email: Your new email address is the same as your current email address.
+      same_email: Your account is already using this email address. Enter a different email address.
       timeout: Your session expired. Please sign in again to continue.
       unauthenticated: You need to sign in or sign up before continuing.
       unconfirmed: You have to confirm your email address before continuing.
