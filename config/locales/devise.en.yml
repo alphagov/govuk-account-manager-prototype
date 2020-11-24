@@ -34,12 +34,8 @@ en:
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
-      already_authenticated: You are already signed in.
-      inactive: Your account is not activated yet.
-      invalid: Invalid %{authentication_keys} or password.
       last_attempt: You have one more attempt before your account is locked.
       locked: Your account is locked.
-      not_found_in_database: Invalid %{authentication_keys} or password.
       same_email: Your new email address is the same as your current email address.
       timeout: Your session expired. Please sign in again to continue.
       unauthenticated: You need to sign in or sign up before continuing.
@@ -154,7 +150,6 @@ en:
       no_token: You can’t access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
       send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
-      updated: You’ve successfully updated the password for your GOV.UK account. You are now signed in.
       updated_not_active: You’ve successfully updated the password for your GOV.UK account.
     registrations:
       closed:
@@ -277,8 +272,7 @@ en:
         heading: Enter password
         register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
         reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
-      signed_in: Signed in successfully.
-      signed_out: Signed out successfully.
+        signed_in: Signed in successfully.
     unlocks:
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
@@ -286,7 +280,6 @@ en:
   errors:
     messages:
       already_confirmed: You have already confirmed your email address. Sign in to your account with this email address.
-      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
       expired: Your password reset link has expired.
       expired_link_text: Get a new link for changing your password
       headline: There is a problem
