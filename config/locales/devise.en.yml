@@ -289,5 +289,5 @@ en:
       expired: Your password reset link has expired.
       expired_link_text: Get a new link for changing your password
       headline: There is a problem
-      not_found: This email address does not have a GOV.UK account
+      not_found: This email address does not have a GOV.UK account. Try entering the email address for your account again.
       not_locked: was not locked
