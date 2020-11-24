@@ -135,7 +135,7 @@ en:
           label: Send
         user_requires_response:
           label: Can we contact you about your feedback?
-          not_present_error: Select if you would like a response
+          not_present_error: Choose whether or not you’d like a response.
           options:
             option_no:
               label: 'No'
