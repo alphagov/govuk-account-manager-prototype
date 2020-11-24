@@ -17,8 +17,8 @@ en:
               invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
               blank: Enter a valid password
-              invalid: Enter a valid password
-              too_short: Enter a valid password
+              invalid: The password is not in the correct format. Choose a password that is at least 8 characters long.
+              too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
             password_confirmation:
               confirmation: Passwords do not match
             reset_password_token:

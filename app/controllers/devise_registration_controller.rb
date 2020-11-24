@@ -42,7 +42,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       @resource_error_messages = {
         password: [ # pragma: allowlist secret
           password_length_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
-        ].uniq,
+        ],
         password_confirmation: [
           password_confirmation_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"),
         ],
