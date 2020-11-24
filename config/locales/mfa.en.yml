@@ -4,7 +4,7 @@ en:
     errors:
       phone:
         invalid: That does not look like a valid mobile number. Try entering your number again.
-        nochange: Enter a new mobile number
+        nochange: Your account is already using this mobile number. Enter a different number.
       phone_code:
         expired: Your code has expired, check your mobile number is correct and send another
         invalid: That is not the right code
