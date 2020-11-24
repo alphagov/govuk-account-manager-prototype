@@ -10,7 +10,7 @@ en:
             email:
               blank: Enter your email address
               invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
-              taken: Email address has already been taken
+              taken: That email address already has a GOV.UK account. Enter a different email address.
             email_decision:
               invalid: Please select one option
             feedback_consent_decision:
