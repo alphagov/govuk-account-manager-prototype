@@ -147,7 +147,7 @@ en:
         heading: Reset your password
         submit:
           label: Send
-      no_token: You can’t access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      no_token: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
       send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
       updated_not_active: You’ve successfully updated the password for your GOV.UK account.
