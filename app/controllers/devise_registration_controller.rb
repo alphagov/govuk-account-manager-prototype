@@ -32,6 +32,15 @@ class DeviseRegistrationController < Devise::RegistrationsController
     password_length_ok = Devise.password_length.include? password&.length
     password_confirmation_ok = password == password_confirmation
 
+    if password.blank?
+      @resource_error_messages = {
+        password: [ # pragma: allowlist secret
+          I18n.t("activerecord.errors.models.user.attributes.password.blank"),
+        ],
+      }
+      return
+    end
+
     if password_length_ok && password_confirmation_ok
       registration_state.update!(
         state: MultiFactorAuth.is_enabled? ? :phone : :your_information,
