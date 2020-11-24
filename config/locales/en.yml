@@ -203,6 +203,4 @@ en:
         label: Continue
       fields:
         email:
-          errors:
-            format: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
           label: Enter your email address
