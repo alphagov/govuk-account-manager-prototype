@@ -23,7 +23,7 @@ en:
             password_confirmation:
               confirmation: The passwords you’ve entered are not the same. Try retyping your password again.
             reset_password_token:
-              invalid: This password reset link is invalid
+              invalid: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
   devise:
     confirmations:
       confirmed: Your email address has been successfully confirmed.
