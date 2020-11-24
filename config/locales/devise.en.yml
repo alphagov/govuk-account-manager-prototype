@@ -38,7 +38,7 @@ en:
       locked: You’ve been locked out of your account because you entered an incorrect password too many times. We’ve sent you an email with instructions for unlocking your account.
       same_email: Your account is already using this email address. Enter a different email address.
       timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
-      unauthenticated: You need to sign in or sign up before continuing.
+      unauthenticated: Sign in to your GOV.UK account.
       unconfirmed: You have to confirm your email address before continuing.
     mailer:
       change_confirmation_instructions:
