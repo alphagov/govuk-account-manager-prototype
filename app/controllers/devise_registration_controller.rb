@@ -94,7 +94,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       registration_state.update!(state: :your_information)
       redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
     else
-      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: new_user_registration_phone_resend_path(registration_state_id: @registration_state_id))
       render :phone_code
     end
   end
