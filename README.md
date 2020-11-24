@@ -238,3 +238,90 @@ cf v3-ssh govuk-account-manager
 $ /tmp/lifecycle/shell
 $ rake "statistics:general[2020-10-28 00:00, 2020-10-28 23:59]"
 ```
+
+## Starting an A/B test
+
+A/B testing works similarly as on GOV.UK, but with two exceptions:
+
+- We don't use Fastly, so the variant selection and persistence logic
+  is done in the app.
+- If a user is logged in, we persist the selected variant in their
+  account, regardless of device.
+
+Before starting an A/B test you'll need:
+
+- A custom dimension for Google Analytics from a performance analyst.
+- A migration creating a field `ab_test_<testname>` on the user model.
+
+Here's an example of a controller with an A/B test:
+
+```ruby
+# app/controllers/party_controller.rb
+class PartyController < ApplicationController
+  def show
+    ab_test = AbTest.new(
+      "your_ab_test_name",
+      dimension: 300,
+      expires: 1.week,
+      allowed_variants: { NoChange: 1, LongTitle : 2, ShortTitle: 2 },
+      control_variant: "NoChange"
+    )
+    @requested_variant = ab_test.requested_variant(request, cookies, current_user)
+    @requested_variant.configure_response(response, cookies)
+
+    case true
+    when @requested_variant.variant?("LongTitle")
+      render "show_template_with_long_title"
+    when @requested_variant.variant?("ShortTitle")
+      render "show_template_with_short_title"
+    else
+      render "show"
+    end
+  end
+end
+```
+
+In this example, we are running a multivariate test with 3 options
+being tested: the existing version (control) being shown 1/5th of the
+time, and two changes each being shown 2/5ths of the time.  The
+minimum number of variants in any test should be two.
+
+When first switching on this A/B test, make sure to also deploy a
+migration:
+
+```ruby
+# db/migrations/xxxxxxxxxxxxxx_start_ab_test_your_test_name.rb
+class StartAbTestYourTestName < ActiveRecord::Migration[6.0]
+  def change
+    add_column :users, :ab_test_your_ab_test_name, :string
+  end
+end
+```
+
+Then, add this to your layouts, so that we have a meta tag that can be
+picked up by analytics:
+
+```html
+<!-- application.html.erb -->
+<head>
+  <%= @requested_variant.analytics_meta_tag.html_safe %>
+</head>
+```
+
+When switching off an A/B test, first remove the test from the
+controller and view, then deploy a migration removing the field from
+the users model:
+
+```ruby
+# db/migrations/xxxxxxxxxxxxxx_stop_ab_test_your_test_name.rb
+class StopAbTestYourTestName < ActiveRecord::Migration[6.0]
+  def change
+    remove_column :users, :ab_test_your_ab_test_name
+  end
+end
+```
+
+See [the govuk_ab_testing README][] for full documentation on usage
+and testing.
+
+[the govuk_ab_testing README]: https://github.com/alphagov/govuk_ab_testing#govuk-ab-testing
