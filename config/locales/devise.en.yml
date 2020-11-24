@@ -41,7 +41,7 @@ en:
       same_email: Your account is already using this email address. Enter a different email address.
       timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
       unauthenticated: Sign in to your GOV.UK account.
-      unconfirmed: You have to confirm your email address before continuing.
+      unconfirmed: You need to confirm your email address before you can sign in to your account. <a class="govuk-link" href="/account/confirmation/new">Resend confirmation instructions</a>.
     mailer:
       change_confirmation_instructions:
         body: |

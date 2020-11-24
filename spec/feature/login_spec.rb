@@ -112,7 +112,7 @@ RSpec.feature "Logging in" do
       enter_email_address
       enter_password
 
-      expect(page).to have_text(I18n.t("devise.failure.unconfirmed"))
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.unconfirmed")))
     end
   end
 
