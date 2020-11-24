@@ -262,7 +262,7 @@ en:
             label: Email address
           password:
             errors:
-              incorrect: Password is incorrect.
+              incorrect: You’ve entered the wrong password - try entering your password again.
             label: Enter your password
           remember:
             label: Remember me
