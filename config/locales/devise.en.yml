@@ -26,7 +26,7 @@ en:
               invalid: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
   devise:
     confirmations:
-      confirmed: Your email address has been successfully confirmed.
+      confirmed: You’ve successfully confirmed your email address.
       resend:
         button: Resend confirmation instructions
         heading: Resend confirmation instructions
