@@ -198,33 +198,46 @@ class DeviseRegistrationController < Devise::RegistrationsController
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
-    if params.dig(:user, :email) && params.dig(:user, :email) == resource.email
+    new_email = params.dig(:user, :email)
+    new_password = params.dig(:user, :password) # pragma: allowlist secret
+
+    if new_email && new_emauil == resource.email
       redirect_to edit_user_registration_email_path, flash: { alert: I18n.t("devise.failure.same_email") }
       return
     end
 
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
+
+    # 'resource_updated' is true if the new email address and new
+    # password are both blank, even though no change has been made; so
+    # manually handle this case, rather than tell users we've changed
+    # their password even when nothing has happened.
+    if new_password && new_password.blank?
+      resource_updated = false
+      resource.errors.add(:password, :new_blank)
+    end
+
     if resource_updated
-      SecurityActivity.change_email!(resource, request.remote_ip) if params.dig(:user, :email)
-      SecurityActivity.change_password!(resource, request.remote_ip) if params.dig(:user, :password)
+      SecurityActivity.change_email!(resource, request.remote_ip) if new_email
+      SecurityActivity.change_password!(resource, request.remote_ip) if new_password
 
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      if params.dig(:user, :email)
-        UserMailer.with(user: resource, new_address: params.dig(:user, :email)).changing_email_email.deliver_later
+      if new_email
+        UserMailer.with(user: resource, new_address: new_email).changing_email_email.deliver_later
         respond_with resource, location: confirmation_email_sent_path
-      elsif params.dig(:user, :password)
+      else
         flash[:notice] = I18n.t("devise.registrations.edit.success")
         redirect_to :user_root
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
-      if params.dig(:user, :email)
+      if new_email
         render :edit_email
-      elsif params.dig(:user, :password)
+      else
         render :edit_password
       end
     end
