@@ -6,7 +6,7 @@ en:
         user:
           attributes:
             cookie_consent_decision:
-              invalid: Please select an option
+              invalid: Choose whether or not you agree to analytics cookies while you’re signed in to your account.
             email:
               blank: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
               invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
@@ -14,7 +14,7 @@ en:
             email_decision:
               invalid: Please select one option
             feedback_consent_decision:
-              invalid: Please select an option
+              invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
               blank: Enter a valid password
               invalid: Enter a valid password
