@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     if TelephoneNumber.valid?(phone_number, :gb)
       TelephoneNumber.parse(phone_number, :gb).e164_number
     else
-      TelephoneNumber.parse(phone_number).e164_number
+      TelephoneNumber.parse(phone_number.gsub(/^00/, "+")).e164_number
     end
   end
 

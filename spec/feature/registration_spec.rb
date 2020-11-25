@@ -168,6 +168,20 @@ RSpec.feature "Registration" do
       provide_consent
 
       assert_enqueued_jobs 1, only: NotifyDeliveryJob
+      expect(User.last.phone).to eq("+15417543010")
+    end
+  end
+
+  context "when the phone number is international with 00 instead of +" do
+    it "sends an email" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_international_phone_number_without_plus
+      enter_mfa
+      provide_consent
+
+      assert_enqueued_jobs 1, only: NotifyDeliveryJob
+      expect(User.last.phone).to eq("+15417543010")
     end
   end
 
@@ -281,6 +295,11 @@ RSpec.feature "Registration" do
 
   def enter_international_phone_number
     fill_in "phone", with: "+15417543010"
+    click_on I18n.t("mfa.phone.create.fields.submit.label")
+  end
+
+  def enter_international_phone_number_without_plus
+    fill_in "phone", with: "0015417543010"
     click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 
