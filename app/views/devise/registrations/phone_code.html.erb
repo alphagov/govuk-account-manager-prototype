@@ -10,7 +10,7 @@
       margin_bottom: 3,
     } %>
 
-    <% t("mfa.phone.code.description_with_phone_number", phone_number: formatted_phone_number(@registration_state.phone)).each do |msg| %>
+    <% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(@registration_state.phone)).each do |msg| %>
       <p class="govuk-body"><%= sanitize(msg) %></p>
     <% end %>
 

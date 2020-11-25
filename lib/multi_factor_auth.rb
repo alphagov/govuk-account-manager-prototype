@@ -1,13 +1,14 @@
 module MultiFactorAuth
   ALLOWED_ATTEMPTS = 6
   EXPIRATION_AGE = 10.minutes
+  INTERNATIONAL_CODE_REGEX = /^00/.freeze
 
   class MFAError < StandardError; end
   class Disabled < MFAError; end
   class NotConfigured < MFAError; end
 
   def self.valid?(phone_number)
-    parsed_number = TelephoneNumber.parse(phone_number.gsub(/^00/, "+"))
+    parsed_number = TelephoneNumber.parse(phone_number.gsub(INTERNATIONAL_CODE_REGEX, "+"))
 
     if TelephoneNumber.valid?(phone_number, :gb, [:mobile])
       true
@@ -15,6 +16,24 @@ module MultiFactorAuth
       true
     else
       false
+    end
+  end
+
+  def self.e164_number(phone_number)
+    if TelephoneNumber.valid?(phone_number, :gb)
+      TelephoneNumber.parse(phone_number, :gb).e164_number
+    else
+      TelephoneNumber.parse(phone_number.gsub(INTERNATIONAL_CODE_REGEX, "+")).e164_number
+    end
+  end
+
+  def self.formatted_phone_number(phone_number)
+    parsed_number = TelephoneNumber.parse(phone_number)
+
+    if parsed_number.country && parsed_number.country.country_id == "GB"
+      parsed_number.national_number
+    else
+      parsed_number.international_number
     end
   end
 
