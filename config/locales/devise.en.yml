@@ -279,6 +279,9 @@ en:
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
     unlocks:
+      heading: Resend unlock instructions
+      label: Your email address
+      resend: Resend
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
