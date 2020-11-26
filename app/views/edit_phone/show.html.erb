@@ -19,7 +19,7 @@
     </p>
 
     <%= render "govuk_publishing_components/components/inset_text", {
-      text: t("mfa.phone.update.start.current", phone_number: formatted_phone_number(current_user.phone))
+      text: t("mfa.phone.update.start.current", phone_number: MultiFactorAuth.formatted_phone_number(current_user.phone))
     } %>
 
     <%= form_with(url: edit_user_registration_phone_code_path, method: :post) do %>

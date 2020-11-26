@@ -67,7 +67,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       return
     end
 
-    phone_number = e164_number(params[:phone].presence || registration_state.phone)
+    phone_number = MultiFactorAuth.e164_number(params[:phone].presence || registration_state.phone)
 
     registration_state.transaction do
       registration_state.update!(phone: phone_number)

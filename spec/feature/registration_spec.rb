@@ -18,7 +18,7 @@ RSpec.feature "Registration" do
   it "creates a user" do
     enter_email_address
     enter_password_and_confirmation
-    enter_phone_number
+    enter_uk_phone_number
     enter_mfa
     provide_consent
 
@@ -32,7 +32,7 @@ RSpec.feature "Registration" do
   it "sends an email" do
     enter_email_address
     enter_password_and_confirmation
-    enter_phone_number
+    enter_uk_phone_number
     enter_mfa
     provide_consent
 
@@ -49,7 +49,7 @@ RSpec.feature "Registration" do
   it "shows the terms & conditions" do
     enter_email_address
     enter_password_and_confirmation
-    enter_phone_number
+    enter_uk_phone_number
     enter_mfa
 
     expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
@@ -168,6 +168,20 @@ RSpec.feature "Registration" do
       provide_consent
 
       assert_enqueued_jobs 1, only: NotifyDeliveryJob
+      expect(User.last.phone).to eq("+15417543010")
+    end
+  end
+
+  context "when the phone number is international with 00 instead of +" do
+    it "sends an email" do
+      enter_email_address
+      enter_password_and_confirmation
+      enter_international_phone_number_without_plus
+      enter_mfa
+      provide_consent
+
+      assert_enqueued_jobs 1, only: NotifyDeliveryJob
+      expect(User.last.phone).to eq("+15417543010")
     end
   end
 
@@ -175,7 +189,7 @@ RSpec.feature "Registration" do
     it "returns an error" do
       enter_email_address
       enter_password_and_confirmation
-      enter_phone_number
+      enter_uk_phone_number
       enter_incorrect_mfa
 
       expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
@@ -185,7 +199,7 @@ RSpec.feature "Registration" do
       it "expires the code" do
         enter_email_address
         enter_password_and_confirmation
-        enter_phone_number
+        enter_uk_phone_number
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
         expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
@@ -197,7 +211,7 @@ RSpec.feature "Registration" do
     it "expires the code" do
       enter_email_address
       enter_password_and_confirmation
-      enter_phone_number
+      enter_uk_phone_number
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
@@ -264,24 +278,29 @@ RSpec.feature "Registration" do
     click_on I18n.t("devise.registrations.start.fields.submit.label")
   end
 
-  def enter_phone_number
-    fill_in "phone", with: phone_number
+  def enter_phone_number(number)
+    fill_in "phone", with: number
     click_on I18n.t("mfa.phone.create.fields.submit.label")
+  end
+
+  def enter_uk_phone_number
+    enter_phone_number(phone_number)
   end
 
   def enter_non_mobile_phone_number
-    fill_in "phone", with: "01234567890"
-    click_on I18n.t("mfa.phone.create.fields.submit.label")
+    enter_phone_number("01234567890")
   end
 
   def enter_invalid_phone_number
-    fill_in "phone", with: "999"
-    click_on I18n.t("mfa.phone.create.fields.submit.label")
+    enter_phone_number("999")
   end
 
   def enter_international_phone_number
-    fill_in "phone", with: "+15417543010"
-    click_on I18n.t("mfa.phone.create.fields.submit.label")
+    enter_phone_number("+15417543010")
+  end
+
+  def enter_international_phone_number_without_plus
+    enter_phone_number("0015417543010")
   end
 
   def enter_mfa

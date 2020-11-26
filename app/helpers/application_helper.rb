@@ -51,14 +51,4 @@ module ApplicationHelper
     base_url = Rails.env.development? ? Plek.find("collections") : Plek.new.website_root
     "#{base_url}/transition"
   end
-
-  def formatted_phone_number(number)
-    parsed_number = TelephoneNumber.parse(number)
-
-    if parsed_number.country && parsed_number.country.country_id == "GB"
-      parsed_number.national_number
-    else
-      parsed_number.international_number
-    end
-  end
 end
