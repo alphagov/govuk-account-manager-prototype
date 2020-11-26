@@ -32,6 +32,15 @@ class DeviseRegistrationController < Devise::RegistrationsController
     password_length_ok = Devise.password_length.include? password&.length
     password_confirmation_ok = password == password_confirmation
 
+    if password.blank?
+      @resource_error_messages = {
+        password: [ # pragma: allowlist secret
+          I18n.t("activerecord.errors.models.user.attributes.password.blank"),
+        ],
+      }
+      return
+    end
+
     if password_length_ok && password_confirmation_ok
       registration_state.update!(
         state: MultiFactorAuth.is_enabled? ? :phone : :your_information,
@@ -42,7 +51,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       @resource_error_messages = {
         password: [ # pragma: allowlist secret
           password_length_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
-        ].uniq,
+        ],
         password_confirmation: [
           password_confirmation_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"),
         ],
@@ -85,7 +94,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       registration_state.update!(state: :your_information)
       redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
     else
-      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: new_user_registration_phone_resend_path(registration_state_id: @registration_state_id))
       render :phone_code
     end
   end
@@ -189,33 +198,46 @@ class DeviseRegistrationController < Devise::RegistrationsController
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
-    if params.dig(:user, :email) && params.dig(:user, :email) == resource.email
+    new_email = params.dig(:user, :email)
+    new_password = params.dig(:user, :password) # pragma: allowlist secret
+
+    if new_email && new_emauil == resource.email
       redirect_to edit_user_registration_email_path, flash: { alert: I18n.t("devise.failure.same_email") }
       return
     end
 
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
+
+    # 'resource_updated' is true if the new email address and new
+    # password are both blank, even though no change has been made; so
+    # manually handle this case, rather than tell users we've changed
+    # their password even when nothing has happened.
+    if new_password && new_password.blank?
+      resource_updated = false
+      resource.errors.add(:password, :new_blank)
+    end
+
     if resource_updated
-      SecurityActivity.change_email!(resource, request.remote_ip) if params.dig(:user, :email)
-      SecurityActivity.change_password!(resource, request.remote_ip) if params.dig(:user, :password)
+      SecurityActivity.change_email!(resource, request.remote_ip) if new_email
+      SecurityActivity.change_password!(resource, request.remote_ip) if new_password
 
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      if params.dig(:user, :email)
-        UserMailer.with(user: resource, new_address: params.dig(:user, :email)).changing_email_email.deliver_later
+      if new_email
+        UserMailer.with(user: resource, new_address: new_email).changing_email_email.deliver_later
         respond_with resource, location: confirmation_email_sent_path
-      elsif params.dig(:user, :password)
+      else
         flash[:notice] = I18n.t("devise.registrations.edit.success")
         redirect_to :user_root
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
-      if params.dig(:user, :email)
+      if new_email
         render :edit_email
-      elsif params.dig(:user, :password)
+      else
         render :edit_password
       end
     end

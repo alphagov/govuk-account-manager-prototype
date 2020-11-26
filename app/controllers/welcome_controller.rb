@@ -8,22 +8,28 @@ class WelcomeController < ApplicationController
 
     @email = params.dig(:user, :email)
     if @email
-      if Devise.email_regexp.match? @email
-        if User.exists?(email: @email)
-          login_state = create_login_state(payload, @email)
-          redirect_to user_session_path(login_state_id: login_state.id)
-        elsif Rails.configuration.enable_registration
-          if payload || !Rails.configuration.force_jwt_at_registration
-            registration_state = create_registration_state(payload, @email)
-            redirect_to new_user_registration_start_path(registration_state_id: registration_state.id)
-          else
-            render "devise/registrations/transition_checker"
-          end
+      if @email.blank?
+        @email_error_message = I18n.t("activerecord.errors.models.user.attributes.email.blank")
+        return
+      end
+
+      unless Devise.email_regexp.match? @email
+        @email_error_message = I18n.t("activerecord.errors.models.user.attributes.email.invalid")
+        return
+      end
+
+      if User.exists?(email: @email)
+        login_state = create_login_state(payload, @email)
+        redirect_to user_session_path(login_state_id: login_state.id)
+      elsif Rails.configuration.enable_registration
+        if payload || !Rails.configuration.force_jwt_at_registration
+          registration_state = create_registration_state(payload, @email)
+          redirect_to new_user_registration_start_path(registration_state_id: registration_state.id)
         else
-          render "devise/registrations/closed"
+          render "devise/registrations/transition_checker"
         end
       else
-        @email_error_message = I18n.t("welcome.show.fields.email.errors.format")
+        render "devise/registrations/closed"
       end
     end
   end

@@ -202,7 +202,7 @@ RSpec.feature "Registration" do
         enter_uk_phone_number
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
-        expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
+        expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
       end
     end
   end
@@ -215,7 +215,7 @@ RSpec.feature "Registration" do
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
     end
   end
 

@@ -24,7 +24,7 @@
         name: "user[password]",
         type: "password",
         id: "password",
-        error_message: @password_error_message,
+        error_message: sanitize(@password_error_message),
         autocomplete: "current-password",
       } %>
 

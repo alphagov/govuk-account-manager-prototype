@@ -22,14 +22,15 @@ class DeviseSessionsController < Devise::SessionsController
         do_sign_in
       end
     else
-      @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.incorrect")
-      begin
-        user = User.find_by!(email: params.dig(:user, :email))
-        if user.locked_at?
-          @password_error_message = I18n.t("devise.sessions.new.fields.password.errors.locked")
+      @password_error_message =
+        case User.find_by(email: params.dig(:user, :email))&.unauthenticated_message
+        when :last_attempt
+          I18n.t("devise.failure.last_attempt")
+        when :locked
+          I18n.t("devise.failure.locked")
+        else
+          I18n.t("devise.sessions.new.fields.password.errors.incorrect")
         end
-      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
-      end
       render :new
     end
   end
@@ -49,7 +50,7 @@ class DeviseSessionsController < Devise::SessionsController
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
     else
-      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}")
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: user_session_phone_resend_path(login_state_id: @login_state_id))
       render :phone_code
     end
   end
@@ -93,7 +94,6 @@ protected
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(login_state.user)
 
-    set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, login_state.user)
     redirect_to login_state.redirect_path
   end

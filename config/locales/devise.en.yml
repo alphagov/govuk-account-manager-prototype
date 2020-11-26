@@ -6,26 +6,29 @@ en:
         user:
           attributes:
             cookie_consent_decision:
-              invalid: Please select an option
+              invalid: Choose whether or not you agree to analytics cookies while you’re signed in to your account.
+            current_password:
+              blank: Enter your current password
             email:
-              blank: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
+              blank: Enter your email address
               invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
-              taken: Email address has already been taken
+              taken: That email address already has a GOV.UK account. Enter a different email address.
             email_decision:
-              invalid: Please select one option
+              invalid: Choose whether or not you would like to receive emails about new rules in 2021.
             feedback_consent_decision:
-              invalid: Please select an option
+              invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
-              blank: Enter a valid password
-              invalid: Enter a valid password
-              too_short: Enter a valid password
+              blank: Enter your password
+              invalid: The password is not in the correct format. Choose a password that is at least 8 characters long.
+              new_blank: Your new password cannot be blank. Try entering a new password again.
+              too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
             password_confirmation:
-              confirmation: Passwords do not match
+              confirmation: The passwords you’ve entered are not the same. Try retyping your password again.
             reset_password_token:
-              invalid: This password reset link is invalid
+              invalid: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
   devise:
     confirmations:
-      confirmed: Your email address has been successfully confirmed.
+      confirmed: You’ve successfully confirmed your email address.
       resend:
         button: Resend confirmation instructions
         heading: Resend confirmation instructions
@@ -33,16 +36,12 @@ en:
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
-      already_authenticated: You are already signed in.
-      inactive: Your account is not activated yet.
-      invalid: Invalid %{authentication_keys} or password.
-      last_attempt: You have one more attempt before your account is locked.
-      locked: Your account is locked.
-      not_found_in_database: Invalid %{authentication_keys} or password.
-      same_email: Your new email address is the same as your current email address.
-      timeout: Your session expired. Please sign in again to continue.
-      unauthenticated: You need to sign in or sign up before continuing.
-      unconfirmed: You have to confirm your email address before continuing.
+      last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
+      locked: You’ve been locked out of your account because you entered an incorrect password too many times. We’ve sent you an email with instructions for unlocking your account.
+      same_email: Your account is already using this email address. Enter a different email address.
+      timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
+      unauthenticated: Sign in to your GOV.UK account.
+      unconfirmed: You need to confirm your email address before you can sign in to your account. <a class="govuk-link" href="/account/confirmation/new">Resend confirmation instructions</a>.
     mailer:
       change_confirmation_instructions:
         body: |
@@ -150,10 +149,9 @@ en:
         heading: Reset your password
         submit:
           label: Send
-      no_token: You can’t access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      no_token: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
       send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
-      updated: You’ve successfully updated the password for your GOV.UK account. You are now signed in.
       updated_not_active: You’ve successfully updated the password for your GOV.UK account.
     registrations:
       closed:
@@ -266,8 +264,7 @@ en:
             label: Email address
           password:
             errors:
-              incorrect: Password is incorrect.
-              locked: This account has been locked.
+              incorrect: You’ve entered the wrong password - try entering your password again.
             label: Enter your password
           remember:
             label: Remember me
@@ -276,8 +273,6 @@ en:
         heading: Enter password
         register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
         reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
-      signed_in: Signed in successfully.
-      signed_out: Signed out successfully.
     unlocks:
       heading: Resend unlock instructions
       label: Your email address
@@ -287,9 +282,9 @@ en:
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
   errors:
     messages:
-      already_confirmed: was already confirmed, please try signing in
-      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-      expired: has expired, please request a new one
+      already_confirmed: You have already confirmed your email address. Sign in to your account with this email address.
+      expired: Your password reset link has expired.
+      expired_link_text: Get a new link for changing your password
       headline: There is a problem
-      not_found: This email address does not have a GOV.UK account
-      not_locked: was not locked
+      not_found: This email address does not have a GOV.UK account. Try entering the email address for your account again.
+      not_locked: You have already successfully unlocked your GOV.UK account. Enter your email address to sign in.

@@ -82,7 +82,7 @@ RSpec.feature "Change Phone" do
         enter_password
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
-        expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
+        expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
       end
     end
   end
@@ -96,7 +96,7 @@ RSpec.feature "Change Phone" do
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone_code.expired"))
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
     end
   end
 
