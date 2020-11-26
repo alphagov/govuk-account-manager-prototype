@@ -8,6 +8,8 @@ module MultiFactorAuth
   class NotConfigured < MFAError; end
 
   def self.valid?(phone_number)
+    return false unless phone_number
+
     parsed_number = TelephoneNumber.parse(phone_number.gsub(INTERNATIONAL_CODE_REGEX, "+"))
 
     if TelephoneNumber.valid?(phone_number, :gb, [:mobile])
