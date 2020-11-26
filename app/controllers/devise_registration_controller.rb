@@ -201,7 +201,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
     new_email = params.dig(:user, :email)
     new_password = params.dig(:user, :password) # pragma: allowlist secret
 
-    if new_email && new_emauil == resource.email
+    if new_email && new_email == resource.email
       redirect_to edit_user_registration_email_path, flash: { alert: I18n.t("devise.failure.same_email") }
       return
     end
