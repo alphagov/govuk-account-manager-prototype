@@ -191,6 +191,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
       @previous_url = registration_state.previous_url
       registration_state.destroy!
     end
+    flash.clear
   end
 
   # from https://github.com/heartcombo/devise/blob/f5cc775a5feea51355036175994edbcb5e6af13c/app/controllers/devise/registrations_controller.rb#L46
