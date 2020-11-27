@@ -10,6 +10,13 @@ class DeviseSessionsController < Devise::SessionsController
     phone_resend
   ]
 
+  before_action :check_password_ok, only: %i[
+    phone_code
+    phone_code_send
+    phone_verify
+    phone_resend
+  ]
+
   def create
     render :new and return unless params.dig(:user, :password)
 
@@ -81,6 +88,10 @@ protected
   def check_login_state
     @login_state_id = params[:login_state_id]
     redirect_to new_user_session_path unless login_state
+  end
+
+  def check_password_ok
+    redirect_to user_session_path(login_state_id: params[:login_state_id]) unless login_state.password_ok
   end
 
   def login_state
