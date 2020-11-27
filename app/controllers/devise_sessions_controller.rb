@@ -10,11 +10,19 @@ class DeviseSessionsController < Devise::SessionsController
     phone_resend
   ]
 
+  before_action :check_password_ok, only: %i[
+    phone_code
+    phone_code_send
+    phone_verify
+    phone_resend
+  ]
+
   def create
     render :new and return unless params.dig(:user, :password)
 
     self.resource = warden.authenticate(auth_options)
     if resource
+      login_state.update!(password_ok: true)
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
         redirect_to user_session_phone_code_path(login_state_id: @login_state_id)
@@ -80,6 +88,10 @@ protected
   def check_login_state
     @login_state_id = params[:login_state_id]
     redirect_to new_user_session_path unless login_state
+  end
+
+  def check_password_ok
+    redirect_to user_session_path(login_state_id: params[:login_state_id]) unless login_state.password_ok
   end
 
   def login_state

@@ -32,6 +32,15 @@ RSpec.feature "Logging in" do
     end
   end
 
+  context "the user tries to bypass password check" do
+    it "does not send MFA code" do
+      enter_email_address
+      go_straight_to_mfa_page
+
+      expect(page).to_not have_text(I18n.t("mfa.phone.code.sign_in_heading"))
+    end
+  end
+
   context "the user tries to bypass MFA" do
     it "does not log them in" do
       enter_email_address
@@ -142,6 +151,10 @@ RSpec.feature "Logging in" do
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
     click_on I18n.t("mfa.phone.code.fields.submit.label")
+  end
+
+  def go_straight_to_mfa_page
+    visit user_session_phone_code_path(login_state_id: LoginState.last.id)
   end
 
   def go_straight_to_account_page
