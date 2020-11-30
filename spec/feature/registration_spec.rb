@@ -159,6 +159,25 @@ RSpec.feature "Registration" do
     end
   end
 
+  context "when the phone number is from the Crown Dependencies" do
+    valid_numbers = %w[07624123456 07797987654 07700123456 07829123456 07781123456 07839123456 07911123456]
+
+    valid_numbers.each do |valid_number|
+      context "with example number #{valid_number}" do
+        it "sends an email" do
+          enter_email_address
+          enter_password_and_confirmation
+          enter_phone_number(valid_number)
+          enter_mfa
+          provide_consent
+
+          assert_enqueued_jobs 1, only: NotifyDeliveryJob
+          expect(User.last.phone).to eq("+44#{valid_number.gsub(/^0/, '')}")
+        end
+      end
+    end
+  end
+
   context "when the phone number is international" do
     it "sends an email" do
       enter_email_address
