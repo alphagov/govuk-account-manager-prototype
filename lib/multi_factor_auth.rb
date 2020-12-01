@@ -2,6 +2,7 @@ module MultiFactorAuth
   ALLOWED_ATTEMPTS = 6
   EXPIRATION_AGE = 10.minutes
   INTERNATIONAL_CODE_REGEX = /^00/.freeze
+  VALID_DOMESTIC_COUNTRIES = %i[gb gg je im].freeze
 
   class MFAError < StandardError; end
   class Disabled < MFAError; end
@@ -12,7 +13,7 @@ module MultiFactorAuth
 
     parsed_number = TelephoneNumber.parse(phone_number.gsub(INTERNATIONAL_CODE_REGEX, "+"))
 
-    if TelephoneNumber.valid?(phone_number, :gb, [:mobile])
+    if domestic_country_code(phone_number)
       true
     elsif parsed_number.country && parsed_number.valid? && parsed_number.valid_types.include?(:mobile)
       true
@@ -22,8 +23,8 @@ module MultiFactorAuth
   end
 
   def self.e164_number(phone_number)
-    if TelephoneNumber.valid?(phone_number, :gb)
-      TelephoneNumber.parse(phone_number, :gb).e164_number
+    if (country_code = domestic_country_code(phone_number))
+      TelephoneNumber.parse(phone_number, country_code).e164_number
     else
       TelephoneNumber.parse(phone_number.gsub(INTERNATIONAL_CODE_REGEX, "+")).e164_number
     end
@@ -82,5 +83,12 @@ module MultiFactorAuth
 
   def self.is_enabled?
     Rails.configuration.feature_flag_mfa
+  end
+
+  def self.domestic_country_code(phone_number)
+    VALID_DOMESTIC_COUNTRIES.each do |country_code|
+      return country_code if TelephoneNumber.valid?(phone_number, country_code, [:mobile])
+    end
+    false
   end
 end
