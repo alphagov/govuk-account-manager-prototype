@@ -191,6 +191,12 @@ class DeviseRegistrationController < Devise::RegistrationsController
       @previous_url = registration_state.previous_url
       registration_state.destroy!
       session.delete(:registration_state_id)
+
+      session[:confirmations] = {
+        email: resource.email,
+        user_is_confirmed: false,
+        user_is_new: true,
+      }
     end
     flash.clear
   end
@@ -229,6 +235,10 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
       if new_email
         UserMailer.with(user: resource, new_address: new_email).changing_email_email.deliver_later
+        session[:confirmations] = {
+          email: new_email,
+          user_is_confirmed: resource.confirmed?,
+        }
         respond_with resource, location: confirmation_email_sent_path
       else
         flash[:notice] = I18n.t("devise.registrations.edit.success")
@@ -257,7 +267,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 protected
 
   def after_sign_up_path_for(_resource)
-    confirmation_email_sent_path(previous_url: @previous_url, new_user: true)
+    confirmation_email_sent_path(previous_url: @previous_url)
   end
 
   def after_inactive_sign_up_path_for(resource)
