@@ -75,13 +75,10 @@ namespace :statistics do
       .uniq
     results += "Accounts logged in between #{args.start_date} and #{args.end_date}: \n#{user_logins.count}\n\n"
 
-    all_login_frequency = dedup_nearby(
-      SecurityActivity
-        .where(event_type: "login")
-        .where(oauth_application_id: nil)
-        .where("created_at < ?", args.end_date),
-    )
-    .reject(&:nil?)
+    all_login_frequency = SecurityActivity
+    .where(event_type: "login")
+    .where(oauth_application_id: nil)
+    .where("created_at < ?", args.end_date)
     .pluck(:user_id)
     .tally
     .values
@@ -93,13 +90,10 @@ namespace :statistics do
     end
     results += "\n"
 
-    login_frequency = dedup_nearby(
-      SecurityActivity
-        .where(event_type: "login")
-        .where(oauth_application_id: nil)
-        .where("created_at BETWEEN ? AND ?", args.start_date, args.end_date),
-    )
-    .reject(&:nil?)
+    login_frequency = SecurityActivity
+    .where(event_type: "login")
+    .where(oauth_application_id: nil)
+    .where("created_at BETWEEN ? AND ?", args.start_date, args.end_date)
     .pluck(:user_id)
     .tally
     .values
@@ -116,15 +110,5 @@ namespace :statistics do
     }]
 
     puts output.to_json
-  end
-end
-
-def dedup_nearby(activities)
-  last_activity = nil
-  activities.map do |activity|
-    if last_activity.nil? || !activity.very_similar_to(last_activity)
-      last_activity = activity
-      activity
-    end
   end
 end
