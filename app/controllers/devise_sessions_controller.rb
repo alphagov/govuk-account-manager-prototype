@@ -87,6 +87,10 @@ protected
   def verify_signed_out_user; end
 
   def check_login_state
+    if session[:login_state_id].nil? && params[:login_state_id]
+      session[:login_state_id] = params[:login_state_id]
+    end
+
     @login_state_id = session[:login_state_id]
     redirect_to new_user_session_path unless login_state
   end

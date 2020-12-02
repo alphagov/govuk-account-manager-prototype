@@ -265,6 +265,10 @@ protected
   end
 
   def check_registration_state
+    if session[:registration_state_id].nil? && params[:registration_state_id]
+      session[:registration_state_id] = params[:registration_state_id]
+    end
+
     @registration_state_id = session[:registration_state_id]
     redirect_to new_user_session_path unless registration_state
   end
