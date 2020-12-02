@@ -1,17 +1,2 @@
 <% page_is ||= nil %>
 <% in_mobile_menu ||= false %>
-
-<ul class="accounts-menu <%= "accounts-menu--mobile" if in_mobile_menu %>">
-  <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "your-account" %>">
-    <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= user_root_path %>"><%= t("navigation.menu_bar.account.link_text") %></a>
-    <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.account.description") %></span>
-  </li>
-  <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "manage" %>">
-    <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= account_manage_path %>"><%= t("navigation.menu_bar.manage.link_text") %></a>
-    <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.manage.description") %></span>
-  </li>
-  <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "security" %>">
-    <a class="accounts-menu__link govuk-link govuk-link--no-visited-state" href="<%= account_security_path %>"><%= t("navigation.menu_bar.security.link_text") %></a>
-    <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.security.description") %></span>
-  </li>
-</ul>
