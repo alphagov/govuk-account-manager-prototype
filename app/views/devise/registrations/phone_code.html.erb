@@ -14,7 +14,7 @@
       <p class="govuk-body"><%= sanitize(msg) %></p>
     <% end %>
 
-    <%= form_with(url: new_user_registration_phone_verify_path(registration_state_id: @registration_state_id), method: :post, html: { autocomplete: "off" }) do %>
+    <%= form_with(url: new_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.code.fields.phone_code.label") },
         name: "phone_code",
@@ -44,7 +44,7 @@
     } %>
 
     <p class="govuk-body">
-      <%= sanitize(t("mfa.phone.code.not_received.sign_up_message", link: new_user_registration_phone_resend_path(registration_state_id: @registration_state_id))) %>
+      <%= sanitize(t("mfa.phone.code.not_received.sign_up_message", link: new_user_registration_phone_resend_path)) %>
     </p>
   </div>
 </div>

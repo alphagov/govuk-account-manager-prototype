@@ -10,7 +10,7 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_with(url: user_session_path(login_state_id: @login_state_id)) do %>
+    <%= form_with(url: user_session_path) do %>
       <% if resource %>
         <%= render "devise/shared/error_messages", resource: resource %>
       <% end %>
