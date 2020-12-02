@@ -6,7 +6,7 @@
     <%= render "account-navigation", page_is: yield(:location) %>
   </div>
 
-  <div class="govuk-grid-column-two-thirds-from-desktop">
+  <div class="govuk-grid-column-two-thirds">
     <% if flash[:notice] %>
       <% if flash_as_notice(flash[:notice]) %>
         <%= render "govuk_publishing_components/components/notice", { description_text: flash[:notice] } %>
