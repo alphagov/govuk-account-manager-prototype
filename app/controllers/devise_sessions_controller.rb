@@ -57,8 +57,9 @@ class DeviseSessionsController < Devise::SessionsController
       do_sign_in
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
+      session.delete(:login_state_id)
     else
-      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: user_session_phone_resend_path(login_state_id: @login_state_id))
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: user_session_phone_resend_path)
       render :phone_code
     end
   end
@@ -86,12 +87,16 @@ protected
   def verify_signed_out_user; end
 
   def check_login_state
-    @login_state_id = params[:login_state_id]
+    if session[:login_state_id].nil? && params[:login_state_id]
+      session[:login_state_id] = params[:login_state_id]
+    end
+
+    @login_state_id = session[:login_state_id]
     redirect_to new_user_session_path unless login_state
   end
 
   def check_password_ok
-    redirect_to user_session_path(login_state_id: params[:login_state_id]) unless login_state.password_ok
+    redirect_to user_session_path unless login_state.password_ok
   end
 
   def login_state

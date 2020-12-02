@@ -29,7 +29,7 @@
     <%= sanitize(t("devise.registrations.your_information.data_choice_description")) %>
 
     <%= form_with(
-      url: new_user_registration_your_information_path(registration_state_id: @registration_state_id),
+      url: new_user_registration_your_information_path,
       method: :post,
       data: {
         module: "track-form",

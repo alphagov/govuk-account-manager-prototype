@@ -3,7 +3,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/back_link", {
-      href: new_user_registration_phone_code_path(registration_state_id: @registration_state_id)
+      href: new_user_registration_phone_code_path
     } %>
 
     <%= render "govuk_publishing_components/components/heading", {
@@ -16,7 +16,7 @@
 
     <p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
 
-    <%= form_with(url: new_user_registration_phone_code_path(registration_state_id: @registration_state_id), method: :post) do %>
+    <%= form_with(url: new_user_registration_phone_code_path, method: :post) do %>
       <%= render "govuk_publishing_components/components/details", {
         title: t("mfa.phone.resend.change_phone")
       } do %>

@@ -46,7 +46,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
         state: MultiFactorAuth.is_enabled? ? :phone : :your_information,
         password: password,
       )
-      redirect_to new_user_registration_phone_path(registration_state_id: @registration_state_id)
+      redirect_to new_user_registration_phone_path
     else
       @resource_error_messages = {
         password: [ # pragma: allowlist secret
@@ -92,9 +92,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
     state = MultiFactorAuth.verify_code(registration_state, params[:phone_code])
     if state == :ok
       registration_state.update!(state: :your_information)
-      redirect_to new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+      redirect_to new_user_registration_your_information_path
     else
-      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: new_user_registration_phone_resend_path(registration_state_id: @registration_state_id))
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: new_user_registration_phone_resend_path)
       render :phone_code
     end
   end
@@ -143,9 +143,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
       email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
       if email_topic_slug
         registration_state.update!(state: :transition_emails)
-        redirect_to new_user_registration_transition_emails_path(registration_state_id: @registration_state_id)
+        redirect_to new_user_registration_transition_emails_path
       else
-        redirect_to new_user_registration_finish_path(registration_state_id: @registration_state_id)
+        redirect_to new_user_registration_finish_path
       end
       return
     end
@@ -167,7 +167,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
         state: :finish,
         yes_to_emails: decision == "yes",
       )
-      redirect_to new_user_registration_finish_path(registration_state_id: @registration_state_id)
+      redirect_to new_user_registration_finish_path
       return
     end
 
@@ -190,6 +190,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
       @previous_url = registration_state.previous_url
       registration_state.destroy!
+      session.delete(:registration_state_id)
     end
     flash.clear
   end
@@ -264,7 +265,11 @@ protected
   end
 
   def check_registration_state
-    @registration_state_id = params[:registration_state_id]
+    if session[:registration_state_id].nil? && params[:registration_state_id]
+      session[:registration_state_id] = params[:registration_state_id]
+    end
+
+    @registration_state_id = session[:registration_state_id]
     redirect_to new_user_session_path unless registration_state
   end
 
@@ -300,13 +305,13 @@ protected
   def url_for_state
     case registration_state.state
     when "phone"
-      new_user_registration_phone_path(registration_state_id: @registration_state_id)
+      new_user_registration_phone_path
     when "your_information"
-      new_user_registration_your_information_path(registration_state_id: @registration_state_id)
+      new_user_registration_your_information_path
     when "transition_emails"
-      new_user_registration_transition_emails_path(registration_state_id: @registration_state_id)
+      new_user_registration_transition_emails_path
     when "finish"
-      new_user_registration_finish_path(registration_state_id: @registration_state_id)
+      new_user_registration_finish_path
     else
       new_user_session_path
     end

@@ -20,11 +20,13 @@ class WelcomeController < ApplicationController
 
       if User.exists?(email: @email)
         login_state = create_login_state(payload, @email)
-        redirect_to user_session_path(login_state_id: login_state.id)
+        session[:login_state_id] = login_state.id
+        redirect_to user_session_path
       elsif Rails.configuration.enable_registration
         if payload || !Rails.configuration.force_jwt_at_registration
           registration_state = create_registration_state(payload, @email)
-          redirect_to new_user_registration_start_path(registration_state_id: registration_state.id)
+          session[:registration_state_id] = registration_state.id
+          redirect_to new_user_registration_start_path
         else
           render "devise/registrations/transition_checker"
         end

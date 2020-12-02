@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(url: new_user_registration_start_path(registration_state_id: @registration_state_id), method: :post) do %>
+    <%= form_with(url: new_user_registration_start_path, method: :post) do %>
       <% if resource || @resource_error_messages %>
         <%= render "devise/shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
       <% end %>
