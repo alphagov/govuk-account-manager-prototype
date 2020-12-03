@@ -12,7 +12,6 @@ module ApplicationHelper
           text: t("navigation.user_root_path"),
           href: user_root_path,
           active: true,
-          sub_menu: "account-navigation-list",
         },
         {
           text: t("navigation.destroy_user_session"),

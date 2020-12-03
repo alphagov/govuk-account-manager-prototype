@@ -3,12 +3,10 @@
 }
 
 .accounts-menu {
-  margin: 0;
+  margin: 0 0 govuk-spacing(6) 0;
   padding: 0;
-  display: none;
 
   @include govuk-media-query($from: desktop) {
-    display: block;
     margin-right: govuk-spacing(4)
   }
 }
@@ -16,15 +14,14 @@
 // Used to determine width of blue location indicator in navigation mention
 $_current-indicator-width: 4px;
 
-.accounts-menu--mobile {
-  display: block;
-  margin: 0 (govuk-spacing(2) + $_current-indicator-width);
-}
-
 .accounts-menu__item {
-  margin: 0 0 govuk-spacing(4);
-  padding: govuk-spacing(1) 0;
   list-style-type: none;
+  padding: 12px 0;
+
+  @include govuk-media-query($from: tablet) {
+    margin: 0 0 govuk-spacing(4);
+    padding: govuk-spacing(1) 0;
+  }
 }
 
 .accounts-menu__item--current {
@@ -50,6 +47,10 @@ $_current-indicator-width: 4px;
   @include govuk-font(16);
   display: block;
   margin-top: govuk-spacing(1);
+
+  @include govuk-media-query($until: tablet) {
+    @include govuk-visually-hidden;
+  }
 }
 
 .accounts-panel {
@@ -119,37 +120,6 @@ $_current-indicator-width: 4px;
       }
     }
   }
-}
-
-.accounts-mobile-menu {
-  margin: 0 govuk-spacing(3);
-  display: none;
-
-  @include govuk-media-query($from: tablet) {
-    margin: 0 govuk-spacing(6);
-  }
-}
-
-.accounts-mobile-menu--active {
-  @include govuk-media-query($until: desktop) {
-    display: block;
-  }
-}
-
-.accounts-mobile-menu__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.accounts-mobile-menu__heading {
-  background-color: govuk-colour("light-grey");
-  padding: govuk-spacing(3) govuk-spacing(4);
-  margin: 0;
-}
-
-.accounts-mobile-menu__link {
-  text-decoration: none;
 }
 
 .accounts-your-account__email {

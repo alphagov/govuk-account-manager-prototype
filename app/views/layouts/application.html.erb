@@ -59,21 +59,6 @@
     navigation_items: navigation_items,
   } %>
 
-  <nav id="mobile-navigation" class="accounts-mobile-menu js-mobile-menu" aria-hidden="true" role="navigation">
-    <ul class="accounts-mobile-menu__list">
-      <% navigation_items.each do |item| %>
-        <li>
-          <% if item[:sub_menu].present? %>
-            <div class="accounts-mobile-menu__heading govuk-heading-m"><%= item[:text] %></div>
-            <%= render item[:sub_menu], page_is: yield(:location), in_mobile_menu: true %>
-          <% else %>
-          <div class="accounts-mobile-menu__heading govuk-heading-m"><%= link_to item[:text], item[:href], class: ["govuk-link", "govuk-link--no-visited-state accounts-mobile-menu__link"] %></div>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </nav>
-
   <div class="govuk-width-container app-width-container">
     <% message = capture do %>
       <%= t("feedback.banners.phase_intro") %>
