@@ -40,8 +40,10 @@ en:
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
+      invalid: You’ve entered the wrong password - try entering your password again.
       last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
       locked: You’ve been locked out of your account because you entered the wrong password too many times. We’ve emailed you a link for unlocking your account.
+      no_account: This email address does not have a GOV.UK account
       same_email: Your account is already using this email address. Enter a different email address.
       timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
       unauthenticated: Sign in to your GOV.UK account.
@@ -269,14 +271,12 @@ en:
           email:
             label: Email address
           password:
-            errors:
-              incorrect: You’ve entered the wrong password - try entering your password again.
-            label: Enter your password
+            label: Password
           remember:
             label: Remember me
           submit:
-            label: Sign in
-        heading: Enter password
+            label: Continue
+        heading: Sign in to your GOV.UK account
         register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
         reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
     unlocks:

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       post "/phone/code", to: "devise_sessions#phone_code_send"
       post "/phone/verify", to: "devise_sessions#phone_verify", as: :user_session_phone_verify
       get  "/phone/resend", to: "devise_sessions#phone_resend", as: :user_session_phone_resend
+      post "/phone/resend", to: "devise_sessions#phone_resend_code"
     end
 
     get "/logout", to: "devise_sessions#destroy", as: :destroy_user_session

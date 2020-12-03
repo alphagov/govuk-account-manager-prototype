@@ -15,7 +15,17 @@
         <%= render "devise/shared/error_messages", resource: resource %>
       <% end %>
 
-      <%= hidden_field_tag :"user[email]", @login_state.user.email %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.sessions.new.fields.email.label"),
+        },
+        name: "user[email]",
+        type: "email",
+        id: "email",
+        value: @email,
+        error_message: devise_error_items(:email, @resource_error_messages),
+        autocomplete: "email",
+      } %>
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
@@ -24,7 +34,7 @@
         name: "user[password]",
         type: "password",
         id: "password",
-        error_message: sanitize(@password_error_message),
+        error_message: devise_error_items(:password, @resource_error_messages),
         autocomplete: "current-password",
       } %>
 
