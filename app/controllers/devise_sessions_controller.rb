@@ -25,7 +25,7 @@ class DeviseSessionsController < Devise::SessionsController
       login_state.update!(password_ok: true)
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
-        redirect_to user_session_phone_code_path(login_state_id: @login_state_id)
+        redirect_to user_session_phone_code_path
       else
         do_sign_in
       end

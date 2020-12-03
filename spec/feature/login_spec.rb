@@ -154,7 +154,7 @@ RSpec.feature "Logging in" do
   end
 
   def go_straight_to_mfa_page
-    visit user_session_phone_code_path(login_state_id: LoginState.last.id)
+    visit user_session_phone_code_path
   end
 
   def go_straight_to_account_page
