@@ -270,9 +270,9 @@ en:
         register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
         reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
     unlocks:
-      heading: Resend unlock instructions
-      label: Your email address
-      resend: Resend
+      heading: Resend unlock instructions to unlock your GOV.UK account
+      label: Enter your email
+      resend: Send unlock instructions
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
