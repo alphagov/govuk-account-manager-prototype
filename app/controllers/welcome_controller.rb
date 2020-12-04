@@ -1,10 +1,15 @@
 class WelcomeController < ApplicationController
+  include UrlHelper
+
   skip_before_action :verify_authenticity_token, only: [:show]
 
   def show
     payload = ApplicationKey.validate_jwt!(params[:jwt]) if params[:jwt]
 
-    redirect_to after_login_path(payload, current_user) and return if current_user
+    if current_user
+      redirect_to add_param_to_url(after_login_path(payload, current_user), "_ga", params[:_ga])
+      return
+    end
 
     @email = params.dig(:user, :email)
     if @email

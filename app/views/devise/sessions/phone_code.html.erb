@@ -12,7 +12,7 @@
       <p class="govuk-body"><%= msg %></p>
     <% end %>
 
-    <%= form_with(url: user_session_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
+    <%= form_with url: user_session_phone_verify_path, method: :post, html: { autocomplete: "off", "data-module" => "explicit-cross-domain-links" } do %>
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.code.fields.phone_code.label") },
         name: "phone_code",

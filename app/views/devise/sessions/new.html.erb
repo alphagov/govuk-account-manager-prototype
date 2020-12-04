@@ -10,7 +10,7 @@
       margin_bottom: 3,
     } %>
 
-    <%= form_with(url: user_session_path) do %>
+    <%= form_with url: user_session_path, html: { "data-module" => "explicit-cross-domain-links" } do %>
       <% if resource %>
         <%= render "devise/shared/error_messages", resource: resource %>
       <% end %>
