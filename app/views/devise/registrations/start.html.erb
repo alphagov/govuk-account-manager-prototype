@@ -1,4 +1,4 @@
-<% content_for :title, t("devise.registrations.start.fields.password.label") %>
+<% content_for :title, t("devise.registrations.start.heading") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -7,12 +7,30 @@
         <%= render "devise/shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
       <% end %>
 
+      <%= render "govuk_publishing_components/components/heading", {
+        text: yield(:title),
+        heading_level: 1,
+        font_size: "xl",
+        margin_top: 0,
+        margin_bottom: 3,
+      } %>
+
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: yield(:title),
+          text: t("devise.registrations.start.fields.email.label"),
         },
-        heading_level: 1,
-        heading_size: "xl",
+        name: "user[email]",
+        type: "email",
+        id: "email",
+        value: @email,
+        error_message: devise_error_items(:email, @resource_error_messages),
+        autocomplete: "email",
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t("devise.registrations.start.fields.password.label"),
+        },
         hint: t("devise.registrations.start.fields.password.hint"),
         name: "user[password]",
         type: "password",
@@ -23,13 +41,15 @@
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: t("devise.registrations.start.fields.password_confirm.label"),
+          text: t("devise.registrations.start.fields.phone.label"),
         },
-        name: "user[password_confirmation]",
-        type: "password",
-        id: "password_confirmation",
-        error_message: devise_error_items(:password_confirmation, @resource_error_messages),
-        autocomplete: "new-password",
+        hint: t("devise.registrations.start.fields.phone.hint"),
+        name: "user[phone]",
+        id: "phone",
+        value: MultiFactorAuth.formatted_phone_number(@phone),
+        width: 10,
+        error_message: devise_error_items(:phone, @resource_error_messages),
+        autocomplete: "tel",
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
@@ -39,8 +59,18 @@
           "track-category": "account-create",
           "track-action": "create",
           "track-label": "password"
-        }
+        },
+        margin_bottom: 3,
       } %>
     <% end %>
+
+    <p class="govuk-body"><%= sanitize(t("devise.registrations.start.sign_in", link: link_to(t("devise.registrations.start.sign_in_link"), new_user_session_path, class: "govuk-link"))) %></p>
+
+    <% if @criteria_keys %>
+      <%= render "govuk_publishing_components/components/inset_text", {
+        text: sanitize(t("devise.registrations.start.checker_inset_text", link: link_to(t("devise.registrations.start.checker_inset_text_link"), "#{transition_checker_path}/save-your-results?#{@criteria_keys.to_query('c')}", class: "govuk-link")))
+      } %>
+    <% end %>
+
   </div>
 </div>

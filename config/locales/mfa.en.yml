@@ -3,6 +3,7 @@ en:
   mfa:
     errors:
       phone:
+        blank: Enter your mobile number
         invalid: That does not look like a valid mobile number. Try entering your number again.
         nochange: Your account is already using this mobile number. Enter a different number.
       phone_code:
@@ -33,16 +34,6 @@ en:
           sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong mobile number.
         sign_in_heading: Check your phone
         sign_up_heading: Check your phone
-      create:
-        email_only_alternative: If you do not have a mobile phone, you can still <a class="govuk-link" href="%{email_link}">get email alerts and a link to your results</a>.
-        fields:
-          phone:
-            hint: |
-              <p>We’ll send you a security code by text message. You’ll need the security code to finish creating your account.</p>
-              <p>Security codes help keep your account secure.</p>
-            label: Enter your mobile number
-          submit:
-            label: Continue
       resend:
         change_phone: Send the text message to a different mobile number
         description: Text messages can take a few minutes to arrive. If you do not receive the text message, you can ask for a new one.

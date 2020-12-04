@@ -16,9 +16,11 @@ RSpec.feature "Registration" do
   let(:password_confirmation) { password }
 
   it "creates a user" do
+    visit_registration_form
     enter_email_address
-    enter_password_and_confirmation
+    enter_password
     enter_uk_phone_number
+    submit_registration_form
     enter_mfa
     provide_consent
 
@@ -30,9 +32,11 @@ RSpec.feature "Registration" do
   end
 
   it "sends an email" do
+    visit_registration_form
     enter_email_address
-    enter_password_and_confirmation
+    enter_password
     enter_uk_phone_number
+    submit_registration_form
     enter_mfa
     provide_consent
 
@@ -40,16 +44,21 @@ RSpec.feature "Registration" do
   end
 
   it "shows the MFA page" do
+    visit_registration_form
     enter_email_address
-    enter_password_and_confirmation
+    enter_password
+    enter_uk_phone_number
+    submit_registration_form
 
-    expect(page).to have_text(I18n.t("mfa.phone.create.fields.phone.label"))
+    expect(page).to have_text(I18n.t("mfa.phone.code.sign_up_heading"))
   end
 
   it "shows the terms & conditions" do
+    visit_registration_form
     enter_email_address
-    enter_password_and_confirmation
+    enter_password
     enter_uk_phone_number
+    submit_registration_form
     enter_mfa
 
     expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
@@ -59,7 +68,9 @@ RSpec.feature "Registration" do
     let(:email) { "" }
 
     it "shows an error" do
+      visit_registration_form
       enter_email_address
+      submit_registration_form
 
       expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
     end
@@ -69,9 +80,11 @@ RSpec.feature "Registration" do
     let(:email) { "foo" }
 
     it "shows an error" do
+      visit_registration_form
       enter_email_address
+      submit_registration_form
 
-      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
     end
   end
 
@@ -79,9 +92,11 @@ RSpec.feature "Registration" do
     let(:email) { "foo@bar" }
 
     it "shows an error" do
+      visit_registration_form
       enter_email_address
+      submit_registration_form
 
-      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
     end
   end
 
@@ -89,9 +104,23 @@ RSpec.feature "Registration" do
     let(:email) { "foo@bar@baz" }
 
     it "shows an error" do
+      visit_registration_form
       enter_email_address
+      submit_registration_form
 
-      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
+    end
+  end
+
+  context "when the user already exists" do
+    let!(:user) { FactoryBot.create(:user) }
+
+    it "shows an error" do
+      visit_registration_form
+      fill_in "email", with: user.email
+      submit_registration_form
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.taken"))
     end
   end
 
@@ -99,32 +128,12 @@ RSpec.feature "Registration" do
     let(:password) { "" }
 
     it "returns an error" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
+      submit_registration_form
 
       expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
-    end
-  end
-
-  context "when the password confirmation is missing" do
-    let(:password_confirmation) { "" }
-
-    it "returns an error" do
-      enter_email_address
-      enter_password_and_confirmation
-
-      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
-    end
-  end
-
-  context "when the password confirmation does not match" do
-    let(:password_confirmation) { password + "-123" }
-
-    it "returns an error" do
-      enter_email_address
-      enter_password_and_confirmation
-
-      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
     end
   end
 
@@ -132,8 +141,10 @@ RSpec.feature "Registration" do
     let(:password) { "qwerty1" }
 
     it "returns an error" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
+      submit_registration_form
 
       expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
     end
@@ -141,9 +152,11 @@ RSpec.feature "Registration" do
 
   context "when the phone number is not a mobile" do
     it "returns an error" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
       enter_non_mobile_phone_number
+      submit_registration_form
 
       expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
     end
@@ -151,9 +164,11 @@ RSpec.feature "Registration" do
 
   context "when the phone number is invalid" do
     it "returns an error" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
       enter_invalid_phone_number
+      submit_registration_form
 
       expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
     end
@@ -165,9 +180,11 @@ RSpec.feature "Registration" do
     valid_numbers.each do |valid_number|
       context "with example number #{valid_number}" do
         it "sends an email" do
+          visit_registration_form
           enter_email_address
-          enter_password_and_confirmation
+          enter_password
           enter_phone_number(valid_number)
+          submit_registration_form
           enter_mfa
           provide_consent
 
@@ -180,9 +197,11 @@ RSpec.feature "Registration" do
 
   context "when the phone number is international" do
     it "sends an email" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
       enter_international_phone_number
+      submit_registration_form
       enter_mfa
       provide_consent
 
@@ -193,9 +212,11 @@ RSpec.feature "Registration" do
 
   context "when the phone number is international with 00 instead of +" do
     it "sends an email" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
       enter_international_phone_number_without_plus
+      submit_registration_form
       enter_mfa
       provide_consent
 
@@ -206,9 +227,11 @@ RSpec.feature "Registration" do
 
   context "when the MFA code is incorrect" do
     it "returns an error" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
       enter_uk_phone_number
+      submit_registration_form
       enter_incorrect_mfa
 
       expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
@@ -216,9 +239,11 @@ RSpec.feature "Registration" do
 
     context "the user keeps entering an incorrect code" do
       it "expires the code" do
+        visit_registration_form
         enter_email_address
-        enter_password_and_confirmation
+        enter_password
         enter_uk_phone_number
+        submit_registration_form
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
         expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.too_many_attempts")))
@@ -228,9 +253,11 @@ RSpec.feature "Registration" do
 
   context "when the MFA code is too old" do
     it "expires the code" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
       enter_uk_phone_number
+      submit_registration_form
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
@@ -240,12 +267,15 @@ RSpec.feature "Registration" do
 
   context "the user tries to skip over the MFA pages and go straight to the 'your information' page" do
     it "redirects them back to the first MFA page" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
+      enter_uk_phone_number
+      submit_registration_form
       query = current_url.split("?")[1]
       visit "#{new_user_registration_your_information_path}?#{query}"
 
-      expect(page).to have_text(I18n.t("mfa.phone.create.fields.phone.label"))
+      expect(page).to have_text(I18n.t("mfa.phone.code.sign_up_heading"))
     end
   end
 
@@ -253,8 +283,10 @@ RSpec.feature "Registration" do
     let(:mfa_enabled) { false }
 
     it "skips over the MFA screens" do
+      visit_registration_form
       enter_email_address
-      enter_password_and_confirmation
+      enter_password
+      submit_registration_form
       provide_consent
 
       expect(page).to have_text(I18n.t("confirmation_sent.heading"))
@@ -269,37 +301,30 @@ RSpec.feature "Registration" do
     let(:registration_enabled) { false }
 
     it "shows an error message" do
-      enter_email_address
+      visit_registration_form
 
       expect(page).to have_text(I18n.t("devise.registrations.closed.heading"))
     end
   end
 
-  context "a JWT is required" do
-    let(:force_jwt) { true }
+  def visit_registration_form
+    visit new_user_registration_start_path
+  end
 
-    it "shows an error message" do
-      enter_email_address
-
-      expect(page).to have_text(I18n.t("devise.registrations.transition_checker.heading"))
-    end
+  def submit_registration_form
+    click_on I18n.t("devise.registrations.start.fields.submit.label")
   end
 
   def enter_email_address
-    visit new_user_session_path
     fill_in "email", with: email
-    click_on I18n.t("welcome.show.button.label")
   end
 
-  def enter_password_and_confirmation
+  def enter_password
     fill_in "password", with: password
-    fill_in "password_confirmation", with: password_confirmation
-    click_on I18n.t("devise.registrations.start.fields.submit.label")
   end
 
   def enter_phone_number(number)
     fill_in "phone", with: number
-    click_on I18n.t("mfa.phone.create.fields.submit.label")
   end
 
   def enter_uk_phone_number

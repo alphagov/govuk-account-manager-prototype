@@ -13,7 +13,6 @@ Rails.application.routes.draw do
       get  "/", to: "devise_sessions#create", as: :user_session
       post "/", to: "devise_sessions#create"
       get  "/phone/code", to: "devise_sessions#phone_code", as: :user_session_phone_code
-      post "/phone/code", to: "devise_sessions#phone_code_send"
       post "/phone/verify", to: "devise_sessions#phone_verify", as: :user_session_phone_verify
       get  "/phone/resend", to: "devise_sessions#phone_resend", as: :user_session_phone_resend
       post "/phone/resend", to: "devise_sessions#phone_resend_code"
@@ -86,11 +85,10 @@ Rails.application.routes.draw do
     scope "/new-account" do
       get  "/", to: "devise_registration#start", as: :new_user_registration_start
       post "/", to: "devise_registration#start"
-      get  "/phone", to: "devise_registration#phone", as: :new_user_registration_phone
       get  "/phone/code", to: "devise_registration#phone_code", as: :new_user_registration_phone_code
-      post "/phone/code", to: "devise_registration#phone_code_send"
       post "/phone/verify", to: "devise_registration#phone_verify", as: :new_user_registration_phone_verify
       get  "/phone/resend", to: "devise_registration#phone_resend", as: :new_user_registration_phone_resend
+      post "/phone/resend", to: "devise_registration#phone_resend_code"
       get  "/your-information", to: "devise_registration#your_information", as: :new_user_registration_your_information
       post "/your-information", to: "devise_registration#your_information_post"
       get  "/transition-emails", to: "devise_registration#transition_emails", as: :new_user_registration_transition_emails

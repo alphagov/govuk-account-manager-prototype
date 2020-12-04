@@ -11,7 +11,6 @@ class WelcomeController < ApplicationController
       return
     end
 
-
     @email = params.dig(:user, :email)
     if @email
       if @email.blank?

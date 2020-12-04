@@ -16,14 +16,16 @@
 
     <p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
 
-    <%= form_with(url: new_user_registration_phone_code_path, method: :post) do %>
+    <%= form_with(url: new_user_registration_phone_resend_path, method: :post) do %>
       <%= render "govuk_publishing_components/components/details", {
-        title: t("mfa.phone.resend.change_phone")
+        title: t("mfa.phone.resend.change_phone"),
+        open: @phone_error_message.present?,
       } do %>
         <%= render "govuk_publishing_components/components/input", {
           label: { text: t("mfa.phone.resend.fields.phone.label") },
           name: "phone",
           value: MultiFactorAuth.formatted_phone_number(@phone),
+          error_message: @phone_error_message,
           width: 10,
           autocomplete: "tel",
         } %>
