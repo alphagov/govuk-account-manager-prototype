@@ -106,14 +106,14 @@ RSpec.feature "Logging in" do
   end
 
   def enter_email_address_and_password
-    visit user_session_path
+    visit new_user_session_path
     fill_in "email", with: user.email
     fill_in "password", with: user.password
     click_on I18n.t("devise.sessions.new.fields.submit.label")
   end
 
   def enter_email_address_and_incorrect_password
-    visit user_session_path
+    visit new_user_session_path
     fill_in "email", with: user.email
     fill_in "password", with: "1#{user.password}"
     click_on I18n.t("devise.sessions.new.fields.submit.label")
