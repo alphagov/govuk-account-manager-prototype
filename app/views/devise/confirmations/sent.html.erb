@@ -1,5 +1,5 @@
 <% content_for :title, t("confirmation_sent.heading") %>
-<% service = service_for(params[:previous_url], current_user) %>
+<% service = service_for(params[:previous_url], current_user) if @user_is_new %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
