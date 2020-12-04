@@ -79,8 +79,8 @@ en:
     content: Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
     heading: Change your password
   confirmation_sent:
-    continue_to_account: <p class="govuk-body"><a class="govuk-link" href="%{account_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">Go to your GOV.UK account</a></p>
-    continue_to_service: <p class="govuk-body"><a class="govuk-link" href="%{service_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="%{service_name}">Go back to %{service_name}</a></p>
+    continue_to_account: Go to your GOV.UK account
+    continue_to_service: Go back to %{service_name}
     delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
     existing_user_instruction_list: |
       <ul class="govuk-list govuk-list--bullet">

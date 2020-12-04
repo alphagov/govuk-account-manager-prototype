@@ -33,9 +33,17 @@
     <% end %>
 
     <% if service %>
-      <%= sanitize(t("confirmation_sent.continue_to_service", service_name: service[:name], service_link: service[:url])) %>
+      <p class="govuk-body">
+        <a class="govuk-link" href="<%= service[:url] %>" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="<%= service[:name] %>">
+          <%= t("confirmation_sent.continue_to_service", service_name: service[:name]) %>
+        </a>
+      </p>
     <% else %>
-      <%= sanitize(t("confirmation_sent.continue_to_account", account_link: user_root_path)) %>
+      <p class="govuk-body">
+        <a class="govuk-link" href="<%= user_root_path %>" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
+          <%= t("confirmation_sent.continue_to_account") %>
+        </a>
+      </p>
     <% end %>
 
     <%= render "govuk_publishing_components/components/heading", {
