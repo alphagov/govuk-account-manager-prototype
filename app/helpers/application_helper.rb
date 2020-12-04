@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "cgi"
+
 module ApplicationHelper
   def date_with_time_ago(datetime)
     "#{datetime.strftime('%d %B %Y at %H:%M')} (#{time_ago_in_words(datetime)} ago)"
@@ -49,5 +51,30 @@ module ApplicationHelper
   def transition_path
     base_url = Rails.env.development? ? Plek.find("collections") : Plek.new.website_root
     "#{base_url}/transition"
+  end
+
+  def service_for(previous_url, current_user)
+    return unless previous_url&.start_with? oauth_authorization_path
+
+    bits = previous_url.split("?")
+    return unless bits.length > 1
+
+    querystring = CGI.parse(bits[1])
+    return unless querystring["client_id"]
+
+    app = Doorkeeper::Application.by_uid(querystring["client_id"].first)
+    return unless app
+
+    url =
+      if current_user&.cookie_consent && previous_url.end_with?("%3A%2Ftransition-check%2Fsaved-results")
+        "#{previous_url}%3Acookies-yes"
+      else
+        previous_url
+      end
+
+    {
+      name: app.name,
+      url: url,
+    }
   end
 end
