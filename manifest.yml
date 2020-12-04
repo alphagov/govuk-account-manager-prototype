@@ -6,3 +6,4 @@ applications:
   services:
     - govuk-account-manager-postgres
     - govuk-account-manager-redis
+    - splunk-ssl-drain
