@@ -31,7 +31,7 @@ You [create the `~/govuk` folder](https://github.com/alphagov/govuk-docker/blob/
 
 Check out the following branches on the different repos:
 
-- `enable-account-finder-frontend` branch on the GOV.UK Docker repo
+- `master` branch on the GOV.UK Docker repo
 - `main` branch on the GOV.UK account manager prototype repo
 - `main` branch on the GOV.UK attribute service prototype repo
 - `master` branch on the Brexit transition checker repo
