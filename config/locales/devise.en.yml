@@ -25,8 +25,6 @@ en:
               invalid: The password is not in the correct format. Choose a password that is at least 8 characters long.
               new_blank: Your new password cannot be blank. Try entering a new password again.
               too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
-            password_confirmation:
-              confirmation: The passwords you’ve entered are not the same. Try retyping your password again.
             reset_password_token:
               invalid: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
   devise:
@@ -151,8 +149,6 @@ en:
         password:
           hint: It needs to be at least 8 characters long.
           label: Create a new password
-        password_confirm:
-          label: Retype password
         submit:
           label: Save
       new:
@@ -189,8 +185,6 @@ en:
           password:
             hint: It needs to be at least 8 characters long.
             label: Create your new password
-          password_confirm:
-            label: Retype new password
           submit:
             label: Save
         heading: Change your email address or password

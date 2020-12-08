@@ -13,7 +13,6 @@ RSpec.feature "Registration" do
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
   let(:phone_number) { "07958 123 456" }
   let(:password) { "abcd1234" } # pragma: allowlist secret
-  let(:password_confirmation) { password }
 
   it "creates a user" do
     visit_registration_form

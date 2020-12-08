@@ -27,12 +27,11 @@
         autocomplete: "email",
       } %>
 
-      <%= render "govuk_publishing_components/components/input", {
+      <%= render "govuk_publishing_components/components/show_password", {
         label: {
           text: t("devise.sessions.new.fields.password.label"),
         },
         name: "user[password]",
-        type: "password",
         id: "password",
         error_message: devise_error_items(:password, @resource_error_messages),
         autocomplete: "current-password",
