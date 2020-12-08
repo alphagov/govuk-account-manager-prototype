@@ -1,6 +1,6 @@
 module RequestsHelper
   def log_in(username, password)
-    visit "/"
+    visit new_user_session_path
     fill_in "email", with: username
     click_on I18n.t("welcome.show.button.label")
     fill_in "password", with: password
