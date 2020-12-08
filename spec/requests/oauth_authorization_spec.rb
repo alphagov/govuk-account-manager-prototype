@@ -44,5 +44,12 @@ RSpec.describe "/oauth/authorize" do
 
       expect(response.redirect_url).not_to be_nil
     end
+
+    it "records the _ga parameter" do
+      get authorization_endpoint_url(client: application, scope: "openid transition_checker", _ga: "foo")
+
+      expect(EphemeralState.last).to_not be_nil
+      expect(EphemeralState.last.ga_client_id).to eq("foo")
+    end
   end
 end
