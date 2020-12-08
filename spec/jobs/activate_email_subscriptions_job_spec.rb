@@ -3,7 +3,7 @@ require "gds_api/test_helpers/email_alert_api"
 RSpec.describe ActivateEmailSubscriptionsJob do
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:user) { FactoryBot.create(:confirmed_user) }
+  let(:user) { FactoryBot.create(:user, :confirmed) }
 
   # these tests are disabled pending fixing a bug in gds-api-adapters:
   # gds-api-adapters stubs a request which returns a "subscription_id"

@@ -78,6 +78,9 @@ en:
   change_password:
     content: Enter the email address you used to create your GOV.UK account. We’ll  send you an email with instructions for changing your password.
     heading: Change your password
+  confirm:
+    intro: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
+    link_text: Resend confirmation email
   confirmation_sent:
     continue_to_account: Go to your GOV.UK account
     continue_to_service: Go back to %{service_name}
