@@ -109,6 +109,9 @@ en:
           To choose a new password, you need to click on this link:
           %{link}
 
+          This link will expire in 6 hours. You can ask us to send you a new reset password link if you run out of time:
+          %{reset_password_link}
+
           If you’re still having trouble signing in, contact us:
           %{feedback_link}
 
