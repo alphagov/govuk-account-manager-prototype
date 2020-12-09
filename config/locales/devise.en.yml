@@ -39,7 +39,7 @@ en:
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
       last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
-      locked: You’ve been locked out of your account because you entered an incorrect password too many times. We’ve sent you an email with instructions for unlocking your account.
+      locked: You’ve been locked out of your account because you entered the wrong password too many times. We’ve emailed you a link for unlocking your account.
       same_email: Your account is already using this email address. Enter a different email address.
       timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
       unauthenticated: Sign in to your GOV.UK account.
@@ -109,6 +109,9 @@ en:
           To choose a new password, you need to click on this link:
           %{link}
 
+          This link will expire in 6 hours. You can ask us to send you a new reset password link if you run out of time:
+          %{reset_password_link}
+
           If you’re still having trouble signing in, contact us:
           %{feedback_link}
 
@@ -120,10 +123,13 @@ en:
         body: |
           Hello
 
-          You’ve been locked out of your GOV.UK account because you entered an incorrect password or security code too many times.
+          You’ve been locked out of your GOV.UK account because you entered the wrong password too many times.
 
           To unlock your account you need to click on this link and try to sign in again:
           %{link}
+
+          If you cannot sign in because you’ve forgotten your password, you can reset your password:
+          %{reset_password_link}
 
           If this was not you, contact us:
           %{feedback_link}.

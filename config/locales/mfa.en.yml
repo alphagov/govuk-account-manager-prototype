@@ -8,6 +8,7 @@ en:
       phone_code:
         expired: The security code you’ve entered has expired. Security codes expire after 10 minutes. We can <a class="govuk-link" href="%{resend_link}">send a new security code</a>.
         invalid: The security code you’ve entered is not correct. Try entering the code again.
+        too_many_attempts: You’ve entered the wrong security code too many times. You need to <a class="govuk-link" href="%{resend_link}">get a new security code</a>.
     phone:
       code:
         change_heading: Enter your security code
