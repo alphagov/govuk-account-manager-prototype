@@ -66,7 +66,7 @@ module MultiFactorAuth
       :invalid
     else
       auth.update!(phone_code: nil)
-      :expired
+      :too_many_attempts
     end
   end
 
