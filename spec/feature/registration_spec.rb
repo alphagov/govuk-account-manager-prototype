@@ -286,7 +286,7 @@ RSpec.feature "Registration" do
   end
 
   def enter_email_address
-    visit "/"
+    visit new_user_session_path
     fill_in "email", with: email
     click_on I18n.t("welcome.show.button.label")
   end

@@ -101,7 +101,7 @@ RSpec.feature "Change Phone" do
   end
 
   def log_in
-    visit "/"
+    visit new_user_session_path
     fill_in "email", with: user.email
     click_on I18n.t("welcome.show.button.label")
 

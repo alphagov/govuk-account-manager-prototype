@@ -54,7 +54,7 @@ RSpec.feature "Confirm email prompt" do
   end
 
   def given_i_have_logged_in
-    visit user_session_path
+    visit new_user_session_path
     fill_in "email", with: user.email
     click_on I18n.t("welcome.show.button.label")
     fill_in "password", with: "abcd1234"
