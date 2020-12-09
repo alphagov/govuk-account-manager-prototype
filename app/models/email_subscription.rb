@@ -14,6 +14,7 @@ class EmailSubscription < ApplicationRecord
       subscriber_list_id: subscriber_list.to_hash.dig("subscriber_list", "id"),
       address: user.email,
       frequency: "daily",
+      skip_confirmation_email: true,
     )
 
     update!(subscription_id: subscription.to_hash.dig("id"))
