@@ -264,8 +264,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
     end
 
     if resource_updated
-      SecurityActivity.change_email!(resource, request.remote_ip) if new_email
-      SecurityActivity.change_password!(resource, request.remote_ip) if new_password
+      record_security_event(SecurityActivity::EMAIL_CHANGE_REQUESTED, user: resource) if new_email
+      record_security_event(SecurityActivity::PASSWORD_CHANGED, user: resource) if new_password
 
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?

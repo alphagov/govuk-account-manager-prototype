@@ -43,10 +43,7 @@ class EditPhoneController < ApplicationController
         unconfirmed_phone: nil,
         last_mfa_success: Time.zone.now,
       )
-      SecurityActivity.change_phone!(
-        current_user,
-        request.remote_ip,
-      )
+      record_security_event(SecurityActivity::PHONE_CHANGED, user: current_user)
       UserMailer.with(user: current_user).change_phone_email.deliver_later
       redirect_to account_manage_path
     else

@@ -73,7 +73,7 @@
         <% @activity.each do |activity| %>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              <%= t("account.security.event.#{activity.event_type}") %>
+              <%= t("account.security.event.#{activity.name}") %>
             </dt>
             <dd class="govuk-summary-list__value">
               <span class="date-text">
@@ -86,7 +86,7 @@
               <br>
                <p class="govuk-body">
                 <a class="govuk-link" href="<%= account_security_report_path %>" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">
-                  <%= t("account.security.event.report_suspicious_activity") %>
+                  <%= t("account.security.report_suspicious_activity") %>
                 </a>
               </p>
             </dd>

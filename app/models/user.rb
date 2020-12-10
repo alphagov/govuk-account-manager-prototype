@@ -50,11 +50,6 @@ class User < ApplicationRecord
   # happening)
   before_destroy :destroy_remote_user_info_immediately, prepend: true
 
-  def update_tracked_fields!(request)
-    super(request)
-    SecurityActivity.login!(self, request.remote_ip) unless new_record?
-  end
-
   def update_remote_user_info
     UpdateRemoteUserInfoJob.perform_later id
   end
@@ -63,7 +58,6 @@ class User < ApplicationRecord
     RemoteUserInfo.new(self).destroy!
   end
 
-  # from devise
   def after_confirmation
     if email_before_last_save != email
       UserMailer.with(old_address: email_before_last_save).change_email_from_email.deliver_later
@@ -75,6 +69,15 @@ class User < ApplicationRecord
       update!(has_received_onboarding_email: true)
     end
     ActivateEmailSubscriptionsJob.perform_later id
+  end
+
+  def lock_access!(opts = {})
+    SecurityActivity.record_event(
+      SecurityActivity::ACCOUNT_LOCKED,
+      user: self,
+    )
+
+    super(opts)
   end
 
   def authenticatable_salt
