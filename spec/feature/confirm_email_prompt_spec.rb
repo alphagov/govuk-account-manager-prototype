@@ -86,11 +86,11 @@ RSpec.feature "Confirm email prompt" do
   end
 
   def and_my_email_address_should_be_prefilled_in_the_form
-    expect(page).to have_field("Enter your email address", with: user.email)
+    expect(page).to have_field(I18n.t("devise.confirmations.resend.label"), with: user.email)
   end
 
   def and_my_unconfirmed_email_address_should_be_prefilled
-    expect(page).to have_field("Enter your email address", with: user.unconfirmed_email)
+    expect(page).to have_field(I18n.t("devise.confirmations.resend.label"), with: user.unconfirmed_email)
   end
 
   def when_i_confirm_my_email_with_a_confirmation_link

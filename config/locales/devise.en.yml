@@ -5,6 +5,8 @@ en:
       models:
         user:
           attributes:
+            confirmation_token:
+              invalid: This email confirmation link is not valid. Try using the link that was emailed to you again. If that does not work, ask us to send you another confirmation email.
             cookie_consent_decision:
               invalid: Choose whether or not you agree to analytics cookies while you’re signed in to your account.
             current_password:
@@ -34,7 +36,7 @@ en:
         button: Send confirmation email
         heading: Resend instructions to confirm your email address
         instructions: We’ll send you an email with instructions for confirming the email address for your GOV.UK account.
-        label: Enter your email address
+        label: Email
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
