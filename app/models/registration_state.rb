@@ -6,4 +6,7 @@ class RegistrationState < ApplicationRecord
     transition_emails: 3,
     finish: 4,
   }
+
+  belongs_to :jwt, optional: true, dependent: :destroy
+  delegate :jwt_payload, to: :jwt, allow_nil: true
 end
