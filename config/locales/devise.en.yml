@@ -5,6 +5,8 @@ en:
       models:
         user:
           attributes:
+            confirmation_token:
+              invalid: This email confirmation link is not valid. Try using the link that was emailed to you again. If that does not work, ask us to send you another confirmation email.
             cookie_consent_decision:
               invalid: Choose whether or not you agree to analytics cookies while you’re signed in to your account.
             current_password:
