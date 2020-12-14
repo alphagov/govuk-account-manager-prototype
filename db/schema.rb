@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_151427) do
+ActiveRecord::Schema.define(version: 2020_12_14_093233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_151427) do
     t.datetime "created_at", null: false
     t.bigint "user_id", null: false
     t.string "redirect_path", null: false
-    t.boolean "password_ok", default: false, null: false
     t.uuid "jwt_id"
     t.index ["user_id"], name: "index_login_states_on_user_id"
   end
