@@ -53,7 +53,9 @@ class SecurityActivity < ApplicationRecord
       attributes.merge!(user_agent_id: UserAgent.find_or_create_by!(name: options[:user_agent_name]).id)
     end
 
-    SecurityActivity.create!(attributes)
+    event = SecurityActivity.create!(attributes)
+    event.log
+    event
   end
 
   def self.of_type(event)
@@ -70,6 +72,24 @@ class SecurityActivity < ApplicationRecord
     else
       Doorkeeper::Application.find(oauth_application_id).name
     end
+  end
+
+  def log
+    # our rails logs are sent to splunk
+    Rails.logger.public_send Rails.application.config.log_level, to_hash.to_json
+  end
+
+  def to_hash
+    {
+      id: id,
+      timestamp: created_at.utc,
+      action: event.name,
+      user_id: user&.id,
+      oauth_application_id: oauth_application&.id,
+      oauth_application_name: oauth_application&.name,
+      ip_address: ip_address,
+      user_agent: user_agent&.name,
+    }.compact
   end
 
 protected
