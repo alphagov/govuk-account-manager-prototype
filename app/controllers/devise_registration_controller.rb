@@ -243,6 +243,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
+    old_email = resource.email
+
     new_email = params.dig(:user, :email)
     new_password = params.dig(:user, :password) # pragma: allowlist secret
 
@@ -264,7 +266,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
     end
 
     if resource_updated
-      record_security_event(SecurityActivity::EMAIL_CHANGE_REQUESTED, user: resource) if new_email
+      record_security_event(SecurityActivity::EMAIL_CHANGE_REQUESTED, user: resource, notes: "from #{old_email} to #{new_email}") if new_email
       record_security_event(SecurityActivity::PASSWORD_CHANGED, user: resource) if new_password
 
       set_flash_message_for_update(resource, prev_unconfirmed_email)

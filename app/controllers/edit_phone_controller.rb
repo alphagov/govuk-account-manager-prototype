@@ -38,12 +38,14 @@ class EditPhoneController < ApplicationController
   def verify
     state = MultiFactorAuth.verify_code(current_user, params[:phone_code])
     if state == :ok
+      old_phone = current_user.phone
+      new_phone = current_user.unconfirmed_phone
       current_user.update!(
-        phone: current_user.unconfirmed_phone,
+        phone: new_phone,
         unconfirmed_phone: nil,
         last_mfa_success: Time.zone.now,
       )
-      record_security_event(SecurityActivity::PHONE_CHANGED, user: current_user)
+      record_security_event(SecurityActivity::PHONE_CHANGED, user: current_user, notes: "from #{old_phone} to #{new_phone}")
       UserMailer.with(user: current_user).change_phone_email.deliver_later
       redirect_to account_manage_path
     else
