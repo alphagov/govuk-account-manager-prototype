@@ -12,9 +12,8 @@ class ApplicationController < ActionController::Base
 
 protected
 
-  def get_payload(jwt = nil)
-    if jwt
-      payload = ApplicationKey.validate_jwt!(jwt)
+  def get_payload(payload = nil)
+    if payload
       jwt = Jwt.create!(
         jwt_payload: payload,
       )
