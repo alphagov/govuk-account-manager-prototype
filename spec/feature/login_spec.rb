@@ -21,6 +21,14 @@ RSpec.feature "Logging in" do
     expect(page).to have_text(I18n.t("mfa.phone.code.fields.phone_code.label"))
   end
 
+  it "shows the login event on the security page" do
+    enter_email_address_and_password
+    enter_mfa
+    visit_security_page
+
+    expect(page).to have_text(I18n.t("account.security.event.login_success"))
+  end
+
   context "when the email is missing" do
     it "shows an error" do
       enter_email_address_and_password(email: "")
@@ -203,5 +211,9 @@ RSpec.feature "Logging in" do
 
   def go_straight_to_account_page
     visit user_root_path
+  end
+
+  def visit_security_page
+    click_on I18n.t("navigation.menu_bar.security.link_text")
   end
 end

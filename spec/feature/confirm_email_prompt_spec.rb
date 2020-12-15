@@ -29,6 +29,15 @@ RSpec.feature "Confirm email prompt" do
       when_i_navigate_to_home
       then_i_do_not_see_the_confirmation_reminder_banner
     end
+
+    scenario "The email confirmed event is shown on the security page" do
+      given_i_have_logged_in
+      when_i_navigate_to_home
+      then_i_see_the_confirmation_reminder_banner
+      when_i_confirm_my_email_with_a_confirmation_link
+      when_i_navigate_to_security
+      then_i_see_the_confirmation_security_event
+    end
   end
 
   context "For an existing user requesting to change their email address" do
@@ -98,5 +107,9 @@ RSpec.feature "Confirm email prompt" do
 
   def then_i_do_not_see_the_confirmation_reminder_banner
     expect(page).not_to have_content(I18n.t("confirm.link_text"))
+  end
+
+  def then_i_see_the_confirmation_security_event
+    expect(page).to have_text(I18n.t("account.security.event.email_changed"))
   end
 end
