@@ -95,6 +95,7 @@ class DeviseSessionsController < Devise::SessionsController
 
   def destroy
     redirect_to account_delete_confirmation_path and return if params[:done] == "delete"
+
     redirect_to transition_path and return if all_signed_out?
 
     if params[:continue]
@@ -104,6 +105,7 @@ class DeviseSessionsController < Devise::SessionsController
     elsif params[:done]
       current_user.invalidate_all_sessions!
       super
+      flash[:notice] = nil
     else
       redirect_to "#{transition_checker_path}/logout?continue=1"
     end
