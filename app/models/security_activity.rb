@@ -5,8 +5,8 @@ class SecurityActivity < ApplicationRecord
     ACCOUNT_LOCKED = LogEntry.new(id: 5, name: :account_locked, require_user: true),
     MANUAL_ACCOUNT_UNLOCK = LogEntry.new(id: 6, name: :manual_account_unlock, require_user: true),
 
-    ADDITIONAL_FACTOR_VERIFICATION_SUCCESS = LogEntry.new(id: 7, name: :additional_factor_verification_success, require_user: true),
-    ADDITIONAL_FACTOR_VERIFICATION_FAILURE = LogEntry.new(id: 8, name: :additional_factor_verification_failure, require_user: true),
+    ADDITIONAL_FACTOR_VERIFICATION_SUCCESS = LogEntry.new(id: 7, name: :additional_factor_verification_success, require_user: true, require_factor: true),
+    ADDITIONAL_FACTOR_VERIFICATION_FAILURE = LogEntry.new(id: 8, name: :additional_factor_verification_failure, require_user: true, require_factor: true),
 
     LOGIN_SUCCESS = LogEntry.new(id: 0, name: :login_success, require_user: true),
     LOGIN_FAILURE = LogEntry.new(id: 9, name: :login_failure, require_user: true),
@@ -24,11 +24,15 @@ class SecurityActivity < ApplicationRecord
 
   EVENTS_REQUIRING_USER = EVENTS.select(&:require_user?)
   EVENTS_REQUIRING_APPLICATION = EVENTS.select(&:require_application?)
+  EVENTS_REQUIRING_FACTOR = EVENTS.select(&:require_factor?)
 
-  VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address user_agent user_agent_id notes].freeze
+  VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address user_agent user_agent_id factor notes].freeze
+
+  VALID_FACTORS = %w[sms].freeze
 
   validates :user_id, presence: { if: proc { |event_log| EVENTS_REQUIRING_USER.include? event_log.event } }
   validates :oauth_application_id, presence: { if: proc { |event_log| EVENTS_REQUIRING_APPLICATION.include? event_log.event } }
+  validates :factor, presence: { if: proc { |event_log| EVENTS_REQUIRING_FACTOR.include? event_log.event } }
 
   # account locking is done in the model, not the controller, so it
   # doesn't have access to the request env: no ip address, no user
@@ -37,6 +41,7 @@ class SecurityActivity < ApplicationRecord
 
   validates :event_type, presence: true
   validate :validate_event_mappable
+  validate :validate_factor
 
   belongs_to :user, optional: true
   belongs_to :oauth_application, class_name: "Doorkeeper::Application", optional: true
@@ -89,6 +94,7 @@ class SecurityActivity < ApplicationRecord
       oauth_application_name: oauth_application&.name,
       ip_address: ip_address,
       user_agent: user_agent&.name,
+      factor: factor,
     }.compact
   end
 
@@ -97,6 +103,12 @@ protected
   def validate_event_mappable
     unless event
       errors.add(:event_type, "must have a corresponding `LogEntry` for #{event_type}")
+    end
+  end
+
+  def validate_factor
+    if factor && !VALID_FACTORS.include?(factor)
+      errors.add(:factor, "must be one of nil or #{VALID_FACTORS.join(', ')}; not #{factor}")
     end
   end
 end

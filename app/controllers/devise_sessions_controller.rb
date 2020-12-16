@@ -77,13 +77,13 @@ class DeviseSessionsController < Devise::SessionsController
   def phone_verify
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
     if state == :ok
-      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user)
+      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user, factor: :sms)
       do_sign_in
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
       session.delete(:login_state_id)
     else
-      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, user: login_state.user)
+      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, user: login_state.user, factor: :sms)
       @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: user_session_phone_resend_path)
       render :phone_code
     end

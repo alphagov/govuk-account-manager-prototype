@@ -23,14 +23,14 @@ RSpec.describe "security activities" do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
       post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, factor: :sms
     end
 
     it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE events" do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
       post user_session_phone_verify_path, params: { "phone_code" => "incorrect" }
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, factor: :sms
     end
   end
 
@@ -128,9 +128,10 @@ RSpec.describe "security activities" do
     expect_event SecurityActivity::EMAIL_CHANGED, notes: "to #{user.email}"
   end
 
-  def expect_event(event, application: nil, notes: nil)
+  def expect_event(event, application: nil, factor: nil, notes: nil)
     events = user.security_activities.of_type(event)
     events = events.where(oauth_application_id: application.id) if application
+    events = events.where(factor: factor) if factor
     events = events.where(notes: notes) if notes
 
     expect(events.count).to_not eq(0)
