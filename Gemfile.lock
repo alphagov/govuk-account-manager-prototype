@@ -99,7 +99,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     doorkeeper (5.4.0)
       railties (>= 5)
-    doorkeeper-openid_connect (1.7.4)
+    doorkeeper-openid_connect (1.7.5)
       doorkeeper (>= 5.2, < 5.5)
       json-jwt (>= 1.11.0)
     dotenv (2.7.6)
