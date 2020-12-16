@@ -10,7 +10,7 @@ Doorkeeper.configure do
     if current_user
       current_user
     else
-      params = { previous_url: request.fullpath }
+      params = { previous_url: request.fullpath, _ga: request.params[:_ga] }.compact
       redirect_to(new_user_session_url + "?" + Rack::Utils.build_nested_query(params))
       nil
     end
