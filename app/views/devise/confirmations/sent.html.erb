@@ -32,19 +32,17 @@
       } %>
     <% end %>
 
-    <% if service %>
-      <p class="govuk-body">
-        <a class="govuk-link" href="<%= service[:url] %>" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="<%= service[:name] %>">
+    <p class="govuk-body" data-module="gem-track-click">
+      <% if service %>
+        <a class="govuk-link" href="<%= service[:url] %>" data-module="explicit-cross-domain-links" data-track-category="account-create" data-track-action="confirm-email" data-track-label="<%= service[:name] %>">
           <%= t("confirmation_sent.continue_to_service", service_name: service[:name]) %>
         </a>
-      </p>
-    <% else %>
-      <p class="govuk-body">
-        <a class="govuk-link" href="<%= user_root_path %>" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
+      <% else %>
+        <a class="govuk-link" href="<%= user_root_path %>" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
           <%= t("confirmation_sent.continue_to_account") %>
         </a>
-      </p>
-    <% end %>
+      <% end %>
+    </p>
 
     <%= render "govuk_publishing_components/components/heading", {
       text: t("confirmation_sent.re_register_subtitle"),

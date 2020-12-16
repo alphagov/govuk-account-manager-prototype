@@ -8,6 +8,7 @@ module UrlHelper
       state: options[:state],
       code_challenge: options[:code_challenge],
       code_challenge_method: options[:code_challenge_method],
+      _ga: options[:_ga],
     }.reject { |_, v| v.blank? }
     "/oauth/authorize?#{parameters.to_query}"
   end

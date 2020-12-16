@@ -9,3 +9,6 @@
   expire_login_state:
     cron: "0 */15 * * * *"
     class: ExpireLoginStateJob
+  expire_ephemeral_state:
+    cron: "0 */15 * * * *"
+    class: ExpireEphemeralStateJob

@@ -417,17 +417,27 @@ Doorkeeper.configure do
   # end
   #
   after_successful_authorization do |controller, context|
-    SecurityActivity.login_with!(
-      controller.current_user,
-      context.issued_token.application,
-      controller.request.remote_ip,
-    )
-  rescue NoMethodError
-    # TokenResponse contexts don't have an issued_token.  Such
-    # contexts are used when turning the access code into an access
-    # token.  I don't think those need logging, as there will be an
-    # immediately preceeding login_with activity from when the user's
-    # browser was redirected to the app.
+    if controller.params[:response_type] == "code"
+      access_grant = context.issued_token
+
+      SecurityActivity.login_with!(
+        controller.current_user,
+        access_grant.application,
+        controller.request.remote_ip,
+      )
+
+      EphemeralState.create!(
+        user: controller.current_user,
+        grant: access_grant.token,
+        ga_client_id: controller.params[:_ga],
+      )
+    elsif controller.params[:grant_type] == "authorization_code"
+      access_token = context.auth.body["access_token"]
+
+      EphemeralState
+        .where(grant: controller.params[:code])
+        .update_all(token: access_token)
+    end
   end
 
   # Under some circumstances you might want to have applications auto-approved,

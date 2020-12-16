@@ -35,6 +35,9 @@ class User < ApplicationRecord
   has_many :login_states,
            dependent: :destroy
 
+  has_many :ephemeral_states,
+           dependent: :destroy
+
   after_commit :update_remote_user_info, on: %i[create update]
 
   # this has to happen before the record is actually destroyed because
