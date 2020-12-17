@@ -21,11 +21,10 @@ class DeviseSessionsController < Devise::SessionsController
     end
 
     if resource
-      user = User.find_by(email: @email).id
       @login_state = LoginState.create!(
         created_at: Time.zone.now,
-        user_id: user,
-        redirect_path: after_login_path(payload, user),
+        user_id: resource.id,
+        redirect_path: after_login_path(payload, resource),
         jwt_id: session[:jwt_id],
       )
 
