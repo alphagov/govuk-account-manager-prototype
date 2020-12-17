@@ -55,9 +55,4 @@ protected
       user_root_path
     end
   end
-
-  def destroy_stale_states(jwt_id)
-    RegistrationState.where(jwt_id: jwt_id).destroy_all
-    LoginState.where(jwt_id: jwt_id).destroy_all
-  end
 end
