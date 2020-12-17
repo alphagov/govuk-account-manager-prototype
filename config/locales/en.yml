@@ -46,17 +46,10 @@ en:
       activity: Sign-in attempts and changes to account details
       description: <p class="govuk-body">Read the <a class="govuk-link" href="https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
       event:
-        account_locked: Password verification failed too many times, account locked for 1 hour.
-        additional_factor_verification_failure: Additional factor was incorrect when logging ibn.
-        additional_factor_verification_success: Additional factor was correct when logging in.
-        email_change_requested: Change of email address has been requested
-        email_changed: Change of email address has been confirmed.
-        login_failure: Entered an incorrect password when logging in.
+        email_change_requested: Changed email address
         login_success: Signed in
-        manual_account_unlock: Account unlocked by clicking link.
         password_changed: Changed password
-        password_reset_request: Requested a password reset link.
-        password_reset_success: Reset password
+        password_reset_success: Changed password
         phone_changed: Changed phone number
       heading: Security
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.

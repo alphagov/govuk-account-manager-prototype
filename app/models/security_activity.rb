@@ -1,5 +1,4 @@
 class SecurityActivity < ApplicationRecord
-  # TODO: decide which of these to show on the security page
   EVENTS = [
     # logging in
     ACCOUNT_LOCKED = LogEntry.new(id: 5, name: :account_locked, require_user: true),
@@ -16,8 +15,8 @@ class SecurityActivity < ApplicationRecord
     PASSWORD_RESET_SUCCESS = LogEntry.new(id: 4, name: :password_reset_success, require_user: true),
 
     # update
-    EMAIL_CHANGE_REQUESTED = LogEntry.new(id: 11, name: :email_change_requested, require_user: true),
-    EMAIL_CHANGED = LogEntry.new(id: 1, name: :email_changed, require_user: true),
+    EMAIL_CHANGE_REQUESTED = LogEntry.new(id: 1, name: :email_change_requested, require_user: true),
+    EMAIL_CHANGED = LogEntry.new(id: 11, name: :email_changed, require_user: true),
     PHONE_CHANGED = LogEntry.new(id: 2, name: :phone_changed, require_user: true),
     PASSWORD_CHANGED = LogEntry.new(id: 3, name: :password_changed, require_user: true),
   ].freeze
@@ -29,6 +28,8 @@ class SecurityActivity < ApplicationRecord
   VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address user_agent user_agent_id factor notes].freeze
 
   VALID_FACTORS = %w[sms].freeze
+
+  scope :show_on_security_page, -> { where(event_type: EVENTS.select { |e| I18n.exists?("account.security.event.#{e.name}") }.map(&:id)) }
 
   validates :user_id, presence: { if: proc { |event_log| EVENTS_REQUIRING_USER.include? event_log.event } }
   validates :oauth_application_id, presence: { if: proc { |event_log| EVENTS_REQUIRING_APPLICATION.include? event_log.event } }
