@@ -12,7 +12,9 @@ class DeviseConfirmationsController < Devise::ConfirmationsController
 
   def show
     super do
-      if resource.errors.details[:email].first&.dig(:error) == :already_confirmed
+      if resource.errors.empty?
+        record_security_event(SecurityActivity::EMAIL_CHANGED, user: resource, notes: "to #{resource.email}")
+      elsif resource.errors.details[:email].first&.dig(:error) == :already_confirmed
         if current_user
           redirect_to user_root_path
         else

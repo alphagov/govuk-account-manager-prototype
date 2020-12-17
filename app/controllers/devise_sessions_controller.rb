@@ -47,6 +47,8 @@ class DeviseSessionsController < Devise::SessionsController
       user = User.find_by(email: @email)
       user_exists = user.present?
 
+      record_security_event(SecurityActivity::LOGIN_FAILURE, user: user) if user_exists
+
       if user_exists && !user.active_for_authentication? && !user.access_locked?
         @resource_error_messages[:email] = [I18n.t("devise.failure.unconfirmed")]
       elsif user_exists && params.dig(:user, :password).present?
@@ -75,11 +77,13 @@ class DeviseSessionsController < Devise::SessionsController
   def phone_verify
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
     if state == :ok
+      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user, factor: :sms)
       do_sign_in
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
       session.delete(:login_state_id)
     else
+      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, user: login_state.user, factor: :sms)
       @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: user_session_phone_resend_path)
       render :phone_code
     end
@@ -132,6 +136,8 @@ protected
   end
 
   def do_sign_in
+    record_security_event(SecurityActivity::LOGIN_SUCCESS, user: login_state.user)
+
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(login_state.user)
 

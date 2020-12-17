@@ -1,4 +1,13 @@
 class DevisePasswordsController < Devise::PasswordsController
+  # POST /resource/password
+  def create
+    super do |resource|
+      next unless successfully_sent? resource
+
+      record_security_event(SecurityActivity::PASSWORD_RESET_REQUEST, user: resource)
+    end
+  end
+
   # GET /resource/password/edit?reset_password_token=<token>
   def edit
     super
@@ -11,7 +20,9 @@ class DevisePasswordsController < Devise::PasswordsController
   # PUT /resource/password
   def update
     super do |resource|
-      SecurityActivity.change_password!(resource, request.remote_ip) if resource.errors.empty?
+      next unless resource.errors.empty?
+
+      record_security_event(SecurityActivity::PASSWORD_RESET_SUCCESS, user: resource)
     end
   end
 

@@ -420,10 +420,12 @@ Doorkeeper.configure do
     if controller.params[:response_type] == "code"
       access_grant = context.issued_token
 
-      SecurityActivity.login_with!(
-        controller.current_user,
-        access_grant.application,
-        controller.request.remote_ip,
+      SecurityActivity.record_event(
+        SecurityActivity::LOGIN_SUCCESS,
+        ip_address: controller.request.remote_ip,
+        user_agent_name: controller.request.user_agent,
+        user: controller.current_user,
+        oauth_application: context.issued_token.application,
       )
 
       EphemeralState.create!(

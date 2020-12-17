@@ -10,6 +10,16 @@ class ApplicationController < ActionController::Base
 
   rescue_from Exception, with: :top_level_error_handler
 
+  def record_security_event(event, options = {})
+    SecurityActivity.record_event(
+      event,
+      {
+        ip_address: request.remote_ip,
+        user_agent_name: request.user_agent,
+      }.merge(options),
+    )
+  end
+
 protected
 
   def get_payload(payload = nil)

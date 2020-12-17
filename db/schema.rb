@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_093233) do
+ActiveRecord::Schema.define(version: 2020_12_16_202609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -137,12 +137,21 @@ ActiveRecord::Schema.define(version: 2020_12_14_093233) do
   create_table "security_activities", force: :cascade do |t|
     t.integer "event_type", null: false
     t.bigint "user_id", null: false
-    t.string "ip_address", null: false
+    t.string "ip_address"
     t.bigint "oauth_application_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_agent_id"
+    t.string "notes"
+    t.string "factor"
     t.index ["oauth_application_id"], name: "index_security_activities_on_oauth_application_id"
+    t.index ["user_agent_id"], name: "index_security_activities_on_user_agent_id"
     t.index ["user_id"], name: "index_security_activities_on_user_id"
+  end
+
+  create_table "user_agents", force: :cascade do |t|
+    t.string "name", limit: 1000, null: false
+    t.index ["name"], name: "index_user_agents_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -194,5 +203,6 @@ ActiveRecord::Schema.define(version: 2020_12_14_093233) do
   add_foreign_key "oauth_openid_requests", "oauth_access_grants", column: "access_grant_id", on_delete: :cascade
   add_foreign_key "registration_states", "jwts"
   add_foreign_key "security_activities", "oauth_applications"
+  add_foreign_key "security_activities", "user_agents"
   add_foreign_key "security_activities", "users"
 end

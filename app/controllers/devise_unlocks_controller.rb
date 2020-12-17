@@ -12,4 +12,12 @@ class DeviseUnlocksController < Devise::UnlocksController
       end
     end
   end
+
+  def show
+    super do
+      next unless resource.errors.empty?
+
+      record_security_event(SecurityActivity::MANUAL_ACCOUNT_UNLOCK, user: resource)
+    end
+  end
 end

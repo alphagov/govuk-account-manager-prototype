@@ -19,6 +19,17 @@ RSpec.feature "Change Phone" do
     expect(user.reload.phone).to eq("+447581123456")
   end
 
+  it "shows the change phone event on the security page" do
+    log_in
+    go_to_change_number_page
+    enter_new_phone_number
+    enter_password
+    enter_mfa
+    visit_security_page
+
+    expect(page).to have_text(I18n.t("account.security.event.phone_changed"))
+  end
+
   context "when the user enters the same phone number" do
     it "returns an error" do
       log_in
@@ -153,5 +164,9 @@ RSpec.feature "Change Phone" do
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
     click_on I18n.t("mfa.phone.code.fields.submit.label")
+  end
+
+  def visit_security_page
+    click_on I18n.t("navigation.menu_bar.security.link_text")
   end
 end
