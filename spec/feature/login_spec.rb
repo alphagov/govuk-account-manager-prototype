@@ -102,6 +102,15 @@ RSpec.feature "Logging in" do
 
         expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.too_many_attempts")))
       end
+
+      it "lets the user request a new code" do
+        enter_email_address_and_password
+        (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
+        request_new_mfa_code
+        enter_mfa
+
+        expect(page).to have_text(I18n.t("account.your_account.heading"))
+      end
     end
   end
 
@@ -203,6 +212,11 @@ RSpec.feature "Logging in" do
     phone_code = user.reload.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
     click_on I18n.t("mfa.phone.code.fields.submit.label")
+  end
+
+  def request_new_mfa_code
+    click_on "send a new security code"
+    click_on I18n.t("mfa.phone.resend.fields.submit.label")
   end
 
   def go_straight_to_mfa_page
