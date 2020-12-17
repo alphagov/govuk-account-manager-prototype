@@ -44,8 +44,10 @@
     <p class="govuk-body"><%= t("feedback.show.caption") %></p>
 
     <%= render "govuk_publishing_components/components/inset_text", {
-      text: t("feedback.show.inset_text")
+      text: sanitize(t("feedback.show.inset_text"))
     } %>
+
+    <p class="govuk-body"><%= t("feedback.show.advice") %></p>
 
     <%= form_tag do %>
       <%= render "govuk_publishing_components/components/textarea", {
