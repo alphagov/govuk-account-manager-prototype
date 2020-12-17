@@ -21,7 +21,7 @@ class EditPhoneController < ApplicationController
       end
 
       unless MultiFactorAuth.valid? phone_number
-        @phone_error_message = I18n.t("mfa.errors.phone.invalid")
+        @phone_error_message = I18n.t("activerecord.errors.models.user.attributes.phone.invalid")
       end
 
       render :show and return if @password_error_message || @phone_error_message

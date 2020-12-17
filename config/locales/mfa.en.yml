@@ -1,10 +1,16 @@
 ---
 en:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            phone:
+              blank: Enter your mobile number
+              invalid: That does not look like a valid mobile number. Try entering your number again.
   mfa:
     errors:
       phone:
-        blank: Enter your mobile number
-        invalid: That does not look like a valid mobile number. Try entering your number again.
         nochange: Your account is already using this mobile number. Enter a different number.
       phone_code:
         expired: The security code you’ve entered has expired. Security codes expire after 10 minutes. We can <a class="govuk-link" href="%{resend_link}">send a new security code</a>.

@@ -22,8 +22,8 @@
         name: "user[email]",
         type: "email",
         id: "email",
-        value: @email,
-        error_message: devise_error_items(:email, @resource_error_messages),
+        value: params.dig(:user, :email),
+        error_message: devise_error_items(:email),
         autocomplete: "email",
       } %>
 
@@ -34,7 +34,7 @@
         hint: t("devise.registrations.start.fields.password.hint"),
         name: "user[password]",
         id: "password",
-        error_message: devise_error_items(:password, @resource_error_messages),
+        error_message: devise_error_items(:password),
         autocomplete: "new-password",
       } %>
 
@@ -45,9 +45,9 @@
         hint: t("devise.registrations.start.fields.phone.hint"),
         name: "user[phone]",
         id: "phone",
-        value: MultiFactorAuth.formatted_phone_number(@phone),
+        value: MultiFactorAuth.formatted_phone_number(params.dig(:user, :phone)),
         width: 10,
-        error_message: devise_error_items(:phone, @resource_error_messages),
+        error_message: devise_error_items(:phone),
         autocomplete: "tel",
       } %>
 

@@ -23,72 +23,24 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     payload = get_payload
 
-    @email = params.dig(:user, :email)
-    @password = params.dig(:user, :password) # pragma: allowlist secret
-    @phone = params.dig(:user, :phone)
     @criteria_keys = payload.dig(:attributes, :transition_checker_state, "criteria_keys") if payload
 
     return if request.get?
 
-    return unless @email || @password || @phone
+    resource_params = sign_up_params(params)
+    self.resource = User.new(resource_params)
+    resource.errors.add :email, :taken if User.exists?(email: resource_params[:email])
 
-    @resource_error_messages = {}
-
-    if @email.blank?
-      @resource_error_messages[:email] =
-        [
-          I18n.t("activerecord.errors.models.user.attributes.email.blank"),
-        ]
-    elsif !Devise.email_regexp.match? @email
-      @resource_error_messages[:email] =
-        [
-          I18n.t("activerecord.errors.models.user.attributes.email.invalid"),
-        ]
-    elsif User.exists?(email: @email)
-      @resource_error_messages[:email] =
-        [
-          I18n.t("activerecord.errors.models.user.attributes.email.taken"),
-        ]
-    end
-
-    if @password.blank?
-      @resource_error_messages[:password] =
-        [
-          I18n.t("activerecord.errors.models.user.attributes.password.blank"),
-        ]
-    elsif !Devise.password_length.include? @password&.length
-      @resource_error_messages[:password] =
-        [
-          I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
-        ]
-    end
-
-    if MultiFactorAuth.is_enabled?
-      if @phone.blank?
-        @resource_error_messages[:phone] = [
-          I18n.t("mfa.errors.phone.blank"),
-        ]
-      elsif !MultiFactorAuth.valid?(@phone)
-        @resource_error_messages[:phone] = [
-          I18n.t("mfa.errors.phone.invalid"),
-        ]
-      else
-        @phone = MultiFactorAuth.e164_number(@phone)
-      end
-    end
-
-    if @resource_error_messages.empty?
+    if resource.valid?
       RegistrationState.transaction do
         state = MultiFactorAuth.is_enabled? ? :phone : :your_information
         destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
         @registration_state = RegistrationState.create!(
           touched_at: Time.zone.now,
           state: state,
-          email: @email,
-          password: @password, # pragma: allowlist secret
-          phone: MultiFactorAuth.is_enabled? ? @phone : nil,
           previous_url: payload&.dig(:post_register_oauth).presence || params[:previous_url],
           jwt_id: session[:jwt_id],
+          **resource_params.except(:password_confirmation),
         )
         MultiFactorAuth.generate_and_send_code(@registration_state) if MultiFactorAuth.is_enabled?
         session[:registration_state_id] = @registration_state.id
@@ -126,7 +78,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
     @phone = MultiFactorAuth.e164_number(params[:phone] || registration_state.phone)
 
     unless MultiFactorAuth.valid?(@phone.presence)
-      @phone_error_message = I18n.t("mfa.errors.phone.invalid")
+      @phone_error_message = I18n.t("activerecord.errors.models.user.attributes.phone.invalid")
       return
     end
 
@@ -216,7 +168,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
     super do |resource|
       next unless resource.persisted?
 
-      persist_phone_mfa(resource)
       persist_attributes(resource)
       persist_consent(resource)
       persist_email_subscription(resource)
@@ -324,13 +275,28 @@ protected
   end
 
   # used in the 'super' of 'create'
-  def sign_up_params
-    {
-      email: registration_state.email,
-      password: registration_state.password, # pragma: allowlist secret
-      # we check this matches in 'start_post'
-      password_confirmation: registration_state.password,
-    }
+  def sign_up_params(params = nil)
+    if params
+      sign_up_params = {
+        email: params.dig(:user, :email),
+        password: params.dig(:user, :password), # pragma: allowlist secret
+        password_confirmation: params.dig(:user, :password),
+      }
+      sign_up_params[:phone] = params.dig(:user, :phone) if MultiFactorAuth.is_enabled?
+    else
+      sign_up_params = {
+        email: registration_state.email,
+        password: registration_state.password, # pragma: allowlist secret
+        password_confirmation: registration_state.password,
+      }
+
+      if registration_state.phone
+        sign_up_params[:phone] = registration_state.phone
+        sign_up_params[:last_mfa_success] = Time.zone.now
+      end
+    end
+
+    sign_up_params
   end
 
   def registration_state
@@ -364,15 +330,6 @@ protected
     user.update!(
       cookie_consent: registration_state.cookie_consent,
       feedback_consent: registration_state.feedback_consent,
-    )
-  end
-
-  def persist_phone_mfa(user)
-    return unless registration_state.phone
-
-    user.update!(
-      phone: registration_state.phone,
-      last_mfa_success: Time.zone.now,
     )
   end
 

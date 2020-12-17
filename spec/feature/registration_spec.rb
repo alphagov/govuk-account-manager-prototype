@@ -157,7 +157,7 @@ RSpec.feature "Registration" do
       enter_non_mobile_phone_number
       submit_registration_form
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.invalid"))
     end
   end
 
@@ -169,7 +169,7 @@ RSpec.feature "Registration" do
       enter_invalid_phone_number
       submit_registration_form
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.invalid"))
     end
   end
 

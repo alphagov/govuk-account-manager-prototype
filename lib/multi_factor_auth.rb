@@ -23,6 +23,8 @@ module MultiFactorAuth
   end
 
   def self.e164_number(phone_number)
+    return unless valid? phone_number
+
     if (country_code = domestic_country_code(phone_number))
       TelephoneNumber.parse(phone_number, country_code).e164_number
     else

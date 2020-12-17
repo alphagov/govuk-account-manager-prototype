@@ -48,7 +48,7 @@ RSpec.feature "Change Phone" do
       enter_non_mobile_phone_number
       enter_password
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.invalid"))
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.feature "Change Phone" do
       enter_invalid_phone_number
       enter_password
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.invalid"))
     end
   end
 
