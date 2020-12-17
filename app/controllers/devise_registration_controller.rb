@@ -7,7 +7,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
   # rubocop:enable Rails/LexicallyScopedActionFilter
 
   before_action :check_registration_state, only: %i[
-    phone
     phone_code
     phone_verify
     phone_resend
@@ -95,10 +94,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
       end
       redirect_to MultiFactorAuth.is_enabled? ? new_user_registration_phone_code_path : new_user_registration_your_information_path
     end
-  end
-
-  def phone
-    redirect_to url_for_state and return unless registration_state.state == "phone"
   end
 
   def phone_code
