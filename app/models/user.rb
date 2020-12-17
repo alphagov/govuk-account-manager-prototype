@@ -38,6 +38,8 @@ class User < ApplicationRecord
   has_many :ephemeral_states,
            dependent: :destroy
 
+  validate :password_cannot_be_on_denylist, if: :password_required?
+
   after_commit :update_remote_user_info, on: %i[create update]
 
   # this has to happen before the record is actually destroyed because
@@ -105,6 +107,12 @@ class User < ApplicationRecord
       errors.add :phone, :blank if MultiFactorAuth.is_enabled?
     elsif !MultiFactorAuth.valid?(phone)
       errors.add :phone, :invalid
+    end
+  end
+
+  def password_cannot_be_on_denylist
+    if BannedPassword.is_password_banned? password
+      errors.add :password, :denylist
     end
   end
 end

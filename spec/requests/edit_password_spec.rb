@@ -1,7 +1,7 @@
 RSpec.describe "edit-password" do
   include ActiveJob::TestHelper
 
-  let(:user) { FactoryBot.create(:user) }
+  let!(:user) { FactoryBot.create(:user) }
 
   let(:actual_reset_password_token) { user.send_reset_password_instructions }
 
@@ -63,6 +63,18 @@ RSpec.describe "edit-password" do
         post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.too_short"))
+      end
+    end
+
+    context "when the password is on the denylist" do
+      before do
+        BannedPassword.import_list([password])
+      end
+
+      it "returns an error" do
+        post user_password_path, params: params
+
+        expect(response.body).to have_content(Rails::Html::FullSanitizer.new.sanitize(I18n.t("activerecord.errors.models.user.attributes.password.denylist")))
       end
     end
   end

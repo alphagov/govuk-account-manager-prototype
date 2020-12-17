@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(version: 2020_12_21_103602) do
     t.index ["application_uid"], name: "index_application_keys_on_application_uid"
   end
 
+  create_table "banned_passwords", force: :cascade do |t|
+    t.string "password", null: false
+    t.index ["password"], name: "index_banned_passwords_on_password", unique: true
+  end
+
   create_table "data_activities", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "oauth_application_id", null: false

@@ -22,6 +22,7 @@ en:
               invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
               blank: Enter your password
+              denylist: You cannot use this password because it is too easy to guess. Try creating a more secure password. Read advice on <a class="govuk-link" href="https://www.ncsc.gov.uk/cyberaware/home">how to create a strong password</a>.
               invalid: The password is not in the correct format. Choose a password that is at least 8 characters long.
               new_blank: Your new password cannot be blank. Try entering a new password again.
               too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
