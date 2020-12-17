@@ -45,4 +45,17 @@ RSpec.describe "JWT log in" do
     post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
     expect(response).to redirect_to(jwt_post_login_oauth.delete_prefix(Rails.application.config.redirect_base_url))
   end
+
+  context "the user is already logged in" do
+    let(:user) { FactoryBot.create(:user) }
+
+    before do
+      sign_in(user)
+    end
+
+    it "redirects the user to the OAuth consent flow" do
+      post welcome_path, params: { "jwt" => jwt }
+      expect(response).to redirect_to(jwt_post_login_oauth.delete_prefix(Rails.application.config.redirect_base_url))
+    end
+  end
 end
