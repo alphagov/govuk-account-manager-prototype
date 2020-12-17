@@ -55,4 +55,15 @@ protected
       user_root_path
     end
   end
+
+  def destroy_stale_states(jwt_id)
+    registration_states = RegistrationState.where(jwt_id: jwt_id).pluck(:id)
+    login_states = LoginState.where(jwt_id: jwt_id).pluck(:id)
+
+    RegistrationState.where(id: registration_states).update_all(jwt_id: nil)
+    LoginState.where(id: login_states).update_all(jwt_id: nil)
+
+    RegistrationState.where(id: registration_states).destroy_all
+    LoginState.where(id: login_states).destroy_all
+  end
 end
