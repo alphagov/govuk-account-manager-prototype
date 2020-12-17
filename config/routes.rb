@@ -98,6 +98,8 @@ Rails.application.routes.draw do
       post "/transition-emails", to: "devise_registration#transition_emails_post"
       get  "/finish", to: "devise_registration#create", as: :new_user_registration_finish
       get  "/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
+
+      get "/welcome", to: redirect(path: "/sign-in")
     end
   end
 
