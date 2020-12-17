@@ -12,3 +12,6 @@
   expire_ephemeral_state:
     cron: "0 */15 * * * *"
     class: ExpireEphemeralStateJob
+  expire_jwt:
+    cron: "0 */15 * * * *"
+    class: ExpireJwtJob

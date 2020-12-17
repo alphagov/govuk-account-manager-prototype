@@ -18,13 +18,11 @@ RSpec.describe "edit-password" do
       {
         "_method" => "put",
         "user[password]" => password,
-        "user[password_confirmation]" => password_confirmation,
         "user[reset_password_token]" => reset_password_token,
       }
     end
 
     let(:password) { "abcd1234" } # pragma: allowlist secret
-    let(:password_confirmation) { password }
     let(:reset_password_token) { actual_reset_password_token }
 
     it "changes the user's password" do
@@ -55,26 +53,6 @@ RSpec.describe "edit-password" do
         post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
-      end
-    end
-
-    context "when the password confirmation is missing" do
-      let(:password_confirmation) { "" }
-
-      it "returns an error" do
-        post user_password_path, params: params
-
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
-      end
-    end
-
-    context "when the password confirmation does not match" do
-      let(:password_confirmation) { password + "-123" }
-
-      it "returns an error" do
-        post user_password_path, params: params
-
-        expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"))
       end
     end
 

@@ -19,26 +19,14 @@
       <%= render "devise/shared/error_messages", resource: resource %>
       <%= hidden_field_tag "user[reset_password_token]", params[:reset_password_token] %>
 
-      <%= render "govuk_publishing_components/components/input", {
+      <%= render "govuk_publishing_components/components/show_password", {
         label: {
           text: t("devise.passwords.edit.password.label"),
         },
         hint: t("devise.passwords.edit.password.hint"),
         name: "user[password]",
-        type: "password",
         id: "password",
         error_message: devise_error_items(:password),
-        autocomplete: "new-password",
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: t("devise.passwords.edit.password_confirm.label"),
-        },
-        name: "user[password_confirmation]",
-        type: "password",
-        id: "password_confirmation",
-        error_message: devise_error_items(:password_confirmation),
         autocomplete: "new-password",
       } %>
 

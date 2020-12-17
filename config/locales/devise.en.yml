@@ -25,8 +25,6 @@ en:
               invalid: The password is not in the correct format. Choose a password that is at least 8 characters long.
               new_blank: Your new password cannot be blank. Try entering a new password again.
               too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
-            password_confirmation:
-              confirmation: The passwords you’ve entered are not the same. Try retyping your password again.
             reset_password_token:
               invalid: The reset password link you’re using is not valid. Make sure you’re using the link that was emailed to you.
   devise:
@@ -40,8 +38,10 @@ en:
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:
+      invalid: You’ve entered the wrong password - try entering your password again.
       last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
       locked: You’ve been locked out of your account because you entered the wrong password too many times. We’ve emailed you a link for unlocking your account.
+      no_account: This email address does not have a GOV.UK account
       same_email: Your account is already using this email address. Enter a different email address.
       timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
       unauthenticated: Sign in to your GOV.UK account.
@@ -149,8 +149,6 @@ en:
         password:
           hint: It needs to be at least 8 characters long.
           label: Create a new password
-        password_confirm:
-          label: Retype password
         submit:
           label: Save
       new:
@@ -187,8 +185,6 @@ en:
           password:
             hint: It needs to be at least 8 characters long.
             label: Create your new password
-          password_confirm:
-            label: Retype new password
           submit:
             label: Save
         heading: Change your email address or password
@@ -196,16 +192,22 @@ en:
         heading_password: Change your password
         success: You’ve successfully updated the password for your GOV.UK account.
       start:
+        checker_inset_text: If you do not have a mobile phone, you can still get %{link}.
+        checker_inset_text_link: email alerts and a link to your results
         fields:
           email:
-            label: Enter your email address
+            label: Email address
           password:
-            hint: It needs to be at least 8 characters long.
-            label: Create a password
-          password_confirm:
-            label: Retype your password
+            hint: It needs to be at least 8 characters long
+            label: Password
+          phone:
+            hint: We’ll send you a security code by text message
+            label: Mobile number
           submit:
             label: Continue
+        heading: Create a GOV.UK account
+        sign_in: If you already have an account, you can %{link}.
+        sign_in_link: sign in
       transition_checker:
         heading: This email address does not have a GOV.UK account
         message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit transition checker</a> and subscribe to email updates.
@@ -269,14 +271,12 @@ en:
           email:
             label: Email address
           password:
-            errors:
-              incorrect: You’ve entered the wrong password - try entering your password again.
-            label: Enter your password
+            label: Password
           remember:
             label: Remember me
           submit:
-            label: Sign in
-        heading: Enter password
+            label: Continue
+        heading: Sign in to your GOV.UK account
         register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
         reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
     unlocks:

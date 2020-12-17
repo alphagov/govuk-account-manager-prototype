@@ -7,12 +7,11 @@ class DeviseRegistrationController < Devise::RegistrationsController
   # rubocop:enable Rails/LexicallyScopedActionFilter
 
   before_action :check_registration_state, only: %i[
-    start
     phone
     phone_code
-    phone_code_send
     phone_verify
     phone_resend
+    phone_resend_code
     your_information
     your_information_post
     transition_emails
@@ -23,39 +22,78 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def start
     render :closed and return unless Rails.configuration.enable_registration
 
-    redirect_to url_for_state and return unless registration_state.state == "start"
+    payload = get_payload
+
+    @email = params.dig(:user, :email)
+    @password = params.dig(:user, :password) # pragma: allowlist secret
+    @phone = params.dig(:user, :phone)
+    @criteria_keys = payload.dig(:attributes, :transition_checker_state, "criteria_keys") if payload
 
     return if request.get?
 
-    password = params.dig(:user, :password) # pragma: allowlist secret
-    password_confirmation = params.dig(:user, :password_confirmation)
-    password_length_ok = Devise.password_length.include? password&.length
-    password_confirmation_ok = password == password_confirmation
+    return unless @email || @password || @phone
 
-    if password.blank?
-      @resource_error_messages = {
-        password: [ # pragma: allowlist secret
-          I18n.t("activerecord.errors.models.user.attributes.password.blank"),
-        ],
-      }
-      return
+    @resource_error_messages = {}
+
+    if @email.blank?
+      @resource_error_messages[:email] =
+        [
+          I18n.t("activerecord.errors.models.user.attributes.email.blank"),
+        ]
+    elsif !Devise.email_regexp.match? @email
+      @resource_error_messages[:email] =
+        [
+          I18n.t("activerecord.errors.models.user.attributes.email.invalid"),
+        ]
+    elsif User.exists?(email: @email)
+      @resource_error_messages[:email] =
+        [
+          I18n.t("activerecord.errors.models.user.attributes.email.taken"),
+        ]
     end
 
-    if password_length_ok && password_confirmation_ok
-      registration_state.update!(
-        state: MultiFactorAuth.is_enabled? ? :phone : :your_information,
-        password: password,
-      )
-      redirect_to new_user_registration_phone_path
-    else
-      @resource_error_messages = {
-        password: [ # pragma: allowlist secret
-          password_length_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
-        ],
-        password_confirmation: [
-          password_confirmation_ok ? nil : I18n.t("activerecord.errors.models.user.attributes.password_confirmation.confirmation"),
-        ],
-      }
+    if @password.blank?
+      @resource_error_messages[:password] =
+        [
+          I18n.t("activerecord.errors.models.user.attributes.password.blank"),
+        ]
+    elsif !Devise.password_length.include? @password&.length
+      @resource_error_messages[:password] =
+        [
+          I18n.t("activerecord.errors.models.user.attributes.password.too_short"),
+        ]
+    end
+
+    if MultiFactorAuth.is_enabled?
+      if @phone.blank?
+        @resource_error_messages[:phone] = [
+          I18n.t("mfa.errors.phone.blank"),
+        ]
+      elsif !MultiFactorAuth.valid?(@phone)
+        @resource_error_messages[:phone] = [
+          I18n.t("mfa.errors.phone.invalid"),
+        ]
+      else
+        @phone = MultiFactorAuth.e164_number(@phone)
+      end
+    end
+
+    if @resource_error_messages.empty?
+      RegistrationState.transaction do
+        state = MultiFactorAuth.is_enabled? ? :phone : :your_information
+        @registration_state = RegistrationState.create!(
+          touched_at: Time.zone.now,
+          state: state,
+          email: @email,
+          password: @password, # pragma: allowlist secret
+          phone: MultiFactorAuth.is_enabled? ? @phone : nil,
+          previous_url: payload&.dig(:post_register_oauth).presence || params[:previous_url],
+          jwt_id: session[:jwt_id],
+        )
+        MultiFactorAuth.generate_and_send_code(@registration_state) if MultiFactorAuth.is_enabled?
+        session[:registration_state_id] = @registration_state.id
+      end
+      redirect_to MultiFactorAuth.is_enabled? ? new_user_registration_phone_code_path : new_user_registration_your_information_path
     end
   end
 
@@ -65,25 +103,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
   def phone_code
     redirect_to url_for_state and return unless registration_state.state == "phone"
-  end
-
-  def phone_code_send
-    redirect_to url_for_state and return unless registration_state.state == "phone"
-
-    unless MultiFactorAuth.valid?(params[:phone].presence)
-      @phone_error_message = I18n.t("mfa.errors.phone.invalid")
-      render :phone
-      return
-    end
-
-    phone_number = MultiFactorAuth.e164_number(params[:phone].presence || registration_state.phone)
-
-    registration_state.transaction do
-      registration_state.update!(phone: phone_number)
-      MultiFactorAuth.generate_and_send_code(registration_state)
-    end
-
-    render :phone_code
   end
 
   def phone_verify
@@ -102,7 +121,25 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def phone_resend
     redirect_to url_for_state and return unless registration_state.state == "phone"
 
-    @phone = registration_state.phone
+    @phone = MultiFactorAuth.e164_number(params[:phone] || registration_state.phone)
+  end
+
+  def phone_resend_code
+    redirect_to url_for_state and return unless registration_state.state == "phone"
+
+    @phone = MultiFactorAuth.e164_number(params[:phone] || registration_state.phone)
+
+    unless MultiFactorAuth.valid?(@phone.presence)
+      @phone_error_message = I18n.t("mfa.errors.phone.invalid")
+      return
+    end
+
+    registration_state.transaction do
+      registration_state.update!(phone: @phone)
+      MultiFactorAuth.generate_and_send_code(registration_state)
+    end
+
+    redirect_to new_user_registration_phone_code_path
   end
 
   def your_information
@@ -276,7 +313,7 @@ protected
 
   def check_registration_state
     @registration_state_id = session[:registration_state_id]
-    redirect_to new_user_session_path unless registration_state
+    redirect_to new_user_registration_start_path unless registration_state
   end
 
   # used in the 'super' of 'create'
@@ -311,7 +348,7 @@ protected
   def url_for_state
     case registration_state.state
     when "phone"
-      new_user_registration_phone_path
+      new_user_registration_phone_code_path
     when "your_information"
       new_user_registration_your_information_path
     when "transition_emails"
@@ -319,7 +356,7 @@ protected
     when "finish"
       new_user_registration_finish_path
     else
-      new_user_session_path
+      new_user_registration_start_path
     end
   end
 

@@ -200,10 +200,3 @@ en:
         <p class="govuk-body">We are unable to process your request.  This error has been reported.</p>
         <p class="govuk-body"><a class="govuk-link" href="/">Return to the home page.</a></p>
       heading: Something went wrong
-  welcome:
-    show:
-      button:
-        label: Continue
-      fields:
-        email:
-          label: Enter your email address

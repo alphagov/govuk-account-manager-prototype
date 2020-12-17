@@ -148,17 +148,14 @@ RSpec.feature "Registration (coming from another application)" do
   end
 
   def start_journey
-    Capybara.current_session.driver.submit :post, "/", {
-      "user[email]" => email,
+    Capybara.current_session.driver.submit :post, welcome_path, {
       "jwt" => jwt,
     }.compact
 
+    fill_in "email", with: email
     fill_in "password", with: password
-    fill_in "password_confirmation", with: password
-    click_on I18n.t("devise.registrations.start.fields.submit.label")
-
     fill_in "phone", with: "07958123456"
-    click_on I18n.t("mfa.phone.create.fields.submit.label")
+    click_on I18n.t("devise.registrations.start.fields.submit.label")
 
     phone_code = RegistrationState.last.phone_code
     fill_in "phone_code", with: phone_code

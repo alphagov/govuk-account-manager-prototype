@@ -12,7 +12,7 @@ module ErrorItemsHelper
     raw_errors = resource ? resource.errors.messages : resource_error_messages
     return nil unless raw_errors
 
-    all_errors = raw_errors.map do |id, errors|
+    all_errors = raw_errors.compact.map do |id, errors|
       errors.map do |error|
         { field: id, error: error }
       end

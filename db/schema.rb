@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_08_161509) do
+ActiveRecord::Schema.define(version: 2020_12_14_093233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -51,11 +51,15 @@ ActiveRecord::Schema.define(version: 2020_12_08_161509) do
     t.index ["user_id"], name: "index_ephemeral_states_on_user_id"
   end
 
+  create_table "jwts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "jwt_payload"
+  end
+
   create_table "login_states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "user_id", null: false
     t.string "redirect_path", null: false
-    t.boolean "password_ok", default: false, null: false
+    t.uuid "jwt_id"
     t.index ["user_id"], name: "index_login_states_on_user_id"
   end
 
@@ -121,13 +125,13 @@ ActiveRecord::Schema.define(version: 2020_12_08_161509) do
     t.string "previous_url"
     t.string "password"
     t.boolean "yes_to_emails"
-    t.jsonb "jwt_payload"
     t.string "phone"
     t.string "phone_code"
     t.datetime "phone_code_generated_at"
     t.integer "mfa_attempts"
     t.boolean "cookie_consent"
     t.boolean "feedback_consent"
+    t.uuid "jwt_id"
   end
 
   create_table "security_activities", force: :cascade do |t|
@@ -180,13 +184,14 @@ ActiveRecord::Schema.define(version: 2020_12_08_161509) do
   add_foreign_key "data_activities", "oauth_applications"
   add_foreign_key "data_activities", "users"
   add_foreign_key "email_subscriptions", "users"
-  add_foreign_key "ephemeral_states", "users"
+  add_foreign_key "login_states", "jwts"
   add_foreign_key "login_states", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "oauth_openid_requests", "oauth_access_grants", column: "access_grant_id", on_delete: :cascade
+  add_foreign_key "registration_states", "jwts"
   add_foreign_key "security_activities", "oauth_applications"
   add_foreign_key "security_activities", "users"
 end

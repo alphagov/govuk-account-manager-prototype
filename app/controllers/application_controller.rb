@@ -12,6 +12,19 @@ class ApplicationController < ActionController::Base
 
 protected
 
+  def get_payload(payload = nil)
+    if payload
+      jwt = Jwt.create!(
+        jwt_payload: payload,
+      )
+      session[:jwt_id] = jwt.id
+      payload
+    elsif session[:jwt_id]
+      jwt = Jwt.find(session[:jwt_id])
+      jwt&.jwt_payload&.deep_symbolize_keys
+    end
+  end
+
   def top_level_error_handler(exception = nil)
     Raven.capture_exception(exception) if exception
 

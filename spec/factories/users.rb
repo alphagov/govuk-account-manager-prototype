@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :user do
     email { "email@example.com" }
     password { "abcd1234" }
-    password_confirmation { "abcd1234" }
     phone { "+447958123456" }
 
     trait :confirmed do

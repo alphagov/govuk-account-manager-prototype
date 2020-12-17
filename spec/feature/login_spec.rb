@@ -9,42 +9,70 @@ RSpec.feature "Logging in" do
   let!(:user) { FactoryBot.create(:user) }
 
   it "logs the user in" do
-    enter_email_address
-    enter_password
+    enter_email_address_and_password
     enter_mfa
 
     expect(page).to have_text(I18n.t("account.your_account.heading"))
   end
 
   it "shows the MFA page" do
-    enter_email_address
-    enter_password
+    enter_email_address_and_password
 
     expect(page).to have_text(I18n.t("mfa.phone.code.fields.phone_code.label"))
   end
 
-  context "the password is incorrect" do
-    it "returns an error" do
-      enter_email_address
-      enter_incorrect_password
+  context "when the email is missing" do
+    it "shows an error" do
+      enter_email_address_and_password(email: "")
 
-      expect(page).to have_text(I18n.t("devise.sessions.new.fields.password.errors.incorrect"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.blank"))
     end
   end
 
-  context "the user tries to bypass password check" do
-    it "does not send MFA code" do
-      enter_email_address
-      go_straight_to_mfa_page
+  context "the password is missing" do
+    it "returns an error" do
+      enter_email_address_and_password(password: "") # pragma: allowlist secret
 
-      expect(page).to_not have_text(I18n.t("mfa.phone.code.sign_in_heading"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
+    end
+  end
+
+  context "the password is incorrect" do
+    it "shows an error but does not lock the account on the first 4 entries" do
+      4.times do
+        enter_email_address_and_password(password: "1234")
+
+        expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.last_attempt")))
+        expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.locked")))
+        expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.invalid")))
+        expect(User.last.access_locked?).to be false
+      end
+    end
+
+    it "shows a warning on the 5th entry" do
+      5.times do
+        enter_email_address_and_password(password: "1234")
+      end
+
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.last_attempt")))
+      expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.locked")))
+      expect(User.last.access_locked?).to be false
+    end
+
+    it "locks the account on the 6th entry" do
+      6.times do
+        enter_email_address_and_password(password: "1234")
+      end
+
+      expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.last_attempt")))
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.locked")))
+      expect(User.last.access_locked?).to be true
     end
   end
 
   context "the user tries to bypass MFA" do
     it "does not log them in" do
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
       go_straight_to_account_page
 
       expect(page).to_not have_text(I18n.t("account.your_account.heading"))
@@ -53,8 +81,7 @@ RSpec.feature "Logging in" do
 
   context "the MFA code is incorrect" do
     it "returns an error" do
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
       enter_incorrect_mfa
 
       expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
@@ -62,8 +89,7 @@ RSpec.feature "Logging in" do
 
     context "the user keeps entering an incorrect code" do
       it "expires the code" do
-        enter_email_address
-        enter_password
+        enter_email_address_and_password
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
         expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.too_many_attempts")))
@@ -73,8 +99,7 @@ RSpec.feature "Logging in" do
 
   context "the MFA code is too old" do
     it "expires the code" do
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
 
@@ -86,8 +111,7 @@ RSpec.feature "Logging in" do
     before { user.update!(phone: nil) }
 
     it "skips over the MFA screen" do
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
 
       expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
@@ -97,8 +121,7 @@ RSpec.feature "Logging in" do
     let(:mfa_enabled) { false }
 
     it "skips over the MFA screen" do
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
 
       expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
@@ -108,8 +131,7 @@ RSpec.feature "Logging in" do
     it "allows login when confirmation was sent less than 7 days ago" do
       user.update!(confirmation_sent_at: Time.zone.now - 6.days)
 
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
       enter_mfa
 
       expect(page).to have_text(I18n.t("account.your_account.heading"))
@@ -118,26 +140,48 @@ RSpec.feature "Logging in" do
     it "shows an error when confirmation was sent more than 7 days ago" do
       user.update!(confirmation_sent_at: Time.zone.now - 7.days)
 
-      enter_email_address
-      enter_password
+      enter_email_address_and_password
 
       expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.failure.unconfirmed")))
     end
   end
 
-  def enter_email_address
+  context "when the account does not exist" do
+    context "if user comes from the transition checker" do
+      it "redirects to registration form" do
+        Capybara.current_session.driver.submit :post, welcome_path, {
+          "jwt" => "some_data",
+        }.compact
+
+        enter_email_address_and_password(email: "no-account@digital.cabinet-office.gov.uk")
+
+        expect(page).to have_text(I18n.t("devise.failure.no_account"))
+      end
+    end
+
+    context "if user does not come from the transition checker and force_jwt_at_registration is set" do
+      before { allow(Rails.configuration).to receive(:force_jwt_at_registration).and_return(true) }
+
+      it "redirects to an informational page" do
+        enter_email_address_and_password(email: "no-account@digital.cabinet-office.gov.uk")
+
+        expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.registrations.transition_checker.message")))
+      end
+    end
+
+    context "if user does not come from the transition checker and force_jwt_at_registration is not set" do
+      it "returns an error" do
+        enter_email_address_and_password(email: "no-account@digital.cabinet-office.gov.uk")
+
+        expect(page).to have_text(I18n.t("devise.failure.no_account"))
+      end
+    end
+  end
+
+  def enter_email_address_and_password(email: user.email, password: user.password)
     visit new_user_session_path
-    fill_in "email", with: user.email
-    click_on I18n.t("welcome.show.button.label")
-  end
-
-  def enter_password
-    fill_in "password", with: user.password
-    click_on I18n.t("devise.sessions.new.fields.submit.label")
-  end
-
-  def enter_incorrect_password
-    fill_in "password", with: "1#{user.password}"
+    fill_in "email", with: email
+    fill_in "password", with: password
     click_on I18n.t("devise.sessions.new.fields.submit.label")
   end
 

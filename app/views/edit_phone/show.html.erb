@@ -29,14 +29,13 @@
         error_message: @phone_error_message,
       } %>
 
-      <%= render "govuk_publishing_components/components/input", {
+      <%= render "govuk_publishing_components/components/show_password", {
         label: {
           text: t("devise.registrations.edit.fields.current_password.label"),
         },
         heading_size: "m",
         hint: t("devise.registrations.edit.fields.current_password.hint"),
         name: "current_password",
-        type: "password",
         error_message: @password_error_message,
         autocomplete: "current-password",
       } %>

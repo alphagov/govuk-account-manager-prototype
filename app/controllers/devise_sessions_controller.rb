@@ -4,26 +4,34 @@ class DeviseSessionsController < Devise::SessionsController
   include UrlHelper
 
   before_action :check_login_state, only: %i[
-    create
     phone_code
-    phone_code_send
     phone_verify
     phone_resend
-  ]
-
-  before_action :check_password_ok, only: %i[
-    phone_code
-    phone_code_send
-    phone_verify
-    phone_resend
+    phone_resend_code
   ]
 
   def create
-    render :new and return unless params.dig(:user, :password)
+    payload = get_payload
 
-    self.resource = warden.authenticate(auth_options)
+    render :new and return unless params.dig(:user, :email) || params.dig(:user, :password)
+
+    @email = params.dig(:user, :email)
+    catch(:warden) do
+      self.resource = warden.authenticate(auth_options)
+    end
+
     if resource
-      login_state.update!(password_ok: true)
+      user = User.find_by(email: @email).id
+      @login_state = LoginState.create!(
+        created_at: Time.zone.now,
+        user_id: user,
+        redirect_path: after_login_path(payload, user),
+        jwt_id: session[:jwt_id],
+      )
+
+      @login_state_id = login_state.id
+      session[:login_state_id] = login_state.id
+
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
         redirect_to user_session_phone_code_path
@@ -31,26 +39,39 @@ class DeviseSessionsController < Devise::SessionsController
         do_sign_in
       end
     else
-      @password_error_message =
-        case User.find_by(email: params.dig(:user, :email))&.unauthenticated_message
-        when :last_attempt
-          I18n.t("devise.failure.last_attempt")
-        when :locked
-          I18n.t("devise.failure.locked")
-        else
-          I18n.t("devise.sessions.new.fields.password.errors.incorrect")
-        end
-      render :new
+      @resource_error_messages = {}
+
+      if params.dig(:user, :password).blank?
+        @resource_error_messages[:password] = [I18n.t("activerecord.errors.models.user.attributes.password.blank")]
+      end
+
+      user = User.find_by(email: @email)
+      user_exists = user.present?
+
+      if user_exists && !user.active_for_authentication? && !user.access_locked?
+        @resource_error_messages[:email] = [I18n.t("devise.failure.unconfirmed")]
+      elsif user_exists && params.dig(:user, :password).present?
+        authentication_failure = user.unauthenticated_message # pragma: allowlist secrets
+        @resource_error_messages[:password] = [I18n.t("devise.failure.#{authentication_failure}")]
+      elsif user_exists
+        @resource_error_messages[:password] = [I18n.t("activerecord.errors.models.user.attributes.password.blank")]
+      elsif @email.present? && Devise.email_regexp.match?(@email)
+        redirect_to new_user_registration_start_path(user: { email: @email }) and return if payload
+
+        render "devise/registrations/transition_checker" and return if Rails.configuration.force_jwt_at_registration
+
+        @resource_error_messages[:email] = [I18n.t("devise.failure.no_account")]
+      elsif @email.present?
+        @resource_error_messages[:email] = [I18n.t("activerecord.errors.models.user.attributes.email.invalid")]
+      else
+        @resource_error_messages[:email] = [I18n.t("activerecord.errors.models.user.attributes.email.blank")]
+      end
+
+      render :new if @resource_error_messages.present?
     end
   end
 
   def phone_code; end
-
-  def phone_code_send
-    MultiFactorAuth.generate_and_send_code(login_state.user)
-
-    render :phone_code
-  end
 
   def phone_verify
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
@@ -67,8 +88,14 @@ class DeviseSessionsController < Devise::SessionsController
 
   def phone_resend; end
 
+  def phone_resend_code
+    MultiFactorAuth.generate_and_send_code(login_state.user)
+    redirect_to user_session_phone_code_path
+  end
+
   def destroy
     redirect_to account_delete_confirmation_path and return if params[:done] == "delete"
+
     redirect_to transition_path and return if all_signed_out?
 
     if params[:continue]
@@ -78,6 +105,7 @@ class DeviseSessionsController < Devise::SessionsController
     elsif params[:done]
       current_user.invalidate_all_sessions!
       super
+      flash[:notice] = nil
     else
       redirect_to "#{transition_checker_path}/logout?continue=1"
     end
@@ -92,8 +120,8 @@ protected
     redirect_to new_user_session_path unless login_state
   end
 
-  def check_password_ok
-    redirect_to user_session_path unless login_state.password_ok
+  def after_login_path(payload, user)
+    payload&.dig(:post_login_oauth).presence || after_sign_in_path_for(user)
   end
 
   def login_state

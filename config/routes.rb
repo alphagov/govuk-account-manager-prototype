@@ -3,22 +3,25 @@
 Rails.application.routes.draw do
   devise_for :users, skip: :all
   devise_scope :user do
-    get  "/", to: "welcome#show", as: :new_user_session
+    get  "/", to: "welcome#show", as: :welcome
     post "/", to: "welcome#show"
 
     get "/feedback", to: "feedback#show", as: :feedback_form
     post "/feedback", to: "feedback#submit", as: :feedback_form_submitted
 
-    scope "/login" do
-      get  "/", to: "devise_sessions#create", as: :user_session
+    scope "/sign-in" do
+      get  "/", to: "devise_sessions#create", as: :new_user_session
       post "/", to: "devise_sessions#create"
       get  "/phone/code", to: "devise_sessions#phone_code", as: :user_session_phone_code
-      post "/phone/code", to: "devise_sessions#phone_code_send"
       post "/phone/verify", to: "devise_sessions#phone_verify", as: :user_session_phone_verify
       get  "/phone/resend", to: "devise_sessions#phone_resend", as: :user_session_phone_resend
+      post "/phone/resend", to: "devise_sessions#phone_resend_code"
     end
 
-    get "/logout", to: "devise_sessions#destroy", as: :destroy_user_session
+    get "/sign-out", to: "devise_sessions#destroy", as: :destroy_user_session
+
+    get "/login", to: redirect(path: "/sign-in")
+    get "/logout", to: redirect(path: "/sign-out")
 
     scope "/account" do
       get "/manage", to: "manage#show", as: :account_manage
@@ -85,11 +88,10 @@ Rails.application.routes.draw do
     scope "/new-account" do
       get  "/", to: "devise_registration#start", as: :new_user_registration_start
       post "/", to: "devise_registration#start"
-      get  "/phone", to: "devise_registration#phone", as: :new_user_registration_phone
       get  "/phone/code", to: "devise_registration#phone_code", as: :new_user_registration_phone_code
-      post "/phone/code", to: "devise_registration#phone_code_send"
       post "/phone/verify", to: "devise_registration#phone_verify", as: :new_user_registration_phone_verify
       get  "/phone/resend", to: "devise_registration#phone_resend", as: :new_user_registration_phone_resend
+      post "/phone/resend", to: "devise_registration#phone_resend_code"
       get  "/your-information", to: "devise_registration#your_information", as: :new_user_registration_your_information
       post "/your-information", to: "devise_registration#your_information_post"
       get  "/transition-emails", to: "devise_registration#transition_emails", as: :new_user_registration_transition_emails
