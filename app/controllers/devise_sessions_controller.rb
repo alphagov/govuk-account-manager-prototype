@@ -21,7 +21,6 @@ class DeviseSessionsController < Devise::SessionsController
     end
 
     if resource
-      destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
       @login_state = LoginState.create!(
         created_at: Time.zone.now,
         user_id: resource.id,
