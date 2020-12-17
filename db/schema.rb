@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_093233) do
   add_foreign_key "data_activities", "oauth_applications"
   add_foreign_key "data_activities", "users"
   add_foreign_key "email_subscriptions", "users"
+  add_foreign_key "ephemeral_states", "users"
   add_foreign_key "login_states", "jwts"
   add_foreign_key "login_states", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
