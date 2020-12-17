@@ -9,7 +9,7 @@ class CreateJwt < ActiveRecord::Migration[6.0]
 
     RegistrationState.all.each do |state|
       next unless state.read_attribute(:jwt_payload)
-      jwt = Jwt.create(jwt_payload: state.read_attribute(:jwt_payload))
+      jwt = Jwt.create(jwt_payload: state.read_attribute(:jwt_payload), skip_parse_jwt_token: true)
       RegistrationState.update(jwt_id: jwt.id)
     end
 

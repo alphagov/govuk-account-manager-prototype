@@ -1,11 +1,13 @@
 class Jwt < ApplicationRecord
+  attr_accessor :skip_parse_jwt_token
+
   has_one :registration_state
   has_one :login_state
 
   scope :without_login_states, -> { left_joins(:login_state).where("login_states.jwt_id IS NULL") }
   scope :without_registration_states, -> { left_joins(:registration_state).where("registration_states.jwt_id IS NULL") }
 
-  before_save :parse_jwt_token
+  before_save :parse_jwt_token, unless: :skip_parse_jwt_token
 
   class InvalidJWT < StandardError; end
   class InsufficientScopes < InvalidJWT; end
