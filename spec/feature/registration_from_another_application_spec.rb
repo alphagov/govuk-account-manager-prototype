@@ -147,16 +147,38 @@ RSpec.feature "Registration (coming from another application)" do
     end
   end
 
+  context "the user goes part way through the registration process then starts again and completes" do
+    it "shows the post-registration page" do
+      i_click_from_application
+      i_enter_registration_details
+      visit new_user_registration_start_path
+      i_enter_registration_details
+      i_enter_phone_code
+
+      expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+    end
+  end
+
   def start_journey
+    i_click_from_application
+    i_enter_registration_details
+    i_enter_phone_code
+  end
+
+  def i_click_from_application
     Capybara.current_session.driver.submit :post, welcome_path, {
       "jwt" => jwt,
     }.compact
+  end
 
+  def i_enter_registration_details
     fill_in "email", with: email
     fill_in "password", with: password
     fill_in "phone", with: "07958123456"
     click_on I18n.t("devise.registrations.start.fields.submit.label")
+  end
 
+  def i_enter_phone_code
     phone_code = RegistrationState.last.phone_code
     fill_in "phone_code", with: phone_code
     click_on I18n.t("mfa.phone.code.fields.submit.label")
