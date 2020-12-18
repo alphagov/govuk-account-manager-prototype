@@ -45,6 +45,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
         MultiFactorAuth.generate_and_send_code(@registration_state) if MultiFactorAuth.is_enabled?
       end
       session[:registration_state_id] = @registration_state.id
+      session.delete(:jwt_id)
       redirect_to url_for_state
     end
   end
