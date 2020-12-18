@@ -169,7 +169,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
       next unless resource.persisted?
 
       persist_attributes(resource)
-      persist_consent(resource)
       persist_email_subscription(resource)
 
       @previous_url = registration_state.previous_url
@@ -288,6 +287,8 @@ protected
         email: registration_state.email,
         password: registration_state.password, # pragma: allowlist secret
         password_confirmation: registration_state.password,
+        cookie_consent: registration_state.cookie_consent,
+        feedback_consent: registration_state.feedback_consent,
       }
 
       if registration_state.phone
@@ -324,13 +325,6 @@ protected
     else
       new_user_registration_start_path
     end
-  end
-
-  def persist_consent(user)
-    user.update!(
-      cookie_consent: registration_state.cookie_consent,
-      feedback_consent: registration_state.feedback_consent,
-    )
   end
 
   def persist_attributes(user)

@@ -28,6 +28,8 @@ RSpec.feature "Registration" do
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
     expect(User.last.phone).to eq("+447958123456")
+    expect(User.last.cookie_consent).to be(true)
+    expect(User.last.feedback_consent).to be(false)
   end
 
   it "sends an email" do
