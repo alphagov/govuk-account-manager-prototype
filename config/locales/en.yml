@@ -119,6 +119,7 @@ en:
       phase_outro: will help us improve them.
       title: Help improve GOV.UK accounts
     show:
+      advice: Do not include personal information, for example your National Insurance number.
       anonymous_email: anonymous-feedback@digital.cabinet-office.gov.uk
       anonymous_name: Anonymous Feedback
       caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
@@ -146,7 +147,7 @@ en:
             option_yes:
               label: 'Yes'
       heading: Give feedback about your GOV.UK account
-      inset_text: Do not include personal information, for example your National Insurance number.
+      inset_text: If your question or feedback is not about a GOV.UK account, for example you want to ask about tax or a visa application, you need to use <a href="https://www.gov.uk/contact" class="govuk-link">different contact details</a>.
     submit:
       call_to_action: |
         <p class="govuk-body">Your feedback has been sent to the GOV.UK Account team.</p>
