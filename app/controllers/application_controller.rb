@@ -23,15 +23,12 @@ class ApplicationController < ActionController::Base
 protected
 
   def get_payload(payload_string = nil)
-    jwt = nil
-    if payload_string
-      jwt = Jwt.create!(
-        jwt_payload: payload_string,
-      )
-      session[:jwt_id] = jwt.id
-    elsif session[:jwt_id]
-      jwt = Jwt.find(session[:jwt_id])
-    end
+    jwt = if payload_string
+            Jwt.create!(jwt_payload: payload_string)
+              .tap { |j| session[:jwt_id] = j.id }
+          elsif session[:jwt_id]
+            Jwt.find(session[:jwt_id])
+          end
     jwt&.jwt_payload&.deep_symbolize_keys
   end
 
