@@ -22,17 +22,12 @@ class ApplicationController < ActionController::Base
 
 protected
 
-  def get_payload(payload = nil)
-    if payload
-      jwt = Jwt.create!(
-        jwt_payload: payload,
-      )
-      session[:jwt_id] = jwt.id
-      payload
-    elsif session[:jwt_id]
-      jwt = Jwt.find(session[:jwt_id])
-      jwt&.jwt_payload&.deep_symbolize_keys
-    end
+  def get_jwt_payload_from_session
+    return unless session[:jwt_id]
+
+    jwt = Jwt.find(session[:jwt_id])
+    session.delete(:jwt_id) unless jwt
+    jwt&.jwt_payload&.deep_symbolize_keys
   end
 
   def top_level_error_handler(exception = nil)

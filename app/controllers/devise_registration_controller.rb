@@ -21,7 +21,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def start
     render :closed and return unless Rails.configuration.enable_registration
 
-    payload = get_payload
+    payload = get_jwt_payload_from_session
 
     @email = params.dig(:user, :email)
     @password = params.dig(:user, :password) # pragma: allowlist secret

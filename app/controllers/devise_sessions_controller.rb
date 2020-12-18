@@ -11,7 +11,7 @@ class DeviseSessionsController < Devise::SessionsController
   ]
 
   def create
-    payload = get_payload
+    payload = get_jwt_payload_from_session
 
     render :new and return unless params.dig(:user, :email) || params.dig(:user, :password)
 
