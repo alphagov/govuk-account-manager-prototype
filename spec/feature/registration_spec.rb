@@ -247,6 +247,20 @@ RSpec.feature "Registration" do
 
         expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.too_many_attempts")))
       end
+
+      it "lets the user request a new code" do
+        visit_registration_form
+        enter_email_address
+        enter_password
+        enter_uk_phone_number
+        submit_registration_form
+        (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
+        request_new_mfa_code
+        enter_mfa
+        provide_consent
+
+        expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+      end
     end
   end
 
@@ -356,6 +370,11 @@ RSpec.feature "Registration" do
     phone_code = RegistrationState.last.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
     click_on I18n.t("mfa.phone.code.fields.submit.label")
+  end
+
+  def request_new_mfa_code
+    click_on "send a new security code"
+    click_on I18n.t("mfa.phone.resend.fields.submit.label")
   end
 
   def provide_consent

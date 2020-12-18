@@ -1,6 +1,4 @@
 RSpec.describe SecurityActivity do
-  include ActiveSupport::Testing::TimeHelpers
-
   let(:event) { SecurityActivity::LOGIN_SUCCESS }
   let(:event_type) { event&.id }
 
