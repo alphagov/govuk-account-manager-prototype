@@ -336,10 +336,12 @@ protected
   def registration_state
     @registration_state ||=
       begin
-        state = RegistrationState.find(@registration_state_id)
-        state.update!(touched_at: Time.zone.now)
-        state
-      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
+        RegistrationState.find(@registration_state_id).tap do |state|
+          state.update!(touched_at: Time.zone.now)
+        end
+      rescue ActiveRecord::RecordNotFound
+        session.delete(:registration_state_id)
+        nil
       end
   end
 
