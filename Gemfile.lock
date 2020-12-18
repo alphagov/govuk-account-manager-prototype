@@ -140,7 +140,7 @@ GEM
       sentry-raven (~> 3.1.1)
       statsd-ruby (~> 1.4.0)
       unicorn (>= 5.4, < 5.8)
-    govuk_publishing_components (23.10.0)
+    govuk_publishing_components (23.10.1)
       govuk_app_config
       kramdown
       plek
@@ -387,7 +387,7 @@ GEM
     thwait (0.2.0)
       e2mmap
     tilt (2.0.10)
-    tzinfo (1.2.8)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
