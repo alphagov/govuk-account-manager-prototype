@@ -32,8 +32,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
     resource.errors.add :email, :taken if User.exists?(email: resource_params[:email])
 
     if resource.valid?
+      state = MultiFactorAuth.is_enabled? ? :phone : :your_information
       RegistrationState.transaction do
-        state = MultiFactorAuth.is_enabled? ? :phone : :your_information
         destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
         @registration_state = RegistrationState.create!(
           touched_at: Time.zone.now,
@@ -43,9 +43,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
           **resource_params.except(:password_confirmation),
         )
         MultiFactorAuth.generate_and_send_code(@registration_state) if MultiFactorAuth.is_enabled?
-        session[:registration_state_id] = @registration_state.id
       end
-      redirect_to MultiFactorAuth.is_enabled? ? new_user_registration_phone_code_path : new_user_registration_your_information_path
+      session[:registration_state_id] = @registration_state.id
+      redirect_to url_for_state
     end
   end
 
