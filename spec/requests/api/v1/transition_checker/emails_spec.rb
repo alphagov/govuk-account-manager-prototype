@@ -94,7 +94,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
 
         it "deactivates the old subscription and activates the new subscription" do
           stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: new_topic_slug, returned_attributes: { id: "list-id" })
-          stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id", skip_confirmation_email: true)
+          stub_activate = stub_email_alert_api_creates_a_subscription(subscriber_list_id: "list-id", address: user.email, frequency: "daily", returned_subscription_id: "subscription-id", skip_confirmation_email: true)
           stub_deactivate = stub_email_alert_api_unsubscribes_a_subscription(subscription.subscription_id)
           post api_v1_transition_checker_email_subscription_path, headers: headers, params: params
           expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
@@ -107,7 +107,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
       context "without an email subscription" do
         it "activates the new subscription" do
           stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: new_topic_slug, returned_attributes: { id: "list-id" })
-          stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id", skip_confirmation_email: true)
+          stub_activate = stub_email_alert_api_creates_a_subscription(subscriber_list_id: "list-id", address: user.email, frequency: "daily", returned_subscription_id: "subscription-id", skip_confirmation_email: true)
           post api_v1_transition_checker_email_subscription_path, headers: headers, params: params
           expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
           expect(stub_subscriber_list).to have_been_made
