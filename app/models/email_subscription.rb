@@ -17,7 +17,7 @@ class EmailSubscription < ApplicationRecord
       skip_confirmation_email: true,
     )
 
-    update!(subscription_id: subscription.to_hash.dig("id"))
+    update!(subscription_id: subscription.to_hash.dig("subscription", "id"))
   end
 
   def deactivate_immediately

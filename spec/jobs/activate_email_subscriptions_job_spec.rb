@@ -10,7 +10,14 @@ RSpec.describe ActivateEmailSubscriptionsJob do
 
     it "calls email-alert-api to create the subscription" do
       stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: subscription.topic_slug, returned_attributes: { id: "list-id" })
-      stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id", skip_confirmation_email: true)
+
+      stub_activate = stub_email_alert_api_creates_a_subscription(
+        subscriber_list_id: "list-id",
+        address: user.email,
+        frequency: "daily",
+        returned_subscription_id: "subscription-id",
+        skip_confirmation_email: true,
+      )
 
       described_class.perform_now user.id
 
@@ -24,8 +31,15 @@ RSpec.describe ActivateEmailSubscriptionsJob do
 
       it "recreates the subscription" do
         stub_subscriber_list = stub_email_alert_api_has_subscriber_list_by_slug(slug: subscription.topic_slug, returned_attributes: { id: "list-id" })
-        stub_activate = stub_email_alert_api_creates_a_subscription("list-id", user.email, "daily", "subscription-id", skip_confirmation_email: true)
         stub_deactivate = stub_email_alert_api_unsubscribes_a_subscription(subscription.subscription_id)
+
+        stub_activate = stub_email_alert_api_creates_a_subscription(
+          subscriber_list_id: "list-id",
+          address: user.email,
+          frequency: "daily",
+          returned_subscription_id: "subscription-id",
+          skip_confirmation_email: true,
+        )
 
         described_class.perform_now user.id
 
