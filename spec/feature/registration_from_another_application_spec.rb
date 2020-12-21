@@ -187,8 +187,8 @@ RSpec.feature "Registration (coming from another application)" do
   end
 
   def i_consent_my_information_being_used
-    find(:css, "input[name='cookie_consent'][value='yes']").set(true)
-    find(:css, "input[name='feedback_consent'][value='yes']").set(true)
+    find(:css, "input[name='cookie_consent'][value='yes']", match: :first).set(true)
+    find(:css, "input[name='feedback_consent'][value='yes']", match: :first).set(true)
     click_on I18n.t("devise.registrations.your_information.fields.submit.label")
   end
 
