@@ -30,6 +30,9 @@ protected
             Jwt.find(session[:jwt_id])
           end
     jwt&.jwt_payload&.deep_symbolize_keys
+  rescue ActiveRecord::RecordNotFound
+    session.delete(:jwt_id)
+    nil
   end
 
   def top_level_error_handler(exception = nil)

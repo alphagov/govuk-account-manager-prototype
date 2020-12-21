@@ -132,7 +132,9 @@ protected
     @login_state ||=
       begin
         LoginState.find(@login_state_id)
-      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/SuppressedException
+      rescue ActiveRecord::RecordNotFound
+        session.delete(:login_state_id)
+        nil
       end
   end
 
