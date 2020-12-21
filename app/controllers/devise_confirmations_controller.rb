@@ -30,6 +30,14 @@ class DeviseConfirmationsController < Devise::ConfirmationsController
     @email = current_user&.unconfirmed_email || current_user&.email
   end
 
+  def after_confirmation_path_for(resource_name, resource)
+    if signed_in?(resource_name)
+      signed_in_root_path(resource)
+    else
+      new_session_path(resource_name, from_confirmation_email: true)
+    end
+  end
+
   def after_resending_confirmation_instructions_path_for(_resource_name)
     session[:confirmations] = {
       email: resource.unconfirmed_email,

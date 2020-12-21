@@ -26,11 +26,25 @@ RSpec.describe "security activities" do
       expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, factor: :sms
     end
 
+    it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS event with additional analytics data from confirmation email" do
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "from_confirmation_email" => true }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, analytics: "from_confirmation_email"
+    end
+
     it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE events" do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
       post user_session_phone_verify_path, params: { "phone_code" => "incorrect" }
 
       expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, factor: :sms
+    end
+
+    it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE event with additional analytics data from confirmation email" do
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+      post user_session_phone_verify_path, params: { "phone_code" => "incorrect", "from_confirmation_email" => true }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, analytics: "from_confirmation_email"
     end
   end
 
@@ -40,11 +54,23 @@ RSpec.describe "security activities" do
     expect_event SecurityActivity::LOGIN_SUCCESS
   end
 
+  it "records LOGIN_SUCCESS event with additional analytics data from confirmation email" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
+
+    expect_event SecurityActivity::LOGIN_SUCCESS, analytics: "from_confirmation_email"
+  end
+
   it "records LOGIN_FAILURE events" do
     post new_user_session_path, params: { "user[email]" => user.email }
     post response.redirect_url, params: { "user[email]" => user.email, "user[password]" => "incorrect" }
 
     expect_event SecurityActivity::LOGIN_FAILURE
+  end
+
+  it "records LOGIN_FAILURE event with additional analytics data from confirmation email" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => "incorrect", "from_confirmation_email" => true }
+
+    expect_event SecurityActivity::LOGIN_FAILURE, analytics: "from_confirmation_email"
   end
 
   it "records PASSWORD_RESET_REQUEST events" do
@@ -128,11 +154,12 @@ RSpec.describe "security activities" do
     expect_event SecurityActivity::EMAIL_CHANGED, notes: "to #{user.email}"
   end
 
-  def expect_event(event, application: nil, factor: nil, notes: nil)
+  def expect_event(event, application: nil, factor: nil, notes: nil, analytics: nil)
     events = user.security_activities.of_type(event)
     events = events.where(oauth_application_id: application.id) if application
     events = events.where(factor: factor) if factor
     events = events.where(notes: notes) if notes
+    events = events.where(analytics: analytics) if analytics
 
     expect(events.count).to_not eq(0)
   end
