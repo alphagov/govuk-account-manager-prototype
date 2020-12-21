@@ -28,6 +28,8 @@ RSpec.feature "Registration" do
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
     expect(User.last.phone).to eq("+447958123456")
+    expect(User.last.cookie_consent).to be(true)
+    expect(User.last.feedback_consent).to be(false)
   end
 
   it "sends an email" do
@@ -157,7 +159,7 @@ RSpec.feature "Registration" do
       enter_non_mobile_phone_number
       submit_registration_form
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.invalid"))
     end
   end
 
@@ -169,7 +171,7 @@ RSpec.feature "Registration" do
       enter_invalid_phone_number
       submit_registration_form
 
-      expect(page).to have_text(I18n.t("mfa.errors.phone.invalid"))
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.invalid"))
     end
   end
 

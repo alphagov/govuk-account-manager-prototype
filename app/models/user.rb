@@ -50,6 +50,10 @@ class User < ApplicationRecord
   # happening)
   before_destroy :destroy_remote_user_info_immediately, prepend: true
 
+  validate :validate_phone_number
+
+  before_save :format_phone_number
+
   def update_remote_user_info
     UpdateRemoteUserInfoJob.perform_later id
   end
@@ -90,5 +94,17 @@ class User < ApplicationRecord
 
   def needs_mfa?
     !phone.nil?
+  end
+
+  def format_phone_number
+    self.phone = MultiFactorAuth.e164_number(phone) if phone
+  end
+
+  def validate_phone_number
+    if phone.blank?
+      errors.add :phone, :blank if MultiFactorAuth.is_enabled?
+    elsif !MultiFactorAuth.valid?(phone)
+      errors.add :phone, :invalid
+    end
   end
 end

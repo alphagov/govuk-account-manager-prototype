@@ -124,16 +124,6 @@ RSpec.feature "Logging in" do
     end
   end
 
-  context "the user doesn't have a phone number" do
-    before { user.update!(phone: nil) }
-
-    it "skips over the MFA screen" do
-      enter_email_address_and_password
-
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
-    end
-  end
-
   context "MFA is disabled" do
     let(:mfa_enabled) { false }
 

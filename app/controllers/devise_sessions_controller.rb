@@ -31,6 +31,7 @@ class DeviseSessionsController < Devise::SessionsController
 
       @login_state_id = login_state.id
       session[:login_state_id] = login_state.id
+      session.delete(:jwt_id)
 
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
