@@ -46,9 +46,17 @@ RSpec.describe "JWT log in" do
     expect(response).to redirect_to(jwt_post_login_oauth.delete_prefix(Rails.application.config.redirect_base_url))
   end
 
-  context "the user is already logged in" do
-    let(:user) { FactoryBot.create(:user) }
+  it "preserves the JWT if the user comes from registration" do
+    post welcome_path, params: { "jwt" => jwt }
 
+    post new_user_registration_start_path, params: { "user[email]" => "email-for-this-test@example.com", "user[password]" => "password" }
+    expect(RegistrationState.count).to be(1)
+
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    expect(response).to redirect_to(jwt_post_login_oauth.delete_prefix(Rails.application.config.redirect_base_url))
+  end
+
+  context "the user is already logged in" do
     before do
       sign_in(user)
     end
