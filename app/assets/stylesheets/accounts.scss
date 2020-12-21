@@ -60,9 +60,13 @@ $_current-indicator-width: 4px;
 }
 
 .feedback-footer {
-  margin-top: govuk-spacing(4);
-  padding: govuk-spacing(8) 0;
+  margin-bottom: govuk-spacing(4);
+  padding: govuk-spacing(6);
   background: govuk-colour("light-grey");
+  @include govuk-media-query($from: tablet) {
+    margin-top: govuk-spacing(2);
+    margin-bottom: govuk-spacing(8);
+  }
 }
 
 .mfa-phone-create {
