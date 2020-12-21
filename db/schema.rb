@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_202609) do
+ActiveRecord::Schema.define(version: 2020_12_21_092526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_12_16_202609) do
 
   create_table "jwts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "jwt_payload"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "login_states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
