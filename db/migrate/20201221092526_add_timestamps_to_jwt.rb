@@ -1,12 +1,7 @@
 class AddTimestampsToJwt < ActiveRecord::Migration[6.0]
-  def up
-    add_timestamps :jwts
-    Jwt.update_all(created_at: Time.zone.now, updated_at: Time.zone.now)
-    change_column_null :jwts, :created_at, false
-    change_column_null :jwts, :updated_at, false
-  end
-
-  def down
-    remove_timestamps :jwts
+  def change
+    add_timestamps :jwts, default: Time.zone.now
+    change_column_default :jwts, :created_at, nil
+    change_column_default :jwts, :updated_at, nil
   end
 end
