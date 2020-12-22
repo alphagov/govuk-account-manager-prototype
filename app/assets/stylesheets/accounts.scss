@@ -61,9 +61,10 @@ $_current-indicator-width: 4px;
 
 .feedback-footer {
   margin-bottom: govuk-spacing(4);
-  padding: govuk-spacing(6);
+  padding: govuk-spacing(3);
   background: govuk-colour("light-grey");
   @include govuk-media-query($from: tablet) {
+    padding: govuk-spacing(6);
     margin-top: govuk-spacing(2);
     margin-bottom: govuk-spacing(8);
   }
