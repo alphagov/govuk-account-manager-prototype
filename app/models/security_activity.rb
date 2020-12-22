@@ -25,7 +25,7 @@ class SecurityActivity < ApplicationRecord
   EVENTS_REQUIRING_APPLICATION = EVENTS.select(&:require_application?)
   EVENTS_REQUIRING_FACTOR = EVENTS.select(&:require_factor?)
 
-  VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address user_agent user_agent_id factor notes].freeze
+  VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address user_agent user_agent_id factor notes analytics].freeze
 
   VALID_FACTORS = %w[sms].freeze
 

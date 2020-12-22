@@ -34,7 +34,7 @@ class DeviseSessionsController < Devise::SessionsController
 
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
-        redirect_to user_session_phone_code_path
+        redirect_to enter_phone_code_path
       else
         do_sign_in
       end
@@ -48,7 +48,7 @@ class DeviseSessionsController < Devise::SessionsController
       user = User.find_by(email: @email)
       user_exists = user.present?
 
-      record_security_event(SecurityActivity::LOGIN_FAILURE, user: user) if user_exists
+      record_security_event(SecurityActivity::LOGIN_FAILURE, user: user, analytics: analytics_data) if user_exists
 
       if user_exists && !user.active_for_authentication? && !user.access_locked?
         @resource_error_messages[:email] = [I18n.t("devise.failure.unconfirmed")]
@@ -78,13 +78,13 @@ class DeviseSessionsController < Devise::SessionsController
   def phone_verify
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
     if state == :ok
-      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user, factor: :sms)
+      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user, factor: :sms, analytics: analytics_data)
       do_sign_in
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
       session.delete(:login_state_id)
     else
-      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, user: login_state.user, factor: :sms)
+      record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, user: login_state.user, factor: :sms, analytics: analytics_data)
       @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: user_session_phone_resend_path)
       render :phone_code
     end
@@ -94,7 +94,7 @@ class DeviseSessionsController < Devise::SessionsController
 
   def phone_resend_code
     MultiFactorAuth.generate_and_send_code(login_state.user)
-    redirect_to user_session_phone_code_path
+    redirect_to enter_phone_code_path
   end
 
   def destroy
@@ -139,7 +139,7 @@ protected
   end
 
   def do_sign_in
-    record_security_event(SecurityActivity::LOGIN_SUCCESS, user: login_state.user)
+    record_security_event(SecurityActivity::LOGIN_SUCCESS, user: login_state.user, analytics: analytics_data)
 
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(login_state.user)
@@ -151,5 +151,26 @@ protected
 
   def after_sign_out_path_for(_resource)
     transition_path
+  end
+
+  def enter_phone_code_path
+    if params[:from_confirmation_email].present?
+      user_session_phone_code_path(from_confirmation_email: params[:from_confirmation_email])
+    else
+      user_session_phone_code_path
+    end
+  end
+
+  def resend_phone_code_path
+    if params[:from_confirmation_email].present?
+      user_session_phone_resend_path(from_confirmation_email: params[:from_confirmation_email])
+    else
+      user_session_phone_resend_path
+    end
+  end
+  helper_method :resend_phone_code_path
+
+  def analytics_data
+    "from_confirmation_email" if params[:from_confirmation_email]
   end
 end

@@ -13,6 +13,8 @@
     <% end %>
 
     <%= form_with url: user_session_phone_verify_path, method: :post, html: { autocomplete: "off", "data-module" => "explicit-cross-domain-links" } do %>
+      <%= hidden_field_tag "from_confirmation_email", params[:from_confirmation_email] %>
+
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.code.fields.phone_code.label") },
         name: "phone_code",
@@ -42,7 +44,7 @@
     } %>
 
     <p class="govuk-body">
-      <%= sanitize(t("mfa.phone.code.not_received.sign_in_message", link: user_session_phone_resend_path)) %>
+      <%= sanitize(t("mfa.phone.code.not_received.sign_in_message", link: resend_phone_code_path)) %>
     </p>
   </div>
 </div>

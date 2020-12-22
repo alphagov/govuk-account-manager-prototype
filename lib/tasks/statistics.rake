@@ -104,6 +104,37 @@ namespace :statistics do
       results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
     end
 
+    all_login_frequency_ex_confirm = SecurityActivity
+      .of_type(SecurityActivity::LOGIN_SUCCESS)
+      .where(oauth_application_id: nil)
+      .where.not(analytics: "from_confirmation_email")
+      .where("created_at < ?", args.end_date)
+      .pluck(:user_id)
+      .tally
+      .values
+      .tally
+      .sort
+    results += "Number of logins per account to #{args.end_date} (excluding logins immediately after confirming email):\n"
+    all_login_frequency_ex_confirm.each do |frequency, count|
+      results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
+    end
+    results += "\n"
+
+    login_frequency_ex_confirm = SecurityActivity
+      .of_type(SecurityActivity::LOGIN_SUCCESS)
+      .where(oauth_application_id: nil)
+      .where.not(analytics: "from_confirmation_email")
+      .where("created_at BETWEEN ? AND ?", args.start_date, args.end_date)
+      .pluck(:user_id)
+      .tally
+      .values
+      .tally
+      .sort
+    results += "Number of logins between #{args.start_date} and #{args.end_date} (excluding logins immediately after confirming email):\n"
+    login_frequency_ex_confirm.each do |frequency, count|
+      results += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
+    end
+
     output = [{
       title: "Daily Statistics",
       text: results,

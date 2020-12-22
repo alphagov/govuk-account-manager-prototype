@@ -15,6 +15,16 @@
         <%= render "devise/shared/error_messages", resource: resource %>
       <% end %>
 
+      <% if flash[:notice] %>
+        <% if flash_as_notice(flash[:notice]) %>
+          <%= render "govuk_publishing_components/components/notice", { description_text: flash[:notice] } %>
+        <% else %>
+          <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+        <% end %>
+      <% end %>
+
+      <%= hidden_field_tag "from_confirmation_email", params[:from_confirmation_email] %>
+
       <%= render "govuk_publishing_components/components/input", {
         label: {
           text: t("devise.sessions.new.fields.email.label"),
