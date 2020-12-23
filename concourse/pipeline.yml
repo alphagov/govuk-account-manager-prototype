@@ -288,3 +288,66 @@ jobs:
             username: 'Daily GOV.UK Account Statistics'
             icon_emoji: ':chart_with_upwards_trend:'
             attachments_file: statistics/output.json
+
+  - name: suspend-staging
+    plan:
+      - get: git-main
+      - task: map-account-url-to-error-page
+        file: git-main/concourse/tasks/map-route.yml
+        params:
+          CF_APP_NAME: govuk-account-static-errors
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: www
+      - task: unmap-account-url-from-account-app
+        file: git-main/concourse/tasks/unmap-route.yml
+        params:
+          CF_APP_NAME: govuk-account-manager
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: www
+      - task: map-attribute-url-to-error-page
+        file: git-main/concourse/tasks/map-route.yml
+        params:
+          CF_APP_NAME: govuk-account-static-errors
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: attributes
+      - task: unmap-attribute-url-from-attribute-service
+        file: git-main/concourse/tasks/unmap-route.yml
+        params:
+          CF_APP_NAME: govuk-attribute-service
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: attributes
+  - name: resume-staging
+    plan:
+      - get: git-main
+      - task: map-account-url-to-account-app
+        file: git-main/concourse/tasks/map-route.yml
+        params:
+          CF_APP_NAME: govuk-account-manager
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: www
+      - task: unmap-account-url-from-error-page
+        file: git-main/concourse/tasks/unmap-route.yml
+        params:
+          CF_APP_NAME: govuk-account-static-errors
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: www
+      - task: map-attribute-url-to-attribute-service
+        file: git-main/concourse/tasks/map-route.yml
+        params:
+          CF_APP_NAME: govuk-attribute-service
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: attributes
+      - task: unmap-attribute-url-from-error-page
+        file: git-main/concourse/tasks/unmap-route.yml
+        params:
+          CF_APP_NAME: govuk-account-static-errors
+          CF_SPACE: staging
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          HOSTNAME: attributes
