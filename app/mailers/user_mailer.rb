@@ -39,4 +39,11 @@ class UserMailer < ApplicationMailer
     @feedback_form_link = feedback_form_url
     mail(to: email, subject: I18n.t("mailer.post_delete.subject"))
   end
+
+  def adhoc_email
+    email = params[:email]
+    subject = params[:subject]
+    body = params[:body]
+    mail(to: email, subject: subject, body: body)
+  end
 end
