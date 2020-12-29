@@ -22,7 +22,7 @@ en:
               invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
               blank: Enter your password
-              denylist: You cannot use this password because it is too easy to guess. Try creating a more secure password. Read advice on <a class="govuk-link" href="https://www.ncsc.gov.uk/cyberaware/home">how to create a strong password</a>.
+              denylist: The password you entered is too easy to guess. Enter a more secure password.
               invalid: The password is not in the correct format. Choose a password that is at least 8 characters long.
               new_blank: Your new password cannot be blank. Try entering a new password again.
               too_short: The password is not in the correct format. Choose a password that is at least 8 characters long.
@@ -148,7 +148,7 @@ en:
       edit:
         heading: Reset your password
         password:
-          hint: It needs to be at least 8 characters long.
+          hint: Your password must be at least 8 characters and hard to guess.
           label: Create a new password
         submit:
           label: Save
@@ -184,7 +184,7 @@ en:
             inset_text: 'The email address currently stored in your GOV.UK account is: %{email}'
             label: Enter new email address
           password:
-            hint: It needs to be at least 8 characters long.
+            hint: Your password must be at least 8 characters and hard to guess.
             label: Create your new password
           submit:
             label: Save
@@ -199,7 +199,7 @@ en:
           email:
             label: Email address
           password:
-            hint: It needs to be at least 8 characters long
+            hint: Your password must be at least 8 characters and hard to guess.
             label: Password
           phone:
             hint: We’ll send you a security code by text message
@@ -208,10 +208,10 @@ en:
             label: Continue
         heading: Create a GOV.UK account
         secure_password_tip:
-          title: How to create a secure password
           text: |
             <p class="govuk-body">A good way to create a secure and memorable password is to use 3 random words.</p>
             <p class="govuk-body">You can use numbers, symbols and spaces.</p>
+          title: How to create a secure password
         sign_in: If you already have an account, you can %{link}.
         sign_in_link: sign in
       transition_checker:
