@@ -43,6 +43,8 @@ RSpec.describe "edit-password" do
         post user_password_path, params: params
 
         expect(response.body).to have_content(I18n.t("activerecord.errors.models.user.attributes.reset_password_token.invalid"))
+        expect(response.body).to_not have_selector("input[id='email']")
+        expect(response.body).to have_selector("input[id='password'][autocomplete='off']")
       end
     end
 
