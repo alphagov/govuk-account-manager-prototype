@@ -30,6 +30,8 @@
         autocomplete: "new-password",
       } %>
 
+      <%= render "devise/shared/password_tip" %>
+
       <%= render "govuk_publishing_components/components/button", {
         text: t("devise.passwords.edit.submit.label"),
         margin_bottom: 3,

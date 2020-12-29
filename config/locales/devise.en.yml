@@ -207,6 +207,11 @@ en:
           submit:
             label: Continue
         heading: Create a GOV.UK account
+        secure_password_tip:
+          title: How to create a secure password
+          text: |
+            <p class="govuk-body">A good way to create a secure and memorable password is to use 3 random words.</p>
+            <p class="govuk-body">You can use numbers, symbols and spaces.</p>
         sign_in: If you already have an account, you can %{link}.
         sign_in_link: sign in
       transition_checker:
