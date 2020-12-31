@@ -18,7 +18,7 @@
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <%= hidden_field_tag "user[reset_password_token]", params[:reset_password_token] %>
-
+      <%= email_field_tag 'email', @reset_email, class: "govuk-!-display-none", autocomplete: "off", "aria-hidden": true if @reset_email %>
       <%= render "govuk_publishing_components/components/show_password", {
         label: {
           text: t("devise.passwords.edit.password.label"),
@@ -27,7 +27,7 @@
         name: "user[password]",
         id: "password",
         error_message: devise_error_items(:password),
-        autocomplete: "new-password",
+        autocomplete: @reset_email ? "new-password" : "off",
       } %>
 
       <%= render "devise/shared/password_tip" %>

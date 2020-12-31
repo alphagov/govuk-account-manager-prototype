@@ -15,6 +15,7 @@ class DevisePasswordsController < Devise::PasswordsController
     reset_password_token = Devise.token_generator.digest(resource_class, :reset_password_token, params[:reset_password_token])
     resource_for_reset = resource_class.find_by(reset_password_token: reset_password_token)
     @reset_password_token_valid = resource_for_reset&.reset_password_period_valid?
+    @reset_email = resource_for_reset&.email
   end
 
   # PUT /resource/password

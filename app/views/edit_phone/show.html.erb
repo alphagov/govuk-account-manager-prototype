@@ -26,6 +26,7 @@
       <%= render "govuk_publishing_components/components/input", {
         label: { text: t("mfa.phone.update.start.fields.phone.label") },
         name: "phone",
+        type: "tel",
         error_message: @phone_error_message,
       } %>
 
