@@ -20,4 +20,4 @@ en:
       openid: Authenticate your account
       test_scope_read: View your local development testing data
       test_scope_write: View and update your local development testing data
-      transition_checker: View your Brexit transition checker data
+      transition_checker: View your Brexit checker data
