@@ -18,8 +18,8 @@ en:
       description: 'This will permanently delete this account and all the information stored in it, including:'
       doomed:
       - your contact details
-      - your Brexit transition results
-      - email alerts about your Brexit transition results
+      - your Brexit checker results
+      - email alerts about your Brexit checker results
       heading: Delete this GOV.UK account
       insert_text: Deleting your GOV.UK account will not affect any of your other GOV.UK email subscriptions.
     manage:
@@ -65,17 +65,17 @@ en:
     your_account:
       account_not_used:
         action: "%{link} to start getting the most out of your account."
-        description: GOV.UK accounts are designed to make it easier for you to use online government services. At the moment you can only use your account with the Brexit transition checker.
+        description: GOV.UK accounts are designed to make it easier for you to use online government services. At the moment you can only use your account with the Brexit checker.
         heading: You have not used your account to access any services yet
-        link_text: Answer the questions in the Brexit transition checker
+        link_text: Answer the questions in the Brexit checker
       heading: Your GOV.UK account
       transition:
-        description: A personalised list of actions to help you, your family, and your business prepare for the end of the Brexit transition.
-        heading: 'Get ready for new rules in 2021: Your results'
+        description: A personalised list of actions to help you, your family, and your business adjust to Brexit.
+        heading: 'Brexit checker results: what you need to do'
         link1: See your results
-        link1_description: Go back to the Brexit transition results you’ve saved.
+        link1_description: Go back to the Brexit checker results you’ve saved.
         link2: Update your results and email alerts
-        link2_description: Answer the Brexit transition questions again to update your results.
+        link2_description: Answer the Brexit checker questions again to update your results.
   change_password:
     content: Enter the email address you used to create your GOV.UK account. We’ll email you a link so you can reset your password. The link will expire 6 hours later.
     heading: Change your password
@@ -89,7 +89,7 @@ en:
     existing_user_instruction_list: |
       <ul class="govuk-list govuk-list--bullet">
         <li>finish updating the email address for your account</li>
-        <li>get email updates about the Brexit transition sent to your new email address</li>
+        <li>get email updates about Brexit sent to your new email address</li>
       </ul>
     heading: Confirm your email address
     instruction_one: We’ve sent an email to
@@ -97,7 +97,7 @@ en:
     new_user_instruction_list: |
       <ul class="govuk-list govuk-list--bullet">
         <li>finish creating your account</li>
-        <li>start receiving email updates about the Brexit transition</li>
+        <li>start receiving email updates about Brexit</li>
       </ul>
     re_register_instructions: |
       <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>

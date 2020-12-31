@@ -17,7 +17,7 @@ en:
               invalid: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
               taken: That email address already has a GOV.UK account. Enter a different email address.
             email_decision:
-              invalid: Choose whether or not you would like to receive emails about new rules in 2021.
+              invalid: Choose whether or not you would like to receive emails about new rules for Brexit.
             feedback_consent_decision:
               invalid: Choose whether or not you agree to receive emails asking for feedback about your account.
             password:
@@ -56,7 +56,7 @@ en:
 
           You need to click on the confirmation link to:
             - finish updating the email address for your account
-            - get email updates about the Brexit transition sent to your new email address
+            - get email updates about Brexit sent to your new email address
 
           If this was not you, you can ignore this email.
 
@@ -76,7 +76,7 @@ en:
 
           You need to click on the confirmation link to:
             - finish creating your account
-            - start receiving email updates about the Brexit transition
+            - start receiving email updates about Brexit
 
           You will be locked out of your account if you do not confirm your email address within 7 days.
 
@@ -216,10 +216,10 @@ en:
         sign_in_link: sign in
       transition_checker:
         heading: This email address does not have a GOV.UK account
-        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit transition checker</a> and subscribe to email updates.
+        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit checker</a> and subscribe to email updates.
       transition_emails:
         description: |
-          <p class="govuk-body">The emails will tell you what you, your family, or your business should do to prepare for new rules from 1 January 2021.</p>
+          <p class="govuk-body">The emails will tell you what you, your family, or your business should do to adjust to Brexit.</p>
           <p class="govuk-body">You will only get updates if:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>there are changes to your results</li>
@@ -228,12 +228,12 @@ en:
           <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
         fields:
           emailsignup:
-            heading: Do you want to receive emails about the Brexit transition?
+            heading: Do you want to receive emails about the Brexit checker?
             'no': No, I just want to save my results
             'yes': 'Yes'
           submit:
             label: Continue
-        heading: Do you want to receive emails about the Brexit transition?
+        heading: Do you want to receive emails about the Brexit checker?
         unsubscribe: You can unsubscribe from emails or change your subscription at any time.
       update_needs_confirmation: The email address for your account has not been updated yet. You need to click on the confirmation link we’ve emailed you to finish the update.
       updated: Your account has been updated successfully.
