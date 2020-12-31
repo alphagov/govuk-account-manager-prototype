@@ -1,3 +1,6 @@
+# Manuals
+See further howtos in [Team Manual](https://team-manual.account.publishing.service.gov.uk/).
+
 # Set up the GOV.UK account manager prototype
 
 The GOV.UK account manager prototype is an application to test how users:
