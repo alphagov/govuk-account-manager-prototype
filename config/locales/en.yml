@@ -70,7 +70,7 @@ en:
         link_text: Answer the questions in the Brexit checker
       heading: Your GOV.UK account
       transition:
-        description: A personalised list of actions to help you, your family, and your business adjust to Brexit.
+        description: A personalised list of Brexit actions for you, your family and your business.
         heading: 'Brexit checker results: what you need to do'
         link1: See your results
         link1_description: Go back to the Brexit checker results you’ve saved.

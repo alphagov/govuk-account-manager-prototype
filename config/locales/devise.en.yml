@@ -219,7 +219,7 @@ en:
         message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit checker</a> and subscribe to email updates.
       transition_emails:
         description: |
-          <p class="govuk-body">The emails will tell you what you, your family, or your business should do to adjust to Brexit.</p>
+          <p class="govuk-body">The emails will give you a personalised list of Brexit actions for you, your family and your business.</p>
           <p class="govuk-body">You will only get updates if:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>there are changes to your results</li>
