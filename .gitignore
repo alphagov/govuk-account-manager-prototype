@@ -28,3 +28,6 @@
 
 # Ignore Dotenv .env file for development
 /.env
+
+node_modules
+package-lock.json
