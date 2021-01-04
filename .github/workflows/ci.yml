@@ -44,15 +44,11 @@ jobs:
       - name: Run brakeman
         run: bundle exec brakeman
 
-      - name: Run Rails tests and linter
+      - name: Run tests and linter
         env:
           RAILS_ENV: test
           TEST_DATABASE_URL: "postgresql://postgres:postgres@localhost/accounts"
         run: |
+          npm install
           bundle exec rails db:setup
           bundle exec rake
-
-      - name: Run stylelint
-        run: |
-          npm install
-          yarn run lint 
