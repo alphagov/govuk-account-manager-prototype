@@ -111,6 +111,7 @@ jobs:
                 service redis-server start
                 export TEST_DATABASE_URL="postgres://postgres:password@localhost:5432/accounts"
                 export RAILS_ENV=test
+                npm install
                 bundle install
                 bundle exec rails db:setup
                 bundle exec rails db:migrate
