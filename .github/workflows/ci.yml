@@ -44,3 +44,7 @@ jobs:
         run: |
           bundle exec rails db:setup
           bundle exec rake
+
+      - run: |
+          npm install
+          yarn run lint 
