@@ -1,6 +1,7 @@
 :queues:
   - mailers
   - default
+  - user_password_check
 
 :schedule:
   expire_registration_state:
