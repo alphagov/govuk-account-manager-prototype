@@ -22,25 +22,33 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - uses: ruby/setup-ruby@v1
-      - uses: actions/cache@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: Restore cached gems
+        uses: actions/cache@v1
         with:
           path: tmp/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      - run: |
+      - name: Install Ruby gems
+        run: |
           bundle config path tmp/bundle
           bundle install --jobs 4 --retry 3
 
-      - run: bundle exec brakeman
+      - name: Run brakeman
+        run: bundle exec brakeman
 
-      - env:
+      - name: Run tests and linter
+        env:
           RAILS_ENV: test
           TEST_DATABASE_URL: "postgresql://postgres:postgres@localhost/accounts"
         run: |
+          npm install
           bundle exec rails db:setup
           bundle exec rake
