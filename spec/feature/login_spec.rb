@@ -37,6 +37,14 @@ RSpec.feature "Logging in" do
     end
   end
 
+  context "when the email is invalid" do
+    it "shows an error" do
+      enter_email_address_and_password(email: "not-a-real-email-address")
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
+    end
+  end
+
   context "the password is missing" do
     it "returns an error" do
       enter_email_address_and_password(password: "") # pragma: allowlist secret
