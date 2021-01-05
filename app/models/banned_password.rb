@@ -19,6 +19,6 @@ class BannedPassword < ApplicationRecord
   end
 
   def self.is_password_banned?(candidate)
-    where(password: candidate.downcase).exists? # pragma: allowlist secret
+    where(password: candidate&.downcase).exists? # pragma: allowlist secret
   end
 end

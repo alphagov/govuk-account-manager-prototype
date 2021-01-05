@@ -72,5 +72,9 @@ password
         expect(described_class.is_password_banned?(password.upcase)).to be(true)
       end
     end
+
+    it "allows a nil password" do
+      expect(described_class.is_password_banned?(nil)).to be(false)
+    end
   end
 end
