@@ -36,6 +36,12 @@ module ApplicationHelper
     !current_user.confirmed_at? || current_user.unconfirmed_email?
   end
 
+  def confirmed_user_changed_email?
+    return false unless current_user
+
+    current_user.confirmed_at? && current_user.unconfirmed_email?
+  end
+
   def has_criteria_keys?(registration_state)
     return false if registration_state.blank?
 

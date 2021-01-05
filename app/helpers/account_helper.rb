@@ -19,4 +19,10 @@ module AccountHelper
       I18n.t("devise.registrations.update_needs_confirmation"),
     ].include? notice
   end
+
+  def confirmation_banner_prompt_type
+    return "update" if confirmed_user_changed_email?
+
+    "set_up"
+  end
 end

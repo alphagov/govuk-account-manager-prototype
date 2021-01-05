@@ -102,11 +102,11 @@ RSpec.feature "Confirm email prompt" do
   end
 
   def and_i_see_a_confirmation_intro_for_setting_up_an_account
-    expect(page).to have_content(Rails::Html::FullSanitizer.new.sanitize(I18n.t("confirm.intro", confirmation_action: "setting up")))
+    expect(page).to have_content(Rails::Html::FullSanitizer.new.sanitize(I18n.t("confirm.intro.set_up")))
   end
 
   def and_i_see_a_confirmation_intro_for_updating_an_account
-    expect(page).to have_content(Rails::Html::FullSanitizer.new.sanitize(I18n.t("confirm.intro", confirmation_action: "updating")))
+    expect(page).to have_content(Rails::Html::FullSanitizer.new.sanitize(I18n.t("confirm.intro.update")))
   end
 
   def then_i_do_not_see_the_confirmation_reminder_banner

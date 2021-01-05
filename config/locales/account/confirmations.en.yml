@@ -1,7 +1,9 @@
 ---
 en:
   confirm:
-    intro: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
+    intro:
+      set_up: "<strong>Confirm your email address</strong> to finish setting up your account and email alerts."
+      update: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
     link_text: Resend confirmation email
   confirmation_sent:
     continue_to_account: Go to your GOV.UK account
