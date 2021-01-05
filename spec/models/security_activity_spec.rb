@@ -7,8 +7,10 @@ RSpec.describe SecurityActivity do
 
   let(:ip_address) { "127.0.0.1" }
 
+  let(:factor) { nil }
+
   context "validations" do
-    let(:activity) { SecurityActivity.new(event_type: event_type, user_id: user_id, ip_address: ip_address) }
+    let(:activity) { SecurityActivity.new(event_type: event_type, user_id: user_id, ip_address: ip_address, factor: factor) }
 
     it "is valid with an event_type, user_id, and ip_address" do
       expect(activity).to be_valid
@@ -50,6 +52,30 @@ RSpec.describe SecurityActivity do
 
         it "is valid" do
           expect(activity).to be_valid
+        end
+      end
+    end
+
+    context "the event requires a factor" do
+      let(:event) { SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS }
+
+      it "is invalid" do
+        expect(activity).to_not be_valid
+      end
+
+      context "with a good factor" do
+        let(:factor) { :sms }
+
+        it "is valid" do
+          expect(activity).to be_valid
+        end
+      end
+
+      context "with a bad factor" do
+        let(:factor) { :smoke_signals }
+
+        it "is invalid" do
+          expect(activity).to_not be_valid
         end
       end
     end
