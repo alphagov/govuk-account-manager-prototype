@@ -47,7 +47,7 @@ RSpec.feature "Logging in" do
 
   context "the password is missing" do
     it "returns an error" do
-      enter_email_address_and_password(password: "") # pragma: allowlist secret
+      enter_email_address_and_password(password: "")
 
       expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
     end

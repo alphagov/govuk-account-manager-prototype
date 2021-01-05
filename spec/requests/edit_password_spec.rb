@@ -22,11 +22,11 @@ RSpec.describe "edit-password" do
       }
     end
 
-    let(:password) { "abcd1234" } # pragma: allowlist secret
+    let(:password) { "abcd1234" }
     let(:reset_password_token) { actual_reset_password_token }
 
     it "changes the user's password" do
-      old_encrypted_password = user.encrypted_password # pragma: allowlist secret
+      old_encrypted_password = user.encrypted_password
 
       post user_password_path, params: params
 
