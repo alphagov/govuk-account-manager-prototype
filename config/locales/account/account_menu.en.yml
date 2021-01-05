@@ -1,0 +1,15 @@
+---
+en:
+  navigation:
+    destroy_user_session: Sign out
+    menu_bar:
+      account:
+        description: See services you’ve used
+        link_text: Your account
+      manage:
+        description: Make changes to your account details and privacy settings
+        link_text: Manage your account
+      security:
+        description: See sign-in attempts and how information about you is used.
+        link_text: Security
+    user_root_path: Account

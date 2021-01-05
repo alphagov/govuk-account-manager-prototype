@@ -1,0 +1,46 @@
+---
+en:
+  feedback:
+    banners:
+      footer_intro: We’re trialling GOV.UK accounts.
+      footer_link: Give feedback
+      footer_outro: on your experience so we can make them better.
+      phase_intro: We’re trialling GOV.UK accounts - your
+      phase_link: feedback
+      phase_outro: will help us improve them.
+      title: Help improve GOV.UK accounts
+    show:
+      advice: Do not include personal information, for example your National Insurance number.
+      anonymous_email: anonymous-feedback@digital.cabinet-office.gov.uk
+      anonymous_name: Anonymous Feedback
+      caption: Use this form to suggest an improvement or give feedback about your GOV.UK account.
+      email_subject: 'GOV.UK Account: Feedback'
+      errors:
+        summary: There was a problem
+      fields:
+        comments:
+          label: Please give details about your comment or feedback.
+          not_present_error: Enter your question, problem or feedback
+        email:
+          label: Email address
+          not_present_error: 'This does not look like a valid email address. Enter an email address in this format: name@example.com.'
+        name:
+          label: Your name
+          not_present_error: Enter your name
+        submit:
+          label: Send
+        user_requires_response:
+          label: Can we contact you about your feedback?
+          not_present_error: Choose whether or not you’d like a response.
+          options:
+            option_no:
+              label: 'No'
+            option_yes:
+              label: 'Yes'
+      heading: Give feedback about your GOV.UK account
+      inset_text: If your question or feedback is not about a GOV.UK account, for example you want to ask about tax or a visa application, you need to use <a href="https://www.gov.uk/contact" class="govuk-link">different contact details</a>.
+    submit:
+      call_to_action: |
+        <p class="govuk-body">Your feedback has been sent to the GOV.UK Account team.</p>
+        <p class="govuk-body"><a href="/account" class="govuk-link">Go to your account</a></p>
+      heading: Feedback sent

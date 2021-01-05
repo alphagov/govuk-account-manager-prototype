@@ -1,0 +1,42 @@
+---
+en:
+  devise:
+    failure:
+      invalid: You’ve entered the wrong password - try entering your password again.
+      last_attempt: You will be locked out of your account if you enter the wrong password one more time. You can <a class="govuk-link" href="/account/password/reset">reset your password</a> if you cannot remember it.
+      locked: You’ve been locked out of your account because you entered the wrong password too many times. We’ve emailed you a link for unlocking your account.
+      no_account: This email address does not have a GOV.UK account
+      same_email: Your account is already using this email address. Enter a different email address.
+      timeout: Your session has expired. Sign in again to continue using your GOV.UK account.
+      unauthenticated: Sign in to your GOV.UK account.
+      unconfirmed: You need to confirm your email address before you can sign in to your account. <a class="govuk-link" href="/account/confirmation/new">Resend confirmation instructions</a>.
+    omniauth_callbacks:
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
+    sessions:
+      already_signed_out: Signed out successfully.
+      new:
+        fields:
+          email:
+            label: Email address
+          password:
+            label: Password
+          remember:
+            label: Remember me
+          submit:
+            label: Continue
+        heading: Sign in to your GOV.UK account
+        register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
+        reset_password: <p class="govuk-body govuk-!-margin-bottom-0">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
+    unlocks:
+      heading: Resend unlock instructions to unlock your GOV.UK account
+      label: Enter your email
+      resend: Send unlock instructions
+      send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  errors:
+    messages:
+      headline: There is a problem
+      not_found: This email address does not have a GOV.UK account. Try entering the email address for your account again.
+      not_locked: You have already successfully unlocked your GOV.UK account. Enter your email address to sign in.
