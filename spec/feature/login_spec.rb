@@ -209,10 +209,6 @@ RSpec.feature "Logging in" do
     click_on I18n.t("mfa.phone.resend.fields.submit.label")
   end
 
-  def go_straight_to_mfa_page
-    visit user_session_phone_code_path
-  end
-
   def go_straight_to_account_page
     visit user_root_path
   end
