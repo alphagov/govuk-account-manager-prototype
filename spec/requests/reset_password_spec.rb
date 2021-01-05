@@ -26,7 +26,7 @@ RSpec.describe "resetting a password" do
 
   describe "use reset token" do
     context "when the password is on the denylist" do
-      let(:password) { "some-banned-password" } # pragma: allowlist secret
+      let(:password) { "some-banned-password" }
 
       before do
         BannedPassword.import_list([password])

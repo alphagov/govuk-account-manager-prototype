@@ -27,7 +27,7 @@ RSpec.feature "Logging in from confirmation email" do
 
   context "when the password is entered incorrectly" do
     it "records extra information in the security activity" do
-      enter_email_address_and_password(password: "not-my-password") # pragma: allowlist secret
+      enter_email_address_and_password(password: "not-my-password")
 
       expect(SecurityActivity.of_type(SecurityActivity::LOGIN_FAILURE).last.analytics).to eq("from_confirmation_email")
     end

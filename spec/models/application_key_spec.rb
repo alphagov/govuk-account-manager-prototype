@@ -9,7 +9,7 @@ RSpec.describe ApplicationKey do
   end
 
   it "round-trips the PEM" do
-    private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
+    private_key = OpenSSL::PKey::EC.new "prime256v1"
     private_key.generate_key
     public_key = OpenSSL::PKey::EC.new private_key
 

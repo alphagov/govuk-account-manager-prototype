@@ -10,7 +10,7 @@ RSpec.describe Jwt do
 
   context "#jwt_payload" do
     let(:private_key) do
-      private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
+      private_key = OpenSSL::PKey::EC.new "prime256v1"
       private_key.generate_key
     end
 
@@ -87,7 +87,7 @@ RSpec.describe Jwt do
 
     context "the JWT has been signed with the wrong key" do
       let(:jwt_signing_key) do
-        private_key = OpenSSL::PKey::EC.new "prime256v1" # pragma: allowlist secret
+        private_key = OpenSSL::PKey::EC.new "prime256v1"
         private_key.generate_key
       end
 

@@ -37,9 +37,17 @@ RSpec.feature "Logging in" do
     end
   end
 
+  context "when the email is invalid" do
+    it "shows an error" do
+      enter_email_address_and_password(email: "not-a-real-email-address")
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
+    end
+  end
+
   context "the password is missing" do
     it "returns an error" do
-      enter_email_address_and_password(password: "") # pragma: allowlist secret
+      enter_email_address_and_password(password: "")
 
       expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.password.blank"))
     end
@@ -207,10 +215,6 @@ RSpec.feature "Logging in" do
   def request_new_mfa_code
     click_on "send a new security code"
     click_on I18n.t("mfa.phone.resend.fields.submit.label")
-  end
-
-  def go_straight_to_mfa_page
-    visit user_session_phone_code_path
   end
 
   def go_straight_to_account_page
