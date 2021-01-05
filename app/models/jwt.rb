@@ -66,8 +66,4 @@ private
   rescue ActiveRecord::RecordNotFound
     raise KeyNotFound
   end
-
-  def application
-    Doorkeeper::Application.by_uid(application_uid)
-  end
 end
