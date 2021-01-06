@@ -214,7 +214,7 @@ jobs:
           CF_SPACE: production
           CF_STARTUP_TIMEOUT: 15 # minutes
           APP_INSTANCES: 20
-          WORKER_INSTANCES: 50
+          WORKER_INSTANCES: 20
           PW_WORKER_INSTANCES: 30
           CDN_DOMAIN: account.publishing.service.gov.uk
           ENABLE_REGISTRATION: "true"
