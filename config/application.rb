@@ -69,5 +69,9 @@ module GovukAccountManagerPrototype
     config.force_jwt_at_registration = true
 
     config.feature_flag_mfa = ENV["FEATURE_FLAG_MFA"] == "enabled"
+
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml").to_s]
+
+    config.i18n.default_locale = :en
   end
 end

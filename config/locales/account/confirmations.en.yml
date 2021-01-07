@@ -1,0 +1,39 @@
+---
+en:
+  confirm:
+    intro: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
+    link_text: Resend confirmation email
+  confirmation_sent:
+    continue_to_account: Go to your GOV.UK account
+    continue_to_service: Go back to %{service_name}
+    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
+    existing_user_instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish updating the email address for your account</li>
+        <li>get email updates about Brexit sent to your new email address</li>
+      </ul>
+    heading: Confirm your email address
+    instruction_one: We’ve sent an email to
+    instruction_two: 'You need to click on the confirmation link in the email to:'
+    new_user_instruction_list: |
+      <ul class="govuk-list govuk-list--bullet">
+        <li>finish creating your account</li>
+        <li>start receiving email updates about Brexit</li>
+      </ul>
+    re_register_instructions: |
+      <p class="govuk-body">We can <a class="govuk-link" href="%{resend_confirmation_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="resend-email">send the confirmation email again</a> if you did not get it.</a>
+      <p class="govuk-body">You can <a class="govuk-link" href="%{retry_link}" data-module="gem-track-click" data-track-category="account-create" data-track-action="confirm-email" data-track-label="different-email">use a different email address</a> if your email address is not correct.</p>
+    re_register_subtitle: If you did not get the email or want to use a different address
+  devise:
+    confirmations:
+      confirmed: You’ve successfully confirmed your email address.
+      resend:
+        button: Send confirmation email
+        heading: Resend instructions to confirm your email address
+        instructions: We’ll send you an email with instructions for confirming the email address for your GOV.UK account.
+        label: Email
+      send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
+  errors:
+    messages:
+      already_confirmed: You have already confirmed your email address. Sign in to your account with this email address.

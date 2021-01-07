@@ -1,5 +1,100 @@
 ---
 en:
+  devise:
+    mailer:
+      change_confirmation_instructions:
+        body: |
+          Hello
+
+          You’ve said you want to update the email address for your GOV.UK account.
+
+          You need to click on the confirmation link to:
+            - finish updating the email address for your account
+            - get email updates about Brexit sent to your new email address
+
+          If this was not you, you can ignore this email.
+
+          Confirm your email address:
+          %{link}
+
+          If you need help confirming your email address, contact us:
+          %{feedback_link}
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: Confirm the new email address for your GOV.UK account
+      confirmation_instructions:
+        body: |
+          Hello
+
+          You need to click on the confirmation link to:
+            - finish creating your account
+            - start receiving email updates about Brexit
+
+          You will be locked out of your account if you do not confirm your email address within 7 days.
+
+          Confirm your email address:
+          %{link}
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: Confirm the email address for your GOV.UK account
+      password_change:
+        body: |
+          Hello
+
+          You’ve successfully updated the password for your GOV.UK account.
+
+          If this was not you, contact us:
+          %{feedback_link}
+
+          Go to your GOV.UK account:
+          %{govuk_account_link}
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: You’ve updated the password for your GOV.UK account
+      reset_password_instructions:
+        body: |
+          Hello
+
+          You’ve asked to reset the password for your GOV.UK account.
+
+          To choose a new password, you need to click on this link:
+          %{link}
+
+          This link will expire in 6 hours. You can ask us to send you a new reset password link if you run out of time:
+          %{reset_password_link}
+
+          If you’re still having trouble signing in, contact us:
+          %{feedback_link}
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: Reset the password for your GOV.UK account
+      unlock_instructions:
+        body: |
+          Hello
+
+          You’ve been locked out of your GOV.UK account because you entered the wrong password too many times.
+
+          To unlock your account you need to click on this link and try to sign in again:
+          %{link}
+
+          If you cannot sign in because you’ve forgotten your password, you can reset your password:
+          %{reset_password_link}
+
+          If this was not you, contact us:
+          %{feedback_link}.
+
+          -----
+
+          This is an automated email, please do not reply as we do not monitor responses.
+        subject: You’ve been locked out of your GOV.UK account
   mailer:
     change_email_from:
       body: |

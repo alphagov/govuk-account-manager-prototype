@@ -1,0 +1,88 @@
+---
+en:
+  devise:
+    registrations:
+      closed:
+        heading: Registrations are closed
+        message:
+        - We are temporarily preventing people from creating new GOV.UK accounts.
+        - You can still sign in to any accounts you already have.
+      destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
+      start:
+        checker_inset_text: If you do not have a mobile phone, you can still get %{link}.
+        checker_inset_text_link: email alerts and a link to your results
+        fields:
+          email:
+            label: Email address
+          password:
+            hint: Your password must be at least 8 characters and hard to guess.
+            label: Password
+          phone:
+            hint: We’ll send you a security code by text message
+            label: Mobile number
+          submit:
+            label: Continue
+        heading: Create a GOV.UK account
+        secure_password_tip:
+          text: |
+            <p class="govuk-body">A good way to create a secure and memorable password is to use 3 random words.</p>
+            <p class="govuk-body">You can use numbers, symbols and spaces.</p>
+          title: How to create a secure password
+        sign_in: If you already have an account, you can %{link}.
+        sign_in_link: sign in
+      transition_checker:
+        heading: This email address does not have a GOV.UK account
+        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit checker</a> and subscribe to email updates.
+      transition_emails:
+        description: |
+          <p class="govuk-body">The emails will give you a personalised list of actions for you, your family and your business.</p>
+          <p class="govuk-body">You will only get updates if:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>there are changes to your Brexit checker results</li>
+            <li>questions or results are added which may affect you</li>
+          </ul>
+          <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
+        fields:
+          emailsignup:
+            heading: Do you want to receive emails about Brexit?
+            'no': No, I just want to save my results
+            'yes': 'Yes'
+          submit:
+            label: Continue
+        heading: Do you want to receive emails about Brexit?
+        unsubscribe: You can unsubscribe from emails or change your subscription at any time.
+      update_needs_confirmation: The email address for your account has not been updated yet. You need to click on the confirmation link we’ve emailed you to finish the update.
+      updated: Your account has been updated successfully.
+      updated_but_not_signed_in: Your account has been updated successfully, but since your password was changed, you need to sign in again
+      your_information:
+        data_choice_description: |
+          <p class="govuk-body">We’d like to use cookies to collect anonymised analytics about how you use GOV.UK, for example what pages you visit and what you click on.</p>
+          <p class="govuk-body">This data shows us what is and isn’t working, and helps us understand where we can make improvements to GOV.UK.</p>
+        data_choice_heading: Data about how you use GOV.UK
+        description: |
+          <p class="govuk-body">Your GOV.UK account will only store the information you’ve chosen to provide about yourself. You can access, update or permanently delete your account and all the information stored in it at any time.</p>
+          <p class="govuk-body">We will never:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>sell or rent your information to third parties</li>
+            <li>share your information with third parties for marketing purposes</li>
+          </ul>
+          <p class="govuk-body">As we add new features to your account, we may ask if we can share your information with other organisations to help us provide more efficient online services that are relevant to you. We will always ask your permission beforehand.</p>
+          <p class="govuk-body">We may also use your information to produce anonymised reports to help us get a better understanding of GOV.UK account users. For example, to create a report on the proportion of users who are students in the UK. We’ll use this data to decide what features or services to add to GOV.UK accounts in future. These reports will not identify you personally.</p>
+          <p class="govuk-body">You can read the <a href="https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" class="govuk-link">full privacy notice</a> for more detail on how your information is stored, shared and used.</p>
+        fields:
+          cookie_consent:
+            heading: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
+            hint: You’ll be able to update this later in your privacy settings if you’re not sure or you change your mind.
+            'no': 'No'
+            'yes': 'Yes'
+          feedback_consent:
+            heading: Can we email you to ask for feedback about your account?
+            hint: You can update this later in your privacy settings if you’re not sure or you change your mind.
+            message: As we add more features to your account, we would like to email you to find out any thoughts or suggestions you might have.
+            'no': 'No'
+            section_heading: Feedback about your GOV.UK account
+            'yes': 'Yes'
+          submit:
+            label: Continue
+            update_label: Save
+        heading: Control how we use information about you

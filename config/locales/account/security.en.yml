@@ -1,0 +1,31 @@
+---
+en:
+  account:
+    data_exchange:
+      no_data_exchanged: No services have used your data yet.
+      scope:
+        email: email address
+        test_scope_read: local development testing data
+        test_scope_write: local development testing data
+      used: used
+    security:
+      account_use: Services that have used information about you
+      activity: Sign-in attempts and changes to account details
+      description: <p class="govuk-body">Read the <a class="govuk-link" href="https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
+      event:
+        email_change_requested: Changed email address
+        login_success: Signed in
+        password_changed: Changed password
+        password_reset_success: Changed password
+        phone_changed: Changed phone number
+      heading: Security
+      no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
+      report:
+        action:
+          cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
+          report: Report suspicious activity
+        description: |
+          <p class="govuk-body">Use the feedback form to tell us if you think something does not look right with your GOV.UK account.</p>
+          <p class="govuk-body">We’ll get back to you as soon as possible.</p>
+        heading: Report suspicious activity
+      report_suspicious_activity: Report suspicious activity

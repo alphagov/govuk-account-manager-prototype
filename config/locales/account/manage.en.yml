@@ -1,0 +1,47 @@
+---
+en:
+  account:
+    manage:
+      delete:
+        description: You can permanently delete this account and all the information stored in it.
+        heading: Delete your account
+        link: Delete this GOV.UK account
+      details:
+        heading: Account details
+        unconfirmed: unconfirmed
+      heading: Manage your account
+      privacy:
+        cookies_description: For example what pages you visit and what you click on
+        cookies_link_extra: your cookie settings
+        cookies_question: Can your account use cookies to learn about how you use GOV.UK?
+        cookies_success: Your cookie settings have been changed
+        email_description: For example when new features are added to your account
+        email_link_extra: your feedback settings
+        email_question: Can GOV.UK email you to ask for feedback about your account?
+        email_success: Your feedback settings have been changed
+        heading: Privacy settings
+  devise:
+    registrations:
+      edit:
+        cancel:
+          button: Cancel my account
+          confirm: Are you sure?
+          heading: Cancel my account
+        fields:
+          current_password:
+            hint: Enter your password to make this change
+            hint_current: Enter your current password to make this change
+            hint_delete: Enter your password to delete your account
+            label: Confirm it’s you
+          email:
+            inset_text: 'The email address currently stored in your GOV.UK account is: %{email}'
+            label: Enter new email address
+          password:
+            hint: Your password must be at least 8 characters and hard to guess.
+            label: Create your new password
+          submit:
+            label: Save
+        heading: Change your email address or password
+        heading_email: Change your email address
+        heading_password: Change your password
+        success: You’ve successfully updated the password for your GOV.UK account.
