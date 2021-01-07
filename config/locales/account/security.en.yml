@@ -2,7 +2,7 @@
 en:
   account:
     data_exchange:
-      no_data_exchanged: No services have used your data yet.
+      no_data_exchanged: You have not used your account to access any services yet.
       scope:
         email: email address
         test_scope_read: local development testing data
