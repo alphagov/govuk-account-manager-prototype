@@ -18,6 +18,7 @@ en:
         password_changed: Changed password
         password_reset_success: Changed password
         phone_changed: Changed phone number
+        user_created: Created account
       heading: Security
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
       report:
