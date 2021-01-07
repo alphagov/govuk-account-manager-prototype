@@ -19,6 +19,9 @@ class SecurityActivity < ApplicationRecord
     EMAIL_CHANGED = LogEntry.new(id: 11, name: :email_changed, require_user: true),
     PHONE_CHANGED = LogEntry.new(id: 2, name: :phone_changed, require_user: true),
     PASSWORD_CHANGED = LogEntry.new(id: 3, name: :password_changed, require_user: true),
+
+    # on create
+    USER_CREATED = LogEntry.new(id: 12, name: :user_created, require_user: true),
   ].freeze
 
   EVENTS_REQUIRING_USER = EVENTS.select(&:require_user?)

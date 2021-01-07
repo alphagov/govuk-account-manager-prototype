@@ -180,6 +180,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
         user_is_confirmed: false,
         user_is_new: true,
       }
+
+      record_security_event(SecurityActivity::USER_CREATED, user: resource)
     end
     flash.clear
   end
