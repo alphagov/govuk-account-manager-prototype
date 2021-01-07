@@ -1,6 +1,19 @@
 RSpec.describe "security activities" do
   let(:user) { FactoryBot.create(:user) }
 
+  context "registering a new user" do
+    before { FactoryBot.create(:registration_state, :finished) }
+
+    it "records USER_CREATED events" do
+      # Stub the Registration State to sneak past redirect safeguards
+      registration_state_factory = RegistrationState.find("7216ddfe-d225-4d28-8989-36734bb4c2cd")
+      allow(RegistrationState).to receive(:find).with(nil).and_return(registration_state_factory)
+
+      get new_user_registration_finish_path
+      expect_event SecurityActivity::USER_CREATED, { user: User.first }
+    end
+  end
+
   it "records ACCOUNT_LOCKED events" do
     (Devise.maximum_attempts + 1).times do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => "incorrect" }
