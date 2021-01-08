@@ -21,6 +21,10 @@ class DeviseSessionsController < Devise::SessionsController
     end
 
     if resource
+      if resource.banned_password_match.nil?
+        resource.update!(banned_password_match: BannedPassword.is_password_banned?(params.dig(:user, :password)))
+      end
+
       destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
       @login_state = LoginState.create!(
         created_at: Time.zone.now,
