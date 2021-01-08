@@ -7,6 +7,8 @@ class UserBannedPasswordCheckJob < ApplicationJob
     user = User.find(user_id)
     denylist = BannedPassword.limit(BATCH_SIZE).offset(offset).pluck(:password)
 
+    return unless user.banned_password_match.nil?
+
     has_banned_password = denylist.any? do |password| # pragma: allowlist secret
       user.valid_password?(password)
     end
