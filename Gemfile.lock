@@ -137,12 +137,12 @@ GEM
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     govuk_ab_testing (2.4.2)
-    govuk_app_config (2.8.1)
+    govuk_app_config (2.8.2)
       logstasher (>= 1.2.2, < 2.2.0)
       sentry-raven (~> 3.1.1)
-      statsd-ruby (~> 1.4.0)
+      statsd-ruby (~> 1.5.0)
       unicorn (>= 5.4, < 5.9)
-    govuk_publishing_components (23.11.1)
+    govuk_publishing_components (23.12.0)
       govuk_app_config
       kramdown
       plek
@@ -377,7 +377,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    statsd-ruby (1.4.0)
+    statsd-ruby (1.5.0)
     telephone_number (1.4.9)
     terminal-table (2.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
