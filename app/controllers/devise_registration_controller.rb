@@ -217,6 +217,8 @@ class DeviseRegistrationController < Devise::RegistrationsController
       record_security_event(SecurityActivity::EMAIL_CHANGE_REQUESTED, user: resource, notes: "from #{old_email} to #{new_email}") if new_email
       record_security_event(SecurityActivity::PASSWORD_CHANGED, user: resource) if new_password
 
+      resource.update!(banned_password_match: false) if new_password
+
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
@@ -291,6 +293,7 @@ protected
         password_confirmation: registration_state.password,
         cookie_consent: registration_state.cookie_consent,
         feedback_consent: registration_state.feedback_consent,
+        banned_password_match: false,
       }
 
       if registration_state.phone
