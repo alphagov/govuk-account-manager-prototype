@@ -44,6 +44,19 @@ RSpec.feature "Registration" do
     assert_enqueued_jobs 1, only: NotifyDeliveryJob
   end
 
+  it "shows an account created security event" do
+    visit_registration_form
+    enter_email_address
+    enter_password
+    enter_uk_phone_number
+    submit_registration_form
+    enter_mfa
+    provide_consent
+    visit_user_account_dashboard
+    click_on_security
+    i_see_an_account_created_event
+  end
+
   it "shows the MFA page" do
     visit_registration_form
     enter_email_address
@@ -341,6 +354,18 @@ RSpec.feature "Registration" do
 
   def visit_registration_form
     visit new_user_registration_start_path
+  end
+
+  def visit_user_account_dashboard
+    visit user_root_path
+  end
+
+  def click_on_security
+    click_on I18n.t("navigation.menu_bar.security.link_text")
+  end
+
+  def i_see_an_account_created_event
+    expect(page).to have_content I18n.t("account.security.event.user_created")
   end
 
   def submit_registration_form
