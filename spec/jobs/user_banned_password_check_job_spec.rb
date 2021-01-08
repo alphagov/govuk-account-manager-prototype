@@ -15,6 +15,12 @@ RSpec.describe UserBannedPasswordCheckJob do
 
       expect(user.reload.banned_password_match).to be true
     end
+
+    it "doesn't update the user if already checked" do
+      user.update_attribute(:banned_password_match, false) # rubocop:disable Rails/SkipsModelValidations
+      UserBannedPasswordCheckJob.perform_now(user.id)
+      expect(user.reload.banned_password_match).to be false
+    end
   end
 
   context "user does not have a banned password" do
