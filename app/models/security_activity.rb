@@ -1,3 +1,5 @@
+require "geocoder"
+
 class SecurityActivity < ApplicationRecord
   EVENTS = [
     # logging in
@@ -28,7 +30,7 @@ class SecurityActivity < ApplicationRecord
   EVENTS_REQUIRING_APPLICATION = EVENTS.select(&:require_application?)
   EVENTS_REQUIRING_FACTOR = EVENTS.select(&:require_factor?)
 
-  VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address user_agent user_agent_id factor notes analytics].freeze
+  VALID_OPTIONS = %i[user user_id oauth_application oauth_application_id ip_address ip_address_country user_agent user_agent_id factor notes analytics].freeze
 
   VALID_FACTORS = %w[sms].freeze
 
@@ -62,9 +64,19 @@ class SecurityActivity < ApplicationRecord
       attributes.merge!(user_agent_id: UserAgent.find_or_create_by!(name: options[:user_agent_name]).id)
     end
 
+    if attributes[:ip_address] && !attributes[:ip_address_country]
+      attributes[:ip_address_country] = ip_to_country(attributes[:ip_address])
+    end
+
     event = SecurityActivity.create!(attributes)
     event.log
     event
+  end
+
+  def self.ip_to_country(ip_address)
+    Rails.cache.fetch("security_activities/ip_address/#{ip_address}", expires_in: 1.day) do
+      Geocoder.search(ip_address)&.first&.country
+    end
   end
 
   def self.of_type(event)
@@ -100,6 +112,14 @@ class SecurityActivity < ApplicationRecord
       user_agent: user_agent&.name,
       factor: factor,
     }.compact
+  end
+
+  def fill_missing_country
+    if ip_address_country.nil?
+      update!(ip_address_country: SecurityActivity.ip_to_country(ip_address))
+    end
+
+    self
   end
 
 protected
