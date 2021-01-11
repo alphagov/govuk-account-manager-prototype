@@ -114,6 +114,14 @@ class SecurityActivity < ApplicationRecord
     }.compact
   end
 
+  def fill_missing_country
+    if ip_address_country.nil?
+      update!(ip_address_country: SecurityActivity.ip_to_country(ip_address))
+    end
+
+    self
+  end
+
 protected
 
   def validate_event_mappable

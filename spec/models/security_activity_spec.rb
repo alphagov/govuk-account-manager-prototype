@@ -150,10 +150,10 @@ RSpec.describe SecurityActivity do
           status: 200,
           body: {
             ip: ip_address,
-            country: "US",
+            country: "Narnia",
           }.to_json,
         )
-        expect(activity.ip_address_country).to_not be_nil
+        expect(activity.ip_address_country).to eq("Narnia")
       end
     end
   end
