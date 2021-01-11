@@ -1,25 +1,20 @@
 <% content_for :title, t("account.delete.confirmation.heading") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 4,
+} %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: yield(:title),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 4,
-    } %>
+<p class="govuk-body">
+  <%= I18n.t("account.delete.confirmation.description_1") %>
+</p>
 
-    <p class="govuk-body">
-      <%= I18n.t("account.delete.confirmation.description_1") %>
-    </p>
+<p class="govuk-body">
+  <%= sanitize(I18n.t("account.delete.confirmation.description_2", link: feedback_form_path)) %>
+</p>
 
-    <p class="govuk-body">
-      <%= sanitize(I18n.t("account.delete.confirmation.description_2", link: feedback_form_path)) %>
-    </p>
-
-    <p class="govuk-body">
-      <%= sanitize(I18n.t("account.delete.confirmation.return_link", link: Plek.new.website_root)) %>
-    </p>
-  </div>
-</div>
+<p class="govuk-body">
+  <%= sanitize(I18n.t("account.delete.confirmation.return_link", link: Plek.new.website_root)) %>
+</p>

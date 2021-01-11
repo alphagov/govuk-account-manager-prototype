@@ -1,56 +1,52 @@
 <% content_for :title, t("confirmation_sent.heading") %>
 <% service = service_for(params[:previous_url], current_user) if @user_is_new %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: yield(:title),
-      heading_level: 1,
-      margin_bottom: 4,
-      font_size: "xl",
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  margin_bottom: 4,
+  font_size: "xl",
+} %>
 
-    <p class="govuk-body">
-      <%= t("confirmation_sent.instruction_one") %> <strong><%= @email %></strong>
-    </p>
+<p class="govuk-body">
+  <%= t("confirmation_sent.instruction_one") %> <strong><%= @email %></strong>
+</p>
 
-    <p class="govuk-body">
-      <%= t("confirmation_sent.instruction_two") %>
-    </p>
+<p class="govuk-body">
+  <%= t("confirmation_sent.instruction_two") %>
+</p>
 
-    <p class="govuk-body">
-      <% if @user_is_new %>
-        <%= sanitize(t("confirmation_sent.new_user_instruction_list")) %>
-      <% else %>
-        <%= sanitize(t("confirmation_sent.existing_user_instruction_list")) %>
-      <% end %>
-    </p>
+<p class="govuk-body">
+  <% if @user_is_new %>
+    <%= sanitize(t("confirmation_sent.new_user_instruction_list")) %>
+  <% else %>
+    <%= sanitize(t("confirmation_sent.existing_user_instruction_list")) %>
+  <% end %>
+</p>
 
-    <% unless @user_is_confirmed %>
-      <%= render "govuk_publishing_components/components/inset_text", {
-        text: t("confirmation_sent.delay_consequence")
-      } %>
-    <% end %>
+<% unless @user_is_confirmed %>
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: t("confirmation_sent.delay_consequence")
+  } %>
+<% end %>
 
-    <p class="govuk-body" data-module="gem-track-click">
-      <% if service %>
-        <a class="govuk-link" href="<%= service[:url] %>" data-module="explicit-cross-domain-links" data-track-category="account-create" data-track-action="confirm-email" data-track-label="<%= service[:name] %>">
-          <%= t("confirmation_sent.continue_to_service", service_name: service[:name]) %>
-        </a>
-      <% else %>
-        <a class="govuk-link" href="<%= user_root_path %>" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
-          <%= t("confirmation_sent.continue_to_account") %>
-        </a>
-      <% end %>
-    </p>
+<p class="govuk-body" data-module="gem-track-click">
+  <% if service %>
+    <a class="govuk-link" href="<%= service[:url] %>" data-module="explicit-cross-domain-links" data-track-category="account-create" data-track-action="confirm-email" data-track-label="<%= service[:name] %>">
+      <%= t("confirmation_sent.continue_to_service", service_name: service[:name]) %>
+    </a>
+  <% else %>
+    <a class="govuk-link" href="<%= user_root_path %>" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
+      <%= t("confirmation_sent.continue_to_account") %>
+    </a>
+  <% end %>
+</p>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("confirmation_sent.re_register_subtitle"),
-      heading_level: 2,
-      margin_bottom: 3,
-      font_size: 19,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("confirmation_sent.re_register_subtitle"),
+  heading_level: 2,
+  margin_bottom: 3,
+  font_size: 19,
+} %>
 
-    <%= sanitize(t("confirmation_sent.re_register_instructions", resend_confirmation_link: new_user_confirmation_path, retry_link: edit_user_registration_email_path)) %>
-  </div>
-</div>
+<%= sanitize(t("confirmation_sent.re_register_instructions", resend_confirmation_link: new_user_confirmation_path, retry_link: edit_user_registration_email_path)) %>
