@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_094047) do
+ActiveRecord::Schema.define(version: 2021_01_11_133439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2021_01_08_094047) do
     t.string "notes"
     t.string "factor"
     t.string "analytics"
+    t.string "ip_address_country"
     t.index ["oauth_application_id"], name: "index_security_activities_on_oauth_application_id"
     t.index ["user_agent_id"], name: "index_security_activities_on_user_agent_id"
     t.index ["user_id"], name: "index_security_activities_on_user_id"
