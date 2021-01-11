@@ -129,7 +129,9 @@ RSpec.describe SecurityActivity do
 
   context "#record_event" do
     let(:user_agent_name) { "user-agent-name" }
-    let(:activity) { SecurityActivity.record_event(SecurityActivity::LOGIN_SUCCESS, user: user, ip_address: ip_address, user_agent_name: user_agent_name) }
+    let(:ip_address_country) { "US" }
+    let(:options) { { user: user, ip_address: ip_address, ip_address_country: ip_address_country, user_agent_name: user_agent_name }.compact }
+    let(:activity) { SecurityActivity.record_event(SecurityActivity::LOGIN_SUCCESS, **options) }
 
     it "constructs a valid event" do
       expect(activity.valid?).to be(true)
@@ -137,6 +139,22 @@ RSpec.describe SecurityActivity do
 
     it "saves the user-agent to the database" do
       expect(activity.user_agent&.name).to eq(user_agent_name)
+    end
+
+    context "the ip_address_country is not given" do
+      let(:ip_address) { "1.1.1.1" } # geocoder won't look up a loopback IP
+      let(:ip_address_country) { nil }
+
+      it "looks up the country" do
+        stub_request(:get, "http://ipinfo.io/#{ip_address}/geo").to_return(
+          status: 200,
+          body: {
+            ip: ip_address,
+            country: "US",
+          }.to_json,
+        )
+        expect(activity.ip_address_country).to_not be_nil
+      end
     end
   end
 
