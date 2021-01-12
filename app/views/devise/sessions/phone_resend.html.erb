@@ -1,32 +1,28 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/back_link", {
-      href: user_session_phone_code_path
-    } %>
+<%= render "govuk_publishing_components/components/back_link", {
+  href: user_session_phone_code_path
+} %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("mfa.phone.resend.heading"),
-      heading_level: 1,
-      font_size: "xl",
-      margin_top: 0,
-      margin_bottom: 3,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.phone.resend.heading"),
+  heading_level: 1,
+  font_size: "xl",
+  margin_top: 0,
+  margin_bottom: 3,
+} %>
 
-    <p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
+<p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
 
-    <%= form_with(url: user_session_phone_resend_path, method: :post) do %>
-      <%= hidden_field_tag "from_confirmation_email", params[:from_confirmation_email] %>
+<%= form_with(url: user_session_phone_resend_path, method: :post) do %>
+  <%= hidden_field_tag "from_confirmation_email", params[:from_confirmation_email] %>
 
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("mfa.phone.resend.fields.submit.label"),
-        margin_bottom: true,
-        data_attributes: {
-          module: "gem-track-click",
-          "track-category": "account-signin",
-          "track-action": "signin",
-          "track-label": "resend-security-code"
-        }
-      } %>
-    <% end %>
-  </div>
-</div>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("mfa.phone.resend.fields.submit.label"),
+    margin_bottom: true,
+    data_attributes: {
+      module: "gem-track-click",
+      "track-category": "account-signin",
+      "track-action": "signin",
+      "track-label": "resend-security-code"
+    }
+  } %>
+<% end %>

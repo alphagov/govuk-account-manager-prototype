@@ -1,68 +1,63 @@
 <% content_for :title, t("account.delete.heading") %>
 <% content_for :location, "manage" %>
+<% content_for :account_navigation do %>
+  <%= render "account-navigation", page_is: yield(:location) %>
+<% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
-    <%= render "account-navigation", page_is: yield(:location) %>
-  </div>
+<%= render "govuk_publishing_components/components/back_link", {
+  href: account_manage_path
+} %>
 
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/back_link", {
-      href: account_manage_path
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 4,
+} %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: yield(:title),
-      heading_level: 1,
-      font_size: "xl",
-      margin_bottom: 4,
-    } %>
+<p class="govuk-body"><%= t("account.delete.description") %></p>
+<ul class="govuk-list govuk-list--bullet">
+  <% t("account.delete.doomed").each do |item| %>
+    <li><%= item %></li>
+  <% end %>
+</ul>
 
-    <p class="govuk-body"><%= t("account.delete.description") %></p>
-    <ul class="govuk-list govuk-list--bullet">
-      <% t("account.delete.doomed").each do |item| %>
-        <li><%= item %></li>
-      <% end %>
-    </ul>
+<%= form_with(url: account_delete_path, method: :delete) do %>
+  <%= render "govuk_publishing_components/components/show_password", {
+    label: {
+      text: t("devise.registrations.edit.fields.current_password.label"),
+    },
+    heading_size: "m",
+    hint: t("devise.registrations.edit.fields.current_password.hint_delete"),
+    name: "current_password",
+    error_message: @password_error_message,
+    autocomplete: "current-password",
+  } %>
 
-    <%= form_with(url: account_delete_path, method: :delete) do %>
-      <%= render "govuk_publishing_components/components/show_password", {
-        label: {
-          text: t("devise.registrations.edit.fields.current_password.label"),
-        },
-        heading_size: "m",
-        hint: t("devise.registrations.edit.fields.current_password.hint_delete"),
-        name: "current_password",
-        error_message: @password_error_message,
-        autocomplete: "current-password",
-      } %>
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: t("account.delete.insert_text")
+  } %>
 
-      <%= render "govuk_publishing_components/components/inset_text", {
-        text: t("account.delete.insert_text")
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("account.delete.action"),
-        destructive: true,
-        inline_layout: true,
-        data_attributes: {
-          module: "gem-track-click",
-          "track-category": "account-manage",
-          "track-action": "delete",
-          "track-label": "delete-account"
-        }
-      } %>
-      <span class="govuk-body"><%= t("general.or") %></span>
-      <%= link_to t("general.cancel"),
-        account_manage_path,
-        class: "govuk-body govuk-link",
-        data: {
-          module: "gem-track-click",
-          "track-category": "account-manage",
-          "track-action": "delete",
-          "track-label": "cancel"
-        }
-      %>
-    <% end %>
-  </div>
-</div>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("account.delete.action"),
+    destructive: true,
+    inline_layout: true,
+    data_attributes: {
+      module: "gem-track-click",
+      "track-category": "account-manage",
+      "track-action": "delete",
+      "track-label": "delete-account"
+    }
+  } %>
+  <span class="govuk-body"><%= t("general.or") %></span>
+  <%= link_to t("general.cancel"),
+    account_manage_path,
+    class: "govuk-body govuk-link",
+    data: {
+      module: "gem-track-click",
+      "track-category": "account-manage",
+      "track-action": "delete",
+      "track-label": "cancel"
+    }
+  %>
+<% end %>

@@ -24,68 +24,64 @@
   } %>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("feedback.show.heading"),
-      heading_level: 1,
-      margin_bottom: 4,
-      font_size: "xl"
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("feedback.show.heading"),
+  heading_level: 1,
+  margin_bottom: 4,
+  font_size: "xl"
+} %>
 
-    <% if defined?(@error_items) %>
-      <%= render "govuk_publishing_components/components/error_summary", {
-        id: "error-summary",
-        title: t("feedback.show.errors.summary"),
-        items: @error_items
-      } %>
-    <% end %>
+<% if defined?(@error_items) %>
+  <%= render "govuk_publishing_components/components/error_summary", {
+    id: "error-summary",
+    title: t("feedback.show.errors.summary"),
+    items: @error_items
+  } %>
+<% end %>
 
-    <p class="govuk-body"><%= t("feedback.show.caption") %></p>
+<p class="govuk-body"><%= t("feedback.show.caption") %></p>
 
-    <%= render "govuk_publishing_components/components/inset_text", {
-      text: sanitize(t("feedback.show.inset_text"))
-    } %>
+<%= render "govuk_publishing_components/components/inset_text", {
+  text: sanitize(t("feedback.show.inset_text"))
+} %>
 
-    <p class="govuk-body"><%= t("feedback.show.advice") %></p>
+<p class="govuk-body"><%= t("feedback.show.advice") %></p>
 
-    <%= form_tag do %>
-      <%= render "govuk_publishing_components/components/textarea", {
-        label: {
-          text: t("feedback.show.fields.comments.label"),
-          heading_size: "s",
-        },
-        name: "comments",
-        id: "comments",
-        error_message: error_items("comments", @error_items),
-        value: @form_responses[:comments],
-      } %>
+<%= form_tag do %>
+  <%= render "govuk_publishing_components/components/textarea", {
+    label: {
+      text: t("feedback.show.fields.comments.label"),
+      heading_size: "s",
+    },
+    name: "comments",
+    id: "comments",
+    error_message: error_items("comments", @error_items),
+    value: @form_responses[:comments],
+  } %>
 
-      <%= render "govuk_publishing_components/components/radio", {
-        heading: t("feedback.show.fields.user_requires_response.label"),
-        heading_size: "s",
-        items: [
-          {
-            value: "yes",
-            text: t("feedback.show.fields.user_requires_response.options.option_yes.label"),
-            checked: @form_responses[:user_requires_response] == "yes",
-            conditional: contact_details,
-          },
-          {
-            value: "no",
-            text: t("feedback.show.fields.user_requires_response.options.option_no.label"),
-            checked: @form_responses[:user_requires_response] == "no",
-          },
-        ],
-        name: "user_requires_response",
-        id: "user_requires_response",
-        error_message: error_items("user_requires_response", @error_items),
-      } %>
+  <%= render "govuk_publishing_components/components/radio", {
+    heading: t("feedback.show.fields.user_requires_response.label"),
+    heading_size: "s",
+    items: [
+      {
+        value: "yes",
+        text: t("feedback.show.fields.user_requires_response.options.option_yes.label"),
+        checked: @form_responses[:user_requires_response] == "yes",
+        conditional: contact_details,
+      },
+      {
+        value: "no",
+        text: t("feedback.show.fields.user_requires_response.options.option_no.label"),
+        checked: @form_responses[:user_requires_response] == "no",
+      },
+    ],
+    name: "user_requires_response",
+    id: "user_requires_response",
+    error_message: error_items("user_requires_response", @error_items),
+  } %>
 
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("feedback.show.fields.submit.label"),
-        margin_bottom: 3,
-      } %>
-    <% end %>
-  </div>
-</div>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("feedback.show.fields.submit.label"),
+    margin_bottom: 3,
+  } %>
+<% end %>

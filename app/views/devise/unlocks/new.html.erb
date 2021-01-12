@@ -1,27 +1,22 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("devise.unlocks.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 4,
+} %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("devise.unlocks.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 4,
-    } %>
+<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "govuk_publishing_components/components/input", {
+    label: {
+      text: t("devise.unlocks.label")
+    },
+    name: "user[email]",
+    id: "user_email",
+    type: "email",
+    error_message: resource.errors.messages[:email][0],
+  } %>
 
-    <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: t("devise.unlocks.label")
-        },
-        name: "user[email]",
-        id: "user_email",
-        type: "email",
-        error_message: resource.errors.messages[:email][0],
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("devise.unlocks.resend")
-      } %>
-    <% end %>
-  </div>
-</div>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("devise.unlocks.resend")
+  } %>
+<% end %>

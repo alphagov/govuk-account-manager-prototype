@@ -1,45 +1,41 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("mfa.phone.code.change_heading"),
-      heading_level: 1,
-      margin_top: 0,
-      margin_bottom: 3,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.phone.code.change_heading"),
+  heading_level: 1,
+  margin_top: 0,
+  margin_bottom: 3,
+} %>
 
-    <% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(current_user.unconfirmed_phone)).each do |msg| %>
-      <p class="govuk-body"><%= sanitize(msg) %></p>
-    <% end %>
+<% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(current_user.unconfirmed_phone)).each do |msg| %>
+  <p class="govuk-body"><%= sanitize(msg) %></p>
+<% end %>
 
-    <%= form_with(url: edit_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: { text: t("mfa.phone.code.fields.phone_code.label") },
-        name: "phone_code",
-        maxlength: 6,
-        type: "number",
-        error_message: sanitize(@phone_code_error_message),
-        width: 5,
-      } %>
+<%= form_with(url: edit_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
+  <%= render "govuk_publishing_components/components/input", {
+    label: { text: t("mfa.phone.code.fields.phone_code.label") },
+    name: "phone_code",
+    maxlength: 6,
+    type: "number",
+    error_message: sanitize(@phone_code_error_message),
+    width: 5,
+  } %>
 
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("mfa.phone.code.fields.submit.label"),
-        margin_bottom: true
-      } %>
-    <% end %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("mfa.phone.code.fields.submit.label"),
+    margin_bottom: true
+  } %>
+<% end %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("mfa.phone.code.not_received.change_heading"),
-      heading_level: 2,
-      margin_bottom: 4,
-      font_size: "m",
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.phone.code.not_received.change_heading"),
+  heading_level: 2,
+  margin_bottom: 4,
+  font_size: "m",
+} %>
 
-    <p class="govuk-body">
-      <%= sanitize(t("mfa.phone.code.not_received.resend_message", link: edit_user_registration_phone_resend_path)) %>
-    </p>
+<p class="govuk-body">
+  <%= sanitize(t("mfa.phone.code.not_received.resend_message", link: edit_user_registration_phone_resend_path)) %>
+</p>
 
-    <p class="govuk-body">
-      <%= sanitize(t("mfa.phone.code.not_received.change_number_message", link: edit_user_registration_phone_path,  phone_number: MultiFactorAuth.formatted_phone_number(current_user.unconfirmed_phone))) %>
-    </p>
-  </div>
-</div>
+<p class="govuk-body">
+  <%= sanitize(t("mfa.phone.code.not_received.change_number_message", link: edit_user_registration_phone_path,  phone_number: MultiFactorAuth.formatted_phone_number(current_user.unconfirmed_phone))) %>
+</p>

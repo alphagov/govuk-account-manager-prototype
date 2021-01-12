@@ -1,50 +1,46 @@
 <% content_for :title, t("mfa.phone.code.sign_up_heading") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: yield(:title),
-      heading_level: 1,
-      font_size: "xl",
-      margin_top: 0,
-      margin_bottom: 3,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: "xl",
+  margin_top: 0,
+  margin_bottom: 3,
+} %>
 
-    <% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(@registration_state.phone)).each do |msg| %>
-      <p class="govuk-body"><%= sanitize(msg) %></p>
-    <% end %>
+<% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(@registration_state.phone)).each do |msg| %>
+  <p class="govuk-body"><%= sanitize(msg) %></p>
+<% end %>
 
-    <%= form_with(url: new_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: { text: t("mfa.phone.code.fields.phone_code.label") },
-        name: "phone_code",
-        maxlength: 5,
-        type: "number",
-        error_message: sanitize(@phone_code_error_message),
-        width: 5,
-      } %>
+<%= form_with(url: new_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
+  <%= render "govuk_publishing_components/components/input", {
+    label: { text: t("mfa.phone.code.fields.phone_code.label") },
+    name: "phone_code",
+    maxlength: 5,
+    type: "number",
+    error_message: sanitize(@phone_code_error_message),
+    width: 5,
+  } %>
 
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("mfa.phone.code.fields.submit.label"),
-        margin_bottom: true,
-        data_attributes: {
-          module: "gem-track-click",
-          "track-category": "account-create",
-          "track-action": "create",
-          "track-label": "security-code"
-        }
-      } %>
-    <% end %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("mfa.phone.code.fields.submit.label"),
+    margin_bottom: true,
+    data_attributes: {
+      module: "gem-track-click",
+      "track-category": "account-create",
+      "track-action": "create",
+      "track-label": "security-code"
+    }
+  } %>
+<% end %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("mfa.phone.code.not_received.sign_up_heading"),
-      heading_level: 2,
-      margin_bottom: 4,
-      font_size: "m",
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.phone.code.not_received.sign_up_heading"),
+  heading_level: 2,
+  margin_bottom: 4,
+  font_size: "m",
+} %>
 
-    <p class="govuk-body">
-      <%= sanitize(t("mfa.phone.code.not_received.sign_up_message", link: new_user_registration_phone_resend_path)) %>
-    </p>
-  </div>
-</div>
+<p class="govuk-body">
+  <%= sanitize(t("mfa.phone.code.not_received.sign_up_message", link: new_user_registration_phone_resend_path)) %>
+</p>

@@ -1,45 +1,41 @@
 <% content_for :title, t("mfa.phone.resend.heading") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/back_link", {
-      href: new_user_registration_phone_code_path
+<%= render "govuk_publishing_components/components/back_link", {
+  href: new_user_registration_phone_code_path
+} %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.phone.resend.heading"),
+  heading_level: 1,
+  font_size: "xl",
+  margin_top: 0,
+  margin_bottom: 3,
+} %>
+
+<p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
+
+<%= form_with(url: new_user_registration_phone_resend_path, method: :post) do %>
+  <%= render "govuk_publishing_components/components/details", {
+    title: t("mfa.phone.resend.change_phone"),
+    open: @phone_error_message.present?,
+  } do %>
+    <%= render "govuk_publishing_components/components/input", {
+      label: { text: t("mfa.phone.resend.fields.phone.label") },
+      name: "phone",
+      value: MultiFactorAuth.formatted_phone_number(@phone),
+      error_message: @phone_error_message,
+      width: 10,
+      autocomplete: "tel",
     } %>
+  <% end %>
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("mfa.phone.resend.heading"),
-      heading_level: 1,
-      font_size: "xl",
-      margin_top: 0,
-      margin_bottom: 3,
-    } %>
-
-    <p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
-
-    <%= form_with(url: new_user_registration_phone_resend_path, method: :post) do %>
-      <%= render "govuk_publishing_components/components/details", {
-        title: t("mfa.phone.resend.change_phone"),
-        open: @phone_error_message.present?,
-      } do %>
-        <%= render "govuk_publishing_components/components/input", {
-          label: { text: t("mfa.phone.resend.fields.phone.label") },
-          name: "phone",
-          value: MultiFactorAuth.formatted_phone_number(@phone),
-          error_message: @phone_error_message,
-          width: 10,
-          autocomplete: "tel",
-        } %>
-      <% end %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: t("mfa.phone.resend.fields.submit.label"),
-        data_attributes: {
-          module: "gem-track-click",
-          "track-category": "account-create",
-          "track-action": "create",
-          "track-label": "resend-security-code"
-        }
-      } %>
-    <% end %>
-  </div>
-</div>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("mfa.phone.resend.fields.submit.label"),
+    data_attributes: {
+      module: "gem-track-click",
+      "track-category": "account-create",
+      "track-action": "create",
+      "track-label": "resend-security-code"
+    }
+  } %>
+<% end %>
