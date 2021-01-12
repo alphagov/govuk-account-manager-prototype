@@ -5,6 +5,7 @@ optional_scopes:
   - account_manager_access
   - deanonymise_tokens
   - email
+  - reporting_access
   - transition_checker
 hidden_scopes:
   - openid
