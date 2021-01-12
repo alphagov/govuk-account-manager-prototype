@@ -43,7 +43,7 @@ module Report
           count: logins.count,
           accounts: logins.pluck(:user_id).uniq.count,
           frequency: logins.pluck(:user_id).tally.values.tally.sort,
-          frequency_ex_confirm: logins.where.not(analytics: "from_confirmation_email").pluck(:user_id).tally.values.tally.sort,
+          frequency_ex_confirm: logins.where("analytics IS NULL or analytics != 'from_confirmation_email'").pluck(:user_id).tally.values.tally.sort,
         },
       }
     end
