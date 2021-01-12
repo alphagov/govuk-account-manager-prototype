@@ -41,7 +41,7 @@ module Report
     end
 
     def interval_users
-      all_users.where("created_at BETWEEN ? AND ?", start_date, end_date)
+      all_users.where("created_at >= ?", start_date)
     end
 
     def all_logins
@@ -52,7 +52,7 @@ module Report
     end
 
     def interval_logins
-      all_logins.where("created_at BETWEEN ? AND ?", start_date, end_date)
+      all_logins.where("created_at >= ?", start_date)
     end
   end
 end

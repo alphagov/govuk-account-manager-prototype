@@ -1,7 +1,7 @@
 namespace :statistics do
   desc "Get information on all registrations and logins"
   task :general, %i[start_date end_date] => [:environment] do |_, args|
-    args.with_defaults(start_date: Time.zone.parse("15:00:00") - 1.day, end_date: Time.zone.parse("14:59:59"))
+    args.with_defaults(start_date: Time.zone.parse("15:00:00") - 1.day, end_date: Time.zone.parse("15:00:00"))
 
     report = Report::GeneralStatistics.report(
       start_date: args.start_date,
