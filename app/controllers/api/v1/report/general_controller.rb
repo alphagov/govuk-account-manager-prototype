@@ -3,13 +3,12 @@ class Api::V1::Report::GeneralController < Doorkeeper::ApplicationController
 
   respond_to :json
 
-  rescue_from ActionController::ParameterMissing do
-    head 400
-  end
-
   def show
-    start_date = params.fetch(:start_date)
-    end_date = params.fetch(:end_date)
+    end_date = params[:end_date] ? Time.zone.parse(params[:end_date]) : Time.zone.parse("15:00:00")
+    head 400 and return if end_date.nil?
+
+    start_date = params[:start_date] ? Time.zone.parse(params[:start_date]) : 1.day.before(end_date)
+    head 400 and return if start_date.nil?
 
     report = Report::GeneralStatistics.new(start_date: start_date, end_date: end_date)
 

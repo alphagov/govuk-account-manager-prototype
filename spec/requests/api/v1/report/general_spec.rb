@@ -1,4 +1,6 @@
 RSpec.describe "/api/v1/report/general" do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:user) { FactoryBot.create(:user) }
 
   let(:application) { FactoryBot.create(:oauth_application) }
@@ -27,8 +29,8 @@ RSpec.describe "/api/v1/report/general" do
     }.compact
   end
 
-  let(:start_date) { "2020-01-01 15:00:00" }
-  let(:end_date) { "2020-01-01 15:00:00" }
+  let(:start_date) { Time.zone.parse("2020-01-01 15:00:00") }
+  let(:end_date) { Time.zone.parse("2020-01-01 15:00:00") }
   let(:humanize) { nil }
 
   it "returns a JSON report" do
@@ -50,22 +52,38 @@ RSpec.describe "/api/v1/report/general" do
     }
 
     body = JSON.parse(response.body)
-    expect(body).to eq({ "all" => empty_report, "interval" => empty_report, "start_date" => start_date, "end_date" => end_date })
+    expect(body["all"]).to eq(empty_report)
+    expect(body["interval"]).to eq(empty_report)
   end
 
   context "with the start_date missing" do
     let(:start_date) { nil }
 
-    it "throws a 400" do
-      get api_v1_report_general_path, params: params, headers: headers
-      expect(response).to have_http_status(400)
+    it "uses yesterday at 3PM" do
+      travel_to Time.zone.local(2020, 1, 1, 10, 0, 0) do
+        get api_v1_report_general_path, params: params, headers: headers
+        expect(response).to be_successful
+        expect(JSON.parse(response.body)["start_date"]).to eq("2019-12-31T15:00:00.000+00:00")
+      end
     end
   end
 
   context "with the end_date missing" do
     let(:end_date) { nil }
 
-    it "throws a 400" do
+    it "uses today at 3PM" do
+      travel_to Time.zone.local(2020, 1, 1, 10, 0, 0) do
+        get api_v1_report_general_path, params: params, headers: headers
+        expect(response).to be_successful
+        expect(JSON.parse(response.body)["end_date"]).to eq("2020-01-01T15:00:00.000+00:00")
+      end
+    end
+  end
+
+  context "with an invalid date" do
+    let(:start_date) { "breadbread" }
+
+    it "returns a 400" do
       get api_v1_report_general_path, params: params, headers: headers
       expect(response).to have_http_status(400)
     end
