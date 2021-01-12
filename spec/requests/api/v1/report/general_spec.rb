@@ -99,7 +99,7 @@ RSpec.describe "/api/v1/report/general" do
       body = JSON.parse(response.body)
       expect(body.count).to eq(1)
       expect(body.first["title"]).to eq("Daily Statistics")
-      expect(body.first["text"]).to start_with("All registrations to #{end_date}")
+      expect(body.first["text"]).to start_with("Report up to #{end_date}")
     end
   end
 end

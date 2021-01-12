@@ -21,66 +21,13 @@ module Report
     end
 
     def humanize
-      output = ""
-
-      output += "All registrations to #{@end_date}: \n#{report[:all][:users][:count]}\n\n"
-      output += "New registrations between #{@start_date} and #{@end_date}: \n#{report[:interval][:users][:count]}\n\n"
-
-      output += "Cookie consents to #{@end_date}:\n"
-      report[:all][:users][:cookie_consents].each do |value, count|
-        output += "#{value.to_s.humanize} #{count}\n"
-      end
-      output += "\n"
-
-      output += "Cookie consents for registrations between #{@start_date} and #{@end_date}:\n"
-      report[:interval][:users][:cookie_consents].each do |value, count|
-        output += "#{value.to_s.humanize} #{count}\n"
-      end
-      output += "\n"
-
-      output += "Feedback consents to #{@end_date}:\n"
-      report[:all][:users][:feedback_consents].each do |value, count|
-        output += "#{value.to_s.humanize} #{count}\n"
-      end
-      output += "\n"
-
-      output += "Feedback consents for registrations between #{@start_date} and #{@end_date}:\n"
-      report[:interval][:users][:feedback_consents].each do |value, count|
-        output += "#{value.to_s.humanize} #{count}\n"
-      end
-      output += "\n"
-
-      output += "Total number of logins to #{@end_date}: \n#{report[:all][:logins][:count]}\n\n"
-
-      output += "Total number of logins between #{@start_date} and #{@end_date}: \n#{report[:interval][:logins][:count]}\n\n"
-
-      output += "Accounts logged in to #{@end_date}: \n#{report[:all][:logins][:accounts]}\n\n"
-
-      output += "Accounts logged in between #{@start_date} and #{@end_date}: \n#{report[:all][:logins][:accounts]}\n\n"
-
-      output += "Number of logins per account to #{@end_date}:\n"
-      report[:all][:logins][:frequency].each do |frequency, count|
-        output += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
-      end
-      output += "\n"
-
-      output += "Number of logins between #{@start_date} and #{@end_date}:\n"
-      report[:interval][:logins][:frequency].each do |frequency, count|
-        output += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
-      end
-
-      output += "Number of logins per account to #{@end_date} (excluding logins immediately after confirming email):\n"
-      report[:all][:logins][:frequency_ex_confirm].each do |frequency, count|
-        output += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
-      end
-      output += "\n"
-
-      output += "Number of logins between #{@start_date} and #{@end_date} (excluding logins immediately after confirming email):\n"
-      report[:interval][:logins][:frequency_ex_confirm].each do |frequency, count|
-        output += "Accounts logged into #{frequency} #{'time'.pluralize(frequency)}: #{count}\n"
-      end
-
-      output
+      [
+        "Report up to #{@end_date}:",
+        humanize_report(report[:all]),
+        "",
+        "Report between #{@start_date} and #{@end_date}:",
+        humanize_report(report[:interval]),
+      ].flatten.join("\n")
     end
 
   protected
@@ -99,6 +46,31 @@ module Report
           frequency_ex_confirm: logins.where.not(analytics: "from_confirmation_email").pluck(:user_id).tally.values.tally.sort,
         },
       }
+    end
+
+    def humanize_report(data)
+      output = []
+      output << "  - all registrations: #{data[:users][:count]}"
+      output << "  - cookie consents:"
+      data[:users][:cookie_consents].each do |value, count|
+        output << "    - #{value.to_s.humanize}: #{count}"
+      end
+      output << "  - feedback consents:"
+      data[:users][:feedback_consents].each do |value, count|
+        output << "    - #{value.to_s.humanize}: #{count}"
+      end
+      output << "  - total number of logins: #{data[:logins][:count]}"
+      output << "  - accounts logged in to: #{data[:logins][:accounts]}"
+      output << "  - number of logins per account:"
+      data[:logins][:frequency].each do |frequency, count|
+        output << "    - #{frequency} #{'time'.pluralize(frequency)}: #{count}"
+      end
+      output << "  - number of logins per account (excluding logins immediately after confirming email):"
+      data[:logins][:frequency_ex_confirm].each do |frequency, count|
+        output << "    - #{frequency} #{'time'.pluralize(frequency)}: #{count}"
+      end
+
+      output
     end
 
     def all_users
