@@ -328,3 +328,13 @@ See [the govuk_ab_testing README][] for full documentation on usage
 and testing.
 
 [the govuk_ab_testing README]: https://github.com/alphagov/govuk_ab_testing#govuk-ab-testing
+
+## Supporting information
+
+See the [GOV.UK Account technical documentation](https://docs.account.publishing.service.gov.uk/) for more information on using the GOV.UK Account product.
+
+See the [GOV.UK Account team manual](https://team-manual.account.publishing.service.gov.uk/) for more information on internal GOV.UK Account team processes such as handling Zendesk tickets or deploying a branch to the staging environment.
+
+You should check the GOV.UK Account technical documentation and team manual regularly as they are both currently under development and will change frequently.
+
+See the [GOV.UK developer documentation](https://docs.publishing.service.gov.uk/) for more information on GOV.UK applications, infrastructure and tools.
