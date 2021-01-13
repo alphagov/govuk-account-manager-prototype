@@ -112,6 +112,10 @@ Rails.application.routes.draw do
         get "/email-subscription", to: "emails#show"
         post "/email-subscription", to: "emails#update"
       end
+
+      namespace :report do
+        get "/general", to: "general#show"
+      end
     end
   end
 
