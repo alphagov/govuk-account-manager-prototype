@@ -8,9 +8,6 @@ namespace :statistics do
       end_date: args.end_date,
     )
 
-    puts [{
-      title: "Daily Statistics",
-      text: report.humanize,
-    }].to_json
+    puts report.humanize
   end
 end

@@ -9,20 +9,10 @@ inputs:
     path: src
 outputs:
   - name: statistics
-params:
-  CF_API: https://api.london.cloud.service.gov.uk
-  CF_USERNAME: ((paas-username))
-  CF_PASSWORD: ((paas-password))
 
 run:
   path: sh
   args:
     - "-c"
     - |
-      set -eu
-
-      cf api "$CF_API"
-      cf auth
-      cf t -o "$CF_ORG" -s "$CF_SPACE"
-
-      cf ssh $CF_APP_NAME -c "/tmp/lifecycle/launcher /home/vcap/app 'rake statistics:general' ''" > statistics/output.json
+      curl -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://www.${CDN_DOMAIN}/api/v1/report/general?humanize=1" > statistics/output.json
