@@ -305,8 +305,7 @@ RSpec.feature "Registration" do
       submit_registration_form
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
-
-      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
+      user_is_returned_to_registration_start
     end
   end
 
@@ -350,6 +349,10 @@ RSpec.feature "Registration" do
 
       expect(page).to have_text(I18n.t("devise.registrations.closed.heading"))
     end
+  end
+
+  def user_is_returned_to_registration_start
+    expect(page).to have_text(I18n.t("devise.registrations.start.heading"))
   end
 
   def visit_registration_form

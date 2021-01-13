@@ -127,8 +127,7 @@ RSpec.feature "Logging in" do
       enter_email_address_and_password
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
-
-      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
+      user_is_returned_to_login_screen
     end
   end
 
@@ -191,6 +190,10 @@ RSpec.feature "Logging in" do
         expect(page).to have_text(I18n.t("devise.failure.no_account"))
       end
     end
+  end
+
+  def user_is_returned_to_login_screen
+    expect(page).to have_text(I18n.t("devise.sessions.new.heading"))
   end
 
   def enter_email_address_and_password(email: user.email, password: user.password)

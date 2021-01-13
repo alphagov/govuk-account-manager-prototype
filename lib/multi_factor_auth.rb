@@ -1,6 +1,6 @@
 module MultiFactorAuth
   ALLOWED_ATTEMPTS = 6
-  EXPIRATION_AGE = 10.minutes
+  EXPIRATION_AGE = 30.minutes
   INTERNATIONAL_CODE_REGEX = /^00/.freeze
   VALID_DOMESTIC_COUNTRIES = %i[gb gg je im].freeze
 
