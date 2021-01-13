@@ -278,9 +278,8 @@ jobs:
       - task: daily-statistics
         file: git-main/concourse/tasks/daily-statistics.yml
         params:
-          CF_ORG: govuk-accounts
-          CF_APP_NAME: govuk-account-manager
-          CF_SPACE: production
+          CDN_DOMAIN: account.publishing.service.gov.uk
+          BEARER_TOKEN: ((report-bearer-token))
         on_success:
           put: govuk-slack
           params:
