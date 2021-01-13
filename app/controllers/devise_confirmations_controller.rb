@@ -40,7 +40,7 @@ class DeviseConfirmationsController < Devise::ConfirmationsController
 
   def after_resending_confirmation_instructions_path_for(_resource_name)
     session[:confirmations] = {
-      email: resource.unconfirmed_email,
+      email: resource.unconfirmed_email || resource.email,
       user_is_confirmed: resource.confirmed?,
     }
     confirmation_email_sent_path
