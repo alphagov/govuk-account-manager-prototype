@@ -106,9 +106,12 @@ RSpec.feature "Change Phone" do
       enter_password
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
-
-      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.expired")))
+      user_is_returned_to_login_screen
     end
+  end
+
+  def user_is_returned_to_login_screen
+    expect(page).to have_text(I18n.t("devise.sessions.new.heading"))
   end
 
   def log_in
