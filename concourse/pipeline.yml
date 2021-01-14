@@ -199,6 +199,7 @@ jobs:
         params:
           APP_DOMAIN: www.gov.uk
           APP_INSTANCES: 20
+          BIGQUERY_CREDENTIALS: ((bigquery-credentials-production))
           CDN_DOMAIN: account.publishing.service.gov.uk
           CF_SPACE: production
           NOTIFY_API_KEY: ((notify-api-key-production))
