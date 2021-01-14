@@ -1,0 +1,20 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: governmentpaas/cf-cli
+    tag: e1ffec0d1940706f157a8c1e0ab8131b7084fa1c
+inputs:
+  - name: git-main
+    path: src
+
+run:
+  path: sh
+  args:
+    - "-c"
+    - |
+      echo "triggering account-manager export"
+      curl -XPOST -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://www.${CDN_DOMAIN}/api/v1/report/bigquery"
+
+      echo "triggering attribute-service export"
+      curl -XPOST -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://attributes.${CDN_DOMAIN}/v1/report/bigquery"
