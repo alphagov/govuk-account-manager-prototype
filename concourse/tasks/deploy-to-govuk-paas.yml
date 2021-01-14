@@ -9,9 +9,20 @@ inputs:
     path: src
 params:
   CF_API: https://api.london.cloud.service.gov.uk
-  CF_USERNAME: ((paas-username))
+  CF_APP_NAME: govuk-account-manager
+  CF_ORG: govuk-accounts
   CF_PASSWORD: ((paas-password))
+  CF_STARTUP_TIMEOUT: 15 # minutes
+  CF_USERNAME: ((paas-username))
+  EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
+  ENABLE_REGISTRATION: "true"
+  FEATURE_FLAG_MFA: enabled
+  NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
+  NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
   SENTRY_DSN: https://((sentry-dsn))
+  ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
+  ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
+  ZENDESK_GROUP_ID: 20826398
 
 run:
   dir: src

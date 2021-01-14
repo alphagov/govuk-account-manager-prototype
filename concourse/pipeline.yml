@@ -137,33 +137,22 @@ jobs:
       - task: deploy-to-paas
         file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
-          CF_ORG: govuk-accounts
-          CF_APP_NAME: govuk-account-manager
-          CF_SPACE: staging
-          CF_STARTUP_TIMEOUT: 15 # minutes
-          APP_INSTANCES: 1
-          WORKER_INSTANCES: 1
-          PW_WORKER_INSTANCES: 1
-          CDN_DOMAIN: account.staging.publishing.service.gov.uk
-          ENABLE_REGISTRATION: "true"
-          REQUIRE_BASIC_AUTH: "true"
-          BASIC_AUTH_USERNAME: ((basic-auth-username))
-          BASIC_AUTH_PASSWORD: ((basic-auth-password))
           APP_DOMAIN: www.staging.publishing.service.gov.uk
-          WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
-          EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
-          PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
+          APP_INSTANCES: 1
+          BASIC_AUTH_PASSWORD: ((basic-auth-password))
+          BASIC_AUTH_USERNAME: ((basic-auth-username))
+          CDN_DOMAIN: account.staging.publishing.service.gov.uk
+          CF_SPACE: staging
           NOTIFY_API_KEY: ((notify-api-key-staging))
-          NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
-          NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
-          FEATURE_FLAG_MFA: enabled
-          OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           OIDC_PEPPER: ((oidc-pepper-staging))
-          SECRET_KEY_BASE: ((secret-key-base-staging))
+          OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           PASSWORD_PEPPER: ((password-pepper-staging))
-          ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
-          ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
-          ZENDESK_GROUP_ID: 20826398
+          PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
+          PW_WORKER_INSTANCES: 1
+          REQUIRE_BASIC_AUTH: "true"
+          SECRET_KEY_BASE: ((secret-key-base-staging))
+          WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
+          WORKER_INSTANCES: 1
         on_failure:
           put: govuk-slack
           params:
@@ -209,30 +198,19 @@ jobs:
       - task: deploy-to-paas
         file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
-          CF_ORG: govuk-accounts
-          CF_APP_NAME: govuk-account-manager
-          CF_SPACE: production
-          CF_STARTUP_TIMEOUT: 15 # minutes
-          APP_INSTANCES: 20
-          WORKER_INSTANCES: 20
-          PW_WORKER_INSTANCES: 30
-          CDN_DOMAIN: account.publishing.service.gov.uk
-          ENABLE_REGISTRATION: "true"
           APP_DOMAIN: www.gov.uk
-          WEBSITE_ROOT: https://www.gov.uk
-          EMAIL_ALERT_API_BEARER_TOKEN: ((email-alert-api-bearer-token))
-          PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
+          APP_INSTANCES: 20
+          CDN_DOMAIN: account.publishing.service.gov.uk
+          CF_SPACE: production
           NOTIFY_API_KEY: ((notify-api-key-production))
-          NOTIFY_TEMPLATE_ID: 6074fdc2-03b3-4bb6-83fe-31220779c13b
-          NOTIFY_SMS_TEMPLATE_ID: 51f0410b-0367-4e24-bf4d-17019791b77d
-          FEATURE_FLAG_MFA: enabled
-          OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           OIDC_PEPPER: ((oidc-pepper-production))
-          SECRET_KEY_BASE: ((secret-key-base-production))
+          OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           PASSWORD_PEPPER: ((password-pepper-production))
-          ZENDESK_CLIENT_USERNAME: ((zendesk-api-username))
-          ZENDESK_CLIENT_TOKEN: ((zendesk-api-key))
-          ZENDESK_GROUP_ID: 20826398
+          PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
+          PW_WORKER_INSTANCES: 30
+          SECRET_KEY_BASE: ((secret-key-base-production))
+          WEBSITE_ROOT: https://www.gov.uk
+          WORKER_INSTANCES: 20
         on_failure:
           put: govuk-slack
           params:
