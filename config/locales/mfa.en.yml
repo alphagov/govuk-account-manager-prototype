@@ -51,7 +51,7 @@ en:
         heading: Send a new security code
       update:
         start:
-          current: 'The phone number currently stored in your GOV.UK account is: %{phone_number}'
+          current: 'The phone number currently stored in your GOV.UK account is: <span class="govuk-!-display-inline-block">%{phone_number}</span>'
           fields:
             phone:
               label: Enter new phone number
