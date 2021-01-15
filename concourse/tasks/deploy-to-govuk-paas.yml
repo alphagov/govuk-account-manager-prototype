@@ -82,4 +82,3 @@ run:
       cf map-route $CF_APP_NAME "$CDN_DOMAIN" --hostname www
 
       cf scale --process worker -i "$WORKER_INSTANCES" $CF_APP_NAME
-      cf scale --process pw_worker -i "$PW_WORKER_INSTANCES" $CF_APP_NAME

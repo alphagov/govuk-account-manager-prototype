@@ -148,7 +148,6 @@ jobs:
           OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           PASSWORD_PEPPER: ((password-pepper-staging))
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
-          PW_WORKER_INSTANCES: 1
           REQUIRE_BASIC_AUTH: "true"
           SECRET_KEY_BASE: ((secret-key-base-staging))
           WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
@@ -207,7 +206,6 @@ jobs:
           OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           PASSWORD_PEPPER: ((password-pepper-production))
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
-          PW_WORKER_INSTANCES: 30
           SECRET_KEY_BASE: ((secret-key-base-production))
           WEBSITE_ROOT: https://www.gov.uk
           WORKER_INSTANCES: 20
