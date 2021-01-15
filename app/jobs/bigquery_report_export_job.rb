@@ -32,13 +32,13 @@ protected
   end
 
   def update_events_table(dataset:, start_date:, end_date:)
-    report = Report::AccountEvents.report(
+    Report::AccountEvents.new(
       user_id_pepper: Rails.application.secrets.reporting_user_id_pepper,
       start_date: start_date,
       end_date: end_date,
-    )
-
-    insert_job(dataset, EVENTS_TABLE_NAME, report)
+    ).in_batches do |rows|
+      insert_job(dataset, EVENTS_TABLE_NAME, rows)
+    end
   end
 
   def delete_job(dataset, table_name)
