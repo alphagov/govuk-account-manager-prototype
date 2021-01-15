@@ -23,12 +23,13 @@ class BigqueryReportExportJob < ApplicationJob
 protected
 
   def replace_accounts_table(dataset:)
-    report = Report::Accounts.report(
-      user_id_pepper: Rails.application.secrets.reporting_user_id_pepper,
-    )
-
     delete_job(dataset, ACCOUNTS_TABLE_NAME)
-    insert_job(dataset, ACCOUNTS_TABLE_NAME, report)
+
+    Report::Accounts.new(
+      user_id_pepper: Rails.application.secrets.reporting_user_id_pepper,
+    ).in_batches do |rows|
+      insert_job(dataset, ACCOUNTS_TABLE_NAME, rows)
+    end
   end
 
   def update_events_table(dataset:, start_date:, end_date:)
