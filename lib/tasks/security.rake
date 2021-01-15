@@ -4,11 +4,4 @@ namespace :security do
     count = BannedPassword.import_from_ncsc
     puts "imported #{count} passwords"
   end
-
-  desc "Check usage of passwords on the banned password list."
-  task check_banned_password_usage: :environment do
-    User.where(banned_password_match: nil).each do |user|
-      UserBannedPasswordCheckJob.perform_later(user.id)
-    end
-  end
 end
