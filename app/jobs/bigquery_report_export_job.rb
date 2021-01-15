@@ -24,7 +24,7 @@ protected
       user_id_pepper: Rails.application.secrets.reporting_user_id_pepper,
     )
 
-    delete_job = dataset.query_job "DELETE * FROM #{ACCOUNTS_TABLE_NAME}"
+    delete_job = dataset.query_job "DELETE FROM #{ACCOUNTS_TABLE_NAME} WHERE 1 = 1"
     delete_job.wait_until_done!
 
     table = dataset.table ACCOUNTS_TABLE_NAME
