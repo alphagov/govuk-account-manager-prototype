@@ -3,6 +3,9 @@
 require "google/cloud/bigquery"
 
 class BigqueryReportExportJob < ApplicationJob
+  class DeleteError < StandardError; end
+  class InsertError < StandardError; end
+
   DATASET_NAME = "daily"
   ACCOUNTS_TABLE_NAME = "accounts"
   EVENTS_TABLE_NAME = "events"
@@ -24,11 +27,8 @@ protected
       user_id_pepper: Rails.application.secrets.reporting_user_id_pepper,
     )
 
-    delete_job = dataset.query_job "DELETE FROM #{ACCOUNTS_TABLE_NAME} WHERE 1 = 1"
-    delete_job.wait_until_done!
-
-    table = dataset.table ACCOUNTS_TABLE_NAME
-    table.insert report
+    delete_job(dataset, ACCOUNTS_TABLE_NAME)
+    insert_job(dataset, ACCOUNTS_TABLE_NAME, report)
   end
 
   def update_events_table(dataset:, start_date:, end_date:)
@@ -38,7 +38,18 @@ protected
       end_date: end_date,
     )
 
-    table = dataset.table EVENTS_TABLE_NAME
-    table.insert report
+    insert_job(dataset, EVENTS_TABLE_NAME, report)
+  end
+
+  def delete_job(dataset, table_name)
+    delete_job = dataset.query_job "DELETE FROM #{table_name} WHERE 1 = 1"
+    delete_job.wait_until_done!
+    raise DeleteError, delete_error.error.dig("message") if delete_job.failed?
+  end
+
+  def insert_job(dataset, table_name, rows)
+    table = dataset.table table_name
+    insert_response = table.insert rows
+    raise InsertError, "errors: #{insert_response.error_count}" unless insert_response.success?
   end
 end
