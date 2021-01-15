@@ -115,6 +115,8 @@ Rails.application.routes.draw do
 
       namespace :report do
         get "/general", to: "general#show"
+
+        post "/bigquery", to: "bigquery#create"
       end
     end
   end

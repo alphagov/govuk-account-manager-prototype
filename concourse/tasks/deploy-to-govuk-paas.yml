@@ -51,6 +51,10 @@ run:
         cf unset-env $CF_APP_NAME BASIC_AUTH_PASSWORD
       fi
 
+      if [[ -n "${BIGQUERY_CREDENTIALS:-}" ]]; then
+        cf set-env $CF_APP_NAME BIGQUERY_CREDENTIALS "$BIGQUERY_CREDENTIALS"
+      fi
+
       cf set-env $CF_APP_NAME ENABLE_REGISTRATION "$ENABLE_REGISTRATION"
       cf set-env $CF_APP_NAME GOVUK_APP_DOMAIN "$APP_DOMAIN"
       cf set-env $CF_APP_NAME GOVUK_WEBSITE_ROOT "$WEBSITE_ROOT"
