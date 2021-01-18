@@ -13,7 +13,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
   let(:privileged_token) do
     FactoryBot.create(
       :oauth_access_token,
-      resource_owner_id: user.id,
+      resource_owner_id: user&.id,
       application_id: application.id,
       scopes: %i[deanonymise_tokens],
     )
@@ -22,7 +22,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
   let(:unprivileged_token) do
     FactoryBot.create(
       :oauth_access_token,
-      resource_owner_id: user.id,
+      resource_owner_id: user&.id,
       application_id: application.id,
       scopes: %i[openid],
     )
@@ -53,6 +53,18 @@ RSpec.describe "/api/v1/deanonymise-token" do
         scopes: check_token.scopes.to_a,
         true_subject_identifier: user.id,
       })
+    end
+
+    context "with no associated user" do
+      let(:user) { nil }
+
+      it "returns just the scopes" do
+        get api_v1_deanonymise_token_path, params: params, headers: headers
+        expect(response).to be_successful
+        expect(JSON.parse(response.body).deep_symbolize_keys).to eq({
+          scopes: check_token.scopes.to_a,
+        })
+      end
     end
 
     context "with an expired check token" do
