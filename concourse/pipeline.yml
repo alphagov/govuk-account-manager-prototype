@@ -264,6 +264,11 @@ jobs:
             username: 'Daily GOV.UK Account Statistics'
             icon_emoji: ':chart_with_upwards_trend:'
             attachments_file: statistics/output.json
+      - task: trigger-bigquery-export
+        file: git-main/concourse/tasks/trigger-bigquery-export.yml
+        params:
+          CDN_DOMAIN: account.publishing.service.gov.uk
+          BEARER_TOKEN: ((report-bearer-token))
 
   - name: suspend-staging
     plan:
