@@ -19,13 +19,16 @@ RSpec.describe "security activities" do
     end
 
     expect_event SecurityActivity::ACCOUNT_LOCKED
+    expect_event_on_security_page SecurityActivity::ACCOUNT_LOCKED
   end
 
   it "records MANUAL_ACCOUNT_UNLOCK events" do
     unlock_token = user.lock_access!
     get user_unlock_path(unlock_token: unlock_token)
+    user.reload
 
     expect_event SecurityActivity::MANUAL_ACCOUNT_UNLOCK
+    expect_event_on_security_page SecurityActivity::MANUAL_ACCOUNT_UNLOCK
   end
 
   context "with MFA enabled" do
@@ -50,6 +53,7 @@ RSpec.describe "security activities" do
       post user_session_phone_verify_path, params: { "phone_code" => "incorrect" }
 
       expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { factor: :sms }
+      expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
     end
 
     it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE event with additional analytics data from confirmation email" do
@@ -57,6 +61,7 @@ RSpec.describe "security activities" do
       post user_session_phone_verify_path, params: { "phone_code" => "incorrect", "from_confirmation_email" => true }
 
       expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { analytics: "from_confirmation_email" }
+      expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
     end
   end
 
@@ -64,12 +69,14 @@ RSpec.describe "security activities" do
     post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
 
     expect_event SecurityActivity::LOGIN_SUCCESS
+    expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
   end
 
   it "records LOGIN_SUCCESS event with additional analytics data from confirmation email" do
     post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
 
     expect_event SecurityActivity::LOGIN_SUCCESS, analytics: "from_confirmation_email"
+    expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
   end
 
   it "records LOGIN_FAILURE events" do
@@ -77,18 +84,21 @@ RSpec.describe "security activities" do
     post response.redirect_url, params: { "user[email]" => user.email, "user[password]" => "incorrect" }
 
     expect_event SecurityActivity::LOGIN_FAILURE
+    expect_event_on_security_page SecurityActivity::LOGIN_FAILURE
   end
 
   it "records LOGIN_FAILURE event with additional analytics data from confirmation email" do
     post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => "incorrect", "from_confirmation_email" => true }
 
     expect_event SecurityActivity::LOGIN_FAILURE, { analytics: "from_confirmation_email" }
+    expect_event_on_security_page SecurityActivity::LOGIN_FAILURE
   end
 
   it "records PASSWORD_RESET_REQUEST events" do
     post create_password_path, params: { "user[email]" => user.email }
 
     expect_event SecurityActivity::PASSWORD_RESET_REQUEST
+    expect_event_on_security_page SecurityActivity::PASSWORD_RESET_REQUEST
   end
 
   it "records PASSWORD_RESET_SUCCESS events" do
@@ -100,6 +110,7 @@ RSpec.describe "security activities" do
     }
 
     expect_event SecurityActivity::PASSWORD_RESET_SUCCESS
+    expect_event_on_security_page SecurityActivity::PASSWORD_RESET_SUCCESS
   end
 
   context "with a user logged in" do
@@ -119,6 +130,7 @@ RSpec.describe "security activities" do
         get authorization_endpoint_url(client: application, scope: "openid")
 
         expect_event SecurityActivity::LOGIN_SUCCESS, { application: application }
+        expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
       end
     end
 
@@ -130,6 +142,7 @@ RSpec.describe "security activities" do
       }
 
       expect_event SecurityActivity::EMAIL_CHANGE_REQUESTED, { notes: "from #{user.email} to #{user.reload.unconfirmed_email}" }
+      expect_event_on_security_page SecurityActivity::EMAIL_CHANGE_REQUESTED
     end
 
     context "with MFA enabled" do
@@ -145,6 +158,7 @@ RSpec.describe "security activities" do
         post edit_user_registration_phone_verify_path, params: { "phone_code" => user.phone_code }
 
         expect_event SecurityActivity::PHONE_CHANGED, { notes: "from #{old_phone} to #{user.reload.phone}" }
+        expect_event_on_security_page SecurityActivity::PHONE_CHANGED
       end
     end
 
@@ -157,6 +171,7 @@ RSpec.describe "security activities" do
       }
 
       expect_event SecurityActivity::PASSWORD_CHANGED
+      expect_event_on_security_page SecurityActivity::PASSWORD_CHANGED
     end
   end
 
@@ -164,6 +179,7 @@ RSpec.describe "security activities" do
     get user_confirmation_path(confirmation_token: user.confirmation_token)
 
     expect_event SecurityActivity::EMAIL_CHANGED, notes: "to #{user.email}"
+    expect_event_on_security_page SecurityActivity::EMAIL_CHANGED
   end
 
   def expect_event(event, options = {})
@@ -175,5 +191,12 @@ RSpec.describe "security activities" do
     events = events.where(analytics: options[:analytics]) if options[:analytics]
 
     expect(events.count).to_not eq(0)
+  end
+
+  def expect_event_on_security_page(event)
+    sign_in user
+    get account_security_path
+
+    expect(response.body).to have_content(I18n.t("account.security.event.#{event.name}"))
   end
 end
