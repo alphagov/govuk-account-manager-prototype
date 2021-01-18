@@ -1,5 +1,5 @@
 RSpec.describe Report::AccountEvents do
-  let(:report) { described_class.report(start_date: start_date, end_date: end_date, user_id_pepper: "pepper") }
+  let(:report) { described_class.new(start_date: start_date, end_date: end_date, user_id_pepper: "pepper").all }
 
   let(:start_date) { Time.zone.local(2020, 1, 22, 10, 0, 0) }
   let(:end_date) { start_date + 1.day }
@@ -13,6 +13,21 @@ RSpec.describe Report::AccountEvents do
   context "with events in the period" do
     let(:user1) { FactoryBot.create(:user, email: "foo@example.com") }
     let(:user2) { FactoryBot.create(:user, email: "bar@example.com") }
+
+    it "#in_batches" do
+      create_login_event(user1, start_date + 59.minutes)
+      create_login_event(user1, start_date + 60.minutes)
+      create_login_event(user1, start_date + 120.minutes)
+
+      batched_report = []
+
+      described_class.new(start_date: start_date, end_date: end_date, user_id_pepper: "pepper").in_batches(batch_size: 1) do |rows|
+        expect(rows.length).to eq(1)
+        batched_report.concat(rows)
+      end
+
+      expect(batched_report).to eq(report)
+    end
 
     it "finds all the events" do
       e1 = create_login_event(user2, start_date + 59.minutes)

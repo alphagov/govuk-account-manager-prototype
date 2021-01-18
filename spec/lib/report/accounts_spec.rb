@@ -1,5 +1,5 @@
 RSpec.describe Report::Accounts do
-  let(:report) { described_class.report(user_id_pepper: "pepper") }
+  let(:report) { described_class.new(user_id_pepper: "pepper").all }
 
   context "with no users" do
     it "returns []" do
@@ -8,6 +8,20 @@ RSpec.describe Report::Accounts do
   end
 
   context "with users" do
+    it "#in_batches" do
+      FactoryBot.create(:user, email: "foo@example.com", cookie_consent: false, feedback_consent: true)
+      FactoryBot.create(:user, email: "bar@example.com", cookie_consent: true, feedback_consent: false)
+
+      batched_report = []
+
+      described_class.new(user_id_pepper: "pepper").in_batches(batch_size: 1) do |rows|
+        expect(rows.length).to eq(1)
+        batched_report.concat(rows)
+      end
+
+      expect(batched_report).to eq(report)
+    end
+
     it "finds all the users" do
       u1 = FactoryBot.create(:user, email: "foo@example.com", cookie_consent: false, feedback_consent: true)
       u2 = FactoryBot.create(:user, email: "bar@example.com", cookie_consent: true, feedback_consent: false)
