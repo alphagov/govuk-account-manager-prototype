@@ -5,11 +5,11 @@ module Report
     end
 
     def all
-      all_users.map { |user| user_to_row(user) }
+      User.all.map { |user| user_to_row(user) }
     end
 
     def in_batches(batch_size: 200)
-      all_users.find_in_batches(batch_size: batch_size) do |batch|
+      User.find_in_batches(batch_size: batch_size) do |batch|
         rows = batch.map { |user| user_to_row(user) }
         yield rows
       end
@@ -26,10 +26,6 @@ module Report
         cookie_consent: user.cookie_consent,
         feedback_consent: user.feedback_consent,
       }
-    end
-
-    def all_users
-      User.order(:created_at)
     end
 
     def hashed_id(user_id)

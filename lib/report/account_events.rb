@@ -57,7 +57,6 @@ module Report
         .of_type(SecurityActivity::LOGIN_SUCCESS)
         .where(oauth_application_id: nil)
         .where("created_at < ?", end_date)
-        .order(:created_at)
     end
 
     def all_login_events_in_report
