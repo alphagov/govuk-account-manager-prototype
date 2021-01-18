@@ -12,6 +12,8 @@ class Api::V1::DeanonymiseTokenController < Doorkeeper::ApplicationController
       head 404
     elsif token.expired?
       head 410
+    elsif token.resource_owner_id.nil?
+      render json: { scopes: token.scopes.to_a }
     else
       DataActivity.create!(
         user_id: token.resource_owner_id,
