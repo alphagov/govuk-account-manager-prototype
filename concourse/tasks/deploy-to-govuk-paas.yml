@@ -39,8 +39,6 @@ run:
       cf apply-manifest -f manifest.yml
       cf set-env $CF_APP_NAME CF_STARTUP_TIMEOUT "$CF_STARTUP_TIMEOUT"
 
-      cf scale -i "$APP_INSTANCES" $CF_APP_NAME
-
       if [[ "${REQUIRE_BASIC_AUTH:-}" = "true" ]]; then
         cf set-env $CF_APP_NAME REQUIRE_BASIC_AUTH "$REQUIRE_BASIC_AUTH"
         cf set-env $CF_APP_NAME BASIC_AUTH_USERNAME "$BASIC_AUTH_USERNAME"
