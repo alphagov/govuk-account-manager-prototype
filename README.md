@@ -19,18 +19,18 @@ This content is for GOV.UK developers working on Macs or Linux. If you are not a
 
 ## Install GOV.UK Docker
 
-[Install GOV.UK Docker](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md). Make sure that you allocate at least the minimum resources specified in the [GOV.UK Docker settings guidance](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#docker-settings) as running the prototype on your local machine is resource-intensive.
+[Install GOV.UK Docker](https://github.com/alphagov/govuk-docker). Make sure that you allocate at least the minimum resources specified in the [GOV.UK Docker installation guidance](https://github.com/alphagov/govuk-docker/blob/master/README.md#installation) as running the prototype on your local machine is resource-intensive.
 
 ## Clone repositories to local machine
 
-To set up GOV.UK account manager, clone the following repositories (repos) to the `~/govuk` folder on your local machine:
+To set up GOV.UK account manager, ensure you have a `~/govuk` directory.
+
+Clone the following repositories (repos) to the `~/govuk` folder on your local machine:
 
 - the [GOV.UK account manager prototype](https://github.com/alphagov/govuk-account-manager-prototype)
 - the [GOV.UK attribute service prototype](https://github.com/alphagov/govuk-attribute-service-prototype)
 - the [finder frontend](https://github.com/alphagov/finder-frontend) that contains the Brexit transition checker
 - the [email alert API](https://github.com/alphagov/email-alert-api/)
-
-You [create the `~/govuk` folder](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#prerequisites) when you install GOV.UK Docker.
 
 Check out the following branches on the different repos:
 
@@ -94,7 +94,7 @@ If you are having issues setting up and running the GOV.UK account manager proto
 
 ### Not enough resources allocated to GOV.UK Docker
 
-To change the resource allocation for GOV.UK Docker, see the [GOV.UK Docker settings guidance](https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md#docker-settings).
+To change the resource allocation for GOV.UK Docker, see the [GOV.UK Docker readme](https://github.com/alphagov/govuk-docker/blob/master/README.md#installation).
 
 ### Backend changes to the database or the prototypes
 
