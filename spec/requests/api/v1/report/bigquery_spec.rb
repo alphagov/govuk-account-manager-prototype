@@ -49,7 +49,7 @@ RSpec.describe "/api/v1/report/bigquery" do
       travel_to Time.zone.local(2020, 1, 1, 10, 0, 0) do
         post api_v1_report_bigquery_path, params: params, headers: headers
         expect(response).to have_http_status(202)
-        expect(JSON.parse(response.body)["start_date"]).to eq("2019-12-31T15:00:00.000+00:00")
+        expect(JSON.parse(response.body)["start_date"]).to eq("2019-12-31 15:00:00 +00:00")
       end
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe "/api/v1/report/bigquery" do
       travel_to Time.zone.local(2020, 1, 1, 10, 0, 0) do
         post api_v1_report_bigquery_path, params: params, headers: headers
         expect(response).to have_http_status(202)
-        expect(JSON.parse(response.body)["end_date"]).to eq("2020-01-01T15:00:00.000+00:00")
+        expect(JSON.parse(response.body)["end_date"]).to eq("2020-01-01 15:00:00 +00:00")
       end
     end
   end
