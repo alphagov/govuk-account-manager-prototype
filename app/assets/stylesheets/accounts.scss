@@ -125,6 +125,19 @@ $_current-indicator-width: 4px;
       }
     }
   }
+
+  &.accounts-summary-list--paginated {
+    margin-bottom: 0;
+
+    .govuk-summary-list__row:last-of-type {
+      border-bottom: 0;
+    }
+
+    .govuk-summary-list__row:last-of-type .govuk-summary-list__key,
+    .govuk-summary-list__row:last-of-type .govuk-summary-list__value {
+      border-bottom: 0;
+    }
+  }
 }
 
 .accounts-your-account__email {
