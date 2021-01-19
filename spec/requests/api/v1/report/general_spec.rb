@@ -63,7 +63,7 @@ RSpec.describe "/api/v1/report/general" do
       travel_to Time.zone.local(2020, 1, 1, 10, 0, 0) do
         get api_v1_report_general_path, params: params, headers: headers
         expect(response).to be_successful
-        expect(JSON.parse(response.body)["start_date"]).to eq("2019-12-31T15:00:00.000+00:00")
+        expect(JSON.parse(response.body)["start_date"]).to eq("2019-12-31 15:00:00 +00:00")
       end
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe "/api/v1/report/general" do
       travel_to Time.zone.local(2020, 1, 1, 10, 0, 0) do
         get api_v1_report_general_path, params: params, headers: headers
         expect(response).to be_successful
-        expect(JSON.parse(response.body)["end_date"]).to eq("2020-01-01T15:00:00.000+00:00")
+        expect(JSON.parse(response.body)["end_date"]).to eq("2020-01-01 15:00:00 +00:00")
       end
     end
   end
@@ -99,7 +99,7 @@ RSpec.describe "/api/v1/report/general" do
       body = JSON.parse(response.body)
       expect(body.count).to eq(1)
       expect(body.first["title"]).to eq("Daily Statistics")
-      expect(body.first["text"]).to start_with("Report up to #{end_date}")
+      expect(body.first["text"]).to start_with("Report up to 2020-01-01 15:00:00 +00:00")
     end
   end
 end

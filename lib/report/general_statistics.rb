@@ -21,11 +21,13 @@ module Report
     end
 
     def humanize
+      ended_at = end_date.strftime(Report::TIME_FORMAT)
+      started_at = start_date.strftime(Report::TIME_FORMAT)
       [
-        "Report up to #{@end_date}:",
+        "Report up to #{ended_at}:",
         humanize_report(report[:all]),
         "",
-        "Report between #{@start_date} and #{@end_date}:",
+        "Report between #{started_at} and #{ended_at}:",
         humanize_report(report[:interval]),
       ].flatten.join("\n")
     end

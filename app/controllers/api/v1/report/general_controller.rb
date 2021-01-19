@@ -15,7 +15,11 @@ class Api::V1::Report::GeneralController < Doorkeeper::ApplicationController
     if params[:humanize]
       render json: [{ title: "Daily Statistics", text: report.humanize }]
     else
-      render json: report.report
+      out = report.report
+      render json: out.merge(
+        start_date: out[:start_date].strftime(Report::TIME_FORMAT),
+        end_date: out[:end_date].strftime(Report::TIME_FORMAT),
+      )
     end
   end
 end

@@ -12,6 +12,9 @@ class Api::V1::Report::BigqueryController < Doorkeeper::ApplicationController
 
     BigqueryReportExportJob.perform_later(start_date, end_date)
 
-    render status: :accepted, json: { start_date: start_date, end_date: end_date }
+    render status: :accepted, json: {
+      start_date: start_date.strftime(Report::TIME_FORMAT),
+      end_date: end_date.strftime(Report::TIME_FORMAT),
+    }
   end
 end
