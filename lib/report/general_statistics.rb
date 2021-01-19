@@ -15,8 +15,6 @@ module Report
       @report ||= {
         all: full_report(all_users, all_logins),
         interval: full_report(interval_users, interval_logins),
-        start_date: start_date,
-        end_date: end_date,
       }
     end
 

@@ -17,8 +17,8 @@ class Api::V1::Report::GeneralController < Doorkeeper::ApplicationController
     else
       out = report.report
       render json: out.merge(
-        start_date: out[:start_date].strftime(Report::TIME_FORMAT),
-        end_date: out[:end_date].strftime(Report::TIME_FORMAT),
+        start_date: start_date.strftime(Report::TIME_FORMAT),
+        end_date: end_date.strftime(Report::TIME_FORMAT),
       )
     end
   end
