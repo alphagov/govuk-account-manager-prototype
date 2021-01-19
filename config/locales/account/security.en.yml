@@ -13,12 +13,18 @@ en:
       activity: Sign-in attempts and changes to account details
       description: <p class="govuk-body">Read the <a class="govuk-link" href="https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="privacy-notice">full GOV.UK accounts privacy notice</a> to find out how we collect, process and use information about you.</p>
       event:
-        email_change_requested: Changed email address
+        account_locked: Account locked after wrong password used 6 times
+        additional_factor_verification_failure: Wrong security code used
+        email_change_requested: Change to email address requested
+        email_changed: Email address changed
+        login_failure: Wrong password used
         login_success: Signed in
-        password_changed: Changed password
-        password_reset_success: Changed password
-        phone_changed: Changed phone number
-        user_created: Created account
+        manual_account_unlock: Account unlocked
+        password_changed: Password changed
+        password_reset_request: Password reset email requested
+        password_reset_success: Password changed
+        phone_changed: Phone number changed
+        user_created: Account created
       heading: Security
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
       report:
