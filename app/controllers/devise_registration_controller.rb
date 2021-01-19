@@ -194,7 +194,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
     old_email = resource.email
 
     new_email = params.dig(:user, :email)
-    new_password = params.dig(:user, :password) # pragma: allowlist secret
+    new_password = params.dig(:user, :password)
 
     if new_email && new_email == resource.email
       redirect_to edit_user_registration_email_path, flash: { alert: I18n.t("devise.failure.same_email") }
@@ -282,14 +282,14 @@ protected
     if params
       sign_up_params = {
         email: params.dig(:user, :email),
-        password: params.dig(:user, :password), # pragma: allowlist secret
+        password: params.dig(:user, :password),
         password_confirmation: params.dig(:user, :password),
       }
       sign_up_params[:phone] = params.dig(:user, :phone) if MultiFactorAuth.is_enabled?
     else
       sign_up_params = {
         email: registration_state.email,
-        password: registration_state.password, # pragma: allowlist secret
+        password: registration_state.password,
         password_confirmation: registration_state.password,
         cookie_consent: registration_state.cookie_consent,
         feedback_consent: registration_state.feedback_consent,
