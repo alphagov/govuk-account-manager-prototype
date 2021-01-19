@@ -27,6 +27,11 @@ RSpec.configure do |config|
   config.expose_dsl_globally = false
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = true
+
+  if Bullet.enable?
+    config.before(:each) { Bullet.start_request }
+    config.after(:each) { Bullet.end_request }
+  end
 end
 
 RSpec.configure do |config|
