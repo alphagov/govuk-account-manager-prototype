@@ -14,11 +14,11 @@ class BannedPassword < ApplicationRecord
 
     transaction do
       delete_all
-      insert_all(denylist.map { |password| { password: password.downcase } }, returning: %w[id]).count # pragma: allowlist secret
+      insert_all(denylist.map { |password| { password: password.downcase } }, returning: %w[id]).count
     end
   end
 
   def self.is_password_banned?(candidate)
-    where(password: candidate&.downcase).exists? # pragma: allowlist secret
+    where(password: candidate&.downcase).exists?
   end
 end

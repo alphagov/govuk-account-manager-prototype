@@ -21,7 +21,7 @@ if Rails.env.development?
     redirect_uri: "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
     scopes: %i[email openid transition_checker],
     uid: "transition-checker-id",
-    secret: "transition-checker-secret", # pragma: allowlist secret
+    secret: "transition-checker-secret",
   )
 
   # Developement Credentials for GOV.UK Docker

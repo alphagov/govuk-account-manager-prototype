@@ -57,7 +57,7 @@ class DeviseSessionsController < Devise::SessionsController
       if user_exists && !user.active_for_authentication? && !user.access_locked?
         @resource_error_messages[:email] = [I18n.t("devise.failure.unconfirmed")]
       elsif user_exists && params.dig(:user, :password).present?
-        authentication_failure = user.unauthenticated_message # pragma: allowlist secrets
+        authentication_failure = user.unauthenticated_message
         @resource_error_messages[:password] = [I18n.t("devise.failure.#{authentication_failure}")]
       elsif user_exists
         @resource_error_messages[:password] = [I18n.t("activerecord.errors.models.user.attributes.password.blank")]
