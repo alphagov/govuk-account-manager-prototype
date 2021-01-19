@@ -183,6 +183,23 @@ RSpec.describe "security activities" do
   end
 
   context "pagination" do
+    context "when there are more than 3 events" do
+      before do
+        4.times do
+          SecurityActivity.create!(
+            event_type: SecurityActivity::LOGIN_SUCCESS.id,
+            user_id: user.id,
+            ip_address: "1.1.1.1",
+            ip_address_country: "GB",
+          )
+        end
+      end
+
+      it "only the first 3 are shown in the summary" do
+        expect_event_on_security_page(SecurityActivity::LOGIN_SUCCESS, count: 3)
+      end
+    end
+
     context "when there is one page of events" do
       before do
         5.times do
@@ -312,11 +329,11 @@ RSpec.describe "security activities" do
     expect(events.count).to_not eq(0)
   end
 
-  def expect_event_on_security_page(event)
+  def expect_event_on_security_page(event, count: 1)
     sign_in user
     get account_security_path
 
-    expect(response.body).to have_content(I18n.t("account.security.event.#{event.name}"))
+    expect(response.body).to have_content(I18n.t("account.security.event.#{event.name}"), count: count)
   end
 
   def expect_event_on_paginated_security_page(event, page_number:, count:)

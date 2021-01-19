@@ -1,8 +1,10 @@
 class SecurityController < ApplicationController
   before_action :authenticate_user!
 
+  SUMMARY_ACTIVITIES_TO_SHOW = 3
+
   def show
-    @activity = current_user.security_activities.show_on_security_page.order(created_at: :desc).map(&:fill_missing_country)
+    @activity = current_user.security_activities.show_on_security_page.order(created_at: :desc).limit(SUMMARY_ACTIVITIES_TO_SHOW).map(&:fill_missing_country)
     @data_exchanges = dedup_nearby(current_user.data_activities.where.not(oauth_application_id: AccountManagerApplication.application.id).order(created_at: :desc))
       .compact
       .map { |a| activity_to_exchange(a) }

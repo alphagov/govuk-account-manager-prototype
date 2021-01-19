@@ -71,4 +71,8 @@
       <%= render "activity", activity: activity %>
     <% end %>
   </dl>
+
+  <p class="govuk-body">
+    <%= link_to t("account.security.show_all"), account_security_paginated_path(page_number: 1), class: "govuk-link" %>
+  </p>
 <% end %>
