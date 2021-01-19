@@ -17,14 +17,9 @@ class RemoteUserInfo
   end
 
   def update_profile!
-    RestClient.put(
-      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/email",
-      { value: @user.email.to_json },
-      { accept: :json, authorization: "Bearer #{token.token}" },
-    )
-    RestClient.put(
-      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/email_verified",
-      { value: @user.confirmed?.to_json },
+    RestClient.post(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes",
+      { attributes: { email: @user.email.to_json, email_verified: @user.confirmed?.to_json } },
       { accept: :json, authorization: "Bearer #{token.token}" },
     )
   end
