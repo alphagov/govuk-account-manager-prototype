@@ -214,6 +214,18 @@ GEM
       aes_key_wrap
       bindata
     jwt (2.2.2)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     kgio (2.11.3)
     kramdown (2.3.0)
       rexml
@@ -490,6 +502,7 @@ DEPENDENCIES
   govuk_test
   i18n-tasks (~> 0.9.33)
   jwt
+  kaminari
   listen
   notifications-ruby-client
   oauth2
