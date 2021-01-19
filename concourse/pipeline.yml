@@ -7,6 +7,13 @@ resource_types:
       tag: latest
       username: ((docker_hub_username))
       password: ((docker_hub_authtoken))
+
+  - name: grafana-annotation
+    type: docker-image
+    source:
+      repository: gdsre/grafana-annotation-resource
+      tag: latest
+
 resources:
   - name: git-main
     type: git
@@ -29,6 +36,17 @@ resources:
       paths:
         - concourse/Dockerfile
         - Gemfile*
+
+  - name: grafana-annotate-deploy
+    type: grafana-annotation
+    icon: chart-areaspline
+    source:
+      url: https://grafana-paas.cloudapps.digital
+      api_token: ((grafana-api-key))
+      tags:
+        - govuk-accounts
+        - account-manager-prototype
+        - deploy
 
   - name: every-day
     type: time
@@ -131,6 +149,12 @@ jobs:
   - name: deploy-app-staging
     serial: true
     plan:
+      - try:
+          put: grafana-annotate-deploy
+          params:
+            tags:
+              - started
+              - staging
       - get: git-main
         trigger: true
         passed: [run-quality-checks]
@@ -152,6 +176,14 @@ jobs:
           SECRET_KEY_BASE: ((secret-key-base-staging))
           WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
           WORKER_INSTANCES: 1
+        on_success:
+          try:
+            put: grafana-annotate-deploy
+            params:
+              path: grafana-annotate-deploy
+              tags:
+                - finished
+                - staging
         on_failure:
           put: govuk-slack
           params:
@@ -191,6 +223,12 @@ jobs:
   - name: deploy-app-production
     serial: true
     plan:
+      - try:
+          put: grafana-annotate-deploy
+          params:
+            tags:
+              - started
+              - production
       - get: git-main
         trigger: true
         passed: [smoke-test-staging]
@@ -210,6 +248,14 @@ jobs:
           SECRET_KEY_BASE: ((secret-key-base-production))
           WEBSITE_ROOT: https://www.gov.uk
           WORKER_INSTANCES: 20
+        on_success:
+          try:
+            put: grafana-annotate-deploy
+            params:
+              path: grafana-annotate-deploy
+              tags:
+                - finished
+                - production
         on_failure:
           put: govuk-slack
           params:
