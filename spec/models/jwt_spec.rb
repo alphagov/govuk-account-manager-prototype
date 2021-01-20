@@ -132,7 +132,7 @@ RSpec.describe Jwt do
       let(:jwt_post_register_oauth) { nil }
 
       it "accepts" do
-        expect { Jwt.create!(jwt_payload: jwt) }.to_not raise_error(Jwt::InvalidJWT)
+        expect { Jwt.create!(jwt_payload: jwt) }.to_not raise_error
       end
     end
 
