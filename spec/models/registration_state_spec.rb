@@ -1,5 +1,5 @@
 RSpec.describe RegistrationState do
-  let(:registration_state) { FactoryBot.create(:registration_state, touched_at: Time.zone.now, state: :phone) }
+  let(:registration_state) { FactoryBot.create(:registration_state, state: :phone) }
 
   context "#phone" do
     it "is formatted in E.164 format on save" do

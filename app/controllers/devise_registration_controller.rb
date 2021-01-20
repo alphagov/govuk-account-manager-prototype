@@ -36,7 +36,6 @@ class DeviseRegistrationController < Devise::RegistrationsController
       RegistrationState.transaction do
         destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
         @registration_state = RegistrationState.create!(
-          touched_at: Time.zone.now,
           state: state,
           previous_url: payload&.dig(:post_register_oauth).presence || params[:previous_url],
           jwt_id: session[:jwt_id],

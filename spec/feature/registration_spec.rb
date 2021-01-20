@@ -408,13 +408,13 @@ RSpec.feature "Registration" do
   end
 
   def enter_mfa
-    phone_code = RegistrationState.order(:touched_at).last.phone_code
+    phone_code = RegistrationState.order(:updated_at).last.phone_code
     fill_in "phone_code", with: phone_code
     click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def enter_incorrect_mfa
-    phone_code = RegistrationState.order(:touched_at).last.phone_code
+    phone_code = RegistrationState.order(:updated_at).last.phone_code
     fill_in "phone_code", with: "1#{phone_code}"
     click_on I18n.t("mfa.phone.code.fields.submit.label")
   end

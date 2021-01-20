@@ -8,7 +8,6 @@ FactoryBot.define do
       yes_to_emails { true }
       cookie_consent { true }
       feedback_consent { true }
-      touched_at { Time.zone.now }
       state { "finish" }
     end
   end

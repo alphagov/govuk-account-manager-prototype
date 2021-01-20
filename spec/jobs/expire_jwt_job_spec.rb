@@ -19,7 +19,6 @@ RSpec.describe ExpireJwtJob do
     freeze_time do
       jwt = Jwt.create!(created_at: 61.minutes.ago, jwt_payload: "old", skip_parse_jwt_token: true)
       RegistrationState.create!(
-        touched_at: Time.zone.now,
         state: :start,
         email: "email@example.com",
         jwt_id: jwt.id,
