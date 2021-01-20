@@ -39,4 +39,12 @@ RSpec.describe User do
         .to_return(status: 200)
     end
   end
+
+  context "#phone" do
+    it "is formatted in E.164 format on save" do
+      user.update!(phone: "07958 123 456")
+
+      expect(user.phone).to eq("+447958123456")
+    end
+  end
 end
