@@ -4,14 +4,14 @@
 
 :schedule:
   expire_registration_state:
-    cron: "0 */15 * * * *"
+    every: 15m
     class: ExpireRegistrationStateJob
   expire_login_state:
-    cron: "0 */15 * * * *"
+    every: 15m
     class: ExpireLoginStateJob
   expire_ephemeral_state:
-    cron: "0 */15 * * * *"
+    every: 15m
     class: ExpireEphemeralStateJob
   expire_jwt:
-    cron: "0 */15 * * * *"
+    every: 15m
     class: ExpireJwtJob
