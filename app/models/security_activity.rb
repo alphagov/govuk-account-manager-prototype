@@ -55,6 +55,8 @@ class SecurityActivity < ApplicationRecord
 
   delegate :name, to: :event
 
+  paginates_per 10
+
   def self.record_event(event, options = {})
     attributes = {
       event_type: event.id,

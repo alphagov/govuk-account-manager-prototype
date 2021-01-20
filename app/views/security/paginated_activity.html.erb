@@ -1,0 +1,32 @@
+<% content_for :title, t("account.security.activity") %>
+<% content_for :location, "security" %>
+<% content_for :account_navigation do %>
+  <%= render "account-navigation", page_is: yield(:location) %>
+<% end %>
+
+<% if show_confirmation_reminder? %>
+  <%= render "email-confirmation-reminder" %>
+<% end %>
+
+<%= render "govuk_publishing_components/components/title", {
+  title: yield(:title),
+  context: t("account.security.page_numbering_header", current_page: @activity.current_page, total_pages: @activity.total_pages),
+  margin_bottom: 8,
+  margin_top: 0,
+} %>
+
+<% if @activity.out_of_range? %>
+  <p class="govuk-body">
+    <%= t("account.security.page_out_of_range") %>
+  <p>
+<% else %>
+  <div class="accounts-summary-list accounts-summary-list--paginated">
+    <dl class="govuk-summary-list">
+      <% @activity_with_country.each do |activity| %>
+        <%= render "activity", activity: activity %>
+      <% end %>
+    </dl>
+  </div>
+
+  <%= render "govuk_publishing_components/components/previous_and_next_navigation", @page_navigation %>
+<% end %>

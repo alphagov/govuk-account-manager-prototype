@@ -27,6 +27,11 @@ en:
         user_created: Account created
       heading: Security
       no_activity_found: There is no currently logged activity on your account. As you use your account to log in and interact with services you will be able to see a record of how it has been used here.
+      page_numbering_header: Page %{current_page} of %{total_pages}
+      page_numbering_navigation: "%{target_page} of %{total_pages}"
+      page_numbering_next: Next page
+      page_numbering_previous: Previous page
+      page_out_of_range: Page does not exist
       report:
         action:
           cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
@@ -36,3 +41,4 @@ en:
           <p class="govuk-body">We’ll get back to you as soon as possible.</p>
         heading: Report suspicious activity
       report_suspicious_activity: Report suspicious activity
+      show_all: Show all
