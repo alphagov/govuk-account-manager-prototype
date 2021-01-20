@@ -78,6 +78,23 @@ RSpec.feature "Registration" do
     expect(page).to have_text(I18n.t("devise.registrations.your_information.heading"))
   end
 
+  it "lets the user log in again after their session times out" do
+    visit_registration_form
+    enter_email_address
+    enter_password
+    enter_uk_phone_number
+    submit_registration_form
+    enter_mfa
+    provide_consent
+
+    travel(Devise.timeout_in + 1.second)
+
+    login_with_email_address_and_password
+    login_with_mfa
+
+    expect(page).to have_text(I18n.t("account.your_account.heading"))
+  end
+
   context "when the email is missing" do
     let(:email) { "" }
 
@@ -428,5 +445,18 @@ RSpec.feature "Registration" do
     find(:css, "input[name='cookie_consent'][value='yes']").set(true)
     find(:css, "input[name='feedback_consent'][value='no']").set(true)
     click_on I18n.t("devise.registrations.your_information.fields.submit.label")
+  end
+
+  def login_with_email_address_and_password
+    visit new_user_session_path
+    fill_in "email", with: email
+    fill_in "password", with: password
+    click_on I18n.t("devise.sessions.new.fields.submit.label")
+  end
+
+  def login_with_mfa
+    phone_code = User.find_by(email: email).phone_code
+    fill_in "phone_code", with: phone_code
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 end
