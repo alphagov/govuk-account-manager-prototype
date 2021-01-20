@@ -4,14 +4,14 @@ class Api::V1::DeanonymiseTokenController < Doorkeeper::ApplicationController
   respond_to :json
 
   rescue_from ActionController::ParameterMissing do
-    head 400
+    head :bad_request
   end
 
   def show
     if token.nil?
-      head 404
+      head :not_found
     elsif token.expired?
-      head 410
+      head :gone
     elsif token.resource_owner_id.nil?
       render json: { scopes: token.scopes.to_a }
     else

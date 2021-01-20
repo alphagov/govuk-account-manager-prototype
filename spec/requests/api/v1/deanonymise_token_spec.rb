@@ -80,7 +80,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
 
       it "throws a 410" do
         get api_v1_deanonymise_token_path, params: params, headers: headers
-        expect(response).to have_http_status(410)
+        expect(response).to have_http_status(:gone)
       end
     end
 
@@ -93,14 +93,14 @@ RSpec.describe "/api/v1/deanonymise-token" do
 
       it "throws a 404" do
         get api_v1_deanonymise_token_path, params: params, headers: headers
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
       end
     end
 
     context "with no check token" do
       it "throws a 400" do
         get api_v1_deanonymise_token_path, headers: headers
-        expect(response).to have_http_status(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end
@@ -110,7 +110,7 @@ RSpec.describe "/api/v1/deanonymise-token" do
 
     it "throws a 403" do
       get api_v1_deanonymise_token_path, params: params, headers: headers
-      expect(response).to have_http_status(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

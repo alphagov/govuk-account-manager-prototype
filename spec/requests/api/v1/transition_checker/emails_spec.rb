@@ -45,7 +45,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
 
       it "returns a 204" do
         get api_v1_transition_checker_email_subscription_path, headers: headers
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(:no_content)
       end
 
       context "the subscription is disabled" do
@@ -53,7 +53,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
 
         it "returns a 410" do
           get api_v1_transition_checker_email_subscription_path, headers: headers
-          expect(response).to have_http_status(410)
+          expect(response).to have_http_status(:gone)
         end
       end
 
@@ -62,7 +62,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
 
         it "returns a 204" do
           get api_v1_transition_checker_email_subscription_path, headers: headers
-          expect(response).to have_http_status(204)
+          expect(response).to have_http_status(:no_content)
         end
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
     context "without an email subscription" do
       it "returns a 404" do
         get api_v1_transition_checker_email_subscription_path, headers: headers
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

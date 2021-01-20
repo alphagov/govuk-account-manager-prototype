@@ -4,22 +4,22 @@ class Api::V1::TransitionChecker::EmailsController < Doorkeeper::ApplicationCont
   before_action -> { doorkeeper_authorize! :transition_checker }
 
   rescue_from ActionController::ParameterMissing do
-    head 400
+    head :bad_request
   end
 
   def show
     user = User.find(doorkeeper_token.resource_owner_id)
     subscription = user.email_subscriptions.first
 
-    head 404 and return unless subscription
-    head 204 and return unless subscription.subscription_id
+    head :not_found and return unless subscription
+    head :no_content and return unless subscription.subscription_id
 
     begin
       state = Services.email_alert_api.get_subscription(subscription.subscription_id)
       has_ended = state.to_hash.dig("subscription", "ended_reason")
-      head has_ended ? 410 : 204
+      head has_ended ? :gone : :no_content
     rescue GdsApi::HTTPGone, GdsApi::HTTPNotFound
-      head 410
+      head :gone
     end
   end
 
