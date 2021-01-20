@@ -3,14 +3,13 @@ RSpec.describe ExpireLoginStateJob do
 
   let!(:user) { FactoryBot.create(:user) }
 
-  it "deletes hour-old state" do
+  it "deletes old state" do
     freeze_time do
-      LoginState.create!(created_at: 61.minutes.ago, user_id: user.id, redirect_path: "/old")
-      LoginState.create!(created_at: 30.minutes.ago, user_id: user.id, redirect_path: "/new")
+      LoginState.create!(created_at: (LoginState::EXPIRATION_AGE + 1.minute).ago, user_id: user.id, redirect_path: "/old")
+      LoginState.create!(created_at: LoginState::EXPIRATION_AGE.ago, user_id: user.id, redirect_path: "/new")
 
-      described_class.perform_now
+      expect { described_class.perform_now }.to(change { LoginState.expired.count })
 
-      expect(LoginState.count).to eq(1)
       expect(LoginState.pluck(:redirect_path)).to eq(%w[/new])
     end
   end

@@ -3,14 +3,13 @@ RSpec.describe ExpireEphemeralStateJob do
 
   let!(:user) { FactoryBot.create(:user) }
 
-  it "deletes hour-old state" do
+  it "deletes old state" do
     freeze_time do
-      EphemeralState.create!(created_at: 61.minutes.ago, user_id: user.id, token: "old")
-      EphemeralState.create!(created_at: 30.minutes.ago, user_id: user.id, token: "new")
+      EphemeralState.create!(created_at: (EphemeralState::EXPIRATION_AGE + 1.minute).ago, user_id: user.id, token: "old")
+      EphemeralState.create!(created_at: EphemeralState::EXPIRATION_AGE.ago, user_id: user.id, token: "new")
 
-      described_class.perform_now
+      expect { described_class.perform_now }.to(change { EphemeralState.expired.count })
 
-      expect(EphemeralState.count).to eq(1)
       expect(EphemeralState.pluck(:token)).to eq(%w[new])
     end
   end
