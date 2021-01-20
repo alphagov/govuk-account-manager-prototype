@@ -247,7 +247,7 @@ jobs:
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
           SECRET_KEY_BASE: ((secret-key-base-production))
           WEBSITE_ROOT: https://www.gov.uk
-          WORKER_INSTANCES: 20
+          WORKER_INSTANCES: 5
         on_success:
           try:
             put: grafana-annotate-deploy
