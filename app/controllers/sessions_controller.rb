@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
 class SessionsController < Devise::SessionsController
   include AcceptsJwt
   include ApplicationHelper
   include CookiesHelper
   include UrlHelper
+
+  MFA_BYPASS_COOKIE_NAME = "_govuk_account_manager_prototype_remember_me"
 
   before_action :check_login_state, only: %i[
     phone_code
@@ -18,6 +22,7 @@ class SessionsController < Devise::SessionsController
 
     @email = params.dig(:user, :email)
     catch(:warden) do
+      request.env["warden.mfa.bypass_token"] = (cookies.encrypted[MFA_BYPASS_COOKIE_NAME] || {})[@email]
       self.resource = warden.authenticate(auth_options)
     end
 
@@ -42,6 +47,7 @@ class SessionsController < Devise::SessionsController
         MultiFactorAuth.generate_and_send_code(resource)
         redirect_to enter_phone_code_path
       else
+        record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, user: resource, analytics: analytics_data) if request.env["warden.mfa.bypass"]
         do_sign_in
       end
     else
@@ -85,6 +91,16 @@ class SessionsController < Devise::SessionsController
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
     if state == :ok
       record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user, factor: :sms, analytics: analytics_data)
+      if params[:remember_me] == "1"
+        token = MfaToken.generate!(login_state.user)
+        cookies.encrypted[MFA_BYPASS_COOKIE_NAME] = {
+          expires: MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE.after(token.created_at),
+          httponly: true,
+          secure: Rails.env.production?,
+          value: (cookies.encrypted[MFA_BYPASS_COOKIE_NAME] || {}).merge(login_state.user.email => token.token),
+        }
+        record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, user: login_state.user, analytics: analytics_data)
+      end
       do_sign_in
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!

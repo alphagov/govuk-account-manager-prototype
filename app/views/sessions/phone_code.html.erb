@@ -24,6 +24,16 @@
     width: 5,
   } %>
 
+  <%= render "govuk_publishing_components/components/checkboxes", {
+    name: "remember_me",
+    items: [
+      {
+        label: sanitize(t("mfa.phone.code.fields.remember_me.label")),
+        value: "1"
+      }
+    ]
+  } %>
+
   <%= render "govuk_publishing_components/components/button", {
     text: t("mfa.phone.code.fields.submit.label"),
     margin_bottom: true,

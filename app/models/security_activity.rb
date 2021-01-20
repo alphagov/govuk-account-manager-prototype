@@ -8,6 +8,8 @@ class SecurityActivity < ApplicationRecord
 
     ADDITIONAL_FACTOR_VERIFICATION_SUCCESS = LogEntry.new(id: 7, name: :additional_factor_verification_success, require_user: true, require_factor: true),
     ADDITIONAL_FACTOR_VERIFICATION_FAILURE = LogEntry.new(id: 8, name: :additional_factor_verification_failure, require_user: true, require_factor: true),
+    ADDITIONAL_FACTOR_BYPASS_USED = LogEntry.new(id: 13, name: :additional_factor_bypass_used, require_user: true),
+    ADDITIONAL_FACTOR_BYPASS_GENERATED = LogEntry.new(id: 14, name: :additional_factor_bypass_generated, require_user: true),
 
     LOGIN_SUCCESS = LogEntry.new(id: 0, name: :login_success, require_user: true),
     LOGIN_FAILURE = LogEntry.new(id: 9, name: :login_failure, require_user: true),

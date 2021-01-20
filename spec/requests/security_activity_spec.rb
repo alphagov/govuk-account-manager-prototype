@@ -63,6 +63,38 @@ RSpec.describe "security activities" do
       expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { analytics: "from_confirmation_email" }
       expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
     end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_USED events" do
+      allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
+        .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
+
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_USED event with additional analytics data from confirmation email" do
+      allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
+        .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
+
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, analytics: "from_confirmation_email"
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_GENERATED events" do
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1 }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_GENERATED event with additional analytics data from confirmation email" do
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1, "from_confirmation_email" => true }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, analytics: "from_confirmation_email"
+    end
   end
 
   it "records LOGIN_SUCCESS events" do
