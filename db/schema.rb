@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_11_133439) do
+ActiveRecord::Schema.define(version: 2021_01_20_111915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -63,10 +63,11 @@ ActiveRecord::Schema.define(version: 2021_01_11_133439) do
   end
 
   create_table "login_states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.bigint "user_id", null: false
     t.string "redirect_path", null: false
     t.uuid "jwt_id"
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
     t.index ["user_id"], name: "index_login_states_on_user_id"
   end
 
@@ -126,7 +127,7 @@ ActiveRecord::Schema.define(version: 2021_01_11_133439) do
   end
 
   create_table "registration_states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "touched_at", null: false
+    t.datetime "touched_at"
     t.integer "state", null: false
     t.string "email", null: false
     t.string "previous_url"
@@ -139,6 +140,8 @@ ActiveRecord::Schema.define(version: 2021_01_11_133439) do
     t.boolean "cookie_consent"
     t.boolean "feedback_consent"
     t.uuid "jwt_id"
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
   end
 
   create_table "security_activities", force: :cascade do |t|

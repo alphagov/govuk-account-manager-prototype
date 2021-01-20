@@ -308,9 +308,7 @@ protected
   def registration_state
     @registration_state ||=
       begin
-        RegistrationState.find(@registration_state_id).tap do |state|
-          state.update!(touched_at: Time.zone.now)
-        end
+        RegistrationState.find(@registration_state_id).tap(&:touch)
       rescue ActiveRecord::RecordNotFound
         session.delete(:registration_state_id)
         nil
