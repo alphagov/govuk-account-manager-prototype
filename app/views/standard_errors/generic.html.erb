@@ -1,7 +1,8 @@
 <%= render "govuk_publishing_components/components/heading", {
   text: t("standard_errors.#{@error}.heading"),
   heading_level: 1,
-  margin_bottom: 3,
+  margin_bottom: 6,
+  font_size: 'l',
 } %>
 
 <%= sanitize(t("standard_errors.#{@error}.content")) %>
