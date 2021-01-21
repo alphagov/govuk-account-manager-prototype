@@ -1,4 +1,8 @@
 RSpec.describe Jwt do
+  include ActiveSupport::Testing::TimeHelpers
+
+  let!(:user) { FactoryBot.create(:user) }
+
   let!(:application) do
     FactoryBot.create(
       :oauth_application,
@@ -141,6 +145,35 @@ RSpec.describe Jwt do
 
       it "rejects" do
         expect { Jwt.create!(jwt_payload: jwt) }.to raise_error(Jwt::InvalidOAuthRedirect)
+      end
+    end
+  end
+
+  context "#expired" do
+    it "doesn't include JWTs attached to a RegistrationState" do
+      freeze_time do
+        jwt = Jwt.create!(created_at: (Jwt::EXPIRATION_AGE + 1.minute).ago, jwt_payload: "old", skip_parse_jwt_token: true)
+        RegistrationState.create!(
+          state: :start,
+          email: "email@example.com",
+          jwt_id: jwt.id,
+        )
+
+        expect(Jwt.expired.count).to eq(0)
+      end
+    end
+
+    it "doesn't include JWTs attached to a LoginState" do
+      freeze_time do
+        jwt = Jwt.create!(created_at: (Jwt::EXPIRATION_AGE + 1.minute).ago, jwt_payload: "old", skip_parse_jwt_token: true)
+        LoginState.create!(
+          created_at: Time.zone.now,
+          user: user,
+          redirect_path: "/",
+          jwt_id: jwt.id,
+        )
+
+        expect(Jwt.expired.count).to eq(0)
       end
     end
   end

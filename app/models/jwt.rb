@@ -4,8 +4,12 @@ class Jwt < ApplicationRecord
   has_one :registration_state, dependent: :destroy
   has_one :login_state, dependent: :destroy
 
-  scope :without_login_states, -> { left_joins(:login_state).where("login_states.jwt_id IS NULL") }
-  scope :without_registration_states, -> { left_joins(:registration_state).where("registration_states.jwt_id IS NULL") }
+  EXPIRATION_AGE = 60.minutes
+  scope :expired, (lambda do
+    left_joins(:login_state).where("login_states.jwt_id IS NULL")
+      .left_joins(:registration_state).where("registration_states.jwt_id IS NULL")
+      .where("jwts.created_at < ?", EXPIRATION_AGE.ago)
+  end)
 
   before_save :parse_jwt_token, unless: :skip_parse_jwt_token
 
