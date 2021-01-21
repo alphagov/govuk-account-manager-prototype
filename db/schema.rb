@@ -16,11 +16,14 @@ ActiveRecord::Schema.define(version: 2021_01_21_102522) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "application_keys", primary_key: ["application_uid", "key_id"], force: :cascade do |t|
+  create_table "application_keys", force: :cascade do |t|
     t.string "application_uid", null: false
     t.uuid "key_id", null: false
     t.string "pem", null: false
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
     t.index ["application_uid"], name: "index_application_keys_on_application_uid"
+    t.index ["key_id"], name: "index_application_keys_on_key_id"
   end
 
   create_table "banned_passwords", force: :cascade do |t|

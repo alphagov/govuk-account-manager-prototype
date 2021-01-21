@@ -34,7 +34,9 @@ private
     application = Doorkeeper::Application.by_uid(payload["uid"])
     raise UidNotFound unless application
 
-    signing_key = ApplicationKey.find([payload["uid"], payload["key"]])
+    signing_key = ApplicationKey.find_by(application_uid: payload["uid"], key_id: payload["key"])
+    raise KeyNotFound unless signing_key
+
     payload, = JWT.decode jwt_payload, signing_key.to_key, true, { algorithm: "ES256" }
 
     scopes = payload.fetch("scopes", []).map(&:to_sym)
@@ -67,7 +69,5 @@ private
     }
   rescue JWT::DecodeError
     raise JWTDecodeError
-  rescue ActiveRecord::RecordNotFound
-    raise KeyNotFound
   end
 end
