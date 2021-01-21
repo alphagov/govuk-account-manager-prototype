@@ -85,7 +85,7 @@ RSpec.describe "/api/v1/report/general" do
 
     it "returns a 400" do
       get api_v1_report_general_path, params: params, headers: headers
-      expect(response).to have_http_status(400)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 

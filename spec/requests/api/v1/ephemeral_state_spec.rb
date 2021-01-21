@@ -45,6 +45,6 @@ RSpec.describe "/api/v1/ephemeral-state" do
     EphemeralState.create!(user: user, token: token.token, ga_client_id: "hello world")
     get api_v1_ephemeral_state_path, headers: headers
     get api_v1_ephemeral_state_path, headers: headers
-    expect(response).to have_http_status(410)
+    expect(response).to have_http_status(:gone)
   end
 end

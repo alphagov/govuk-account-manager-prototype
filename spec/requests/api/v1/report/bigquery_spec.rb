@@ -71,7 +71,7 @@ RSpec.describe "/api/v1/report/bigquery" do
 
     it "returns a 400" do
       post api_v1_report_bigquery_path, params: params, headers: headers
-      expect(response).to have_http_status(400)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 end

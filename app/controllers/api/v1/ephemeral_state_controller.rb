@@ -8,7 +8,7 @@ class Api::V1::EphemeralStateController < Doorkeeper::ApplicationController
       # if we're here the token is valid, so the EphemeralState did
       # exist once, but now it's gone - so a 410 is more appropriate
       # than a 404.
-      head 410
+      head :gone
       return
     end
 
