@@ -3,12 +3,10 @@ class SetAttributesJob < ApplicationJob
 
   def perform(access_token_id, attributes)
     token = Doorkeeper::AccessToken.find(access_token_id)
-    attributes.each do |key, value|
-      RestClient.put(
-        "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/#{key}",
-        { value: value.to_json },
-        { accept: :json, authorization: "Bearer #{token.token}" },
-      )
-    end
+    RestClient.post(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes",
+      { attributes: attributes.transform_values(&:to_json) },
+      { accept: :json, authorization: "Bearer #{token.token}" },
+    )
   end
 end
