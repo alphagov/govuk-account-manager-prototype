@@ -119,7 +119,7 @@ Rails.application.configure do
     end
 
     config.cache_store =
-      :redis_store,
+      :redis_cache_store,
       {
         url: redis_url,
         namespace: "rails_cache",
