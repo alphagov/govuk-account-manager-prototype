@@ -27,9 +27,13 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     return if request.get?
 
-    resource_params = sign_up_params(params)
-    self.resource = User.new(resource_params)
-    resource.errors.add :email, :taken if User.exists?(email: resource_params[:email])
+    self.resource = User.new(
+      email: params.dig(:user, :email),
+      password: params.dig(:user, :password),
+      password_confirmation: params.dig(:user, :password),
+      phone: MultiFactorAuth.is_enabled? ? params.dig(:user, :phone) : nil,
+    )
+    resource.errors.add :email, :taken if User.exists?(email: resource.email)
 
     if resource.valid?
       state = MultiFactorAuth.is_enabled? ? :phone : :your_information
@@ -39,7 +43,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
           state: state,
           previous_url: payload&.dig(:post_register_oauth).presence || params[:previous_url],
           jwt_id: session[:jwt_id],
-          **resource_params.except(:password_confirmation),
+          email: params.dig(:user, :email),
+          encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
+          phone: MultiFactorAuth.is_enabled? ? params.dig(:user, :phone) : nil,
         )
         MultiFactorAuth.generate_and_send_code(@registration_state) if MultiFactorAuth.is_enabled?
       end
@@ -167,6 +173,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
     super do |resource|
       next unless resource.persisted?
 
+      resource.skip_password_change_notification!
+      resource.update!(encrypted_password: registration_state.encrypted_password)
+
       persist_attributes(resource)
       persist_email_subscription(resource)
 
@@ -277,31 +286,19 @@ protected
   end
 
   # used in the 'super' of 'create'
-  def sign_up_params(params = nil)
-    if params
-      sign_up_params = {
-        email: params.dig(:user, :email),
-        password: params.dig(:user, :password),
-        password_confirmation: params.dig(:user, :password),
-      }
-      sign_up_params[:phone] = params.dig(:user, :phone) if MultiFactorAuth.is_enabled?
-    else
-      sign_up_params = {
-        email: registration_state.email,
-        password: registration_state.password,
-        password_confirmation: registration_state.password,
-        cookie_consent: registration_state.cookie_consent,
-        feedback_consent: registration_state.feedback_consent,
-        banned_password_match: false,
-      }
-
-      if registration_state.phone
-        sign_up_params[:phone] = registration_state.phone
-        sign_up_params[:last_mfa_success] = Time.zone.now
-      end
-    end
-
-    sign_up_params
+  def sign_up_params
+    # need to set a dummy password first, so the user can be created,
+    # then we can then swap it out for the actual hash
+    {
+      email: registration_state.email,
+      password: registration_state.encrypted_password,
+      password_confirmation: registration_state.encrypted_password,
+      cookie_consent: registration_state.cookie_consent,
+      feedback_consent: registration_state.feedback_consent,
+      banned_password_match: false,
+      phone: registration_state.phone,
+      last_mfa_success: registration_state.phone ? Time.zone.now : nil,
+    }.compact
   end
 
   def registration_state
