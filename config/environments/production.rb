@@ -118,12 +118,14 @@ Rails.application.configure do
       config.redis = { url: redis_url }
     end
 
-    config.cache_store = :redis_store, {
-      url: redis_url,
-      namespace: "rails_cache",
-      expires_in: 1.day,
-      race_condition_ttl: 3,
-    }
+    config.cache_store =
+      :redis_store,
+      {
+        url: redis_url,
+        namespace: "rails_cache",
+        expires_in: 1.day,
+        race_condition_ttl: 3,
+      }
   end
 
   config.redirect_base_url = ENV["REDIRECT_BASE_URL"]
