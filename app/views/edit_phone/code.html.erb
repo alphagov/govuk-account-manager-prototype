@@ -1,5 +1,6 @@
+<% content_for :title, t("mfa.phone.code.change_heading") %>
 <%= render "govuk_publishing_components/components/heading", {
-  text: t("mfa.phone.code.change_heading"),
+  text: yield(:title),
   heading_level: 1,
   margin_top: 0,
   margin_bottom: 3,

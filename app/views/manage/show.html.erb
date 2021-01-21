@@ -1,4 +1,4 @@
-<% content_for :title, t("account.manage.heading") %>
+<% content_for :title, t("account.manage.page_title") %>
 <% content_for :location, "manage" %>
 <% content_for :account_navigation do %>
   <%= render "account-navigation", page_is: yield(:location) %>
@@ -9,7 +9,7 @@
 <% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
+  text: t("account.manage.heading"),
   heading_level: 1,
   font_size: "l",
   margin_bottom: 7,

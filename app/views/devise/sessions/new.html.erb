@@ -1,7 +1,10 @@
-<% content_for :title, t("devise.sessions.new.heading") %>
+<% content_for :title, t("devise.sessions.new.page_title") %>
+<% content_for :meta_tags do %>
+  <meta name="description" content='<%= t("devise.sessions.new.meta_description") %>'>
+<% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
+  text: t("devise.sessions.new.heading"),
   heading_level: 1,
   font_size: "xl",
   margin_top: 0,

@@ -10,6 +10,7 @@ en:
         heading: Account details
         unconfirmed: unconfirmed
       heading: Manage your account
+      page_title: Manage your GOV.UK account
       privacy:
         cookies_description: For example what pages you visit and what you click on
         cookies_link_extra: your cookie settings

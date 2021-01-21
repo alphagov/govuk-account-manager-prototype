@@ -1,7 +1,7 @@
-<% content_for :title, t("account.delete.confirmation.heading") %>
+<% content_for :title, t("account.delete.confirmation.page_title") %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
+  text: t("account.delete.confirmation.heading"),
   heading_level: 1,
   font_size: "l",
   margin_bottom: 4,

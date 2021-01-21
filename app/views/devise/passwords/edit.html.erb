@@ -1,4 +1,4 @@
-<% content_for :title, t("devise.passwords.edit.heading") %>
+<% content_for :title, t("devise.passwords.edit.page_title") %>
 
 <% unless @reset_password_token_valid %>
   <%= render "govuk_publishing_components/components/error_alert", {
@@ -7,7 +7,7 @@
 <% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
+  text: t("devise.passwords.edit.heading"),
   heading_level: 1,
   margin_top: 0,
   margin_bottom: 3,

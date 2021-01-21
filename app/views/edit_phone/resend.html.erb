@@ -1,7 +1,9 @@
+<% content_for :title, t("mfa.phone.resend.heading") %>
+
 <%= render "govuk_publishing_components/components/back_link", { href: edit_user_registration_phone_code_path } %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: t("mfa.phone.resend.heading"),
+  text: yield(:title),
   heading_level: 1,
   font_size: "xl",
   margin_top: 0,
