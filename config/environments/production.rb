@@ -53,9 +53,6 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
-
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "govuk_account_manager_prototype_production"
@@ -103,11 +100,16 @@ Rails.application.configure do
 
   # https://docs.london.cloud.service.gov.uk/deploying_services/redis
   # https://docs.london.cloud.service.gov.uk/deploying_apps.html#system-provided-environment-variables
-  if ENV["VCAP_SERVICES"].present?
-    redis = JSON.parse(ENV["VCAP_SERVICES"]).to_h.fetch("redis", [])
-    instance = redis.first
-    redis_url = instance.dig("credentials", "uri")
+  redis_url =
+    if ENV["VCAP_SERVICES"].present?
+      redis = JSON.parse(ENV["VCAP_SERVICES"]).to_h.fetch("redis", [])
+      instance = redis.first
+      instance.dig("credentials", "uri")
+    else
+      ENV["REDIS_URL"]
+    end
 
+  if redis_url.present?
     Sidekiq.configure_server do |config|
       config.redis = { url: redis_url }
     end
@@ -115,14 +117,15 @@ Rails.application.configure do
     Sidekiq.configure_client do |config|
       config.redis = { url: redis_url }
     end
-  elsif ENV["REDIS_URL"].present?
-    Sidekiq.configure_server do |config|
-      config.redis = { url: ENV["REDIS_URL"] }
-    end
 
-    Sidekiq.configure_client do |config|
-      config.redis = { url: ENV["REDIS_URL"] }
-    end
+    config.cache_store =
+      :redis_store,
+      {
+        url: redis_url,
+        namespace: "rails_cache",
+        expires_in: 1.day,
+        race_condition_ttl: 3,
+      }
   end
 
   config.redirect_base_url = ENV["REDIRECT_BASE_URL"]
