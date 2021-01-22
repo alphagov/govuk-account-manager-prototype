@@ -9,7 +9,10 @@ require "capybara/rspec"
 require "webmock/rspec"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
-SimpleCov.start
+
+SimpleCov.start do
+  enable_coverage :branch
+end
 
 ActiveJob::Base.queue_adapter = :test
 
