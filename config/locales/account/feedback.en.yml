@@ -39,6 +39,8 @@ en:
               label: 'Yes'
       heading: Give feedback about your GOV.UK account
       inset_text: If your question or feedback is not about a GOV.UK account, for example you want to ask about tax or a visa application, you need to use <a href="https://www.gov.uk/contact" class="govuk-link">different contact details</a>.
+      meta_description: Use this form to give feedback or ask a question about your GOV.UK account.
+      page_title: Give feedback
     submit:
       call_to_action: |
         <p class="govuk-body">Your feedback has been sent to the GOV.UK Account team.</p>

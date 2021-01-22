@@ -1,4 +1,7 @@
 <% content_for :title, t("devise.registrations.start.heading") %>
+<% content_for :meta_tags do %>
+  <meta name="description" content='<%= t("devise.registrations.start.meta_description") %>'>
+<% end %>
 
 <%= form_with(url: new_user_registration_start_path, method: :post) do %>
   <% if resource || @resource_error_messages %>

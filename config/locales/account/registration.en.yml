@@ -23,6 +23,7 @@ en:
           submit:
             label: Continue
         heading: Create a GOV.UK account
+        meta_description: Create a GOV.UK account to save the actions you need to take for Brexit. GOV.UK accounts are a trial. At the moment you can only use the GOV.UK account with the Brexit checker.
         secure_password_tip:
           text: |
             <p class="govuk-body">A good way to create a secure and memorable password is to use 3 random words.</p>
@@ -33,6 +34,7 @@ en:
       transition_checker:
         heading: This email address does not have a GOV.UK account
         message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit checker</a> and subscribe to email updates.
+        page_title: You do not have a GOV.UK account
       transition_emails:
         description: |
           <p class="govuk-body">The emails will give you a personalised list of actions for you, your family and your business.</p>
@@ -74,12 +76,14 @@ en:
             heading: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
             hint: You’ll be able to update this later in your privacy settings if you’re not sure or you change your mind.
             'no': 'No'
+            page_title: Change your cookie settings
             'yes': 'Yes'
           feedback_consent:
             heading: Can we email you to ask for feedback about your account?
             hint: You can update this later in your privacy settings if you’re not sure or you change your mind.
             message: As we add more features to your account, we would like to email you to find out any thoughts or suggestions you might have.
             'no': 'No'
+            page_title: Change your feedback settings
             section_heading: Feedback about your GOV.UK account
             'yes': 'Yes'
           submit:

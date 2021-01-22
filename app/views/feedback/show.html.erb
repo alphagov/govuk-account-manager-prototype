@@ -1,3 +1,8 @@
+<% content_for :title, t("feedback.show.page_title") %>
+<% content_for :meta_tags do %>
+  <meta name="description" content='<%= t("feedback.show.meta_description") %>'>
+<% end %>
+
 <% contact_details = capture do %>
   <%= render "govuk_publishing_components/components/input", {
     label: {

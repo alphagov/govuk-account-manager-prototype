@@ -1,4 +1,4 @@
-<% content_for :title, t("devise.registrations.your_information.fields.feedback_consent.heading") %>
+<% content_for :title, t("devise.registrations.your_information.fields.feedback_consent.page_title") %>
 <% content_for :location, "manage" %>
 <% content_for :account_navigation do %>
   <%= render "account-navigation", page_is: yield(:location) %>
@@ -16,7 +16,7 @@
 
   <%= render "govuk_publishing_components/components/radio", {
     name: "feedback_consent",
-    heading: yield(:title),
+    heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
     heading_size: "l",
     is_page_heading: true,
     items: [

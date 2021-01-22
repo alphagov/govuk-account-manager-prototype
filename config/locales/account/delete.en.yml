@@ -7,6 +7,7 @@ en:
         description_1: You’ve successfully deleted your GOV.UK account.
         description_2: If you did not mean to do this, <a class="govuk-link" href="%{link}">contact us</a>.
         heading: Success
+        page_title: Deleted GOV.UK Account
         return_link: <a class="govuk-link" href="%{link}">Go to the GOV.UK homepage</a>.
       description: 'This will permanently delete this account and all the information stored in it, including:'
       doomed:

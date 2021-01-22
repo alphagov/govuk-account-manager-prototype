@@ -8,9 +8,8 @@
   <title><%= content_for?(:title) ? "#{yield(:title)} - GOV.UK Account" : "GOV.UK Account" %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="blue">
-
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+  <%= yield :meta_tags %>
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png">
