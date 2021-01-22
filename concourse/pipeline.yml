@@ -162,7 +162,7 @@ jobs:
         file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
           APP_DOMAIN: www.staging.publishing.service.gov.uk
-          APP_INSTANCES: 1
+          CF_APP_SCALING_POLICY: concourse/autoscaling/paas-scaling-policy-staging.json
           BASIC_AUTH_PASSWORD: ((basic-auth-password))
           BASIC_AUTH_USERNAME: ((basic-auth-username))
           CDN_DOMAIN: account.staging.publishing.service.gov.uk
@@ -236,7 +236,7 @@ jobs:
         file: git-main/concourse/tasks/deploy-to-govuk-paas.yml
         params:
           APP_DOMAIN: www.gov.uk
-          APP_INSTANCES: 20
+          CF_APP_SCALING_POLICY: concourse/autoscaling/paas-scaling-policy-production.json
           BIGQUERY_CREDENTIALS: ((bigquery-credentials-production))
           CDN_DOMAIN: account.publishing.service.gov.uk
           CF_SPACE: production
@@ -411,6 +411,7 @@ jobs:
           CF_SPACE: staging
           CDN_DOMAIN: account.staging.publishing.service.gov.uk
           HOSTNAME: attributes
+
   - name: resume-production
     plan:
       - get: git-main
