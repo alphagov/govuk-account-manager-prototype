@@ -9,7 +9,10 @@ require "capybara/rspec"
 require "webmock/rspec"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
-SimpleCov.start
+
+SimpleCov.start do
+  enable_coverage :branch
+end
 
 ActiveJob::Base.queue_adapter = :test
 
@@ -23,18 +26,16 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  config.render_views
-  config.expose_dsl_globally = false
-  config.infer_spec_type_from_file_location!
-  config.use_transactional_fixtures = true
-
+  # Check for patterns of poor ActiveRecord usage
   if Bullet.enable?
     config.before(:each) { Bullet.start_request }
     config.after(:each) { Bullet.end_request }
   end
-end
 
-RSpec.configure do |config|
+  # Require RSpec prefix for top-level 'describe', 'shared_examples',
+  # and 'shared_context'
+  config.expose_dsl_globally = false
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
