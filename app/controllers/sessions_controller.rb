@@ -1,4 +1,4 @@
-class DeviseSessionsController < Devise::SessionsController
+class SessionsController < Devise::SessionsController
   include AcceptsJwt
   include ApplicationHelper
   include CookiesHelper

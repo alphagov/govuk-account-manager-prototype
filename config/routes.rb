@@ -10,15 +10,15 @@ Rails.application.routes.draw do
     post "/feedback", to: "feedback#submit", as: :feedback_form_submitted
 
     scope "/sign-in" do
-      get  "/", to: "devise_sessions#create", as: :new_user_session
-      post "/", to: "devise_sessions#create"
-      get  "/phone/code", to: "devise_sessions#phone_code", as: :user_session_phone_code
-      post "/phone/verify", to: "devise_sessions#phone_verify", as: :user_session_phone_verify
-      get  "/phone/resend", to: "devise_sessions#phone_resend", as: :user_session_phone_resend
-      post "/phone/resend", to: "devise_sessions#phone_resend_code"
+      get  "/", to: "sessions#create", as: :new_user_session
+      post "/", to: "sessions#create"
+      get  "/phone/code", to: "sessions#phone_code", as: :user_session_phone_code
+      post "/phone/verify", to: "sessions#phone_verify", as: :user_session_phone_verify
+      get  "/phone/resend", to: "sessions#phone_resend", as: :user_session_phone_resend
+      post "/phone/resend", to: "sessions#phone_resend_code"
     end
 
-    get "/sign-out", to: "devise_sessions#destroy", as: :destroy_user_session
+    get "/sign-out", to: "sessions#destroy", as: :destroy_user_session
 
     get "/login", to: redirect(path: "/sign-in")
     get "/logout", to: redirect(path: "/sign-out")
