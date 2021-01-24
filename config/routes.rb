@@ -80,9 +80,9 @@ Rails.application.routes.draw do
       end
 
       scope "/unlock" do
-        get  "/", to: "devise_unlocks#show", as: :user_unlock
-        post "/", to: "devise_unlocks#create"
-        get  "/new", to: "devise_unlocks#new", as: :new_user_unlock
+        get  "/", to: "unlocks#show", as: :user_unlock
+        post "/", to: "unlocks#create"
+        get  "/new", to: "unlocks#new", as: :new_user_unlock
       end
     end
 
