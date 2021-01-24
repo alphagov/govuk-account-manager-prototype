@@ -58,16 +58,16 @@ Rails.application.routes.draw do
       end
 
       scope "/password" do
-        patch "/", to: "devise_passwords#update", as: :user_password
-        put   "/", to: "devise_passwords#update"
-        post  "/", to: "devise_passwords#create", as: :create_password
+        patch "/", to: "passwords#update", as: :user_password
+        put   "/", to: "passwords#update"
+        post  "/", to: "passwords#create", as: :create_password
 
-        get "/new", to: "devise_passwords#new", as: :new_user_password
-        get "/edit", to: "devise_passwords#edit", as: :edit_user_password
+        get "/new", to: "passwords#new", as: :new_user_password
+        get "/edit", to: "passwords#edit", as: :edit_user_password
 
         scope "/reset" do
-          get "/", to: "devise_passwords#new", as: :reset_password
-          get "/sent", to: "devise_passwords#sent", as: :reset_password_sent
+          get "/", to: "passwords#new", as: :reset_password
+          get "/sent", to: "passwords#sent", as: :reset_password_sent
         end
       end
 
