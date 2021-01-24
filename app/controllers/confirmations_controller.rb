@@ -1,4 +1,4 @@
-class DeviseConfirmationsController < Devise::ConfirmationsController
+class ConfirmationsController < Devise::ConfirmationsController
   def sent
     if session[:confirmations]
       @email = session[:confirmations]["email"]
