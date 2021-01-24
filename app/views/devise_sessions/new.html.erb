@@ -13,7 +13,7 @@
 
 <%= form_with url: new_user_session_path, html: { "data-module" => "explicit-cross-domain-links" } do %>
   <% if resource %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= render "_shared/error_messages", resource: resource %>
   <% end %>
 
   <% if flash[:notice] %>
