@@ -1,4 +1,4 @@
-class DeviseRegistrationController < Devise::RegistrationsController
+class RegistrationsController < Devise::RegistrationsController
   include AcceptsJwt
   include CookiesHelper
 

@@ -34,12 +34,12 @@ Rails.application.routes.draw do
       get    "/delete/confirmation", to: "delete#confirmation", as: :account_delete_confirmation
 
       get   "/", to: "account#show", as: :user_root
-      patch "/", to: "devise_registration#update", as: :user_registration
-      put   "/", to: "devise_registration#update"
+      patch "/", to: "registrations#update", as: :user_registration
+      put   "/", to: "registrations#update"
 
       scope "/edit" do
-        get  "/email", to: "devise_registration#edit_email", as: :edit_user_registration_email
-        get  "/password", to: "devise_registration#edit_password", as: :edit_user_registration_password
+        get  "/email", to: "registrations#edit_email", as: :edit_user_registration_email
+        get  "/password", to: "registrations#edit_password", as: :edit_user_registration_password
 
         scope "/phone" do
           get  "/", to: "edit_phone#show", as: :edit_user_registration_phone
@@ -87,18 +87,18 @@ Rails.application.routes.draw do
     end
 
     scope "/new-account" do
-      get  "/", to: "devise_registration#start", as: :new_user_registration_start
-      post "/", to: "devise_registration#start"
-      get  "/phone/code", to: "devise_registration#phone_code", as: :new_user_registration_phone_code
-      post "/phone/verify", to: "devise_registration#phone_verify", as: :new_user_registration_phone_verify
-      get  "/phone/resend", to: "devise_registration#phone_resend", as: :new_user_registration_phone_resend
-      post "/phone/resend", to: "devise_registration#phone_resend_code"
-      get  "/your-information", to: "devise_registration#your_information", as: :new_user_registration_your_information
-      post "/your-information", to: "devise_registration#your_information_post"
-      get  "/transition-emails", to: "devise_registration#transition_emails", as: :new_user_registration_transition_emails
-      post "/transition-emails", to: "devise_registration#transition_emails_post"
-      get  "/finish", to: "devise_registration#create", as: :new_user_registration_finish
-      get  "/cancel", to: "devise_registration#cancel", as: :cancel_user_registration
+      get  "/", to: "registrations#start", as: :new_user_registration_start
+      post "/", to: "registrations#start"
+      get  "/phone/code", to: "registrations#phone_code", as: :new_user_registration_phone_code
+      post "/phone/verify", to: "registrations#phone_verify", as: :new_user_registration_phone_verify
+      get  "/phone/resend", to: "registrations#phone_resend", as: :new_user_registration_phone_resend
+      post "/phone/resend", to: "registrations#phone_resend_code"
+      get  "/your-information", to: "registrations#your_information", as: :new_user_registration_your_information
+      post "/your-information", to: "registrations#your_information_post"
+      get  "/transition-emails", to: "registrations#transition_emails", as: :new_user_registration_transition_emails
+      post "/transition-emails", to: "registrations#transition_emails_post"
+      get  "/finish", to: "registrations#create", as: :new_user_registration_finish
+      get  "/cancel", to: "registrations#cancel", as: :cancel_user_registration
 
       get "/welcome", to: redirect(path: "/sign-in")
     end

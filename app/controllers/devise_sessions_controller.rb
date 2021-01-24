@@ -66,7 +66,7 @@ class DeviseSessionsController < Devise::SessionsController
       elsif @email.present? && Devise.email_regexp.match?(@email)
         redirect_to new_user_registration_start_path(user: { email: @email }) and return if jwt.id
 
-        render "devise_registration/transition_checker" and return if Rails.configuration.force_jwt_at_registration
+        render "registrations/transition_checker" and return if Rails.configuration.force_jwt_at_registration
 
         @resource_error_messages[:email] = [I18n.t("devise.failure.no_account")]
       elsif @email.present?
