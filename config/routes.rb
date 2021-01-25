@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     scope "/account" do
       get "/manage", to: "manage#show", as: :account_manage
       get "/security", to: "security#show", as: :account_security
-      get "/security/activity/:page_number", to: "security#paginated_activity", as: :account_security_paginated
+      get "/security/activity/:page_number", to: "security#paginated_activity", as: :account_security_paginated_activity
       get "/security/report", to: "security#report", as: :account_security_report
 
       get    "/delete", to: "delete#show", as: :account_delete

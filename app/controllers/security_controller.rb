@@ -36,7 +36,7 @@ class SecurityController < ApplicationController
 
       unless user_activity.first_page?
         @page_navigation[:previous_page] = {
-          url: account_security_paginated_path(page_number: @activity.prev_page),
+          url: account_security_paginated_activity_path(page_number: @activity.prev_page),
           title: t("account.security.page_numbering_previous"),
           label: t("account.security.page_numbering_navigation", target_page: @activity.prev_page, total_pages: @activity.total_pages),
         }
@@ -44,7 +44,7 @@ class SecurityController < ApplicationController
 
       unless user_activity.last_page?
         @page_navigation[:next_page] = {
-          url: account_security_paginated_path(page_number: @activity.next_page),
+          url: account_security_paginated_activity_path(page_number: @activity.next_page),
           title: t("account.security.page_numbering_next"),
           label: t("account.security.page_numbering_navigation", target_page: @activity.next_page, total_pages: @activity.total_pages),
         }
