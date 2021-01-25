@@ -54,28 +54,30 @@
   <% end %>
 </div>
 
-<% if @activity.empty? %>
-  <p class="govuk-body">
-    <%= t("account.security.no_activity_found") %>
-  </p>
-<% else %>
-  <%= render "govuk_publishing_components/components/heading", {
-    text: t("account.security.activity"),
-    heading_level: 2,
-    font_size: "m",
-    margin_bottom: 4,
-  } %>
+<div class="govuk-!-margin-bottom-9">
+  <% if @activity.empty? %>
+    <p class="govuk-body">
+      <%= t("account.security.no_activity_found") %>
+    </p>
+  <% else %>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account.security.activity"),
+      heading_level: 2,
+      font_size: "m",
+      margin_bottom: 4,
+    } %>
 
-  <dl class="govuk-summary-list">
-    <% @activity.each do |activity| %>
-      <%= render "activity", activity: activity %>
-    <% end %>
-  </dl>
+    <dl class="govuk-summary-list">
+      <% @activity.each do |activity| %>
+        <%= render "activity", activity: activity %>
+      <% end %>
+    </dl>
 
-  <p class="govuk-body">
-    <%= link_to t("account.security.show_all"), account_security_paginated_activity_path(page_number: 1), class: "govuk-link" %>
-  </p>
-<% end %>
+    <p class="govuk-body">
+      <%= link_to t("account.security.show_all"), account_security_paginated_activity_path(page_number: 1), class: "govuk-link", 'aria-label': t("account.security.show_all_aria_label_signin_attempts") %>
+    </p>
+  <% end %>
+</div>
 
 <% unless @mfa_tokens.empty? %>
   <%= render "govuk_publishing_components/components/heading", {
@@ -98,6 +100,6 @@
   </dl>
 
   <p class="govuk-body">
-    <%= link_to t("account.security.show_all"), account_security_paginated_mfa_tokens_path(page_number: 1), class: "govuk-link" %>
+    <%= link_to t("account.security.show_all"), account_security_paginated_mfa_tokens_path(page_number: 1), class: "govuk-link", 'aria-label': t("account.security.show_all_aria_label_mfa") %>
   </p>
 <% end %>

@@ -49,3 +49,5 @@ en:
         hint: You will always be asked to enter a security code if you sign in on a device you have not used to access your GOV.UK account before.
         title: Security codes when you sign in
       show_all: Show all
+      show_all_aria_label_mfa: Show all the times you asked to skip the security code step
+      show_all_aria_label_signin_attempts: Show all sign-in attempts
