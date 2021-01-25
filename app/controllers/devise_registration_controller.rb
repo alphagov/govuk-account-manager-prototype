@@ -24,7 +24,7 @@ class DeviseRegistrationController < Devise::RegistrationsController
 
     jwt = find_or_create_jwt
 
-    @criteria_keys = jwt&.jwt_payload&.dig("attributes", "transition_checker_state", "criteria_keys")
+    @criteria_keys = jwt.jwt_payload.dig("attributes", "transition_checker_state", "criteria_keys")
 
     return if request.get?
 
@@ -39,11 +39,11 @@ class DeviseRegistrationController < Devise::RegistrationsController
     if resource.valid?
       state = MultiFactorAuth.is_enabled? ? :phone : :your_information
       RegistrationState.transaction do
-        jwt&.destroy_stale_states
+        jwt.destroy_stale_states
         @registration_state = RegistrationState.create!(
           state: state,
-          previous_url: jwt&.jwt_payload&.dig("post_register_oauth").presence || params[:previous_url],
-          jwt: jwt,
+          previous_url: jwt.jwt_payload.dig("post_register_oauth").presence || params[:previous_url],
+          jwt_id: jwt.id,
           email: params.dig(:user, :email),
           encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
           phone: MultiFactorAuth.is_enabled? ? params.dig(:user, :phone) : nil,

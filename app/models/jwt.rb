@@ -13,6 +13,16 @@ class Jwt < ApplicationRecord
 
   before_save :parse_jwt_token, unless: :skip_parse_jwt_token
 
+  class Nil
+    def id; end
+
+    def jwt_payload
+      {}
+    end
+
+    def destroy_stale_states; end
+  end
+
   class InvalidJWT < StandardError; end
   class InsufficientScopes < InvalidJWT; end
   class InvalidScopes < InvalidJWT; end

@@ -27,12 +27,12 @@ class DeviseSessionsController < Devise::SessionsController
       end
 
       LoginState.transaction do
-        jwt&.destroy_stale_states
+        jwt.destroy_stale_states
         @login_state = LoginState.create!(
           created_at: Time.zone.now,
           user: resource,
-          redirect_path: after_login_path(jwt&.jwt_payload, resource),
-          jwt: jwt,
+          redirect_path: after_login_path(jwt.jwt_payload, resource),
+          jwt_id: jwt.id,
         )
         @login_state_id = login_state.id
       end
@@ -64,7 +64,7 @@ class DeviseSessionsController < Devise::SessionsController
       elsif user_exists
         @resource_error_messages[:password] = [I18n.t("activerecord.errors.models.user.attributes.password.blank")]
       elsif @email.present? && Devise.email_regexp.match?(@email)
-        redirect_to new_user_registration_start_path(user: { email: @email }) and return if jwt
+        redirect_to new_user_registration_start_path(user: { email: @email }) and return if jwt.id
 
         render "devise/registrations/transition_checker" and return if Rails.configuration.force_jwt_at_registration
 
@@ -131,7 +131,7 @@ protected
   end
 
   def after_login_path(payload, user)
-    payload&.dig("post_login_oauth").presence || after_sign_in_path_for(user)
+    payload.dig("post_login_oauth").presence || after_sign_in_path_for(user)
   end
 
   def login_state
