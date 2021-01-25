@@ -4,11 +4,22 @@ class SecurityController < ApplicationController
   SUMMARY_ACTIVITIES_TO_SHOW = 3
 
   def show
-    @activity = current_user.security_activities.show_on_security_page.order(created_at: :desc).limit(SUMMARY_ACTIVITIES_TO_SHOW).map(&:fill_missing_country)
-    @data_exchanges = dedup_nearby(current_user.data_activities.where.not(oauth_application_id: AccountManagerApplication.application.id).order(created_at: :desc))
-      .compact
+    @activity = current_user
+      .security_activities
+      .show_on_security_page
+      .order(created_at: :desc)
+      .limit(SUMMARY_ACTIVITIES_TO_SHOW)
+      .map(&:fill_missing_country)
+
+    @data_exchanges = DataActivity
+      .select("DISTINCT on (oauth_application_id) *")
+      .includes([:oauth_application])
+      .where(user: current_user)
+      .where.not(oauth_application_id: AccountManagerApplication.application.id)
+      .order(oauth_application_id: :desc, created_at: :desc)
       .map { |a| activity_to_exchange(a) }
-      .compact
+      .sort_by { |a| a[:created_at] }
+      .reverse
   end
 
   def report; end
@@ -42,16 +53,6 @@ class SecurityController < ApplicationController
   end
 
 private
-
-  def dedup_nearby(activities)
-    last_activity = nil
-    activities.map do |activity|
-      if last_activity.nil? || !activity.very_similar_to(last_activity)
-        last_activity = activity
-        activity
-      end
-    end
-  end
 
   def activity_to_exchange(activity)
     scopes = activity.scopes.split(" ").map(&:to_sym) - ScopeDefinition.new.hidden_scopes
