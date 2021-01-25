@@ -1,0 +1,24 @@
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
+    <% if mfa_token.valid_until >= Time.zone.now %>
+      <%= t("account.security.security_codes.code_description.present") %>
+    <% else %>
+      <%= t("account.security.security_codes.code_description.past") %>
+    <% end %>
+    <br>
+    <span class="date-text">
+      <%= humanized_date(mfa_token.created_at) %>
+    </span>
+    to
+    <span class="date-text">
+      <%= humanized_date(mfa_token.valid_until) %>
+    </span>
+  </dt>
+  <dd class="govuk-summary-list__value">
+    <p class="govuk-body">
+      <a class="govuk-link" href="<%= account_security_report_path %>" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">
+        <%= t("account.security.report_suspicious_activity") %>
+      </a>
+    </p>
+  </dd>
+</div>

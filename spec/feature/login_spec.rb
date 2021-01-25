@@ -38,6 +38,12 @@ RSpec.feature "Logging in" do
       expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
 
+    it "shows the event on the security page" do
+      visit_security_page
+
+      expect(page).to have_text(I18n.t("account.security.security_codes.code_description.present"))
+    end
+
     context "the user returns 29 days later" do
       before { travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE - 1.day) }
 

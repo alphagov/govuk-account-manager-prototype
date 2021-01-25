@@ -2,6 +2,7 @@ class SecurityController < ApplicationController
   before_action :authenticate_user!
 
   SUMMARY_ACTIVITIES_TO_SHOW = 3
+  SECURITY_CODES_TO_SHOW = 3
 
   def show
     @activity = current_user
@@ -20,6 +21,11 @@ class SecurityController < ApplicationController
       .map { |a| activity_to_exchange(a) }
       .sort_by { |a| a[:created_at] }
       .reverse
+
+    @mfa_tokens = current_user
+      .mfa_tokens
+      .order(created_at: :desc)
+      .limit(SECURITY_CODES_TO_SHOW)
   end
 
   def report; end
@@ -28,6 +34,11 @@ class SecurityController < ApplicationController
     page_number = params[:page_number].to_i
     @activity = current_user.security_activities.show_on_security_page.order(created_at: :desc).page(page_number)
     @activity_with_country = @activity.map(&:fill_missing_country)
+  end
+
+  def paginated_mfa_tokens
+    page_number = params[:page_number].to_i
+    @mfa_tokens = current_user.mfa_tokens.order(created_at: :desc).page(page_number)
   end
 
 private
