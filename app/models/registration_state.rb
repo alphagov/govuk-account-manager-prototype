@@ -11,7 +11,7 @@ class RegistrationState < ApplicationRecord
   delegate :jwt_payload, to: :jwt, allow_nil: true
 
   EXPIRATION_AGE = 60.minutes
-  scope :expired, -> { where("updated_at < ?", EXPIRATION_AGE.ago) }
+  scope :expired, -> { where("created_at < ?", EXPIRATION_AGE.ago) }
 
   before_save :format_phone_number
 

@@ -305,7 +305,7 @@ protected
   def registration_state
     @registration_state ||=
       begin
-        RegistrationState.find(@registration_state_id).tap(&:touch)
+        RegistrationState.find(@registration_state_id)
       rescue ActiveRecord::RecordNotFound
         session.delete(:registration_state_id)
         nil
