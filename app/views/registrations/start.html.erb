@@ -5,7 +5,7 @@
 
 <%= form_with(url: new_user_registration_start_path, method: :post) do %>
   <% if resource || @resource_error_messages %>
-    <%= render "devise/shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
+    <%= render "_shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/heading", {
@@ -39,7 +39,7 @@
     autocomplete: "new-password",
   } %>
 
-  <%= render "devise/shared/password_tip" %>
+  <%= render "_shared/password_tip" %>
 
   <%= render "govuk_publishing_components/components/input", {
     label: {

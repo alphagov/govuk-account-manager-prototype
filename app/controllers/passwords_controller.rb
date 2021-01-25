@@ -1,4 +1,4 @@
-class DevisePasswordsController < Devise::PasswordsController
+class PasswordsController < Devise::PasswordsController
   # POST /resource/password
   def create
     super do |resource|

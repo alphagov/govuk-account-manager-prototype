@@ -1,4 +1,4 @@
-class DeviseUnlocksController < Devise::UnlocksController
+class UnlocksController < Devise::UnlocksController
   # POST /account/unlock
   def create
     super do
