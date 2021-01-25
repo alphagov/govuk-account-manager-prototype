@@ -22,19 +22,6 @@ class ApplicationController < ActionController::Base
 
 protected
 
-  def get_payload(payload_string = nil)
-    jwt = if payload_string
-            Jwt.create!(jwt_payload: payload_string)
-              .tap { |j| session[:jwt_id] = j.id }
-          elsif session[:jwt_id]
-            Jwt.find(session[:jwt_id])
-          end
-    jwt&.jwt_payload&.deep_symbolize_keys
-  rescue ActiveRecord::RecordNotFound
-    session.delete(:jwt_id)
-    nil
-  end
-
   def top_level_error_handler(exception = nil)
     Raven.capture_exception(exception) if exception
 
@@ -54,16 +41,5 @@ protected
     else
       user_root_path
     end
-  end
-
-  def destroy_stale_states(jwt_id)
-    registration_states = RegistrationState.where(jwt_id: jwt_id).pluck(:id)
-    login_states = LoginState.where(jwt_id: jwt_id).pluck(:id)
-
-    RegistrationState.where(id: registration_states).update_all(jwt_id: nil)
-    LoginState.where(id: login_states).update_all(jwt_id: nil)
-
-    RegistrationState.where(id: registration_states).destroy_all
-    LoginState.where(id: login_states).destroy_all
   end
 end

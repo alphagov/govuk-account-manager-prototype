@@ -1,4 +1,5 @@
 class DeviseRegistrationController < Devise::RegistrationsController
+  include AcceptsJwt
   include CookiesHelper
 
   # rubocop:disable Rails/LexicallyScopedActionFilter
@@ -21,9 +22,9 @@ class DeviseRegistrationController < Devise::RegistrationsController
   def start
     render :closed and return unless Rails.configuration.enable_registration
 
-    payload = get_payload
+    jwt = find_or_create_jwt
 
-    @criteria_keys = payload.dig(:attributes, :transition_checker_state, "criteria_keys") if payload
+    @criteria_keys = jwt.jwt_payload.dig("attributes", "transition_checker_state", "criteria_keys")
 
     return if request.get?
 
@@ -38,11 +39,11 @@ class DeviseRegistrationController < Devise::RegistrationsController
     if resource.valid?
       state = MultiFactorAuth.is_enabled? ? :phone : :your_information
       RegistrationState.transaction do
-        destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
+        jwt.destroy_stale_states
         @registration_state = RegistrationState.create!(
           state: state,
-          previous_url: payload&.dig(:post_register_oauth).presence || params[:previous_url],
-          jwt_id: session[:jwt_id],
+          previous_url: jwt.jwt_payload.dig("post_register_oauth").presence || params[:previous_url],
+          jwt_id: jwt.id,
           email: params.dig(:user, :email),
           encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
           phone: MultiFactorAuth.is_enabled? ? params.dig(:user, :phone) : nil,

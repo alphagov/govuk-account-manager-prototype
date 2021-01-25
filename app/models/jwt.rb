@@ -13,6 +13,16 @@ class Jwt < ApplicationRecord
 
   before_save :parse_jwt_token, unless: :skip_parse_jwt_token
 
+  class Nil
+    def id; end
+
+    def jwt_payload
+      {}
+    end
+
+    def destroy_stale_states; end
+  end
+
   class InvalidJWT < StandardError; end
   class InsufficientScopes < InvalidJWT; end
   class InvalidScopes < InvalidJWT; end
@@ -23,6 +33,20 @@ class Jwt < ApplicationRecord
   class MissingFieldPostLoginOAuth < InvalidJWT; end
   class UidNotFound < InvalidJWT; end
   class InvalidOAuthRedirect < InvalidJWT; end
+
+  def destroy_stale_states
+    transaction do
+      RegistrationState.where(jwt_id: id).tap do |states|
+        states.update_all(jwt_id: nil)
+        states.destroy_all
+      end
+
+      LoginState.where(jwt_id: id).tap do |states|
+        states.update_all(jwt_id: nil)
+        states.destroy_all
+      end
+    end
+  end
 
 private
 
