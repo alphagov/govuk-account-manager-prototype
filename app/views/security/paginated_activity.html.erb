@@ -1,3 +1,5 @@
+<% page_navigation = paginated_navigation(@activity, ->(page) { account_security_paginated_activity_path(page) }) %>
+
 <% content_for :title, t("account.security.activity") %>
 <% content_for :location, "security" %>
 <% content_for :account_navigation do %>
@@ -10,12 +12,12 @@
 
 <%= render "govuk_publishing_components/components/title", {
   title: yield(:title),
-  context: t("account.security.page_numbering_header", current_page: @activity.current_page, total_pages: @activity.total_pages),
+  context: t("account.security.page_numbering_header", current_page: page_navigation[:current_page], total_pages: page_navigation[:total_pages]),
   margin_bottom: 8,
   margin_top: 0,
 } %>
 
-<% if @activity.out_of_range? %>
+<% if page_navigation[:out_of_range] %>
   <p class="govuk-body">
     <%= t("account.security.page_out_of_range") %>
   <p>
@@ -28,5 +30,5 @@
     </dl>
   </div>
 
-  <%= render "govuk_publishing_components/components/previous_and_next_navigation", @page_navigation %>
+  <%= render "govuk_publishing_components/components/previous_and_next_navigation", page_navigation %>
 <% end %>
