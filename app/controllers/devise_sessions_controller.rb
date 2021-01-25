@@ -1,4 +1,5 @@
 class DeviseSessionsController < Devise::SessionsController
+  include AcceptsJwt
   include ApplicationHelper
   include CookiesHelper
   include UrlHelper
@@ -11,7 +12,7 @@ class DeviseSessionsController < Devise::SessionsController
   ]
 
   def create
-    payload = get_payload
+    jwt = find_or_create_jwt
 
     render :new and return unless params.dig(:user, :email) || params.dig(:user, :password)
 
@@ -25,16 +26,17 @@ class DeviseSessionsController < Devise::SessionsController
         resource.update!(banned_password_match: BannedPassword.is_password_banned?(params.dig(:user, :password)))
       end
 
-      destroy_stale_states(session[:jwt_id]) if session[:jwt_id]
-      @login_state = LoginState.create!(
-        created_at: Time.zone.now,
-        user_id: resource.id,
-        redirect_path: after_login_path(payload, resource),
-        jwt_id: session[:jwt_id],
-      )
-
-      @login_state_id = login_state.id
-      session[:login_state_id] = login_state.id
+      LoginState.transaction do
+        jwt&.destroy_stale_states
+        @login_state = LoginState.create!(
+          created_at: Time.zone.now,
+          user: resource,
+          redirect_path: after_login_path(jwt&.jwt_payload, resource),
+          jwt: jwt,
+        )
+        @login_state_id = login_state.id
+      end
+      session[:login_state_id] = @login_state_id
 
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
@@ -62,7 +64,7 @@ class DeviseSessionsController < Devise::SessionsController
       elsif user_exists
         @resource_error_messages[:password] = [I18n.t("activerecord.errors.models.user.attributes.password.blank")]
       elsif @email.present? && Devise.email_regexp.match?(@email)
-        redirect_to new_user_registration_start_path(user: { email: @email }) and return if payload
+        redirect_to new_user_registration_start_path(user: { email: @email }) and return if jwt
 
         render "devise/registrations/transition_checker" and return if Rails.configuration.force_jwt_at_registration
 
@@ -129,7 +131,7 @@ protected
   end
 
   def after_login_path(payload, user)
-    payload&.dig(:post_login_oauth).presence || after_sign_in_path_for(user)
+    payload&.dig("post_login_oauth").presence || after_sign_in_path_for(user)
   end
 
   def login_state

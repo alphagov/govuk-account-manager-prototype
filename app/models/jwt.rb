@@ -24,6 +24,20 @@ class Jwt < ApplicationRecord
   class UidNotFound < InvalidJWT; end
   class InvalidOAuthRedirect < InvalidJWT; end
 
+  def destroy_stale_states
+    transaction do
+      RegistrationState.where(jwt_id: id).tap do |states|
+        states.update_all(jwt_id: nil)
+        states.destroy_all
+      end
+
+      LoginState.where(jwt_id: id).tap do |states|
+        states.update_all(jwt_id: nil)
+        states.destroy_all
+      end
+    end
+  end
+
 private
 
   def parse_jwt_token
