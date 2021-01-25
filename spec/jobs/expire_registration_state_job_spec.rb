@@ -3,8 +3,8 @@ RSpec.describe ExpireRegistrationStateJob do
 
   it "deletes old state" do
     freeze_time do
-      RegistrationState.create!(updated_at: (RegistrationState::EXPIRATION_AGE + 1.minute).ago, email: "old", state: :start)
-      RegistrationState.create!(updated_at: RegistrationState::EXPIRATION_AGE.ago, email: "new", state: :start)
+      RegistrationState.create!(created_at: (RegistrationState::EXPIRATION_AGE + 1.minute).ago, email: "old", state: :start)
+      RegistrationState.create!(created_at: RegistrationState::EXPIRATION_AGE.ago, email: "new", state: :start)
 
       expect { described_class.perform_now }.to(change { RegistrationState.expired.count })
 
