@@ -33,6 +33,7 @@ RSpec.describe "security activities" do
 
   context "with MFA enabled" do
     before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
+    before { allow(Rails.configuration).to receive(:feature_flag_bypass_mfa).and_return(true) }
 
     it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS events" do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }

@@ -3,8 +3,10 @@ RSpec.feature "Logging in" do
   include ActiveSupport::Testing::TimeHelpers
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
+  before { allow(Rails.configuration).to receive(:feature_flag_bypass_mfa).and_return(bypass_mfa_enabled) }
 
   let(:mfa_enabled) { true }
+  let(:bypass_mfa_enabled) { false }
 
   let!(:user) { FactoryBot.create(:user) }
 
@@ -29,11 +31,19 @@ RSpec.feature "Logging in" do
     expect(page).to have_text(I18n.t("account.security.event.login_success"))
   end
 
+  it "doesn't give the option to 'remember me'" do
+    enter_email_address_and_password
+
+    expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.phone.code.fields.remember_me.label")))
+  end
+
   context "the user checks 'remember me'" do
     let!(:user) { FactoryBot.create(:user, :confirmed) }
+    let(:bypass_mfa_enabled) { true }
 
     before do
       enter_email_address_and_password
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.phone.code.fields.remember_me.label")))
       enter_mfa(remember_me: true)
       expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
