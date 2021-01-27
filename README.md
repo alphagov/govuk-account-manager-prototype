@@ -50,24 +50,6 @@ In the command line, go to the `govuk/govuk-docker` repo folder and run the foll
 
 These commands set up a docker image, build the required system and gem dependencies, and set up the database.
 
-## Prevent developers from deploying secrets
-
-The Account Manager prototype uses the [Pre-Commit framework](https://pre-commit.com/) and the [`detect-secrets`](https://github.com/Yelp/detect-secrets) plugin to prevent developers deploying secrets.
-
-### Install Pre-Commit framework
-
-If you are using the [Homebrew Package Manager](https://brew.sh/) or [Linuxbrew](https://docs.brew.sh/Homebrew-on-Linux) on Mac, install Pre-Commit by running `brew install pre-commit` in the command line.
-
-See [the Pre-Commit framework installation documentation](https://pre-commit.com/#installation) for more instructions on how to install Pre-Commit.
-
-You must have Python 3 installed for this to work. Running the `brew install` command will install Python 3 as well. See the [Python downloads page](https://www.python.org/downloads/) for other ways to install Python 3 if required.
-
-### Install `detect-secrets`
-
-The `detect-secrets` plugin to the Pre-Commit framework detects secrets within a codebase.
-
-To alert developers when they attempt to enter a secret in the codebase, [install the client-side pre-commit hook](https://github.com/Yelp/detect-secrets#client-side-pre-commit-hook).
-
 ## Start the Brexit transition checker and account manager prototype apps
 
 In the command line, go to the `finder-frontend` repo folder and run `govuk-docker-up`. This starts the `finder-frontend` Brexit transition checker and its dependencies.
