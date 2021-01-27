@@ -43,6 +43,7 @@ en:
       report_suspicious_activity: Report suspicious activity
       security_codes:
         code_description:
+          conjunction: and
           past: 'You chose to skip the security code step when you signed in on the same device between:'
           present: 'You chose to skip the security code step when you sign in on the same device between:'
         description: See all the times you asked to skip the security code step.

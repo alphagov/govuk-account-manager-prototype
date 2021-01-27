@@ -10,7 +10,7 @@
       </span>
       <span class="govuk-!-font-weight-bold">
         <%= humanized_date(mfa_token.created_at) %>
-        to
+        <%= t("account.security.security_codes.code_description.conjunction") %>
         <%= humanized_date(mfa_token.valid_until) %>
       </span>
     </p>
