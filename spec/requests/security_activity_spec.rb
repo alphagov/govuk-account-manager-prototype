@@ -33,6 +33,7 @@ RSpec.describe "security activities" do
 
   context "with MFA enabled" do
     before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
+    before { allow(Rails.configuration).to receive(:feature_flag_bypass_mfa).and_return(true) }
 
     it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS events" do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
@@ -62,6 +63,38 @@ RSpec.describe "security activities" do
 
       expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { analytics: "from_confirmation_email" }
       expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_USED events" do
+      allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
+        .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
+
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_USED event with additional analytics data from confirmation email" do
+      allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
+        .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
+
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, analytics: "from_confirmation_email"
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_GENERATED events" do
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1 }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED
+    end
+
+    it "records ADDITIONAL_FACTOR_BYPASS_GENERATED event with additional analytics data from confirmation email" do
+      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1, "from_confirmation_email" => true }
+
+      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, analytics: "from_confirmation_email"
     end
   end
 
@@ -219,7 +252,7 @@ RSpec.describe "security activities" do
       end
 
       it "the first page does not have a previous link and does not have a next link" do
-        get account_security_paginated_path(page_number: 1)
+        get account_security_paginated_activity_path(page_number: 1)
 
         expect(response.body).not_to have_content(I18n.t("account.security.page_numbering_previous"))
         expect(response.body).not_to have_content(I18n.t("account.security.page_numbering_next"))
@@ -249,14 +282,14 @@ RSpec.describe "security activities" do
       end
 
       it "the first page does not have a previous link and has a next link" do
-        get account_security_paginated_path(page_number: 1)
+        get account_security_paginated_activity_path(page_number: 1)
 
         expect(response.body).not_to have_content(I18n.t("account.security.page_numbering_previous"))
         expect(response.body).to have_content(I18n.t("account.security.page_numbering_next"))
       end
 
       it "the second page has a previous link and does not have a next link" do
-        get account_security_paginated_path(page_number: 2)
+        get account_security_paginated_activity_path(page_number: 2)
 
         expect(response.body).to have_content(I18n.t("account.security.page_numbering_previous"))
         expect(response.body).not_to have_content(I18n.t("account.security.page_numbering_next"))
@@ -290,28 +323,28 @@ RSpec.describe "security activities" do
       end
 
       it "the first page does not have a previous link and has a next link" do
-        get account_security_paginated_path(page_number: 1)
+        get account_security_paginated_activity_path(page_number: 1)
 
         expect(response.body).not_to have_content(I18n.t("account.security.page_numbering_previous"))
         expect(response.body).to have_content(I18n.t("account.security.page_numbering_next"))
       end
 
       it "the second page has a previous and next link" do
-        get account_security_paginated_path(page_number: 2)
+        get account_security_paginated_activity_path(page_number: 2)
 
         expect(response.body).to have_content(I18n.t("account.security.page_numbering_previous"))
         expect(response.body).to have_content(I18n.t("account.security.page_numbering_next"))
       end
 
       it "the third page has a previous link and does not have a next link" do
-        get account_security_paginated_path(page_number: 3)
+        get account_security_paginated_activity_path(page_number: 3)
 
         expect(response.body).to have_content(I18n.t("account.security.page_numbering_previous"))
         expect(response.body).not_to have_content(I18n.t("account.security.page_numbering_next"))
       end
 
       it "shows an error if page does not exist" do
-        get account_security_paginated_path(page_number: 4)
+        get account_security_paginated_activity_path(page_number: 4)
 
         expect(response.body).to have_content(I18n.t("account.security.page_out_of_range"))
       end
@@ -337,7 +370,7 @@ RSpec.describe "security activities" do
   end
 
   def expect_event_on_paginated_security_page(event, page_number:, count:)
-    get account_security_paginated_path(page_number: page_number)
+    get account_security_paginated_activity_path(page_number: page_number)
 
     expect(response.body).to have_content(I18n.t("account.security.event.#{event.name}"), count: count)
   end

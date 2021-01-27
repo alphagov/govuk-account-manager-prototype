@@ -12,23 +12,12 @@ RSpec.describe "/account/security" do
     )
   end
 
-  let(:token) do
+  let(:application2) do
     FactoryBot.create(
-      :oauth_access_token,
-      resource_owner_id: user.id,
-      application_id: application.id,
-      scopes: application.scopes,
-    )
-  end
-
-  let!(:activity) do
-    FactoryBot.create(
-      :data_activity,
-      user_id: user.id,
-      oauth_application_id: application.id,
-      created_at: Time.zone.now,
-      scopes: "openid email transition_checker",
-      token: token.token,
+      :oauth_application,
+      name: "Yet Other Government Service",
+      redirect_uri: "https://www.gov.uk",
+      scopes: %i[openid email transition_checker],
     )
   end
 
@@ -36,7 +25,14 @@ RSpec.describe "/account/security" do
     before { sign_in user }
 
     it "lists how and when data was used" do
-      get account_security_path(client: application, scope: "openid email")
+      DataActivity.create!(
+        user_id: user.id,
+        scopes: "openid email transition_checker",
+        token: "",
+        oauth_application_id: application.id,
+      )
+
+      get account_security_path
 
       expect(response.body).to have_content(application.name)
       expect(response.body).to have_content(I18n.t("account.data_exchange.scope.email"))
@@ -46,6 +42,20 @@ RSpec.describe "/account/security" do
       get account_security_path(client: application, scope: "openid email transition_checker")
 
       expect(response.body).not_to have_content(I18n.t("account.data_exchange.scope.transition_checker"))
+    end
+
+    it "shows only the latest exchange for each service" do
+      DataActivity.create!(user_id: user.id, scopes: "", token: "", oauth_application_id: application.id, created_at: Time.zone.local(2018, 1, 1, 0, 0, 0))
+      DataActivity.create!(user_id: user.id, scopes: "", token: "", oauth_application_id: application2.id, created_at: Time.zone.local(2019, 1, 1, 0, 0, 0))
+      DataActivity.create!(user_id: user.id, scopes: "", token: "", oauth_application_id: application.id, created_at: Time.zone.local(2020, 1, 1, 0, 0, 0))
+      DataActivity.create!(user_id: user.id, scopes: "", token: "", oauth_application_id: application2.id, created_at: Time.zone.local(2021, 1, 1, 0, 0, 0))
+
+      get account_security_path
+
+      expect(response.body).to_not have_content("2018")
+      expect(response.body).to_not have_content("2019")
+      expect(response.body).to have_content("2020")
+      expect(response.body).to have_content("2021")
     end
 
     it "fills in missing countries for security activities" do

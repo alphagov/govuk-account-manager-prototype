@@ -71,6 +71,14 @@ ActiveRecord::Schema.define(version: 2021_01_21_102522) do
     t.index ["user_id"], name: "index_login_states_on_user_id"
   end
 
+  create_table "mfa_tokens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_mfa_tokens_on_user_id"
+  end
+
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
     t.bigint "application_id", null: false
@@ -208,6 +216,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_102522) do
   add_foreign_key "ephemeral_states", "users"
   add_foreign_key "login_states", "jwts"
   add_foreign_key "login_states", "users"
+  add_foreign_key "mfa_tokens", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

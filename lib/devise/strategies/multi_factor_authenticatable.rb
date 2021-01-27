@@ -13,7 +13,13 @@ module Devise
         end
 
         if validate(resource) { hashed = true; resource.valid_password?(password) } # rubocop:disable Style/Semicolon
-          env["warden.mfa.required"] = MultiFactorAuth.is_enabled? && resource.needs_mfa?
+          if MultiFactorAuth.is_enabled? && resource.needs_mfa?
+            env["warden.mfa.bypass"] = MultiFactorAuth.verify_bypass_token(resource, env["warden.mfa.bypass_token"])
+            env["warden.mfa.required"] = !env["warden.mfa.bypass"]
+          else
+            env["warden.mfa.required"] = false
+          end
+
           if env["warden.mfa.required"]
             env["devise.skip_trackable"] = true
             env["warden"].set_user(resource, store: false)

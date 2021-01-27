@@ -1,6 +1,7 @@
 module MultiFactorAuth
   ALLOWED_ATTEMPTS = 6
   EXPIRATION_AGE = 30.minutes
+  BYPASS_TOKEN_EXPIRATION_AGE = 30.days
   INTERNATIONAL_CODE_REGEX = /^00/.freeze
   VALID_DOMESTIC_COUNTRIES = %i[gb gg je im].freeze
 
@@ -70,6 +71,14 @@ module MultiFactorAuth
       auth.update!(phone_code: nil)
       :too_many_attempts
     end
+  end
+
+  def self.verify_bypass_token(user, candidate_token)
+    raise Disabled unless is_enabled?
+
+    return false if candidate_token.nil?
+
+    MfaToken.where(user: user, token: candidate_token).where("created_at >= ?", BYPASS_TOKEN_EXPIRATION_AGE.ago).count == 1
   end
 
   def self.send_phone_mfa(phone_number, digits: 5)

@@ -48,18 +48,6 @@
     autocomplete: "current-password",
   } %>
 
-  <% if devise_mapping.rememberable? %>
-    <%= render "govuk_publishing_components/components/checkboxes", {
-      name: "user[remember_me]",
-      items: [
-        {
-          label: t("devise.sessions.new.fields.remember.label"),
-          value: "1",
-        },
-      ],
-    } %>
-  <% end %>
-
   <%= render "govuk_publishing_components/components/button", {
     text: t("devise.sessions.new.fields.submit.label"),
     margin_bottom: 3,

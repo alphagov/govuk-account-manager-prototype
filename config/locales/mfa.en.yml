@@ -28,6 +28,8 @@ en:
         fields:
           phone_code:
             label: Enter security code
+          remember_me:
+            label: Skip this step any time you sign in on this device in the next 30 days.<br>Do not do this if you're using a shared or public device.
           submit:
             label: Continue
         not_received:

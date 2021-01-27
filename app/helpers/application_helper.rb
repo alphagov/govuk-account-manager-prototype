@@ -3,6 +3,10 @@
 require "cgi"
 
 module ApplicationHelper
+  def humanized_date(datetime)
+    datetime.strftime("%d %B %Y")
+  end
+
   def date_with_time_ago(datetime)
     "#{datetime.strftime('%d %B %Y at %H:%M')} (#{time_ago_in_words(datetime)} ago)"
   end

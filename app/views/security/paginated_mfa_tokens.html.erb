@@ -1,6 +1,6 @@
-<% page_navigation = paginated_navigation(@activity, ->(page) { account_security_paginated_activity_path(page) }) %>
+<% page_navigation = paginated_navigation(@mfa_tokens, ->(page) { account_security_paginated_mfa_tokens_path(page) }) %>
 
-<% content_for :title, t("account.security.activity") %>
+<% content_for :title, t("account.security.security_codes.title") %>
 <% content_for :location, "security" %>
 <% content_for :account_navigation do %>
   <%= render "account-navigation", page_is: yield(:location) %>
@@ -24,8 +24,8 @@
 <% else %>
   <div class="accounts-summary-list accounts-summary-list--paginated">
     <dl class="govuk-summary-list">
-      <% @activity_with_country.each do |activity| %>
-        <%= render "activity", activity: activity %>
+      <% @mfa_tokens.each do |mfa_token| %>
+        <%= render "mfa_token", mfa_token: mfa_token %>
       <% end %>
     </dl>
   </div>

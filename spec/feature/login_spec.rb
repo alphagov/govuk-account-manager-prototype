@@ -3,8 +3,10 @@ RSpec.feature "Logging in" do
   include ActiveSupport::Testing::TimeHelpers
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
+  before { allow(Rails.configuration).to receive(:feature_flag_bypass_mfa).and_return(bypass_mfa_enabled) }
 
   let(:mfa_enabled) { true }
+  let(:bypass_mfa_enabled) { false }
 
   let!(:user) { FactoryBot.create(:user) }
 
@@ -27,6 +29,70 @@ RSpec.feature "Logging in" do
     visit_security_page
 
     expect(page).to have_text(I18n.t("account.security.event.login_success"))
+  end
+
+  it "doesn't give the option to 'remember me'" do
+    enter_email_address_and_password
+
+    expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.phone.code.fields.remember_me.label")))
+  end
+
+  context "the user checks 'remember me'" do
+    let!(:user) { FactoryBot.create(:user, :confirmed) }
+    let(:bypass_mfa_enabled) { true }
+
+    before do
+      enter_email_address_and_password
+      expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.phone.code.fields.remember_me.label")))
+      enter_mfa(remember_me: true)
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
+    end
+
+    it "shows the event on the security page" do
+      visit_security_page
+
+      expect(page).to have_text(I18n.t("account.security.security_codes.code_description.present"))
+    end
+
+    context "the user returns 29 days later" do
+      before { travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE - 1.day) }
+
+      it "skips MFA" do
+        enter_email_address_and_password
+        expect(page).to have_text(I18n.t("account.your_account.heading"))
+      end
+    end
+
+    context "the user returns 31 days later" do
+      before { travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE + 1.day) }
+
+      it "does not skip MFA" do
+        enter_email_address_and_password
+        expect(page).to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
+      end
+    end
+
+    context "with multiple users on the same machine" do
+      let(:user2) { FactoryBot.create(:user, email: "other-user@example.com") }
+
+      before do
+        travel(Devise.timeout_in + 1.second)
+        enter_email_address_and_password(email: user2.email, password: user2.password)
+        enter_mfa(the_user: user2, remember_me: true)
+        expect(page).to have_text(I18n.t("account.your_account.heading"))
+        travel(Devise.timeout_in + 1.second)
+      end
+
+      it "remembers the first user" do
+        enter_email_address_and_password(email: user.email, password: user.password)
+        expect(page).to have_text(I18n.t("account.your_account.heading"))
+      end
+
+      it "remembers the second user" do
+        enter_email_address_and_password(email: user2.email, password: user2.password)
+        expect(page).to have_text(I18n.t("account.your_account.heading"))
+      end
+    end
   end
 
   context "when the email is missing" do
@@ -203,9 +269,10 @@ RSpec.feature "Logging in" do
     click_on I18n.t("devise.sessions.new.fields.submit.label")
   end
 
-  def enter_mfa
-    phone_code = user.reload.phone_code
+  def enter_mfa(the_user: user, remember_me: false)
+    phone_code = the_user.reload.phone_code
     fill_in "phone_code", with: phone_code
+    check "remember_me" if remember_me
     click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
