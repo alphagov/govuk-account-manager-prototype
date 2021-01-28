@@ -39,14 +39,16 @@ group :development, :test do
   gem "capybara"
   gem "dotenv-rails"
   gem "factory_bot_rails"
+  gem "govuk_test"
   gem "i18n-tasks", "~> 0.9.33"
+  gem "jasmine"
+  gem "jasmine_selenium_runner"
   gem "pry-rails"
   gem "rspec-rails"
 end
 
 group :test do
   gem "climate_control"
-  gem "govuk_test"
   gem "oauth2"
   gem "simplecov"
   gem "webmock"

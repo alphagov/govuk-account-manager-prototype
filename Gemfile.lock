@@ -213,6 +213,15 @@ GEM
       terminal-table (>= 1.5.1)
     inflection (1.0.0)
     ipaddress (0.8.3)
+    jasmine (3.6.0)
+      jasmine-core (~> 3.6.0)
+      phantomjs
+      rack (>= 1.2.1)
+      rake
+    jasmine-core (3.6.0)
+    jasmine_selenium_runner (3.0.0)
+      jasmine (~> 3.0)
+      selenium-webdriver (~> 3.8)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -280,6 +289,7 @@ GEM
     parser (2.7.2.0)
       ast (~> 2.4.1)
     pg (1.2.3)
+    phantomjs (2.1.1.0)
     plek (4.0.0)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -524,6 +534,8 @@ DEPENDENCIES
   govuk_publishing_components
   govuk_test
   i18n-tasks (~> 0.9.33)
+  jasmine
+  jasmine_selenium_runner
   jwt
   kaminari
   listen
