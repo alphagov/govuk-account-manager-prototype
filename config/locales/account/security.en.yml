@@ -16,7 +16,7 @@ en:
         account_locked: Account locked after wrong password used 6 times
         additional_factor_verification_failure: Wrong security code used
         email_change_requested: Change to email address requested
-        email_changed: Email address changed
+        email_changed: Email address confirmed
         login_failure: Wrong password used
         login_success: Signed in
         manual_account_unlock: Account unlocked
