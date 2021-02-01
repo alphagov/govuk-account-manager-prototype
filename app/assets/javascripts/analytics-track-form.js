@@ -7,8 +7,6 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 (function (global, GOVUK) {
   'use strict'
 
-  var $ = global.jQuery
-
   GOVUK.Modules.TrackForm = function () {
     this.start = function (element) {
       track(element)
