@@ -12,7 +12,9 @@ class WelcomeController < ApplicationController
       return
     end
 
-    redirect_to add_param_to_url(new_user_registration_start_path, "_ga", params[:_ga])
+    path_to_redirect_to = jwt.jwt_payload.present? ? new_user_registration_start_path : new_user_session_path
+
+    redirect_to add_param_to_url(path_to_redirect_to, "_ga", params[:_ga])
   end
 
 protected
