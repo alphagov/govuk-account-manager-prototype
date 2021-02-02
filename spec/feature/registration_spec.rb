@@ -143,6 +143,18 @@ RSpec.feature "Registration" do
     end
   end
 
+  context "when the email ends with a digit" do
+    let(:email) { "foo@bar1" }
+
+    it "shows an error" do
+      visit_registration_form
+      enter_email_address
+      submit_registration_form
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email.invalid"))
+    end
+  end
+
   context "when the user already exists" do
     let!(:user) { FactoryBot.create(:user) }
 
