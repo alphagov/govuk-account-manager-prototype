@@ -181,11 +181,12 @@ Devise.setup do |config|
   config.password_length = 8..128
 
   # Check email has exactly one "@" and at least one "." following the
-  # "@".  This doesn't aim to check the email is correct (the only way
-  # you can check that is by sending a message to it and seeing if the
-  # user receives it), but prevents some common syntactic errors which
-  # could never correspond to a valid email address on the Internet.
-  config.email_regexp = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
+  # "@", and ends with a letter.  This doesn't aim to check the email
+  # is correct (the only way you can check that is by sending a
+  # message to it and seeing if the user receives it), but prevents
+  # some common syntactic errors which could never correspond to a
+  # valid email address on the Internet.
+  config.email_regexp = /\A[^@\s]+@[^@\s]+\.[^@\s]+[a-z]\z/
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
