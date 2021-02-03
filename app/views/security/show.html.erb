@@ -4,9 +4,7 @@
   <%= render "account-navigation", page_is: yield(:location) %>
 <% end %>
 
-<% if show_confirmation_reminder? %>
-  <%= render "email-confirmation-reminder" %>
-<% end %>
+<%= render "user-reminders" %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: yield(:title),
