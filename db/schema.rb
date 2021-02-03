@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_135210) do
     t.string "session_token"
     t.boolean "has_received_onboarding_email", default: false, null: false
     t.boolean "banned_password_match"
+    t.string "webauthn_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
