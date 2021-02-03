@@ -38,7 +38,7 @@ class SessionsController < Devise::SessionsController
         @login_state = LoginState.create!(
           created_at: Time.zone.now,
           user: resource,
-          redirect_path: after_login_path(jwt.jwt_payload, resource),
+          redirect_path: jwt.jwt_payload.dig("post_login_oauth").presence || params[:previous_url].presence,
           jwt_id: jwt.id,
         )
         @login_state_id = login_state.id
@@ -148,10 +148,6 @@ protected
     redirect_to new_user_session_path unless login_state
   end
 
-  def after_login_path(payload, user)
-    payload.dig("post_login_oauth").presence || after_sign_in_path_for(user)
-  end
-
   def login_state
     @login_state ||=
       begin
@@ -170,7 +166,16 @@ protected
 
     sign_in(resource_name, login_state.user)
 
-    redirect_to add_param_to_url(login_state.redirect_path, "_ga", params[:_ga])
+    post_login_path =
+      if login_state.redirect_path
+        login_state.redirect_path
+      elsif login_state.user.banned_password_match
+        insecure_password_interstitial_path
+      else
+        user_root_path
+      end
+
+    redirect_to add_param_to_url(post_login_path, "_ga", params[:_ga])
   end
 
   def after_sign_out_path_for(_resource)
