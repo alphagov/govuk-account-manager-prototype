@@ -31,6 +31,7 @@ gem "sidekiq"
 gem "sidekiq-scheduler"
 gem "sprockets-rails"
 gem "telephone_number"
+gem 'webauthn'
 
 group :development, :test do
   gem "bullet"
