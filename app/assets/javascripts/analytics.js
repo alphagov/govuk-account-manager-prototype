@@ -8,12 +8,13 @@ window.GOVUK.analyticsVars.linkedDomains = ['www.gov.uk']
 if (typeof window.GOVUK.analyticsInit !== 'undefined') {
   window.GOVUK.analyticsInit()
 
-  if (window.GOVUK.cookie('cookies_preferences_set') && window.GOVUK.cookie('cookies_policy')) {
+  var cookieConsentRadio = document.querySelectorAll('input[name=cookie_consent]')
+  if (window.GOVUK.cookie('cookies_preferences_set') && window.GOVUK.cookie('cookies_policy') && cookieConsentRadio.length) {
     var currentConsentCookie = JSON.parse(window.GOVUK.cookie('cookies_policy'))
     if (currentConsentCookie.usage === true) {
-      $('input[name=cookie_consent][value=yes]').prop('checked', true)
+      document.querySelectorAll('input[name=cookie_consent][value=yes]')[0].checked = true
     } else {
-      $('input[name=cookie_consent][value=no]').prop('checked', true)
+      document.querySelectorAll('input[name=cookie_consent][value=no]')[0].checked = true
     }
   }
 }
