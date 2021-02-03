@@ -9,11 +9,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
   GOVUK.Modules.TrackForm = function () {
     this.start = function (element) {
-      track(element[0])
-    }
-
-    function track (element) {
-      element.addEventListener('submit', function(event) {
+      element[0].addEventListener('submit', function(event) {
         var $checkedOption, questionValue
         var $submittedForm = event.target
         var $checkedOptions = $submittedForm.querySelectorAll('input:checked')
