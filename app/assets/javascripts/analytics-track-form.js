@@ -9,23 +9,23 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
   GOVUK.Modules.TrackForm = function () {
     this.start = function (element) {
-      track(element)
+      track(element[0])
     }
 
     function track (element) {
-      element.on('submit', function (event) {
+      element.addEventListener('submit', function(event) {
         var $checkedOption, questionValue
-        var $submittedForm = $(event.target)
-        var $checkedOptions = $submittedForm.find('input:checked')
-        var trackCategory = $submittedForm.data('track-category')
+        var $submittedForm = event.target
+        var $checkedOptions = $submittedForm.querySelectorAll('input:checked')
+        var trackCategory = $submittedForm.getAttribute('data-track-category')
 
         if ($checkedOptions.length) {
-          $checkedOptions.each(function (index) {
-            $checkedOption = $(this)
-            var trackAction = $checkedOption.data('track-action')
-            var checkedOptionId = $checkedOption.attr('id')
-            var checkedOptionLabel = $submittedForm.find('label[for="' + checkedOptionId + '"]').text().trim()
-            questionValue = checkedOptionLabel.length ? checkedOptionLabel : $checkedOption.val()
+          for (var i = 0; i < $checkedOptions.length; i++) {
+            $checkedOption = $checkedOptions[i]
+            var trackAction = $checkedOption.getAttribute('data-track-action')
+            var checkedOptionId = $checkedOption.getAttribute('id')
+            var checkedOptionLabel = $submittedForm.querySelector('label[for="' + checkedOptionId + '"]').innerText.trim()
+            questionValue = checkedOptionLabel.length ? checkedOptionLabel : $checkedOption.value
 
             if (typeof ga === 'function') {
               ga('send', {
@@ -35,7 +35,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
                 eventLabel: questionValue
               })
             }
-          })
+          }
         }
       })
     }
