@@ -50,6 +50,7 @@ end
 group :test do
   gem "climate_control"
   gem "oauth2"
+  gem "shoulda", "~> 4.0.0"
   gem "simplecov"
   gem "webmock"
 end
