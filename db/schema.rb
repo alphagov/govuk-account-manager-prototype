@@ -204,6 +204,18 @@ ActiveRecord::Schema.define(version: 2021_02_18_135210) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "webauthn_credentials", force: :cascade do |t|
+    t.string "external_id"
+    t.string "public_key"
+    t.string "nickname"
+    t.bigint "sign_count", default: 0, null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_id"], name: "index_webauthn_credentials_on_external_id", unique: true
+    t.index ["user_id"], name: "index_webauthn_credentials_on_user_id"
+  end
+
   add_foreign_key "data_activities", "oauth_applications"
   add_foreign_key "data_activities", "users"
   add_foreign_key "email_subscriptions", "users"
@@ -220,4 +232,5 @@ ActiveRecord::Schema.define(version: 2021_02_18_135210) do
   add_foreign_key "security_activities", "oauth_applications"
   add_foreign_key "security_activities", "user_agents"
   add_foreign_key "security_activities", "users"
+  add_foreign_key "webauthn_credentials", "users"
 end
