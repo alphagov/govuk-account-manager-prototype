@@ -4,9 +4,7 @@
   <%= render "account-navigation", page_is: yield(:location) %>
 <% end %>
 
-<% if show_confirmation_reminder? %>
-  <%= render "email-confirmation-reminder" %>
-<% end %>
+<%= render "user-reminders" %>
 
 <% if flash[:notice] %>
   <% if flash_as_notice(flash[:notice]) %>

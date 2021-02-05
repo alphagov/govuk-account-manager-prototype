@@ -1,0 +1,24 @@
+<% content_for :title, t("insecure_password.interstitial.heading") %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 3,
+} %>
+
+<% t("insecure_password.interstitial.body").each do |msg| %>
+  <p class="govuk-body"><%= msg %></p>
+<% end %>
+
+<%= form_with url: edit_user_registration_password_path, method: :get do %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("insecure_password.interstitial.button"),
+    margin_bottom: true,
+  } %>
+<% end %>
+
+<p class="govuk-body">
+  <a class="govuk-link" href="<%= user_root_path %>"><%= t("insecure_password.interstitial.ignore.link") %></a>
+  <%= t("insecure_password.interstitial.ignore.outro") %>
+</p>

@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     get "/logout", to: redirect(path: "/sign-out")
 
     scope "/account" do
+      get "/insecure-password", to: "insecure_password#show", as: :insecure_password_interstitial
+
       get "/manage", to: "manage#show", as: :account_manage
       get "/security", to: "security#show", as: :account_security
       get "/security/activity/:page_number", to: "security#paginated_activity", as: :account_security_paginated_activity
