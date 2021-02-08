@@ -1,11 +1,15 @@
 class RegistrationsController < Devise::RegistrationsController
   include AcceptsJwt
   include CookiesHelper
+  include RequiresRecentMfa
 
   # rubocop:disable Rails/LexicallyScopedActionFilter
   prepend_before_action :authenticate_scope!, only: %i[edit_password edit_email update destroy]
   prepend_before_action :set_minimum_password_length, only: %i[new edit_password edit_email]
   # rubocop:enable Rails/LexicallyScopedActionFilter
+
+  before_action :enforce_recent_mfa_for_email!, only: :edit_email
+  before_action :enforce_recent_mfa_for_update!, only: :update
 
   before_action :check_registration_state, only: %i[
     phone_code
@@ -349,5 +353,13 @@ protected
     return unless email_topic_slug
 
     EmailSubscription.create!(user_id: user.id, topic_slug: email_topic_slug)
+  end
+
+  def enforce_recent_mfa_for_email!
+    redo_mfa edit_user_registration_email_path unless has_done_mfa_recently?
+  end
+
+  def enforce_recent_mfa_for_update!
+    redo_mfa account_manage_path unless has_done_mfa_recently?
   end
 end
