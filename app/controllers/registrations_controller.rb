@@ -9,6 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
   # rubocop:enable Rails/LexicallyScopedActionFilter
 
   before_action :enforce_recent_mfa_for_email!, only: :edit_email
+  before_action :enforce_recent_mfa_for_password!, only: :edit_password
   before_action :enforce_recent_mfa_for_update!, only: :update
 
   before_action :check_registration_state, only: %i[
@@ -357,6 +358,10 @@ protected
 
   def enforce_recent_mfa_for_email!
     redo_mfa edit_user_registration_email_path unless has_done_mfa_recently?
+  end
+
+  def enforce_recent_mfa_for_password!
+    redo_mfa edit_user_registration_password_path unless has_done_mfa_recently?
   end
 
   def enforce_recent_mfa_for_update!
