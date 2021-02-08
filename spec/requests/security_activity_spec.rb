@@ -187,11 +187,12 @@ RSpec.describe "security activities" do
       it "records PHONE_CHANGED events" do
         old_phone = user.phone
 
-        post edit_user_registration_phone_code_path, params: {
+        post edit_user_registration_phone_confirm_path, params: {
           "phone" => "07581123456",
           "current_password" => user.password,
         }
-        post edit_user_registration_phone_verify_path, params: { "phone_code" => user.phone_code }
+        post edit_user_registration_phone_code_path
+        post edit_user_registration_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
 
         expect_event SecurityActivity::PHONE_CHANGED, { notes: "from #{old_phone} to #{user.reload.phone}" }
         expect_event_on_security_page SecurityActivity::PHONE_CHANGED
