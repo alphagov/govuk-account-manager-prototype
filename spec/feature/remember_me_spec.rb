@@ -66,6 +66,20 @@ RSpec.feature "Remember Me" do
           expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
         end
       end
+
+      context "the user aborted an MFA re-do" do
+        before do
+          visit_change_email_page
+          abort_redo_mfa
+          expect(page).to have_text(I18n.t("account.manage.heading"))
+          visit user_root_path
+        end
+
+        it "re-does MFA again" do
+          visit_change_email_page
+          expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+        end
+      end
     end
 
     context "the user returns 31 days later" do
@@ -125,6 +139,10 @@ RSpec.feature "Remember Me" do
   def redo_mfa(the_user: user)
     fill_in "phone_code", with: the_user.reload.phone_code
     click_on I18n.t("mfa.phone.code.fields.submit.label")
+  end
+
+  def abort_redo_mfa
+    click_on "Back"
   end
 
   def visit_security_page
