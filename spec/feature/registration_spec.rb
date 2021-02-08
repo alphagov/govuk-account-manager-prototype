@@ -4,11 +4,9 @@ RSpec.feature "Registration" do
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
   before { allow(Rails.configuration).to receive(:enable_registration).and_return(registration_enabled) }
-  before { allow(Rails.configuration).to receive(:force_jwt_at_registration).and_return(force_jwt) }
 
   let(:mfa_enabled) { true }
   let(:registration_enabled) { true }
-  let(:force_jwt) { false }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
   let(:phone_number) { "07958 123 456" }
