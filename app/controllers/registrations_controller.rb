@@ -35,23 +35,22 @@ class RegistrationsController < Devise::RegistrationsController
       email: params.dig(:user, :email),
       password: params.dig(:user, :password),
       password_confirmation: params.dig(:user, :password),
-      phone: MultiFactorAuth.is_enabled? ? params.dig(:user, :phone) : nil,
+      phone: params.dig(:user, :phone),
     )
     resource.errors.add :email, :taken if User.exists?(email: resource.email)
 
     if resource.valid?
-      state = MultiFactorAuth.is_enabled? ? :phone : :your_information
       RegistrationState.transaction do
         jwt.destroy_stale_states
         @registration_state = RegistrationState.create!(
-          state: state,
+          state: :phone,
           previous_url: jwt.jwt_payload.dig("post_register_oauth").presence || params[:previous_url],
           jwt_id: jwt.id,
           email: params.dig(:user, :email),
           encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
-          phone: MultiFactorAuth.is_enabled? ? params.dig(:user, :phone) : nil,
+          phone: params.dig(:user, :phone),
         )
-        MultiFactorAuth.generate_and_send_code(@registration_state) if MultiFactorAuth.is_enabled?
+        MultiFactorAuth.generate_and_send_code(@registration_state)
       end
       session[:registration_state_id] = @registration_state.id
       redirect_to url_for_state

@@ -5,10 +5,7 @@ RSpec.feature "Remember Me" do
 
   let!(:user) { FactoryBot.create(:user, :confirmed) }
 
-  before do
-    allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true)
-    log_in_and_remember_me
-  end
+  before { log_in_and_remember_me }
 
   it "shows the event on the security page" do
     visit_security_page

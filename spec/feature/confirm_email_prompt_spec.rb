@@ -63,6 +63,8 @@ RSpec.feature "Confirm email prompt" do
     fill_in "email", with: user.email
     fill_in "password", with: "abcd1234"
     click_on I18n.t("devise.sessions.new.fields.submit.label")
+    fill_in "phone_code", with: user.reload.phone_code
+    click_on I18n.t("mfa.phone.code.fields.submit.label")
   end
 
   def when_i_navigate_to_home

@@ -2,10 +2,6 @@ RSpec.feature "Logging in" do
   include ActiveJob::TestHelper
   include ActiveSupport::Testing::TimeHelpers
 
-  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
-
-  let(:mfa_enabled) { true }
-
   let!(:user) { FactoryBot.create(:user) }
 
   it "logs the user in" do
@@ -128,16 +124,6 @@ RSpec.feature "Logging in" do
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
       user_is_returned_to_login_screen
-    end
-  end
-
-  context "MFA is disabled" do
-    let(:mfa_enabled) { false }
-
-    it "skips over the MFA screen" do
-      enter_email_address_and_password
-
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
   end
 

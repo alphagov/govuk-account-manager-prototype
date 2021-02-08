@@ -1,10 +1,7 @@
 RSpec.feature "Insecure Passwords" do
   let!(:user) { FactoryBot.create(:user) }
 
-  before do
-    allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true)
-    BannedPassword.import_list([user.password])
-  end
+  before { BannedPassword.import_list([user.password]) }
 
   it "shows the interstitial page and the alert" do
     enter_email_address_and_password

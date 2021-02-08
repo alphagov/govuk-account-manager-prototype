@@ -2,8 +2,6 @@ RSpec.feature "Change Phone" do
   include ActiveJob::TestHelper
   include ActiveSupport::Testing::TimeHelpers
 
-  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
-
   let(:user) { FactoryBot.create(:user) }
 
   let(:new_phone_number) { "07581123456" }

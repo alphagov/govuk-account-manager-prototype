@@ -2,10 +2,6 @@ RSpec.feature "Logging in from confirmation email" do
   include ActiveJob::TestHelper
   include ActiveSupport::Testing::TimeHelpers
 
-  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
-
-  let(:mfa_enabled) { true }
-
   let!(:user) { FactoryBot.create(:user) }
 
   it "records extra information in the security activity when logging in" do
