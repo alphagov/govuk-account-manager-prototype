@@ -11,6 +11,13 @@ module ApplicationHelper
     "#{datetime.strftime('%d %B %Y at %H:%M')} (#{time_ago_in_words(datetime)} ago)"
   end
 
+  def redacted_phone_number(phone_number)
+    formatted_number = MultiFactorAuth.formatted_phone_number(phone_number)
+    prefix = formatted_number[0..-4].gsub(/[^\s]/, "x")
+    suffix = formatted_number[-3..]
+    "#{prefix}#{suffix}"
+  end
+
   def navigation_items
     if user_signed_in?
       [

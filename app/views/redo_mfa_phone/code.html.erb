@@ -13,7 +13,7 @@
 
 <p class="govuk-body"><%= t("mfa.phone.code.redo_description_preamble") %></p>
 
-<% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(current_user.phone)).each do |msg| %>
+<% t("mfa.phone.code.description_with_phone_number", phone_number: redacted_phone_number(current_user.phone)).each do |msg| %>
   <p class="govuk-body"><%= sanitize(msg) %></p>
 <% end %>
 

@@ -1,4 +1,5 @@
 RSpec.feature "Remember Me" do
+  include ApplicationHelper
   include ActiveJob::TestHelper
   include ActiveSupport::Testing::TimeHelpers
 
@@ -41,16 +42,19 @@ RSpec.feature "Remember Me" do
       it "re-does MFA when changing email address" do
         visit_change_email_page
         expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+        expect(page).to have_text(redacted_phone_number(user.phone))
       end
 
       it "re-does MFA when changing password" do
         visit_change_password_page
         expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+        expect(page).to have_text(redacted_phone_number(user.phone))
       end
 
       it "re-does MFA when changing phone number" do
         visit_change_number_page
         expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+        expect(page).to have_text(redacted_phone_number(user.phone))
       end
 
       context "the user has already re-done MFA" do
