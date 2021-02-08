@@ -5,6 +5,7 @@ module RequiresRecentMfa
 
   def has_done_mfa_recently?
     return true unless MultiFactorAuth.is_enabled?
+    return true if Rails.env.test? && Rails.application.config.allow_insecure_change_credential
 
     session[:has_done_mfa]
   end

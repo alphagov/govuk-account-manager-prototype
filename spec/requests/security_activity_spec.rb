@@ -179,7 +179,10 @@ RSpec.describe "security activities" do
     end
 
     context "with MFA enabled" do
-      before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
+      before do
+        allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true)
+        allow(Rails.configuration).to receive(:allow_insecure_change_credential).and_return(true)
+      end
 
       it "records PHONE_CHANGED events" do
         old_phone = user.phone

@@ -37,6 +37,11 @@ RSpec.feature "Remember Me" do
       it "skips MFA" do
         expect(page).to have_text(I18n.t("account.your_account.heading"))
       end
+
+      it "re-does MFA when changing phone number" do
+        visit_change_number_page
+        expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+      end
     end
 
     context "the user returns 31 days later" do
@@ -95,5 +100,14 @@ RSpec.feature "Remember Me" do
 
   def visit_security_page
     click_on I18n.t("navigation.menu_bar.security.link_text")
+  end
+
+  def visit_change_number_page
+    within ".accounts-menu" do
+      click_on "Manage your account"
+    end
+    within "#main-content" do
+      click_on "Change Mobile number"
+    end
   end
 end
