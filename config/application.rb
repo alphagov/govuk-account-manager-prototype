@@ -64,8 +64,6 @@ module GovukAccountManagerPrototype
 
     config.feature_flag_mfa = ENV["FEATURE_FLAG_MFA"] == "enabled"
 
-    config.feature_flag_bypass_mfa = false
-
     config.allow_insecure_change_credential = false
 
     config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml").to_s]

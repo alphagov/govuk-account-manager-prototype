@@ -3,56 +3,71 @@ RSpec.feature "Remember Me" do
   include ActiveJob::TestHelper
   include ActiveSupport::Testing::TimeHelpers
 
-  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
-  before { allow(Rails.configuration).to receive(:feature_flag_bypass_mfa).and_return(bypass_mfa_enabled) }
-
-  let(:bypass_mfa_enabled) { true }
-
   let!(:user) { FactoryBot.create(:user, :confirmed) }
 
-  context "'remember me' is disabled" do
-    let(:bypass_mfa_enabled) { false }
-
-    it "doesn't give the option to 'remember me'" do
-      enter_email_address_and_password
-
-      expect(page).to_not have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.phone.code.fields.remember_me.label")))
-    end
+  before do
+    allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true)
+    log_in_and_remember_me
   end
 
-  context "the user checks 'remember me'" do
-    before { log_in_and_remember_me }
+  it "shows the event on the security page" do
+    visit_security_page
 
-    it "shows the event on the security page" do
-      visit_security_page
+    expect(page).to have_text(I18n.t("account.security.security_codes.code_description.present"))
+  end
 
-      expect(page).to have_text(I18n.t("account.security.security_codes.code_description.present"))
+  context "the user returns 29 days later" do
+    before do
+      travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE - 1.day)
+      enter_email_address_and_password
     end
 
-    context "the user returns 29 days later" do
+    it "skips MFA" do
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
+    end
+
+    it "re-does MFA when changing email address" do
+      visit_change_email_page
+      expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+      expect(page).to have_text(redacted_phone_number(user.phone))
+    end
+
+    it "re-does MFA when changing password" do
+      visit_change_password_page
+      expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+      expect(page).to have_text(redacted_phone_number(user.phone))
+    end
+
+    it "re-does MFA when changing phone number" do
+      visit_change_number_page
+      expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
+      expect(page).to have_text(redacted_phone_number(user.phone))
+    end
+
+    context "the user has already re-done MFA" do
       before do
-        travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE - 1.day)
-        enter_email_address_and_password
-      end
-
-      it "skips MFA" do
-        expect(page).to have_text(I18n.t("account.your_account.heading"))
-      end
-
-      it "re-does MFA when changing email address" do
         visit_change_email_page
-        expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-        expect(page).to have_text(redacted_phone_number(user.phone))
+        redo_mfa
+        expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
+        visit "/account"
       end
 
-      it "re-does MFA when changing password" do
-        visit_change_password_page
-        expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-        expect(page).to have_text(redacted_phone_number(user.phone))
+      it "doesn't re-do MFA again" do
+        visit_change_email_page
+        expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
+      end
+    end
+
+    context "the user aborted an MFA re-do" do
+      before do
+        visit_change_email_page
+        abort_redo_mfa
+        expect(page).to have_text(I18n.t("account.manage.heading"))
+        visit "/account"
       end
 
-      it "re-does MFA when changing phone number" do
-        visit_change_number_page
+      it "re-does MFA again" do
+        visit_change_email_page
         expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
         expect(page).to have_text(redacted_phone_number(user.phone))
       end
@@ -85,36 +100,36 @@ RSpec.feature "Remember Me" do
         end
       end
     end
+  end
 
-    context "the user returns 31 days later" do
-      before do
-        travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE + 1.day)
-        enter_email_address_and_password
-      end
-
-      it "does not skip MFA" do
-        expect(page).to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
-      end
+  context "the user returns 31 days later" do
+    before do
+      travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE + 1.day)
+      enter_email_address_and_password
     end
 
-    context "with multiple users on the same machine" do
-      let(:user2) { FactoryBot.create(:user, email: "other-user@example.com") }
+    it "does not skip MFA" do
+      expect(page).to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
+    end
+  end
 
-      before do
-        log_out
-        log_in_and_remember_me(the_user: user2)
-        log_out
-      end
+  context "with multiple users on the same machine" do
+    let(:user2) { FactoryBot.create(:user, email: "other-user@example.com") }
 
-      it "remembers all the users who chose to skip MFA" do
-        enter_email_address_and_password(the_user: user)
-        expect(page).to have_text(I18n.t("account.your_account.heading"))
+    before do
+      log_out
+      log_in_and_remember_me(the_user: user2)
+      log_out
+    end
 
-        log_out
+    it "remembers all the users who chose to skip MFA" do
+      enter_email_address_and_password(the_user: user)
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
 
-        enter_email_address_and_password(the_user: user2)
-        expect(page).to have_text(I18n.t("account.your_account.heading"))
-      end
+      log_out
+
+      enter_email_address_and_password(the_user: user2)
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
   end
 

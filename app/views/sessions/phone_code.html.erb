@@ -23,17 +23,15 @@
     width: 5,
   } %>
 
-  <% if Rails.configuration.feature_flag_bypass_mfa %>
-    <%= render "govuk_publishing_components/components/checkboxes", {
-      name: "remember_me",
-      items: [
-        {
-          label: sanitize(t("mfa.phone.code.fields.remember_me.label")),
-          value: "1"
-        }
-      ]
-    } %>
-  <% end %>
+  <%= render "govuk_publishing_components/components/checkboxes", {
+    name: "remember_me",
+    items: [
+      {
+        label: sanitize(t("mfa.phone.code.fields.remember_me.label")),
+        value: "1"
+      }
+    ]
+  } %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: t("mfa.phone.code.fields.submit.label"),
