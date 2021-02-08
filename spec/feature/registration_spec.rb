@@ -3,10 +3,8 @@ RSpec.feature "Registration" do
   include ActiveSupport::Testing::TimeHelpers
 
   before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(mfa_enabled) }
-  before { allow(Rails.configuration).to receive(:enable_registration).and_return(registration_enabled) }
 
   let(:mfa_enabled) { true }
-  let(:registration_enabled) { true }
   let(:email) { "email@example.com" }
   # https://www.ofcom.org.uk/phones-telecoms-and-internet/information-for-industry/numbering/numbers-for-drama
   let(:phone_number) { "07958 123 456" }
@@ -365,16 +363,6 @@ RSpec.feature "Registration" do
       expect(User.last).to_not be_nil
       expect(User.last.email).to eq(email)
       expect(User.last.phone).to be_nil
-    end
-  end
-
-  context "registrations are disabled" do
-    let(:registration_enabled) { false }
-
-    it "shows an error message" do
-      visit_registration_form
-
-      expect(page).to have_text(I18n.t("devise.registrations.closed.heading"))
     end
   end
 
