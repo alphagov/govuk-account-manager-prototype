@@ -134,14 +134,6 @@ Then you can run the tests with:
 bundle exec rake
 ```
 
-## Deployment to GOV.UK via concourse
-
-Every commit to main is deployed to GOV.UK PaaS by [this concourse pipeline](https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-account-manager-prototype), which is configured in [concourse/pipeline.yml](/concourse/pipeline.yml).
-
-You will need to be logged into the GDS VPN to access concourse.
-
-The concourse pipeline has credentials for the govuk-accounts-developers user in GOV.UK PaaS. This user has the SpaceDeveloper role, so it can `cf push` the application.
-
 ## Secrets
 
 Secrets are defined via the [gds-cli](https://github.com/alphagov/gds-cli) and Concourse secrets manager.
