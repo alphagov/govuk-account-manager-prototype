@@ -6,6 +6,150 @@ en:
     cookie_settings_href: https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement
     description: Cookies help us see where we can make improvements to GOV.UK.
     title: Can we use cookies to collect information about how you use GOV.UK?
+  footer_meta:
+  - href: https://www.gov.uk/help
+    text: Help
+  - href: https://www.gov.uk/help/cookies
+    text: Cookies
+  - href: https://www.gov.uk/government/publications/govuk-accounts-trial-full-privacy-notice-and-accessibility-statement
+    text: Accessibility statement
+  - href: "/feedback"
+    text: Contact
+  - href: https://www.gov.uk/help/terms-conditions
+    text: Terms and conditions
+  - href: https://www.gov.uk/cymraeg
+    text: Rhestr o Wasanaethau Cymraeg
+    attributes:
+      lang: cy
+      hreflang: cy
+  - href: https://www.gov.uk/government/organisations/government-digital-service
+    text: Government Digital Service
+  footer_sections:
+  - title: Coronavirus (COVID-19)
+    columns: 2
+    links:
+    - href: https://www.gov.uk/coronavirus
+      text: 'Coronavirus (COVID-19): guidance and support'
+      attributes:
+        data:
+          track_action: coronavirusLinks
+  - title: Brexit
+    links:
+    - href: https://www.gov.uk/transition
+      text: Check how the new rules affect you
+      attributes:
+        data:
+          track_action: transitionLinks
+  - title: Services and information
+    columns: 2
+    links:
+    - href: https://www.gov.uk/browse/benefits
+      text: Benefits
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/births-deaths-marriages
+      text: Births, deaths, marriages and care
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/business
+      text: Business and self-employed
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/childcare-parenting
+      text: Childcare and parenting
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/citizenship
+      text: Citizenship and living in the UK
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/justice
+      text: Crime, justice and the law
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/disabilities
+      text: Disabled people
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/driving
+      text: Driving and transport
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/education
+      text: Education and learning
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/employing-people
+      text: Employing people
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/environment-countryside
+      text: Environment and countryside
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/housing-local-services
+      text: Housing and local services
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/tax
+      text: Money and tax
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/abroad
+      text: Passports, travel and living abroad
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/visas-immigration
+      text: Visas and immigration
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/browse/working
+      text: Working, jobs and pensions
+      attributes:
+        data:
+          track_action: footerLinks
+  - title: Departments and policy
+    links:
+    - href: https://www.gov.uk/government/how-government-works
+      text: How government works
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/government/organisations
+      text: Departments
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/world
+      text: Worldwide
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/government/policies
+      text: Policies
+      attributes:
+        data:
+          track_action: footerLinks
+    - href: https://www.gov.uk/news-and-communications
+      text: News and communications
+      attributes:
+        data:
+          track_action: footerLinks
   general:
     cancel: cancel
     change: Change

@@ -93,4 +93,31 @@ module ApplicationHelper
       url: url,
     }
   end
+
+  def footer_navigation
+    navigation = []
+    t("footer_sections").each do |section|
+      nav_section = section
+      nav_section[:items] = []
+      section[:links].each do |link|
+        item = link
+        # use link text for data-track-label unless a different label is specified
+        item[:attributes][:data][:track_label] = link[:attributes][:data][:track_label] || link[:text]
+        nav_section[:items] << item
+      end
+
+      navigation << nav_section
+    end
+
+    navigation
+  end
+
+  def footer_meta
+    meta = { items: [] }
+    t("footer_meta").each do |link|
+      meta[:items] << link
+    end
+
+    meta
+  end
 end
