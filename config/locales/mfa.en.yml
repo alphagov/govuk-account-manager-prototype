@@ -66,14 +66,14 @@ en:
               label: Send security code
           heading: Confirm your new number
         start:
-          current: 'The phone number currently stored in your GOV.UK account is: <span class="govuk-!-display-inline-block">%{phone_number}</span>'
+          current: 'The phone number currently stored in your GOV.UK account is: <span class="govuk-!-font-weight-bold">%{phone_number}</span>'
           fields:
             phone:
-              label: Enter new phone number
+              label: Enter new mobile phone number
             submit:
               label: Continue
           heading: Change your phone number
-          message: We’ll send you a security code by text message. You’ll need this code to finish changing the phone number for your account.
+          message: We’ll send a security code to your new number by text message. You’ll need this code to finish changing the phone number for your account.
     text_message:
       security_code:
         body: "%{phone_code} is your security code."
