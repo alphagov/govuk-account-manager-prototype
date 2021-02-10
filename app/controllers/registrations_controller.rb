@@ -25,8 +25,6 @@ class RegistrationsController < Devise::RegistrationsController
   ]
 
   def start
-    render :closed and return unless Rails.configuration.enable_registration
-
     jwt = find_or_create_jwt
 
     @criteria_keys = jwt.jwt_payload.dig("attributes", "transition_checker_state", "criteria_keys")

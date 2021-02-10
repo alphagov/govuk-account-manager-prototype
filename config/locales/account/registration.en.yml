@@ -2,11 +2,6 @@
 en:
   devise:
     registrations:
-      closed:
-        heading: Registrations are closed
-        message:
-        - We are temporarily preventing people from creating new GOV.UK accounts.
-        - You can still sign in to any accounts you already have.
       destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
       start:
         checker_inset_text: If you do not have a mobile phone, you can still get %{link}.
@@ -31,10 +26,6 @@ en:
           title: How to create a secure password
         sign_in: If you already have an account, you can %{link}.
         sign_in_link: sign in
-      transition_checker:
-        heading: This email address does not have a GOV.UK account
-        message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit checker</a> and subscribe to email updates.
-        page_title: You do not have a GOV.UK account
       transition_emails:
         description: |
           <p class="govuk-body">The emails will give you a personalised list of actions for you, your family and your business.</p>
