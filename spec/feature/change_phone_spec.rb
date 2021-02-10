@@ -13,6 +13,7 @@ RSpec.feature "Change Phone" do
     go_to_change_number_page
     enter_new_phone_number
     enter_password
+    send_code
     enter_mfa
 
     expect(page).to have_text(I18n.t("account.manage.heading"))
@@ -24,6 +25,7 @@ RSpec.feature "Change Phone" do
     go_to_change_number_page
     enter_new_phone_number
     enter_password
+    send_code
     enter_mfa
     visit_security_page
 
@@ -80,6 +82,7 @@ RSpec.feature "Change Phone" do
       go_to_change_number_page
       enter_new_phone_number
       enter_password
+      send_code
       enter_incorrect_mfa
 
       expect(page).to have_text(I18n.t("mfa.errors.phone_code.invalid"))
@@ -91,6 +94,7 @@ RSpec.feature "Change Phone" do
         go_to_change_number_page
         enter_new_phone_number
         enter_password
+        send_code
         (MultiFactorAuth::ALLOWED_ATTEMPTS + 1).times { enter_incorrect_mfa }
 
         expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("mfa.errors.phone_code.too_many_attempts")))
@@ -104,6 +108,7 @@ RSpec.feature "Change Phone" do
       go_to_change_number_page
       enter_new_phone_number
       enter_password
+      send_code
       travel(MultiFactorAuth::EXPIRATION_AGE + 1.second)
       enter_mfa
       user_is_returned_to_login_screen
@@ -147,6 +152,10 @@ RSpec.feature "Change Phone" do
   def enter_incorrect_password
     fill_in "current_password", with: "1#{user.password}"
     click_on I18n.t("mfa.phone.update.start.fields.submit.label")
+  end
+
+  def send_code
+    click_on I18n.t("mfa.phone.update.confirm.fields.submit.label")
   end
 
   def enter_mfa

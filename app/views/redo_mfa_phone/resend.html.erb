@@ -1,0 +1,20 @@
+<% content_for :title, t("mfa.phone.resend.heading") %>
+
+<%= render "govuk_publishing_components/components/back_link", {
+  href: redo_mfa_phone_code_path
+} %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 3,
+} %>
+
+<p class="govuk-body"><%= t("mfa.phone.resend.description") %></p>
+
+<%= form_with(url: redo_mfa_phone_resend_path, method: :post) do %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("mfa.phone.resend.fields.submit.label"),
+  } %>
+<% end %>

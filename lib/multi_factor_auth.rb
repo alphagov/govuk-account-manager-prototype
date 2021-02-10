@@ -102,4 +102,10 @@ module MultiFactorAuth
     end
     false
   end
+
+  def self.choose_mfa_method(user)
+    raise Disabled unless is_enabled?
+
+    :phone if user.phone.present?
+  end
 end

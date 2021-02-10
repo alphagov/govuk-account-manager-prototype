@@ -51,6 +51,12 @@ RSpec.describe ApplicationHelper do
     end
   end
 
+  describe "#redacted_phone_number" do
+    it "redacts all but the final 3 digits" do
+      expect(redacted_phone_number("+447958123456")).to eq("xxxxx xxx456")
+    end
+  end
+
   describe "#service_for" do
     let(:user) { FactoryBot.create(:user) }
 

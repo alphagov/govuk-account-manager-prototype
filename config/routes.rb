@@ -40,12 +40,24 @@ Rails.application.routes.draw do
       patch "/", to: "registrations#update", as: :user_registration
       put   "/", to: "registrations#update"
 
+      scope "/mfa" do
+        get "/abort", to: "redo_mfa#stop", as: :redo_mfa_stop
+
+        scope "/phone" do
+          get  "/code", to: "redo_mfa_phone#code", as: :redo_mfa_phone_code
+          post "/verify", to: "redo_mfa_phone#verify", as: :redo_mfa_phone_verify
+          get  "/resend", to: "redo_mfa_phone#resend", as: :redo_mfa_phone_resend
+          post "/resend", to: "redo_mfa_phone#resend_code"
+        end
+      end
+
       scope "/edit" do
         get  "/email", to: "registrations#edit_email", as: :edit_user_registration_email
         get  "/password", to: "registrations#edit_password", as: :edit_user_registration_password
 
         scope "/phone" do
           get  "/", to: "edit_phone#show", as: :edit_user_registration_phone
+          post "/confirm", to: "edit_phone#confirm", as: :edit_user_registration_phone_confirm
           get  "/code", to: "edit_phone#code", as: :edit_user_registration_phone_code
           post "/code", to: "edit_phone#code_send"
           post "/verify", to: "edit_phone#verify", as: :edit_user_registration_phone_verify

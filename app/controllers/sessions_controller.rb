@@ -103,7 +103,7 @@ class SessionsController < Devise::SessionsController
         }
         record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, user: login_state.user, analytics: analytics_data)
       end
-      do_sign_in
+      do_sign_in(has_done_mfa: true)
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
       session.delete(:login_state_id)
@@ -158,13 +158,15 @@ protected
       end
   end
 
-  def do_sign_in
+  def do_sign_in(has_done_mfa: false)
     record_security_event(SecurityActivity::LOGIN_SUCCESS, user: login_state.user, analytics: analytics_data)
 
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(login_state.user)
 
     sign_in(resource_name, login_state.user)
+
+    session[:has_done_mfa] = has_done_mfa
 
     post_login_path =
       if login_state.redirect_path

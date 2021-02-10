@@ -1,20 +1,19 @@
 class EditPhoneController < ApplicationController
+  include RequiresRecentMfa
+
   before_action :authenticate_user!
   before_action :enforce_has_phone!
+  before_action :enforce_recent_mfa!
 
   def show; end
 
-  def code; end
-
-  def code_send
-    phone_number = current_user.unconfirmed_phone
+  def confirm
+    unless current_user.valid_password? params[:current_password]
+      @password_error_message = I18n.t("activerecord.errors.models.user.attributes.password.#{params[:current_password].blank? ? 'blank' : 'invalid'}")
+    end
 
     if params[:phone]
       phone_number = MultiFactorAuth.e164_number(params[:phone])
-
-      unless current_user.valid_password? params[:current_password]
-        @password_error_message = I18n.t("activerecord.errors.models.user.attributes.password.#{params[:current_password].blank? ? 'blank' : 'invalid'}")
-      end
 
       if phone_number == current_user.phone
         @phone_error_message = I18n.t("mfa.errors.phone.nochange")
@@ -23,14 +22,23 @@ class EditPhoneController < ApplicationController
       unless MultiFactorAuth.valid? phone_number
         @phone_error_message = I18n.t("activerecord.errors.models.user.attributes.phone.invalid")
       end
-
-      render :show and return if @password_error_message || @phone_error_message
+    else
+      @phone_error_message = I18n.t("activerecord.errors.models.user.attributes.phone.blank")
     end
 
-    current_user.transaction do
+    if @password_error_message || @phone_error_message
+      render :show
+    else
       current_user.update!(unconfirmed_phone: phone_number)
-      MultiFactorAuth.generate_and_send_code(current_user, use_unconfirmed: true)
     end
+  end
+
+  def code; end
+
+  def code_send
+    redirect_to edit_user_registration_phone and return unless current_user.unconfirmed_phone
+
+    MultiFactorAuth.generate_and_send_code(current_user, use_unconfirmed: true)
 
     render :code
   end
@@ -62,5 +70,9 @@ protected
 
   def enforce_has_phone!
     redirect_to user_root_path unless current_user.phone
+  end
+
+  def enforce_recent_mfa!
+    redo_mfa edit_user_registration_phone_path unless has_done_mfa_recently?
   end
 end
