@@ -17,4 +17,13 @@ RSpec.describe ZendeskTicketJob do
 
     described_class.new.perform(ticket_attributes)
   end
+
+  it "suppresses 'foo is suspended' errors" do
+    error_hash = { details: [{ description: "Requester: #{ticket_attributes[:email]} is suspended." }] }.with_indifferent_access
+
+    expect(Zendesk::Ticket).to receive(:new)
+      .and_raise(ZendeskAPI::Error::RecordInvalid.new(nil, { body: error_hash }))
+
+    described_class.new.perform(ticket_attributes)
+  end
 end
