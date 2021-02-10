@@ -26,6 +26,9 @@ class SecurityActivity < ApplicationRecord
 
     # on create
     USER_CREATED = LogEntry.new(id: 12, name: :user_created, require_user: true),
+
+    # on delete
+    USER_DESTROYED = LogEntry.new(id: 15, name: :user_destroyed),
   ].freeze
 
   EVENTS_REQUIRING_USER = EVENTS.select(&:require_user?)

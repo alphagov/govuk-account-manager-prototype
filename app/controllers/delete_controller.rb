@@ -11,9 +11,13 @@ class DeleteController < ApplicationController
       render :show
       return
     end
+    User.transaction do
+      event_json = record_security_event(SecurityActivity::USER_DESTROYED, user: current_user, log_to_splunk: false).to_hash.to_json
+      email = current_user.email
+      current_user.destroy!
+    end
 
-    email = current_user.email
-    current_user.destroy!
+    Rails.logger.public_send Rails.application.config.log_level, event_json
     sign_out
     UserMailer.with(email: email).post_delete_email.deliver_later
     redirect_to "#{transition_checker_path}/logout?continue=delete"

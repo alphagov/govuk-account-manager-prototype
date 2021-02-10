@@ -210,6 +210,19 @@ RSpec.describe "security activities" do
       expect_event SecurityActivity::PASSWORD_CHANGED
       expect_event_on_security_page SecurityActivity::PASSWORD_CHANGED
     end
+
+    it "record a USER_DESTROYED event" do
+      attribute_service_url = "example.gov.uk"
+
+      ClimateControl.modify ATTRIBUTE_SERVICE_URL: attribute_service_url do
+        allow(Rails.logger).to receive(:public_send)
+        stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .to_return(status: 204)
+
+        delete account_delete_path, params: { current_password: user.password }
+        expect(Rails.logger).to have_received(:public_send).with(:debug, /\"action\":\"user_destroyed\"/)
+      end
+    end
   end
 
   it "records EMAIL_CHANGED events" do
