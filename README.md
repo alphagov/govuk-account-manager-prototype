@@ -96,44 +96,6 @@ If there have been Ruby on Rails configuration changes to the app, you must rest
 1. Run `govuk-docker down` in the command line to stop all GOV.UK Docker containers.
 1. Run `govuk-docker-up` in the folder of the app you want to run to restart the GOV.UK Docker containers.
 
-## Sending emails locally
-
-You'll need to pass a GOV.UK Notify API key as an environment variable
-`NOTIFY_API_KEY`, and change the delivery method in [development.rb][]:
-
-```ruby
-config.action_mailer.delivery_method = :notify
-```
-
-You'll also need to set a `GOVUK_NOTIFY_TEMPLATE_ID`, which might involve
-creating a template in Notify if [your Notify service][] doesn't have one.
-
-The template should have a Message of `((body))` only.
-
-[development.rb]: config/environments/development.rb
-[your Notify service]: https://www.notifications.service.gov.uk/accounts
-
-## Running the tests
-
-You don't need govuk-accounts-docker to run the tests, a local postgres database is enough:
-
-```
-docker run --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=db -p 5432:5432 postgres:13
-```
-
-Set up your environment and create the database tables:
-
-```
-export TEST_DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/db"
-bundle exec rake db:migrate RAILS_ENV=test
-```
-
-Then you can run the tests with:
-
-```
-bundle exec rake
-```
-
 ## Secrets
 
 Secrets are defined via the [gds-cli](https://github.com/alphagov/gds-cli) and Concourse secrets manager.
@@ -177,44 +139,6 @@ puts "client secret: #{a.secret}"
 ```
 
 You will probably want `openid` in the list of scopes.
-
-## Disabling registrations
-
-Set the `ENABLE_REGISTRATION` environment variable to `false` to
-disable the registration form.
-
-To do this in production / staging:
-
-1. Edit `concourse/pipeline.yml`, changing `ENABLE_REGISTRATION: "true"` to  `ENABLE_REGISTRATION: "false"` in the relevant environment
-2. Deploy the pipeline change (happens automatically on push to main)
-3. Deploy the application (happens automatically on push to main)
-
-If changing the pipeline isn't feasible (for example, you are doing
-this out-of-hours and nobody else is around), you can use the PaaS CLI
-to set the environment variable:
-
-1. Log into the PaaS
-2. `cf set-env govuk-account-manager ENABLE_REGISTRATION false`
-3. `cf restage govuk-account-manager`
-
-This approach will cause some brief downtime as the app restarts, and
-the environment variable change will be lost on the next Concourse
-deployment.
-
-## Exporting registration statistics
-
-We may periodically be asked to produce reports with information about the
-number of registrations, logins, etc. There is a rake task to handle this and
-has to be run manually in production, e.g. to produce statistics for the 28th
-October 2020:
-
-```
-cf login -u <your_email> -a https://api.london.cloud.service.gov.uk --sso
-cf target -s production
-cf v3-ssh govuk-account-manager
-$ /tmp/lifecycle/shell
-$ rake "statistics:general[2020-10-28 00:00, 2020-10-28 23:59]"
-```
 
 ## Starting an A/B test
 
