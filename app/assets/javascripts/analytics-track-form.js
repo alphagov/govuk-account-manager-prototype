@@ -20,7 +20,12 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
             $checkedOption = $checkedOptions[i]
             var trackAction = $checkedOption.getAttribute('data-track-action')
             var checkedOptionId = $checkedOption.getAttribute('id')
-            var checkedOptionLabel = $submittedForm.querySelector('label[for="' + checkedOptionId + '"]').innerText.trim()
+            var checkedOptionLabel = $submittedForm.querySelector('label[for="' + checkedOptionId + '"]')
+            if (checkedOptionLabel) {
+              checkedOptionLabel = checkedOptionLabel.textContent.trim()
+            } else {
+             checkedOptionLabel =  "No label found"
+            }
             questionValue = checkedOptionLabel.length ? checkedOptionLabel : $checkedOption.value
 
             if (typeof ga === 'function') {
