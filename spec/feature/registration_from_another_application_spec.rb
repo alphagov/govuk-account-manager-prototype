@@ -1,8 +1,6 @@
 RSpec.feature "Registration (coming from another application)" do
   include ActiveJob::TestHelper
 
-  before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
-
   let(:application) do
     FactoryBot.create(
       :oauth_application,

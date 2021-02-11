@@ -22,9 +22,7 @@ class SessionsController < Devise::SessionsController
 
     @email = params.dig(:user, :email)
     catch(:warden) do
-      if Rails.configuration.feature_flag_bypass_mfa
-        request.env["warden.mfa.bypass_token"] = (cookies.encrypted[MFA_BYPASS_COOKIE_NAME] || {})[@email]
-      end
+      request.env["warden.mfa.bypass_token"] = (cookies.encrypted[MFA_BYPASS_COOKIE_NAME] || {})[@email]
       self.resource = warden.authenticate(auth_options)
     end
 
@@ -91,7 +89,7 @@ class SessionsController < Devise::SessionsController
     state = MultiFactorAuth.verify_code(login_state.user, params[:phone_code])
     if state == :ok
       record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: login_state.user, factor: :sms, analytics: analytics_data)
-      if params[:remember_me] == "1" && Rails.configuration.feature_flag_bypass_mfa
+      if params[:remember_me] == "1"
         token = MfaToken.generate!(login_state.user)
         cookies.encrypted[MFA_BYPASS_COOKIE_NAME] = {
           expires: MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE.after(token.created_at),

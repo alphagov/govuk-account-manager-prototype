@@ -31,75 +31,71 @@ RSpec.describe "security activities" do
     expect_event_on_security_page SecurityActivity::MANUAL_ACCOUNT_UNLOCK
   end
 
-  context "with MFA enabled" do
-    before { allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true) }
-    before { allow(Rails.configuration).to receive(:feature_flag_bypass_mfa).and_return(true) }
+  it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS events" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
 
-    it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS events" do
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
-      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, { factor: :sms }
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, { factor: :sms }
-    end
+  it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS event with additional analytics data from confirmation email" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "from_confirmation_email" => true }
 
-    it "records ADDITIONAL_FACTOR_VERIFICATION_SUCCESS event with additional analytics data from confirmation email" do
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
-      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "from_confirmation_email" => true }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, { analytics: "from_confirmation_email" }
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, { analytics: "from_confirmation_email" }
-    end
+  it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE events" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => "incorrect" }
 
-    it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE events" do
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
-      post user_session_phone_verify_path, params: { "phone_code" => "incorrect" }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { factor: :sms }
+    expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { factor: :sms }
-      expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
-    end
+  it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE event with additional analytics data from confirmation email" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => "incorrect", "from_confirmation_email" => true }
 
-    it "records ADDITIONAL_FACTOR_VERIFICATION_FAILURE event with additional analytics data from confirmation email" do
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
-      post user_session_phone_verify_path, params: { "phone_code" => "incorrect", "from_confirmation_email" => true }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { analytics: "from_confirmation_email" }
+    expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, { analytics: "from_confirmation_email" }
-      expect_event_on_security_page SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE
-    end
+  it "records ADDITIONAL_FACTOR_BYPASS_USED events" do
+    allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
+      .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
 
-    it "records ADDITIONAL_FACTOR_BYPASS_USED events" do
-      allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
-        .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
 
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED
-    end
+  it "records ADDITIONAL_FACTOR_BYPASS_USED event with additional analytics data from confirmation email" do
+    allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
+      .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
 
-    it "records ADDITIONAL_FACTOR_BYPASS_USED event with additional analytics data from confirmation email" do
-      allow_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:encrypted)
-        .and_return({ SessionsController::MFA_BYPASS_COOKIE_NAME => { user.email => MfaToken.generate!(user).token } })
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
 
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, analytics: "from_confirmation_email"
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, analytics: "from_confirmation_email"
-    end
+  it "records ADDITIONAL_FACTOR_BYPASS_GENERATED events" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1 }
 
-    it "records ADDITIONAL_FACTOR_BYPASS_GENERATED events" do
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
-      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1 }
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED
+  end
 
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED
-    end
+  it "records ADDITIONAL_FACTOR_BYPASS_GENERATED event with additional analytics data from confirmation email" do
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1, "from_confirmation_email" => true }
 
-    it "records ADDITIONAL_FACTOR_BYPASS_GENERATED event with additional analytics data from confirmation email" do
-      post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
-      post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "remember_me" => 1, "from_confirmation_email" => true }
-
-      expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, analytics: "from_confirmation_email"
-    end
+    expect_event SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, analytics: "from_confirmation_email"
   end
 
   it "records LOGIN_SUCCESS events" do
     post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
 
     expect_event SecurityActivity::LOGIN_SUCCESS
     expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
@@ -107,6 +103,7 @@ RSpec.describe "security activities" do
 
   it "records LOGIN_SUCCESS event with additional analytics data from confirmation email" do
     post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => user.password, "from_confirmation_email" => true }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code, "from_confirmation_email" => true }
 
     expect_event SecurityActivity::LOGIN_SUCCESS, analytics: "from_confirmation_email"
     expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
@@ -147,7 +144,11 @@ RSpec.describe "security activities" do
   end
 
   context "with a user logged in" do
-    before { sign_in user }
+    before do
+      allow(Rails.configuration).to receive(:allow_insecure_change_credential).and_return(true)
+
+      sign_in user
+    end
 
     context "with an OAuth application" do
       let(:application) do
@@ -178,25 +179,18 @@ RSpec.describe "security activities" do
       expect_event_on_security_page SecurityActivity::EMAIL_CHANGE_REQUESTED
     end
 
-    context "with MFA enabled" do
-      before do
-        allow(Rails.configuration).to receive(:feature_flag_mfa).and_return(true)
-        allow(Rails.configuration).to receive(:allow_insecure_change_credential).and_return(true)
-      end
+    it "records PHONE_CHANGED events" do
+      old_phone = user.phone
 
-      it "records PHONE_CHANGED events" do
-        old_phone = user.phone
+      post edit_user_registration_phone_confirm_path, params: {
+        "phone" => "07581123456",
+        "current_password" => user.password,
+      }
+      post edit_user_registration_phone_code_path
+      post edit_user_registration_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
 
-        post edit_user_registration_phone_confirm_path, params: {
-          "phone" => "07581123456",
-          "current_password" => user.password,
-        }
-        post edit_user_registration_phone_code_path
-        post edit_user_registration_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
-
-        expect_event SecurityActivity::PHONE_CHANGED, { notes: "from #{old_phone} to #{user.reload.phone}" }
-        expect_event_on_security_page SecurityActivity::PHONE_CHANGED
-      end
+      expect_event SecurityActivity::PHONE_CHANGED, { notes: "from #{old_phone} to #{user.reload.phone}" }
+      expect_event_on_security_page SecurityActivity::PHONE_CHANGED
     end
 
     it "records PASSWORD_CHANGED events" do
