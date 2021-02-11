@@ -15,6 +15,10 @@ RSpec.describe User do
     end
   end
 
+  describe "associations" do
+    it { should have_many(:webauthn_credentials).dependent(:destroy) }
+  end
+
   context "#destroy!" do
     it "calls the attribute service to delete the attributes" do
       attribute_service_stub = stub_attribute_service_delete_all

@@ -12,5 +12,16 @@ FactoryBot.define do
       unconfirmed_email { "new_email@example.com" }
       confirmation_token { "abc123" }
     end
+
+    trait :with_webauthn_credentials do
+      transient do
+        credentials_count { 2 }
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:webauthn_credentials, evaluator.credentials_count, user: user)
+        user.reload
+      end
+    end
   end
 end

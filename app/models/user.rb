@@ -41,6 +41,9 @@ class User < ApplicationRecord
   has_many :mfa_tokens,
            dependent: :destroy
 
+  has_many :webauthn_credentials,
+           dependent: :destroy
+
   validate :password_cannot_be_on_denylist, if: :password_required?
 
   after_commit :update_remote_user_info, on: %i[create update]
