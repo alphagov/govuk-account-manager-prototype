@@ -96,31 +96,6 @@ If there have been Ruby on Rails configuration changes to the app, you must rest
 1. Run `govuk-docker down` in the command line to stop all GOV.UK Docker containers.
 1. Run `govuk-docker-up` in the folder of the app you want to run to restart the GOV.UK Docker containers.
 
-## Secrets
-
-Secrets are defined via the [gds-cli](https://github.com/alphagov/gds-cli) and Concourse secrets manager.
-
-You can view live secrets with an authenticated cloud foundry command:
-`cf env govuk-account-manager`.
-
-Adding or updating a secret can be done with Concourse secrets manager and the [GDS cli](https://docs.publishing.service.gov.uk/manual/get-started.html#3-install-gds-tooling).
-
-```
-gds cd secrets add cd-govuk-tools govuk-account-manager-prototype/SECRET_NAME your_secret_value
-```
-
-To remove a secret:
-
-```
-gds cd secrets rm cd-govuk-tools govuk-account-manager-prototype/SECRET_NAME
-```
-
-You would also need to unset it from the PaaS environment. Which you can do with this command:
-
-```
-cf unset-env govuk-account-manager SECRET_NAME
-```
-
 ## Creating a new OAuth application
 
 First get a Rails console.  For example, when running locally in Docker Compose:
