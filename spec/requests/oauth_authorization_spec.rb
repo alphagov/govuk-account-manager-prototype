@@ -12,6 +12,34 @@ RSpec.describe "/oauth/authorize" do
     )
   end
 
+  it "fetches a JWT from the OAuth state param" do
+    private_key = OpenSSL::PKey::EC.new("prime256v1").generate_key
+    public_key = OpenSSL::PKey::EC.new private_key
+
+    application_key = ApplicationKey.create!(
+      application_uid: application.uid,
+      key_id: SecureRandom.uuid,
+      pem: public_key.to_pem,
+    )
+
+    payload = {
+      uid: application.uid,
+      key: application_key.key_id,
+      scopes: [],
+      attributes: {},
+      post_login_oauth: "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-query-string",
+    }
+
+    jwt = Jwt.create!(jwt_payload: JWT.encode(payload, private_key, "ES256"))
+
+    get authorization_endpoint_url(client: application, scope: "openid email transition_checker", state: jwt.id)
+    expect(response.redirect_url).not_to be_nil
+
+    post response.redirect_url, params: { "user[email]" => user.email, "user[password]" => user.password }
+    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
+    expect(response).to redirect_to(payload[:post_login_oauth].delete_prefix(Rails.application.config.redirect_base_url))
+  end
+
   context "with a user logged in" do
     before { sign_in user }
 
