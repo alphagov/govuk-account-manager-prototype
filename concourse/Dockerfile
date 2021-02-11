@@ -12,6 +12,9 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
     && apt update -y \
     && apt install -y yarn
 
+# Enable no-sandbox for chrome so that it can run as a root user
+ENV GOVUK_TEST_CHROME_NO_SANDBOX 1
+
 COPY Gemfile* .ruby-version package.json /application/
 
 WORKDIR /application/

@@ -114,8 +114,6 @@ jobs:
         config:
           inputs:
             - name: git-main
-          outputs:
-            - name: committer-details
           platform: linux
           run:
             dir: git-main
