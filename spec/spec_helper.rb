@@ -9,6 +9,7 @@ require "capybara/rspec"
 require "webmock/rspec"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
+GovukTest.configure
 
 SimpleCov.start do
   enable_coverage :branch
