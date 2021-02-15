@@ -14,7 +14,7 @@ run:
     - "-c"
     - |
       echo "triggering account-manager export"
-      curl -XPOST -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://www.${CDN_DOMAIN}/api/v1/report/bigquery"
+      curl --fail -XPOST -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://www.${CDN_DOMAIN}/api/v1/report/bigquery"
 
       echo "triggering attribute-service export"
-      curl -XPOST -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://attributes.${CDN_DOMAIN}/v1/report/bigquery"
+      curl --fail -XPOST -H "Authorization: Bearer ${BEARER_TOKEN}" -H 'Accept: application/json' "https://attributes.${CDN_DOMAIN}/v1/report/bigquery"

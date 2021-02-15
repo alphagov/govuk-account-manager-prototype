@@ -313,6 +313,17 @@ jobs:
         params:
           CDN_DOMAIN: account.publishing.service.gov.uk
           BEARER_TOKEN: ((report-bearer-token))
+        on_failure:
+          put: govuk-slack
+          params:
+            channel: '#govuk-accounts-tech'
+            username: 'Concourse (GOV.UK Accounts)'
+            icon_emoji: ':concourse:'
+            silent: true
+            text: |
+              :kaboom:
+              Production BigQuery export has failed
+              Failed build: http://cd.gds-reliability.engineering/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
   - name: suspend-staging
     plan:
