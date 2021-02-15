@@ -57,6 +57,30 @@ RSpec.describe Jwt do
       expect(payload.dig(:signing_key, :pem)).to eq(public_key.to_pem)
     end
 
+    context "the JWT came from the API, with an access token" do
+      let(:application_with_token) do
+        FactoryBot.create(
+          :oauth_application,
+          name: "other name",
+          redirect_uri: "http://localhost",
+          scopes: %i[test_scope_write],
+        )
+      end
+
+      let(:access_token) { FactoryBot.create(:oauth_access_token, application_id: application_with_token.id) }
+
+      let(:jwt_signing_key) do
+        private_key = OpenSSL::PKey::EC.new "prime256v1"
+        private_key.generate_key
+      end
+
+      it "skips the crypto and takes the uid from the access token, not the JWT" do
+        jwt_payload = Jwt.create!(jwt_payload: jwt, application_id_from_token: access_token.application_id).jwt_payload.deep_symbolize_keys
+        expect(jwt_payload[:application][:id]).to eq(application_with_token.id)
+        expect(jwt_payload[:signing_key]).to be_nil
+      end
+    end
+
     context "the JWT is missing a UID" do
       let(:jwt_uid) { nil }
 
