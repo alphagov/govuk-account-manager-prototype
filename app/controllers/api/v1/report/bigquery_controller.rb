@@ -1,4 +1,6 @@
 class Api::V1::Report::BigqueryController < Doorkeeper::ApplicationController
+  skip_before_action :verify_authenticity_token
+
   before_action -> { doorkeeper_authorize! :reporting_access }
 
   respond_to :json
