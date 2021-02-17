@@ -65,7 +65,7 @@
   } %>
 <% end %>
 
-<p class="govuk-body"><%= sanitize(t("devise.registrations.start.sign_in", link: link_to(t("devise.registrations.start.sign_in_link"), new_user_session_path, class: "govuk-link"))) %></p>
+<p class="govuk-body"><%= sanitize(t("devise.registrations.start.sign_in", link: link_to(t("devise.registrations.start.sign_in_link"), new_user_session_path(previous_url: params[:previous_url]), class: "govuk-link"))) %></p>
 
 <% if @criteria_keys %>
   <%= render "govuk_publishing_components/components/inset_text", {
