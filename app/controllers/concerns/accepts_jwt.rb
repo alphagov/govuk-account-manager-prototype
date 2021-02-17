@@ -24,6 +24,6 @@ module AcceptsJwt
     return unless bits.length > 1
 
     querystring = CGI.parse(bits[1])
-    querystring["state"]&.first
+    querystring["state"]&.first&.split(":")&.first
   end
 end
