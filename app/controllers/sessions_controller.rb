@@ -72,6 +72,8 @@ class SessionsController < Devise::SessionsController
       elsif @email.present? && Devise.email_regexp.match?(@email)
         redirect_to new_user_registration_start_path(user: { email: @email }) and return if jwt.id
 
+        render "registrations/transition_checker" and return if Rails.configuration.warn_about_transition_checker_when_logging_in_to_a_missing_account
+
         @resource_error_messages[:email] = [I18n.t("devise.failure.no_account")]
       elsif @email.present?
         @resource_error_messages[:email] = [I18n.t("activerecord.errors.models.user.attributes.email.invalid")]

@@ -62,6 +62,8 @@ module GovukAccountManagerPrototype
 
     config.exceptions_app = routes
 
+    config.warn_about_transition_checker_when_logging_in_to_a_missing_account = true
+
     config.allow_insecure_change_credential = false
 
     config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml").to_s]

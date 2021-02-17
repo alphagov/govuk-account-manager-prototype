@@ -147,7 +147,23 @@ RSpec.feature "Logging in" do
   end
 
   context "when the account does not exist" do
-    context "if user has a jwt" do
+    it "returns an error" do
+      enter_email_address_and_password(email: "no-account@digital.cabinet-office.gov.uk")
+
+      expect(page).to have_text(I18n.t("devise.failure.no_account"))
+    end
+
+    context "warn_about_transition_checker_when_logging_in_to_a_missing_account is set" do
+      before { allow(Rails.configuration).to receive(:warn_about_transition_checker_when_logging_in_to_a_missing_account).and_return(true) }
+
+      it "tells the user to visit the transition checker" do
+        enter_email_address_and_password(email: "no-account@digital.cabinet-office.gov.uk")
+
+        expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.registrations.transition_checker.message")))
+      end
+    end
+
+    context "the user comes from the transition checker" do
       it "redirects to registration form" do
         Capybara.current_session.driver.submit :post, welcome_path, {
           "jwt" => "some_data",
