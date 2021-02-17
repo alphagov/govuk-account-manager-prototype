@@ -1,5 +1,5 @@
 <% content_for :title, t("confirmation_sent.heading") %>
-<% service = service_for(params[:previous_url], current_user) if @user_is_new %>
+<% service = service_for(params[:previous_url]) if @user_is_new %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: yield(:title),
