@@ -331,7 +331,6 @@ protected
 
   def persist_attributes(user)
     return unless registration_state.jwt_payload
-    return if registration_state.jwt_payload["scopes"].empty?
 
     token = Doorkeeper::AccessToken.create!(
       resource_owner_id: user.id,

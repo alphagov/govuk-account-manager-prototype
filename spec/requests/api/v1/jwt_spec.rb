@@ -23,7 +23,6 @@ RSpec.describe "/api/v1/jwt" do
       scopes: [],
       attributes: {},
       post_register_oauth: "/oauth/authorize/foo",
-      post_login_oauth: "/oauth/authorize/bar",
     }
   end
 
@@ -33,14 +32,14 @@ RSpec.describe "/api/v1/jwt" do
     }
   end
 
-  it "accepts an unsigned JWT & drops the post_login_oauth" do
+  it "accepts a JWT" do
     post api_v1_jwt_path, params: params, headers: headers
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
     expect(body).to eq({ "id" => Jwt.last.id })
     expect(Jwt.find(body["id"]).jwt_payload.deep_symbolize_keys).to match(
-      jwt_payload.merge(application: hash_including(id: application.id), signing_key: nil, post_login_oauth: nil),
+      jwt_payload.merge(application: hash_including(id: application.id)),
     )
   end
 

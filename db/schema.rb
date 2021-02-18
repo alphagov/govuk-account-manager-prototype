@@ -10,18 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_03_143644) do
+ActiveRecord::Schema.define(version: 2021_02_18_135210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-
-  create_table "application_keys", primary_key: ["application_uid", "key_id"], force: :cascade do |t|
-    t.string "application_uid", null: false
-    t.uuid "key_id", null: false
-    t.string "pem", null: false
-    t.index ["application_uid"], name: "index_application_keys_on_application_uid"
-  end
 
   create_table "banned_passwords", force: :cascade do |t|
     t.string "password", null: false

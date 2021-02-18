@@ -3,8 +3,7 @@
 Rails.application.routes.draw do
   devise_for :users, skip: :all
   devise_scope :user do
-    get  "/", to: "welcome#show", as: :welcome
-    post "/", to: "welcome#show"
+    get "/", to: "welcome#show", as: :welcome
 
     get "/feedback", to: "feedback#show", as: :feedback_form
     post "/feedback", to: "feedback#submit", as: :feedback_form_submitted

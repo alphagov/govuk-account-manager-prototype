@@ -12,31 +12,10 @@ RSpec.feature "Registration (coming from another application)" do
 
   let(:application_scopes) { %i[test_scope_read test_scope_write] }
 
-  let(:private_key) do
-    private_key = OpenSSL::PKey::EC.new "prime256v1"
-    private_key.generate_key
-  end
-
-  let(:public_key) { OpenSSL::PKey::EC.new private_key }
-
-  let(:application_key) do
-    ApplicationKey.create!(
-      application_uid: application.uid,
-      key_id: SecureRandom.uuid,
-      pem: public_key.to_pem,
-    )
-  end
-
-  let(:jwt_uid) { application.uid }
-  let(:jwt_key) { application_key.key_id }
-  let(:jwt_scopes) { %i[test_scope_write] }
   let(:jwt_attributes) { { test: "value" } }
-  let(:jwt_post_login_oauth) { "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-query-string" }
-  let(:jwt_signing_key) { private_key }
 
   let(:jwt) do
-    payload = { uid: jwt_uid, key: jwt_key, scopes: jwt_scopes, attributes: jwt_attributes, post_login_oauth: jwt_post_login_oauth }.compact
-    JWT.encode payload.compact, jwt_signing_key, "ES256"
+    Jwt.create!(jwt_payload: JWT.encode({ attributes: jwt_attributes }, nil, "none"), application_id_from_token: application.id)
   end
 
   let(:email) { "email@example.com" }
@@ -48,9 +27,8 @@ RSpec.feature "Registration (coming from another application)" do
     token = Doorkeeper::AccessToken.last
     expect(token).to_not be_nil
     expect(token.resource_owner_id).to eq(User.last.id)
-    expect(token.application.uid).to eq(jwt_uid)
     expect(token.expires_in).to eq(Doorkeeper.config.access_token_expires_in)
-    expect(token.scopes).to eq(jwt_scopes)
+    expect(token.scopes).to eq(application.scopes)
   end
 
   it "updates the attributes" do
@@ -59,20 +37,8 @@ RSpec.feature "Registration (coming from another application)" do
     assert_enqueued_jobs 1, only: SetAttributesJob
   end
 
-  context "no scopes are requested" do
-    let(:jwt_scopes) { [] }
-    let(:jwt_attributes) { {} }
-
-    it "does not create an access token" do
-      expect {
-        start_journey
-      }.to_not(change { Doorkeeper::AccessToken.count })
-    end
-  end
-
   context "there's an email topic" do
     let(:application_scopes) { %i[transition_checker] }
-    let(:jwt_scopes) { %i[transition_checker] }
     let(:jwt_attributes) { { transition_checker_state: { email_topic_slug: email_topic_slug } } }
     let(:email_topic_slug) { "foo" }
 
@@ -129,19 +95,8 @@ RSpec.feature "Registration (coming from another application)" do
     before { start_journey }
 
     it "doesn't prompt for consent" do
-      client = OAuth2::Client.new(application.uid, application.secret, site: "https://example.org")
-      uri = client.auth_code.authorize_url(redirect_uri: application.redirect_uri, scope: jwt_scopes.join(" "))
-      visit "#{oauth_authorization_path}?#{uri.split('?')[1]}"
+      i_click_from_application
       expect(page).to_not have_content(I18n.t("doorkeeper.authorizations.new.able_to"))
-    end
-
-    context "with new scopes" do
-      it "prompts for consent" do
-        client = OAuth2::Client.new(application.uid, application.secret, site: "https://example.org")
-        uri = client.auth_code.authorize_url(redirect_uri: application.redirect_uri, scope: "test_scope_read")
-        visit "#{oauth_authorization_path}?#{uri.split('?')[1]}"
-        expect(page).to have_content(I18n.t("doorkeeper.authorizations.new.able_to"))
-      end
     end
   end
 
@@ -164,9 +119,7 @@ RSpec.feature "Registration (coming from another application)" do
   end
 
   def i_click_from_application
-    Capybara.current_session.driver.submit :post, welcome_path, {
-      "jwt" => jwt,
-    }.compact
+    visit authorization_endpoint_url(client: application, scope: "openid email transition_checker", state: jwt.id)
   end
 
   def i_enter_registration_details

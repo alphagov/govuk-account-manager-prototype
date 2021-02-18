@@ -76,7 +76,7 @@ module ApplicationHelper
     "#{base_url}/transition"
   end
 
-  def service_for(previous_url, current_user)
+  def service_for(previous_url)
     return unless previous_url&.start_with? oauth_authorization_path
 
     bits = previous_url.split("?")
@@ -88,16 +88,9 @@ module ApplicationHelper
     app = Doorkeeper::Application.by_uid(querystring["client_id"].first)
     return unless app
 
-    url =
-      if current_user&.cookie_consent && previous_url.end_with?("%3A%2Ftransition-check%2Fsaved-results")
-        "#{previous_url}%3Acookies-yes"
-      else
-        previous_url
-      end
-
     {
       name: app.name,
-      url: url,
+      url: previous_url,
     }
   end
 

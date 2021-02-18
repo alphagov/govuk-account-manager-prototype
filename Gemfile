@@ -6,7 +6,6 @@ ruby File.read(".ruby-version").strip
 
 gem "aws-ip"
 gem "bootsnap"
-gem "composite_primary_keys"
 gem "devise"
 gem "doorkeeper"
 gem "doorkeeper-openid_connect"
