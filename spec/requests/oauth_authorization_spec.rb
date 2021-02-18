@@ -12,32 +12,36 @@ RSpec.describe "/oauth/authorize" do
     )
   end
 
-  it "fetches a JWT from the OAuth state param" do
-    private_key = OpenSSL::PKey::EC.new("prime256v1").generate_key
-    public_key = OpenSSL::PKey::EC.new private_key
+  context "the state param is a JWT ID" do
+    let(:payload) do
+      {
+        scopes: [],
+        attributes: {},
+        post_register_oauth: "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-query-string",
+      }
+    end
 
-    application_key = ApplicationKey.create!(
-      application_uid: application.uid,
-      key_id: SecureRandom.uuid,
-      pem: public_key.to_pem,
-    )
+    let(:jwt) { Jwt.create!(jwt_payload: JWT.encode(payload, nil, "none"), application_id_from_token: application.id) }
 
-    payload = {
-      uid: application.uid,
-      key: application_key.key_id,
-      scopes: [],
-      attributes: {},
-      post_login_oauth: "#{Rails.application.config.redirect_base_url}/oauth/authorize?some-query-string",
-    }
+    it "redirects to the registration page & fetches the JWT" do
+      get authorization_endpoint_url(client: application, scope: "openid email transition_checker", state: jwt.id)
+      expect(response.redirect_url).to include(new_user_registration_start_path)
 
-    jwt = Jwt.create!(jwt_payload: JWT.encode(payload, private_key, "ES256"))
+      get response.redirect_url
 
-    get authorization_endpoint_url(client: application, scope: "openid email transition_checker", state: jwt.id)
-    expect(response.redirect_url).not_to be_nil
+      expect { post new_user_registration_start_path, params: { "user[email]" => "email@example.com", "user[password]" => "abcd1234", "user[phone]" => "+447958123456" } }.to(change { RegistrationState.count })
+      expect(RegistrationState.last.previous_url).to eq(payload[:post_register_oauth].delete_prefix(Rails.application.config.redirect_base_url))
+    end
 
-    post response.redirect_url, params: { "user[email]" => user.email, "user[password]" => user.password }
-    post user_session_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
-    expect(response).to redirect_to(payload[:post_login_oauth].delete_prefix(Rails.application.config.redirect_base_url))
+    it "fetches the JWT if the user then goes to the login page" do
+      user = FactoryBot.create(:user)
+
+      get authorization_endpoint_url(client: application, scope: "openid email transition_checker", state: jwt.id)
+
+      previous_url = CGI.parse(response.redirect_url.split("?")[1])["previous_url"][0]
+      expect { post new_user_session_path, params: { previous_url: previous_url, "user[email]" => user.email, "user[password]" => user.password } }.to(change { LoginState.count })
+      expect(LoginState.last.redirect_path).to eq(previous_url)
+    end
   end
 
   context "with a user logged in" do

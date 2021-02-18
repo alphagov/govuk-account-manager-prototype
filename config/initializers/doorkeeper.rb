@@ -10,8 +10,15 @@ Doorkeeper.configure do
     if current_user
       current_user
     else
+      destination_url =
+        if request.params[:state] && Jwt.exists?(request.params[:state].split(":").first)
+          new_user_registration_start_url
+        else
+          new_user_session_url
+        end
+
       params = { previous_url: request.fullpath, _ga: request.params[:_ga] }.compact
-      redirect_to(new_user_session_url + "?" + Rack::Utils.build_nested_query(params))
+      redirect_to(destination_url + "?" + Rack::Utils.build_nested_query(params))
       nil
     end
   end
