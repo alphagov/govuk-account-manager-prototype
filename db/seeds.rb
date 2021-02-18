@@ -23,13 +23,4 @@ if Rails.env.development?
     uid: "transition-checker-id",
     secret: "transition-checker-secret",
   )
-
-  # Developement Credentials for GOV.UK Docker
-  if ENV["FINDER_FRONTEND_OAUTH_CLIENT_ID"]
-    ApplicationKey.create(
-      application_uid: ENV.fetch("FINDER_FRONTEND_OAUTH_CLIENT_ID"),
-      key_id: ENV.fetch("FINDER_FRONTEND_OAUTH_CLIENT_PUBLIC_KEY_UUID"),
-      pem: ENV.fetch("FINDER_FRONTEND_OAUTH_CLIENT_PUBLIC_KEY"),
-    )
-  end
 end
