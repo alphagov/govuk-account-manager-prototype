@@ -1,5 +1,6 @@
 class Jwt < ApplicationRecord
   attr_accessor :skip_parse_jwt_token
+  attr_accessor :application_id_from_token
 
   has_one :registration_state, dependent: :destroy
   has_one :login_state, dependent: :destroy
@@ -52,18 +53,30 @@ private
 
   def parse_jwt_token
     payload, = JWT.decode jwt_payload, nil, false
-    raise MissingFieldUid unless payload["uid"]
-    raise MissingFieldKey unless payload["key"]
 
-    application = Doorkeeper::Application.by_uid(payload["uid"])
-    raise UidNotFound unless application
+    if application_id_from_token
+      application = Doorkeeper::Application.find(application_id_from_token)
+      signing_key = nil
+      scopes = application.scopes.to_a.map(&:to_sym)
+      post_login_oauth = nil
+    else
+      raise MissingFieldUid unless payload["uid"]
+      raise MissingFieldKey unless payload["key"]
 
-    signing_key = ApplicationKey.find([payload["uid"], payload["key"]])
-    payload, = JWT.decode jwt_payload, signing_key.to_key, true, { algorithm: "ES256" }
+      application = Doorkeeper::Application.by_uid(payload["uid"])
+      raise UidNotFound unless application
 
-    scopes = payload.fetch("scopes", []).map(&:to_sym)
-    scopes.each do |scope|
-      raise InvalidScopes unless application.includes_scope?(scope)
+      signing_key = ApplicationKey.find([payload["uid"], payload["key"]])
+      payload, = JWT.decode jwt_payload, signing_key.to_key, true, { algorithm: "ES256" }
+
+      scopes = payload.fetch("scopes", []).map(&:to_sym)
+      scopes.each do |scope|
+        raise InvalidScopes unless application.includes_scope?(scope)
+      end
+
+      post_login_oauth = payload["post_login_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
+      raise MissingFieldPostLoginOAuth unless post_login_oauth
+      raise InvalidOAuthRedirect unless post_login_oauth.starts_with? "/oauth/authorize"
     end
 
     attributes = payload.fetch("attributes", {}).transform_keys(&:to_sym)
@@ -71,10 +84,6 @@ private
       allowed_write_scopes = ScopeDefinition.new.jwt_attributes_and_scopes.fetch(attribute, [])
       raise InsufficientScopes unless scopes.any? { |scope| allowed_write_scopes.include? scope }
     end
-
-    post_login_oauth = payload["post_login_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
-    raise MissingFieldPostLoginOAuth unless post_login_oauth
-    raise InvalidOAuthRedirect unless post_login_oauth.starts_with? "/oauth/authorize"
 
     post_register_oauth = payload["post_register_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
     if post_register_oauth
