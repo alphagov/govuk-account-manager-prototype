@@ -110,8 +110,7 @@ RSpec.describe "security activities" do
   end
 
   it "records LOGIN_FAILURE events" do
-    post new_user_session_path, params: { "user[email]" => user.email }
-    post response.redirect_url, params: { "user[email]" => user.email, "user[password]" => "incorrect" }
+    post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => "incorrect" }
 
     expect_event SecurityActivity::LOGIN_FAILURE
     expect_event_on_security_page SecurityActivity::LOGIN_FAILURE

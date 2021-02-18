@@ -162,18 +162,6 @@ RSpec.feature "Logging in" do
         expect(page).to have_text(Rails::Html::FullSanitizer.new.sanitize(I18n.t("devise.registrations.transition_checker.message")))
       end
     end
-
-    context "the user comes from the transition checker" do
-      it "redirects to registration form" do
-        Capybara.current_session.driver.submit :post, welcome_path, {
-          "jwt" => "some_data",
-        }.compact
-
-        enter_email_address_and_password(email: "no-account@digital.cabinet-office.gov.uk")
-
-        expect(page).to have_text(I18n.t("devise.failure.no_account"))
-      end
-    end
   end
 
   def user_is_returned_to_login_screen
