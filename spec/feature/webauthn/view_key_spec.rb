@@ -17,6 +17,6 @@ RSpec.feature "View WebAuthn security keys" do
 
   def then_i_see_my_registered_keys
     credential_nicknames = user_with_credentials.webauthn_credentials.map(&:nickname)
-    credential_nickname.each { |key_nickname| then_i_see_registered_key(key_nickname) }
+    credential_nicknames.each { |key_nickname| then_i_see_registered_key(key_nickname) }
   end
 end
