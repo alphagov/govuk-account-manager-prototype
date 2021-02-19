@@ -101,3 +101,33 @@
     <%= link_to t("account.security.show_all"), account_security_paginated_mfa_tokens_path(page_number: 1), class: "govuk-link", 'aria-label': t("account.security.show_all_aria_label_mfa") %>
   </p>
 <% end %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("account.security.webauthn.title"),
+  heading_level: 2,
+  font_size: "m",
+  margin_bottom: 4,
+  id: "security-keys"
+} %>
+
+<%= sanitize(t("account.security.webauthn.description")) %>
+
+<dl class="govuk-summary-list security-key-list">
+  <% unless @regisered_security_keys.empty? %>
+    <% @regisered_security_keys.each do |key| %>
+        <%= render "security_key", security_key: key %>
+    <% end %>
+  <% else %>
+    <div class="govuk-summary-list__row">
+      <dd class="govuk-summary-list__value">
+        <p class="govuk-body">
+          <%= t("account.security.webauthn.none.text") %>
+        </p>
+      </dd>
+    </div>
+  <% end%>
+</dl>
+
+<p class="govuk-body">
+  <%= link_to t("account.security.webauthn.action.register_new"), webauthn_register_path, class: "govuk-link", 'aria-label': "Register a new key" %>
+</p>

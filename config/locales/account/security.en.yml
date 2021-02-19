@@ -49,6 +49,18 @@ en:
         description: See all the times you asked to skip the security code step.
         hint: You will always be asked to enter a security code if you sign in on a device you have not used to access your GOV.UK account before.
         title: Security codes when you sign in
+      webauthn:
+        title: Security keys registered to your account
+        description: |
+          <p class="govuk-body">Security keys are cool because...</p>
+          <p class="govuk-body">Aut molestiae amet officia nemo in fugit. Saepe ut alias aspernatur quas reiciendis.</p>
+        none:
+          text: "No keys currently registered"
+        key:
+          registered_on: "Registered:"
+        action:
+          revoke: Revoke this key
+          register_new: Register a new key
       show_all: Show all
       show_all_aria_label_mfa: Show all the times you asked to skip the security code step
       show_all_aria_label_signin_attempts: Show all sign-in attempts

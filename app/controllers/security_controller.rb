@@ -3,6 +3,7 @@ class SecurityController < ApplicationController
 
   SUMMARY_ACTIVITIES_TO_SHOW = 3
   SECURITY_CODES_TO_SHOW = 3
+  SECURITY_KEYS_TO_SHOW = 3
 
   def show
     @activity = current_user
@@ -26,6 +27,11 @@ class SecurityController < ApplicationController
       .mfa_tokens
       .order(created_at: :desc)
       .limit(SECURITY_CODES_TO_SHOW)
+
+    @regisered_security_keys =  current_user
+      .webauthn_credentials
+      .order(created_at: :desc)
+      .limit(SECURITY_KEYS_TO_SHOW)
   end
 
   def report; end

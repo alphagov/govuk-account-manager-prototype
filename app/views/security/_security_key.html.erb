@@ -1,0 +1,23 @@
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
+    <%= security_key.nickname %>
+  </dt>
+  <dd class="govuk-summary-list__value">
+    <span class="date-text">
+      <%= t("account.security.webauthn.key.registered_on") %>
+      <br>
+      <%= date_with_time_ago(security_key.created_at) %>
+    </span>
+    <br>
+     <p class="govuk-body">
+      <a class="govuk-link" href="<%= webauthn_delete_key_page_path(key_id: security_key.id) %>"
+         data-module="gem-track-click"
+         data-track-category="account-manage"
+         data-track-action="security"
+         data-track-label="not-me"
+      >
+        <%= t("account.security.webauthn.action.revoke") %>
+      </a>
+    </p>
+  </dd>
+</div>
