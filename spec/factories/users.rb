@@ -19,7 +19,7 @@ FactoryBot.define do
       end
 
       after(:create) do |user, evaluator|
-        create_list(:webauthn_credentials, evaluator.credentials_count, user: user)
+        create_list(:webauthn_credential, evaluator.credentials_count, user: user)
         user.reload
       end
     end
