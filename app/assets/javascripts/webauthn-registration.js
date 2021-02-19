@@ -1,9 +1,11 @@
 var form = document.querySelector('.webauthn_key_registration')
 
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-  webauthnRegistrationCeremony();
-});
+if (form) {
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    webauthnRegistrationCeremony();
+  });
+}
 
 var registrationOptionsPath = "/account/security/webauthn/registration/options";
 var registartionCallbackPath = "/account/security/webauthn/registration/callback"

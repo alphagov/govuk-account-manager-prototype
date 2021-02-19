@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
   var form = document.querySelector('.webauthn_key_authentication');
 
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    webauthnAuthentcationCeremony();
-  });
+  if (form) {
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      webauthnAuthentcationCeremony();
+    });
+  }
 })
 
 var authenticationOptionsPath = "/account/mfa/webauthn/options";
