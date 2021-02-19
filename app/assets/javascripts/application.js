@@ -15,3 +15,4 @@
 //= require ./analytics
 //= require ./webauthn-shared
 //= require ./webauthn-registration
+//= require ./webauthn-authentication

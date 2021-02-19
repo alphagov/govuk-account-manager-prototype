@@ -55,6 +55,13 @@ Rails.application.routes.draw do
       scope "/mfa" do
         get "/abort", to: "redo_mfa#stop", as: :redo_mfa_stop
 
+        scope "/webauthn" do
+          get "/", to: "sessions#webauthn_authenticate", as: :webauthn_authenticate
+          get "/fallback", to: "sessions#generate_and_send_sms", as: :fallback_to_sms
+          get "/options", to: "sessions#webauthn_get_options", as: :webauthn_authenticate_request_options
+          post "/callback", to: "sessions#webauthn_authenticate_callback", as: :webauthn_authenticate_callback
+        end
+
         scope "/phone" do
           get  "/code", to: "redo_mfa_phone#code", as: :redo_mfa_phone_code
           post "/verify", to: "redo_mfa_phone#verify", as: :redo_mfa_phone_verify

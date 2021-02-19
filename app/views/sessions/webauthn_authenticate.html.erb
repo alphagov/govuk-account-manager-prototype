@@ -1,0 +1,46 @@
+<% content_for :title, t("mfa.webauthn.authenticate.page_title") %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.webauthn.authenticate.authenticate_heading"),
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 3,
+} %>
+
+<% t("mfa.webauthn.authenticate.description").each do |msg| %>
+  <p class="govuk-body"><%= msg %></p>
+<% end %>
+
+<%= form_with(
+  url: webauthn_register_callback_path,
+  class: "webauthn_key_authentication",
+  method: :post,
+  data: {
+    module: "gem-track-click",
+    "track-category": "account-signin",
+    "track-action": "signin",
+    "track-label": "webauthn-authenticate"
+  }
+) do %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("mfa.webauthn.authenticate.fields.submit.label"),
+    margin_bottom: true,
+    data_attributes: {
+      module: "gem-track-click",
+      "track-category": "account-signin",
+      "track-action": "signin",
+      "track-label": "webauthn-authenticate"
+    }
+  } %>
+<% end %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.webauthn.authenticate.fallback.heading"),
+  heading_level: 2,
+  margin_bottom: 4,
+  font_size: "m",
+} %>
+
+<a class="govuk-link" href="<%= fallback_to_sms_path %>">
+  <%= t("mfa.webauthn.authenticate.fallback.message") %>
+</a>

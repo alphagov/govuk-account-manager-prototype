@@ -13,6 +13,10 @@ class SessionsController < Devise::SessionsController
     phone_verify
     phone_resend
     phone_resend_code
+    generate_and_send_sms
+    webauthn_authenticate
+    webauthn_get_options
+    webauthn_authenticate_callback
   ]
 
   def create
@@ -44,8 +48,12 @@ class SessionsController < Devise::SessionsController
       session[:login_state_id] = @login_state_id
 
       if request.env["warden.mfa.required"]
-        MultiFactorAuth.generate_and_send_code(resource)
-        redirect_to enter_phone_code_path
+        if webauthn_registered?(resource)
+          redirect_to webauthn_authenticate_path
+        else
+          MultiFactorAuth.generate_and_send_code(resource)
+          redirect_to enter_phone_code_path
+        end
       else
         record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, user: resource, analytics: analytics_data) if request.env["warden.mfa.bypass"]
         do_sign_in
@@ -82,6 +90,54 @@ class SessionsController < Devise::SessionsController
       end
 
       render :new if @resource_error_messages.present?
+    end
+  end
+
+  def generate_and_send_sms
+    MultiFactorAuth.generate_and_send_code(login_state.user)
+    redirect_to enter_phone_code_path
+  end
+
+  def webauthn_authenticate; end
+
+  def webauthn_get_options
+    options = WebAuthn::Credential.options_for_get(allow: login_state.user.webauthn_credentials.map { |c| c.external_id })
+    session[:authentication_challenge] = options.challenge
+
+    respond_to do |format|
+      format.json { render json: options }
+    end
+  end
+
+  def webauthn_authenticate_callback
+    webauthn_credential = WebAuthn::Credential.from_get(params[:publicKeyCredential])
+    stored_credential = login_state.user.webauthn_credentials.find_by(external_id: webauthn_credential.id)
+
+    begin
+      webauthn_credential.verify(
+        session[:authentication_challenge],
+        public_key: stored_credential.public_key,
+        sign_count: stored_credential.sign_count
+      )
+
+      stored_credential.update(sign_count: webauthn_credential.sign_count)
+
+      redirect_to = do_sign_in(has_done_mfa: true, prevent_redirect: true)
+      login_state.user.update!(last_mfa_success: Time.zone.now)
+      login_state.destroy!
+      session.delete(:login_state_id)
+
+      render json: { status: "ok", redirect_to: redirect_to }, status: :ok
+
+    rescue WebAuthn::SignCountVerificationError => e
+      # Cryptographic verification of the authenticator data succeeded, but the signature counter was less then or equal
+      # to the stored value. This can have several reasons and depending on your risk tolerance you can choose to fail or
+      # pass authentication. For more information see https://www.w3.org/TR/webauthn/#sign-counter
+      render json: "Authentication failed: #{e.message}", status: :unprocessable_entity
+    rescue WebAuthn::Error => e
+      render json: "Authentication failed: #{e.message}", status: :unprocessable_entity
+    ensure
+      session.delete("authentication_challenge")
     end
   end
 
@@ -156,7 +212,7 @@ protected
       end
   end
 
-  def do_sign_in(has_done_mfa: false)
+  def do_sign_in(has_done_mfa: false, prevent_redirect: false)
     record_security_event(SecurityActivity::LOGIN_SUCCESS, user: login_state.user, analytics: analytics_data)
 
     cookies[:cookies_preferences_set] = "true"
@@ -174,6 +230,10 @@ protected
       else
         user_root_path
       end
+
+    if prevent_redirect
+      return add_param_to_url(post_login_path, "_ga", params[:_ga])
+    end
 
     redirect_to add_param_to_url(post_login_path, "_ga", params[:_ga])
   end
