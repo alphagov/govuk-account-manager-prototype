@@ -28,13 +28,19 @@ class PasswordsController < Devise::PasswordsController
   end
 
   def sent
-    @email = params&.dig(:email)
+    if session[:passwords]
+      @email = session[:passwords]["email"]
+      session.delete(:passwords)
+    else
+      redirect_to "/"
+    end
   end
 
 protected
 
   # The path used after sending reset password instructions
   def after_sending_reset_password_instructions_path_for(_resource_name)
-    reset_password_sent_path(email: resource.email) if is_navigational_format?
+    session[:passwords] = { email: resource.email }
+    reset_password_sent_path if is_navigational_format?
   end
 end
