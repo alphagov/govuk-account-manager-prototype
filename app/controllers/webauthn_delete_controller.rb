@@ -11,7 +11,7 @@ class WebauthnDeleteController < ApplicationController
   def destroy
     redirect_unless_security_key(account_security_path)
     security_key.destroy! if security_key
-    redirect_to account_security_path(anchor: 'security-keys')
+    redirect_to account_security_path(anchor: "security-keys")
   end
 
 private

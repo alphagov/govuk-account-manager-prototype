@@ -28,7 +28,7 @@ class SecurityController < ApplicationController
       .order(created_at: :desc)
       .limit(SECURITY_CODES_TO_SHOW)
 
-    @regisered_security_keys =  current_user
+    @regisered_security_keys = current_user
       .webauthn_credentials
       .order(created_at: :desc)
       .limit(SECURITY_KEYS_TO_SHOW)

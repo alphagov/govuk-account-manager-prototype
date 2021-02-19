@@ -33,8 +33,8 @@ Rails.application.routes.draw do
         get "/report", to: "security#report", as: :account_security_report
         scope "/webauthn" do
           scope "/delete" do
-             get "/", to: "webauthn_delete#show", as: :webauthn_delete_key_page
-             delete "/", to: "webauthn_delete#destroy", as: :webauthn_destroy_key
+            get "/", to: "webauthn_delete#show", as: :webauthn_delete_key_page
+            delete "/", to: "webauthn_delete#destroy", as: :webauthn_destroy_key
           end
           scope "/registration" do
             get "/", to: "webauthn_registration#show", as: :webauthn_register

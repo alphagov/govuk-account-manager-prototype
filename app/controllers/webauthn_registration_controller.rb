@@ -25,7 +25,7 @@ class WebauthnRegistrationController < ApplicationController
         external_id: Base64.urlsafe_encode64(credential_with_attestation.raw_id, padding: false),
         nickname: params[:credential_nickname] || generate_random_nickname,
         public_key: credential_with_attestation.public_key,
-        sign_count: credential_with_attestation.sign_count
+        sign_count: credential_with_attestation.sign_count,
       )
 
       if credential.save
@@ -56,8 +56,7 @@ private
   end
 
   def generate_random_nickname
-      letters = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
-      return (0...10).map { letters[rand(letters.length)] }.join
+    letters = [("a".."z"), ("A".."Z")].map(&:to_a).flatten
+    (0...10).map { letters[rand(letters.length)] }.join
   end
-
 end

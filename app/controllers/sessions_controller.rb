@@ -117,7 +117,7 @@ class SessionsController < Devise::SessionsController
       webauthn_credential.verify(
         session[:authentication_challenge],
         public_key: stored_credential.public_key,
-        sign_count: stored_credential.sign_count
+        sign_count: stored_credential.sign_count,
       )
 
       stored_credential.update(sign_count: webauthn_credential.sign_count)
@@ -128,7 +128,6 @@ class SessionsController < Devise::SessionsController
       session.delete(:login_state_id)
 
       render json: { status: "ok", redirect_to: redirect_to }, status: :ok
-
     rescue WebAuthn::SignCountVerificationError => e
       # Cryptographic verification of the authenticator data succeeded, but the signature counter was less then or equal
       # to the stored value. This can have several reasons and depending on your risk tolerance you can choose to fail or
