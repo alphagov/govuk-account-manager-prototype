@@ -101,7 +101,7 @@ class SessionsController < Devise::SessionsController
   def webauthn_authenticate; end
 
   def webauthn_get_options
-    options = WebAuthn::Credential.options_for_get(allow: login_state.user.webauthn_credentials.map { |c| c.external_id })
+    options = WebAuthn::Credential.options_for_get(allow: login_state.user.webauthn_credentials.map(&:external_id))
     session[:authentication_challenge] = options.challenge
 
     respond_to do |format|
@@ -120,7 +120,7 @@ class SessionsController < Devise::SessionsController
         sign_count: stored_credential.sign_count,
       )
 
-      stored_credential.update(sign_count: webauthn_credential.sign_count)
+      stored_credential.update!(sign_count: webauthn_credential.sign_count)
 
       redirect_to = do_sign_in(has_done_mfa: true, prevent_redirect: true)
       login_state.user.update!(last_mfa_success: Time.zone.now)

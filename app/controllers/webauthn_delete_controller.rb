@@ -1,8 +1,6 @@
 class WebauthnDeleteController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_security_key
-
-  attr_accessor :security_key
+  before_action :security_key
 
   def show
     redirect_unless_security_key(account_security_path)
@@ -21,7 +19,7 @@ private
     redirect_to redirect_path unless security_key
   end
 
-  def set_security_key
+  def security_key
     @security_key ||= current_user.webauthn_credentials.find(params[:key_id])
   end
 end
