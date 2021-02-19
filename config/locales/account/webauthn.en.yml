@@ -1,0 +1,12 @@
+---
+en:
+  account:
+    webauthn:
+      registration:
+        title: Register a new security key
+        form:
+          nickname:
+            text: Give your key a name
+            hint: A name will help identify this key when logging in or authenticating. If you choose not to provide one we will give it random letters as a name.
+          submit_button:
+            label: "Register a new key"

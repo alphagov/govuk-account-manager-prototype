@@ -26,10 +26,19 @@ Rails.application.routes.draw do
       get "/insecure-password", to: "insecure_password#show", as: :insecure_password_interstitial
 
       get "/manage", to: "manage#show", as: :account_manage
-      get "/security", to: "security#show", as: :account_security
-      get "/security/activity/:page_number", to: "security#paginated_activity", as: :account_security_paginated_activity
-      get "/security/code/:page_number", to: "security#paginated_mfa_tokens", as: :account_security_paginated_mfa_tokens
-      get "/security/report", to: "security#report", as: :account_security_report
+      scope "/security" do
+        get "/", to: "security#show", as: :account_security
+        get "/activity/:page_number", to: "security#paginated_activity", as: :account_security_paginated_activity
+        get "/code/:page_number", to: "security#paginated_mfa_tokens", as: :account_security_paginated_mfa_tokens
+        get "/report", to: "security#report", as: :account_security_report
+        scope "/webauthn" do
+          scope "/registration" do
+            get "/", to: "webauthn_registration#show", as: :webauthn_register
+            get "/options", to: "webauthn_registration#create", as: :webauthn_register_request_options
+            post "/callback", to: "webauthn_registration#callback", as: :webauthn_register_callback
+          end
+        end
+      end
 
       get    "/delete", to: "delete#show", as: :account_delete
       delete "/delete", to: "delete#destroy"

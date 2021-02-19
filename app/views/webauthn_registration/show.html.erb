@@ -1,0 +1,33 @@
+<%= render "govuk_publishing_components/components/back_link", {
+  href: account_security_path
+} %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("account.webauthn.registration.title"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 4,
+} %>
+
+<%= form_with(
+  url: webauthn_register_callback_path,
+  class: "webauthn_key_registration",
+  method: :post,
+  data: {
+    module: "track-form",
+    "track-category": "account-create"
+  }
+) do %>
+  <%= render "govuk_publishing_components/components/input", {
+    label: {
+      text: t("account.webauthn.registration.form.nickname.text")
+    },
+    hint: t("account.webauthn.registration.form.nickname.hint"),
+    name: "credential_nickname",
+    width: 10
+  } %>
+
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("account.webauthn.registration.form.submit_button.label")
+  } %>
+<% end %>

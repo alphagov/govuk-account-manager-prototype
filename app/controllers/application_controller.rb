@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  def webauthn_registered?(resource)
+    resource.webauthn_id && resource.webauthn_credentials.present?
+  end
+
 protected
 
   def top_level_error_handler(exception = nil)

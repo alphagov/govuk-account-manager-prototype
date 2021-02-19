@@ -13,3 +13,5 @@
 
 //= require ./analytics-track-form
 //= require ./analytics
+//= require ./webauthn-shared
+//= require ./webauthn-registration
