@@ -81,8 +81,6 @@ en:
       delete:
         page_title: Delete a security key
         delete_heading: "Delete key: %{key_name}"
-        description: |
-          Parting is such sweet sorrow. When you delete a key it is gone, you will not be able to log in with it anymore. If you want it back, you would need to re-regsiter it.
         form:
           fields:
             submit_button:
