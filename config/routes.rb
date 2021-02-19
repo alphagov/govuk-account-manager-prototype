@@ -32,6 +32,10 @@ Rails.application.routes.draw do
         get "/code/:page_number", to: "security#paginated_mfa_tokens", as: :account_security_paginated_mfa_tokens
         get "/report", to: "security#report", as: :account_security_report
         scope "/webauthn" do
+          scope "/delete" do
+             get "/", to: "webauthn_delete#show", as: :webauthn_delete_key_page
+             delete "/", to: "webauthn_delete#destroy", as: :webauthn_destroy_key
+          end
           scope "/registration" do
             get "/", to: "webauthn_registration#show", as: :webauthn_register
             get "/options", to: "webauthn_registration#create", as: :webauthn_register_request_options

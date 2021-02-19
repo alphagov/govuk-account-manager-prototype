@@ -1,0 +1,26 @@
+<% content_for :title, t("mfa.webauthn.delete.page_title") %>
+
+<%= render "govuk_publishing_components/components/back_link", {
+  href: account_security_path
+} %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("mfa.webauthn.delete.delete_heading", key_name: @security_key.nickname),
+  heading_level: 2,
+  font_size: "l",
+  margin_bottom: 4,
+} %>
+
+<%= form_with(
+  url: webauthn_destroy_key_path(key_id: @security_key.id),
+  method: :delete,
+  data: {
+    module: "track-form",
+    "track-category": "webauthn"
+  }
+) do %>
+  <%= render "govuk_publishing_components/components/button", {
+    destructive: true,
+    text: t("mfa.webauthn.delete.form.fields.submit_button.label")
+  } %>
+<% end %>

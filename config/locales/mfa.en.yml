@@ -16,6 +16,9 @@ en:
         expired: The security code you’ve entered has expired. Security codes expire after 30 minutes. We can <a class="govuk-link" href="%{resend_link}">send a new security code</a>.
         invalid: The security code you’ve entered is not correct. Try entering the code again.
         too_many_attempts: You’ve entered the wrong security code too many times. You need to <a class="govuk-link" href="%{resend_link}">get a new security code</a>.
+      webauthn:
+        delete:
+          no_key_found: Something has gone wrong, you do not have a key registered with this ID so it cannot be deleted.
     phone:
       code:
         change_heading: Enter your security code
@@ -74,6 +77,28 @@ en:
               label: Continue
           heading: Change your phone number
           message: We’ll send a security code to your new number by text message. You’ll need this code to finish changing the phone number for your account.
+    webauthn:
+      delete:
+        page_title: Delete a security key
+        delete_heading: "Delete key: %{key_name}"
+        description: |
+          Parting is such sweet sorrow. When you delete a key it is gone, you will not be able to log in with it anymore. If you want it back, you would need to re-regsiter it.
+        form:
+          fields:
+            submit_button:
+              label: Delete key
+      authenticate:
+        page_title: Authenticate with your security key
+        authenticate_heading: Authenticate with your security key
+        description:
+          - You previously registered security keys with your GOV.UK Account
+          - Ensure you have your key / device to hand and then continue
+        fields:
+          submit:
+            label: Authenticate
+        fallback:
+          heading: If you cannot use your device or key
+          message: You can fall back to authenticating by SMS instead
     text_message:
       security_code:
         body: "%{phone_code} is your security code."
