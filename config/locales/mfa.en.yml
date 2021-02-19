@@ -77,26 +77,26 @@ en:
               label: Continue
           heading: Change your phone number
           message: We’ll send a security code to your new number by text message. You’ll need this code to finish changing the phone number for your account.
+    text_message:
+      security_code:
+        body: "%{phone_code} is your security code."
     webauthn:
+      authenticate:
+        authenticate_heading: Authenticate with your security key
+        description:
+        - You previously registered security keys with your GOV.UK Account
+        - Ensure you have your key / device to hand and then continue
+        fallback:
+          heading: If you cannot use your device or key
+          message: You can fall back to authenticating by SMS instead
+        fields:
+          submit:
+            label: Authenticate
+        page_title: Authenticate with your security key
       delete:
-        page_title: Delete a security key
-        delete_heading: "Delete key: %{key_name}"
+        delete_heading: 'Delete key: %{key_name}'
         form:
           fields:
             submit_button:
               label: Delete key
-      authenticate:
-        page_title: Authenticate with your security key
-        authenticate_heading: Authenticate with your security key
-        description:
-          - You previously registered security keys with your GOV.UK Account
-          - Ensure you have your key / device to hand and then continue
-        fields:
-          submit:
-            label: Authenticate
-        fallback:
-          heading: If you cannot use your device or key
-          message: You can fall back to authenticating by SMS instead
-    text_message:
-      security_code:
-        body: "%{phone_code} is your security code."
+        page_title: Delete a security key
