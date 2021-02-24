@@ -7,8 +7,8 @@ class RedoMfaPhoneController < ApplicationController
   def code; end
 
   def verify
-    case MultiFactorAuth.verify_code(current_user, params[:phone_code])
-    when :ok
+    state = MultiFactorAuth.verify_code(current_user, params[:phone_code])
+    if state == :ok
       record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_SUCCESS, user: current_user, factor: :sms)
 
       session[:has_done_mfa] = true
