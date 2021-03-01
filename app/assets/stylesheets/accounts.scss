@@ -149,3 +149,42 @@ $_current-indicator-width: 4px;
   margin-bottom: govuk-spacing(7);
   background: govuk-colour("light-grey");
 }
+
+.summary-list {
+  @include govuk-font(19);
+  @include govuk-clearfix;
+  padding-bottom: govuk-spacing(3);
+  margin-bottom: govuk-spacing(3);
+  border-bottom: solid 1px $govuk-border-colour;
+
+  @include govuk-media-query($from: "tablet") {
+    padding-bottom: govuk-spacing(2);
+    margin-bottom: govuk-spacing(2);
+  }
+}
+
+.summary-list__key,
+.summary-list__value {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 0 govuk-spacing(1) 0;
+
+  @include govuk-media-query($from: "tablet") {
+    padding: govuk-spacing(0) govuk-spacing(4) govuk-spacing(0) 0;
+  }
+}
+
+.summary-list__key {
+  @include govuk-font(19, $weight: "bold");
+
+  @include govuk-media-query($from: "tablet") {
+    float: left;
+    width: 30%;
+  }
+}
+
+.summary-list__value {
+  @include govuk-media-query($from: "tablet") {
+    padding-left: 30%;
+  }
+}
