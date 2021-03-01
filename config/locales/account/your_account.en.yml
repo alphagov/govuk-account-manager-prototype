@@ -11,7 +11,7 @@ en:
       transition:
         description: A personalised list of Brexit actions for you, your family and your business.
         heading: 'Brexit checker results: what you need to do'
-        link1: See your results
+        link1: See your <span class="govuk-visually-hidden">Brexit checker</span> results
         link1_description: Go back to the Brexit checker results you’ve saved.
         link2: Update your results and email alerts
         link2_description: Answer the Brexit checker questions again to update your results.
