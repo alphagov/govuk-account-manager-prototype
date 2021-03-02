@@ -18,7 +18,6 @@ en:
         too_many_attempts: You’ve entered the wrong security code too many times. You need to <a class="govuk-link" href="%{resend_link}">get a new security code</a>.
     phone:
       code:
-        change_heading: Enter your security code
         description:
         - We’ve sent you a text message with a security code.
         - It may take a few minutes to arrive.
@@ -41,7 +40,7 @@ en:
           sign_in_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code.
           sign_up_heading: Resend security code or change your mobile number
           sign_up_message: We can <a class="govuk-link" href="%{link}">send a new security code</a> if you’re having trouble with the code or if it was sent to the wrong mobile number.
-        page_title: Enter your security code
+        page_title: Check your phone
         redo_description_preamble: Before you can make changes to your account, we need to confirm it’s you. This check helps us keep your account secure.
         redo_heading: Confirm it’s you
         sign_in_heading: Check your phone
