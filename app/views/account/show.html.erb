@@ -40,7 +40,7 @@
 
     <p class="govuk-body govuk-!-margin-0">
       <a href="<%= transition_checker_path %>/saved-results" class="govuk-link" data-module="gem-track-click" data-track-category="account-manage" data-track-action="your-account" data-track-label="see-results">
-        <%= t("account.your_account.transition.link1") %>
+        <%= sanitize(t("account.your_account.transition.link1")) %>
       </a>
     </p>
     <p class="govuk-body"><%= t("account.your_account.transition.link1_description") %></p>
