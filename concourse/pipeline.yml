@@ -131,6 +131,7 @@ jobs:
                 bundle install
                 bundle exec rails db:setup
                 bundle exec rails db:migrate
+                bundle exec rails assets:precompile
                 bundle exec rake
         on_failure:
           put: govuk-slack
