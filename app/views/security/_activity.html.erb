@@ -1,20 +1,21 @@
-<div class="govuk-summary-list__row">
-  <dt class="govuk-summary-list__key">
+<div class="summary-list">
+  <dt class="summary-list__key">
     <%= t("account.security.event.#{activity.name}") %>
   </dt>
-  <dd class="govuk-summary-list__value">
+  <dd class="summary-list__value">
     <span class="date-text">
       <%= date_with_time_ago(activity.created_at) %>
     </span>
-    <br>
-      <%= activity.client %>
-    <br>
+  </dd>
+  <dd class="summary-list__value">
+    <%= activity.client %>
+  </dd>
+  <dd class="summary-list__value">
     <%= "#{activity.ip_address_country} (#{activity.ip_address})" %>
-    <br>
-     <p class="govuk-body">
-      <a class="govuk-link" href="<%= account_security_report_path %>" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">
-        <%= t("account.security.report_suspicious_activity") %>
-      </a>
-    </p>
+  </dd>
+  <dd class="summary-list__value">
+    <a class="govuk-link" href="<%= account_security_report_path %>" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">
+      <%= t("account.security.report_suspicious_activity") %>
+    </a>
   </dd>
 </div>

@@ -65,7 +65,7 @@
       margin_bottom: 4,
     } %>
 
-    <dl class="govuk-summary-list">
+    <dl>
       <% @activity.each do |activity| %>
         <%= render "activity", activity: activity %>
       <% end %>
