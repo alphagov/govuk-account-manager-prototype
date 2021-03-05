@@ -39,7 +39,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "govuk_test"
-  gem "i18n-tasks", "~> 0.9.33"
+  gem "i18n-tasks", "~> 0.9.34"
   gem "jasmine"
   gem "jasmine_selenium_runner"
   gem "pry-rails"
