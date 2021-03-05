@@ -7,4 +7,4 @@ require_relative "config/application"
 
 Rails.application.load_tasks
 
-task default: %i[spec lint jasmine:ci]
+task default: %i[spec lint]
