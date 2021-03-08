@@ -1,11 +1,9 @@
 module ErrorItemsHelper
   def error_items(field, error_items)
-    if error_items && error_items.select { |item| item[:field] == field }.any?
-      sanitize(error_items
-        .select { |key| key.to_s.match(field) }
-        .map { |error| error[:text] }.uniq
-        .join("<br>"))
-    end
+    errors_for_field = (error_items || []).filter_map { |item| item[:text] if item[:field] == field }.uniq
+    return unless errors_for_field.any?
+
+    sanitize(errors_for_field.join("<br>"))
   end
 
   def devise_error_items(field, resource_error_messages = nil)
