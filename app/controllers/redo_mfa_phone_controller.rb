@@ -18,7 +18,7 @@ class RedoMfaPhoneController < ApplicationController
       redirect_to after_redo_mfa_url
     else
       record_security_event(SecurityActivity::ADDITIONAL_FACTOR_VERIFICATION_FAILURE, user: current_user, factor: :sms)
-      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: redo_mfa_phone_resend)
+      @phone_code_error_message = I18n.t("mfa.errors.phone_code.#{state}", resend_link: redo_mfa_phone_resend_path)
       render :code
     end
   end
