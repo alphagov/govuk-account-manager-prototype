@@ -60,7 +60,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
     ast (2.4.2)
-    awesome_print (1.8.0)
+    awesome_print (1.9.2)
     aws-ip (0.0.2)
       ipaddress (~> 0.8.0)
     bcrypt (3.1.16)
