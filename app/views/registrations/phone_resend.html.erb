@@ -1,8 +1,7 @@
 <% content_for :title, t("mfa.phone.resend.heading") %>
-
-<%= render "govuk_publishing_components/components/back_link", {
-  href: new_user_registration_phone_code_path
-} %>
+<% content_for :before_main do %>
+  <%= render "govuk_publishing_components/components/back_link", { href: new_user_registration_phone_code_path } %>
+<% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: t("mfa.phone.resend.heading"),

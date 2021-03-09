@@ -1,8 +1,8 @@
 <% content_for :title, t("mfa.phone.code.redo_heading") %>
 
-<%= render "govuk_publishing_components/components/back_link", {
-  href: redo_mfa_stop_path
-} %>
+<% content_for :before_main do %>
+  <%= render "govuk_publishing_components/components/back_link", { href: redo_mfa_stop_path } %>
+<% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: yield(:title),

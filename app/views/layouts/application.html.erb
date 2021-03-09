@@ -78,6 +78,7 @@
         </div>
       <% end %>
       <div class="govuk-grid-column-two-thirds">
+        <%= yield :before_main %>
         <main class="app-main-class" id="main-content" role="main">
           <%= yield %>
         </main>
