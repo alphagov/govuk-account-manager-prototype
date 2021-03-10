@@ -100,32 +100,6 @@ $_current-indicator-width: 4px;
     }
   }
 
-  .accounts-summary-list__key-heading {
-    @include govuk-font(19, $weight: "bold");
-    margin-bottom: govuk-spacing(1);
-  }
-
-  .accounts-summary-list__key-description {
-    @include govuk-font(16);
-    margin: 0;
-  }
-
-  &.accounts-summary-list--wide {
-    @include govuk-media-query($from: "tablet") {
-      .govuk-summary-list__key {
-        width: 70%;
-      }
-
-      .govuk-summary-list__value {
-        width: 15%;
-      }
-
-      .govuk-summary-list__actions {
-        width: 15%;
-      }
-    }
-  }
-
   &.accounts-summary-list--paginated {
     margin-bottom: 0;
 
