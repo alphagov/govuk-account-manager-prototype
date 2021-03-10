@@ -45,7 +45,7 @@ protected
   def delete_job(dataset, table_name)
     delete_job = dataset.query_job "DELETE FROM #{table_name} WHERE 1 = 1"
     delete_job.wait_until_done!
-    raise DeleteError, delete_error.error.dig("message") if delete_job.failed?
+    raise DeleteError, delete_job.error.dig("message") if delete_job.failed?
   end
 
   def insert_job(dataset, table_name, rows)
