@@ -28,5 +28,22 @@ RSpec.describe ErrorItemsHelper do
       ]
       expect(error_items("email", errors)).to eq("This does not look like a valid email address.<br>Enter an email address in this format: name@example.com.")
     end
+
+    it "adds 'Error' to the page title when there has been an error" do
+      errors = [
+        {
+          field: "email",
+          text: "This does not look like a valid email address.",
+        },
+      ]
+      error_items("email", errors)
+      expect(content_for(:title_prefix)).to eq("Error")
+    end
+
+    it "Does not change the page title if there has not been an error" do
+      errors = nil
+      error_items("email", errors)
+      expect(content_for?(:title_prefix)).to eq(false)
+    end
   end
 end
