@@ -17,11 +17,17 @@
   }
 ) do %>
 
+  <% description = capture do %>
+    <p class="govuk-body"><%= t('account.manage.change_feedback.description') %></p>
+    <p class="govuk-body"><%= t('account.manage.change_feedback.question') %></p>
+  <% end %>
+
   <%= render "govuk_publishing_components/components/radio", {
     name: "feedback_consent",
-    heading: t("devise.registrations.your_information.fields.feedback_consent.heading"),
+    heading: t("account.manage.change_feedback.title"),
     heading_size: "l",
     is_page_heading: true,
+    description: description,
     items: [
       {
         value: "yes",

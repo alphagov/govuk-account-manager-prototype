@@ -2,8 +2,15 @@
 en:
   account:
     manage:
+      change_cookies:
+        description: We’d like to use cookies to collect anonymised analytics about how you use GOV.UK while you’re signed in to your GOV.UK account, for example what pages you visit and what you click on.
+        question: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
+        title: Change your cookie settings
+      change_feedback:
+        description: As we add more features to your GOV.UK account, we would like to email you to find out any thoughts or suggestions you might have.
+        question: Can we email you to ask for feedback about your account?
+        title: Change your feedback settings
       cookies:
-        cookies_question: Can your account use cookies to learn about how you use GOV.UK?
         description: We use cookies to learn about how you use GOV.UK while you’re signed in to your account, for example what pages you visit and what you click on.
         label: GOV.UK can use cookies while you’re signed in
         link_extra: your cookie settings
