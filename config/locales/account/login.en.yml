@@ -38,6 +38,7 @@ en:
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
   errors:
+    error: Error
     messages:
       headline: There is a problem
       not_found: This email address does not have a GOV.UK account. Try entering the email address for your account again.

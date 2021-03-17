@@ -1,3 +1,9 @@
+<%
+  title = ""
+  title << "#{yield(:title_prefix)}: " if content_for?(:title_prefix)
+  title << "#{yield(:title)} - " if content_for?(:title)
+  title << "GOV.UK Account"
+-%>
 <!DOCTYPE html>
 <html lang="en" class="govuk-template">
 
@@ -5,7 +11,7 @@
   <meta charset="utf-8">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <title><%= content_for?(:title) ? "#{yield(:title)} - GOV.UK Account" : "GOV.UK Account" %></title>
+  <title><%= title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="blue">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

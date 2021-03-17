@@ -3,6 +3,7 @@ module ErrorItemsHelper
     errors_for_field = (error_items || []).filter_map { |item| item[:text] if item[:field] == field }.uniq
     return unless errors_for_field.any?
 
+    content_for :title_prefix, t("errors.error") unless content_for?(:title_prefix)
     sanitize(errors_for_field.join("<br>"))
   end
 
@@ -10,6 +11,7 @@ module ErrorItemsHelper
     raw_errors = resource ? resource.errors.messages : resource_error_messages
     return nil unless raw_errors
 
+    content_for :title_prefix, t("errors.error") unless content_for?(:title_prefix)
     all_errors = raw_errors.compact.map do |id, errors|
       errors.map do |error|
         { field: id, error: error }
