@@ -9,7 +9,6 @@
         class: 'accounts-menu__link govuk-link govuk-link--no-visited-state',
         'aria-current': page_is == "your-account" ? "page" : nil,
       ) %>
-      <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.account.description") %></span>
     </li>
     <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "manage" %>">
       <%= link_to(
@@ -18,7 +17,6 @@
         class: 'accounts-menu__link govuk-link govuk-link--no-visited-state',
         'aria-current': page_is == "manage" ? "page" : nil,
       ) %>
-      <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.manage.description") %></span>
     </li>
     <li class="accounts-menu__item <%= "accounts-menu__item--current" if page_is == "security" %>">
       <%= link_to(
@@ -27,7 +25,6 @@
         class: 'accounts-menu__link govuk-link govuk-link--no-visited-state',
         'aria-current': page_is == "security" ? "page" : nil,
       ) %>
-      <span class="accounts-menu__link-description"><%= t("navigation.menu_bar.security.description") %></span>
     </li>
   </ul>
 </nav>

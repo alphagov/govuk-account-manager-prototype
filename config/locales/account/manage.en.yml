@@ -2,6 +2,19 @@
 en:
   account:
     manage:
+      change_cookies:
+        description: We’d like to use cookies to collect anonymised analytics about how you use GOV.UK while you’re signed in to your GOV.UK account, for example what pages you visit and what you click on.
+        question: Can we use cookies to learn about how you use GOV.UK while you’re signed in to your account?
+        title: Change your cookie settings
+      change_feedback:
+        description: As we add more features to your GOV.UK account, we would like to email you to find out any thoughts or suggestions you might have.
+        question: Can we email you to ask for feedback about your account?
+        title: Change your feedback settings
+      cookies:
+        description: We use cookies to learn about how you use GOV.UK while you’re signed in to your account, for example what pages you visit and what you click on.
+        label: GOV.UK can use cookies while you’re signed in
+        link_extra: your cookie settings
+        title: Cookie settings
       delete:
         description: You can permanently delete this account and all the information stored in it.
         heading: Delete your account
@@ -9,18 +22,16 @@ en:
       details:
         heading: Account details
         unconfirmed: unconfirmed
+      feedback:
+        description: We’d like to email you to ask for your thoughts as we add more features to your account.
+        label: GOV.UK can send you feedback emails
+        link_extra: your feedback settings
+        title: Feedback settings
       heading: Manage your account
       page_title: Manage your GOV.UK account
       privacy:
-        cookies_description: For example what pages you visit and what you click on
-        cookies_link_extra: your cookie settings
-        cookies_question: Can your account use cookies to learn about how you use GOV.UK?
         cookies_success: Your cookie settings have been changed
-        email_description: For example when new features are added to your account
-        email_link_extra: your feedback settings
-        email_question: Can GOV.UK email you to ask for feedback about your account?
         email_success: Your feedback settings have been changed
-        heading: Privacy settings
   devise:
     registrations:
       edit:

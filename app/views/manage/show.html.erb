@@ -30,58 +30,75 @@
 </div>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: t("account.manage.privacy.heading"),
+  text: t("account.manage.cookies.title"),
   heading_level: 2,
   font_size: "m",
   margin_bottom: 4,
 } %>
 
-<div class="accounts-summary-list accounts-summary-list--wide">
-  <dl class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <p class="govuk-body accounts-summary-list__key-heading"><%= t("account.manage.privacy.cookies_question") %></p>
-        <p class="govuk-body accounts-summary-list__key-description"><%= t("account.manage.privacy.cookies_description") %></p>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= current_user.cookie_consent == true ? t("general.yes") : t("general.no") %>
-      </dd>
-      <dd class="govuk-summary-list__actions">
-        <a href="<%= edit_user_consent_cookie_path %>"
-          class="govuk-link"
-          title="<%= t("general.change") %> <%= t("account.manage.privacy.cookies_link_extra") %>"
-          data-module = "gem-track-click"
-          data-track-category = "account-manage"
-          data-track-action = "manage-account"
-          data-track-label = "personal-information-cookies">
-          <%= t("general.change") %>
-          <span class="govuk-visually-hidden"><%= t("account.manage.privacy.cookies_link_extra") %></span>
-        </a>
-      </dd>
-    </div>
+<p class="govuk-body"><%= t("account.manage.cookies.description") %></p>
 
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <p class="govuk-body accounts-summary-list__key-heading"><%= t("account.manage.privacy.email_question") %></p>
-        <p class="govuk-body accounts-summary-list__key-description"><%= t("account.manage.privacy.email_description") %></p>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= current_user.feedback_consent == true ? t("general.yes") : t("general.no") %>
-      </dd>
-      <dd class="govuk-summary-list__actions">
-        <a href="<%= edit_user_consent_feedback_path %>"
-          class="govuk-link"
-          title="<%= t("general.change") %> <%= t("account.manage.privacy.email_link_extra") %>"
-          data-module = "gem-track-click"
-          data-track-category = "account-manage"
-          data-track-action = "manage-account"
-          data-track-label = "personal-information-feedback">
-          <%= t("general.change") %>
-          <span class="govuk-visually-hidden"><%= t("account.manage.privacy.email_link_extra") %></span>
-        </a>
-      </dd>
-    </div>
-  </dl>
+<% cookie_link_text = capture do %>
+  <%= t("general.change") %> <span class="govuk-visually-hidden"><%= t("account.manage.cookies.link_extra") %></span>
+<% end %>
+
+<div class="accounts-summary-list">
+  <%= render "govuk_publishing_components/components/summary_list", {
+    wide_title: true,
+    items: [
+      {
+        field: t("account.manage.cookies.label"),
+        value: current_user.cookie_consent == true ? t("general.yes") : t("general.no"),
+        edit: {
+          href: edit_user_consent_cookie_path,
+          link_text: cookie_link_text,
+          link_text_no_enhance: true,
+          data_attributes: {
+            module: "gem-track-click",
+            track_category: "account-manage",
+            track_action: "manage-account",
+            track_label: "personal-information-cookies",
+          }
+        }
+      },
+    ]
+  } %>
+</div>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("account.manage.feedback.title"),
+  heading_level: 2,
+  font_size: "m",
+  margin_bottom: 4,
+} %>
+
+<p class="govuk-body"><%= t("account.manage.feedback.description") %></p>
+
+<% feedback_link_text = capture do %>
+  <%= t("general.change") %> <span class="govuk-visually-hidden"><%= t("account.manage.feedback.link_extra") %></span>
+<% end %>
+
+<div class="accounts-summary-list">
+  <%= render "govuk_publishing_components/components/summary_list", {
+    wide_title: true,
+    items: [
+      {
+        field: t("account.manage.feedback.label"),
+        value: current_user.feedback_consent == true ? t("general.yes") : t("general.no"),
+        edit: {
+          href: edit_user_consent_feedback_path,
+          link_text: feedback_link_text,
+          link_text_no_enhance: true,
+          data_attributes: {
+            module: "gem-track-click",
+            track_category: "account-manage",
+            track_action: "manage-account",
+            track_label: "personal-information-feedback",
+          }
+        }
+      },
+    ]
+  } %>
 </div>
 
 <%= render "govuk_publishing_components/components/heading", {

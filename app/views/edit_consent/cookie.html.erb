@@ -17,11 +17,17 @@
   }
 ) do %>
 
+  <% description = capture do %>
+    <p class="govuk-body"><%= t('account.manage.change_cookies.description') %></p>
+    <p class="govuk-body"><%= t('account.manage.change_cookies.question') %></p>
+  <% end %>
+
   <%= render "govuk_publishing_components/components/radio", {
     name: "cookie_consent",
-    heading: t('account.manage.privacy.cookies_question'),
+    heading: t('account.manage.change_cookies.title'),
     heading_size: "l",
     is_page_heading: true,
+    description: description,
     items: [
       {
         value: "yes",
