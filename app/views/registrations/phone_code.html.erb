@@ -7,6 +7,12 @@
   margin_bottom: 3,
 } %>
 
+<%= render "_shared/error_messages",
+  resource_error_messages: {
+    phone_code: [
+    sanitize(@phone_code_error_message),
+  ]} if @phone_code_error_message %>
+
 <% t("mfa.phone.code.description_with_phone_number", phone_number: MultiFactorAuth.formatted_phone_number(@registration_state.phone)).each do |msg| %>
   <p class="govuk-body"><%= sanitize(msg) %></p>
 <% end %>
@@ -14,6 +20,7 @@
 <%= form_with(url: new_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
   <%= render "govuk_publishing_components/components/input", {
     label: { text: t("mfa.phone.code.fields.phone_code.label") },
+    id: "phone_code",
     name: "phone_code",
     maxlength: 5,
     type: "number",

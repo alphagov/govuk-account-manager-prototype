@@ -8,8 +8,10 @@ class EditPhoneController < ApplicationController
   def show; end
 
   def confirm
+    @error_messages = {}
     unless current_user.valid_password? params[:current_password]
       @password_error_message = I18n.t("activerecord.errors.models.user.attributes.password.#{params[:current_password].blank? ? 'blank' : 'invalid'}")
+      @error_messages[:current_password] = [@password_error_message]
     end
 
     if params[:phone]
@@ -25,6 +27,7 @@ class EditPhoneController < ApplicationController
     else
       @phone_error_message = I18n.t("activerecord.errors.models.user.attributes.phone.blank")
     end
+    @error_messages[:phone] = [@phone_error_message]
 
     if @password_error_message || @phone_error_message
       render :show

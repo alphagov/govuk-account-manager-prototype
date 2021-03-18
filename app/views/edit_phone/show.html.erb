@@ -15,6 +15,8 @@
   margin_bottom: 6,
 } %>
 
+<%= render "_shared/error_messages", resource_error_messages: @error_messages if @error_messages %>
+
 <p class="govuk-body">
   <%= sanitize(t("mfa.phone.update.start.current", phone_number: MultiFactorAuth.formatted_phone_number(current_user.phone))) %>
 </p>
@@ -22,6 +24,7 @@
 <%= form_with(url: edit_user_registration_phone_confirm_path, method: :post) do %>
   <%= render "govuk_publishing_components/components/input", {
     label: { text: t("mfa.phone.update.start.fields.phone.label") },
+    id: "phone",
     name: "phone",
     type: "tel",
     error_message: @phone_error_message,
@@ -38,6 +41,7 @@
     heading_size: "m",
     hint: t("devise.registrations.edit.fields.current_password.hint"),
     name: "current_password",
+    id: "current_password",
     error_message: @password_error_message,
     autocomplete: "current-password",
   } %>
