@@ -32,15 +32,7 @@ en:
       page_numbering_next: Next page
       page_numbering_previous: Previous page
       page_out_of_range: Page does not exist
-      report:
-        action:
-          cancel: or <a class="govuk-link" href="%{link}">Cancel</a>
-          report: Report suspicious activity
-        description: |
-          <p class="govuk-body">Use the feedback form to tell us if you think something does not look right with your GOV.UK account.</p>
-          <p class="govuk-body">We’ll get back to you as soon as possible.</p>
-        heading: Report suspicious activity
-      report_suspicious_activity: Report suspicious activity
+      report_suspicious_info: <p class="govuk-body">If something does not look right with the activity on your GOV.UK account, <a class="govuk-link" href="%{link}" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">report it using the feedback form</a>. We’ll get back to you as soon as possible.</p>
       security_codes:
         code_description:
           conjunction: and

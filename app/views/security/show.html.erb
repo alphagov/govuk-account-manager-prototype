@@ -15,6 +15,9 @@
 
 <div class="govuk-!-margin-bottom-9">
   <%= sanitize(t("account.security.description")) %>
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: sanitize(t("account.security.report_suspicious_info", link: feedback_form_path))
+  } %>
 </div>
 
 <div class="govuk-!-margin-bottom-9">
