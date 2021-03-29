@@ -35,7 +35,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 0\n" \
           "1 minute group: 0\n" \
           "Remaining group: 0\n" \
-          "Total: 0 users will be sent the 2021_03_survey\n",
+          "Total: 0 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 0\n" \
+          "New Total has_received_2021_03_survey: 0\n", \
         ).to_stdout
       end
     end
@@ -54,7 +57,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 0\n" \
           "1 minute group: 0\n" \
           "Remaining group: 0\n" \
-          "Total: 0 users will be sent the 2021_03_survey\n",
+          "Total: 0 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 0\n" \
+          "New Total has_received_2021_03_survey: 0\n", \
         ).to_stdout
       end
     end
@@ -75,7 +81,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 0\n" \
           "1 minute group: 0\n" \
           "Remaining group: 2\n" \
-          "Total: 2 users will be sent the 2021_03_survey\n",
+          "Total: 2 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 0\n" \
+          "New Total has_received_2021_03_survey: 2\n", \
         ).to_stdout
       end
     end
@@ -99,7 +108,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 0\n" \
           "1 minute group: 0\n" \
           "Remaining group: 4\n" \
-          "Total: 4 users will be sent the 2021_03_survey\n",
+          "Total: 4 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 3\n" \
+          "New Total has_received_2021_03_survey: 7\n", \
         ).to_stdout
       end
     end
@@ -137,7 +149,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 0\n" \
           "1 minute group: 3\n" \
           "Remaining group: 4\n" \
-          "Total: 7 users will be sent the 2021_03_survey\n",
+          "Total: 7 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 0\n" \
+          "New Total has_received_2021_03_survey: 7\n", \
         ).to_stdout
       end
     end
@@ -187,7 +202,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 20\n" \
           "1 minute group: 20\n" \
           "Remaining group: 20\n" \
-          "Total: 60 users will be sent the 2021_03_survey\n",
+          "Total: 60 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 0\n" \
+          "New Total has_received_2021_03_survey: 60\n", \
         ).to_stdout
       end
 
@@ -198,7 +216,10 @@ RSpec.describe "Email tasks" do
           "10 minute group: 1\n" \
           "1 minute group: 2\n" \
           "Remaining group: 3\n" \
-          "Total: 6 users will be sent the 2021_03_survey\n",
+          "Total: 6 users will be sent the 2021_03_survey\n" \
+          "User emails have been enqueued\n" \
+          "Previous Total has_received_2021_03_survey: 0\n" \
+          "New Total has_received_2021_03_survey: 6\n", \
         ).to_stdout
       end
     end

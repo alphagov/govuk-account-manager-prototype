@@ -25,30 +25,35 @@ namespace :emails do
       remaining_group_limit: 350,
     )
 
+    previously_sent = User.where(has_received_2021_03_survey: true).count
+
     ten_minute_group = User.where(feedback_consent: true, has_received_2021_03_survey: false)
                            .where("last_sign_in_at > created_at + interval '10 minute'")
                            .order(Arel.sql("RANDOM()"))
                            .limit(args.ten_minute_group_limit)
+                           .to_a
 
     puts "10 minute group: #{ten_minute_group.count}"
+    ten_minute_group.map { |user| user.update!(has_received_2021_03_survey: true) }
 
     one_minute_group = User.where(feedback_consent: true, has_received_2021_03_survey: false)
                            .where("last_sign_in_at > created_at + interval '1 minute'")
-                           .where.not(id: ten_minute_group.pluck(:id))
                            .order(Arel.sql("RANDOM()"))
                            .limit(args.one_minute_group_limit)
+                           .to_a
 
     puts "1 minute group: #{one_minute_group.count}"
+    one_minute_group.map { |user| user.update!(has_received_2021_03_survey: true) }
 
     remaining_group = User.where(feedback_consent: true, has_received_2021_03_survey: false)
-                          .where.not(id: ten_minute_group.pluck(:id))
-                          .where.not(id: one_minute_group.pluck(:id))
                           .order(Arel.sql("RANDOM()"))
                           .limit(args.remaining_group_limit)
+                          .to_a
 
     puts "Remaining group: #{remaining_group.count}"
+    remaining_group.map { |user| user.update!(has_received_2021_03_survey: true) }
 
-    users = [ten_minute_group, one_minute_group, remaining_group].flatten
+    users = [ten_minute_group, one_minute_group, remaining_group].flatten.uniq
 
     puts "Total: #{users.count} users will be sent the 2021_03_survey"
     users.each do |user|
@@ -58,8 +63,10 @@ namespace :emails do
         body: default_email_body,
       ).adhoc_email.deliver_later
     end
-
+    puts "User emails have been enqueued"
+    puts "Previous Total has_received_2021_03_survey: #{previously_sent}"
     users.map { |user| user.update!(has_received_2021_03_survey: true) }
+    puts "New Total has_received_2021_03_survey: #{User.where(has_received_2021_03_survey: true).count}"
   end
 end
 
