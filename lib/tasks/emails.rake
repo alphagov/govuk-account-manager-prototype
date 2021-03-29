@@ -65,7 +65,6 @@ namespace :emails do
     end
     puts "User emails have been enqueued"
     puts "Previous Total has_received_2021_03_survey: #{previously_sent}"
-    users.map { |user| user.update!(has_received_2021_03_survey: true) }
     puts "New Total has_received_2021_03_survey: #{User.where(has_received_2021_03_survey: true).count}"
   end
 end
