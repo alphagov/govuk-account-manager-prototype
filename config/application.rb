@@ -21,20 +21,6 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Raven.configure do |config|
-  config.silence_ready = true
-  config.dsn = ENV["SENTRY_DSN"]
-  config.before_send = lambda { |event, _hint|
-    if event.extra.dig(:sidekiq, :job, :args, :arguments)
-      event.extra[:sidekiq][:job][:args][:arguments] = []
-    end
-    if event.extra.dig(:sidekiq, :jobstr)
-      event.extra[:sidekiq][:jobstr] = {}
-    end
-    event
-  }
-end
-
 module GovukAccountManagerPrototype
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
