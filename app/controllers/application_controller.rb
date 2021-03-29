@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 protected
 
   def top_level_error_handler(exception = nil)
-    GovukError.notify(exception) if exception
+    Raven.capture_exception(exception) if exception
 
     respond_to do |format|
       format.html do
