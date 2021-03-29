@@ -6,7 +6,7 @@ namespace :emails do
   end
 
   desc "send test email"
-  task :test_email, %i[email] => [:environment] do |_, _args|
+  task :test_email, %i[email] => [:environment] do |_, args|
     abort("Please provide an email") if args.email.nil?
 
     UserMailer.with(
