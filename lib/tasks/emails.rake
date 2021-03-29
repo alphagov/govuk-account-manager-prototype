@@ -82,7 +82,7 @@ def default_email_body
   The GOV.UK Account team would like to know what you think about your account.
 
   Please fill in this short feedback survey:
-  https://surveys.publishing.service.gov.uk/s/account-feedback1/
+  https://surveys.publishing.service.gov.uk/s/account-feedback2/
 
   It’s 5 questions long and should only take around 5 minutes to complete.
 
