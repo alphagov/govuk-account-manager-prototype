@@ -14,7 +14,7 @@ class RemoteUserInfo
     end
     JSON.parse(response.body).deep_symbolize_keys
   rescue StandardError => e
-    Raven.capture_exception(e)
+    GovukError.notify(e)
     nil
   end
 

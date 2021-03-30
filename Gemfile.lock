@@ -530,6 +530,7 @@ DEPENDENCIES
   geocoder
   google-cloud-bigquery
   govuk_ab_testing
+  govuk_app_config
   govuk_publishing_components
   govuk_test
   i18n-tasks (~> 0.9.34)
@@ -551,7 +552,6 @@ DEPENDENCIES
   rspec-rails
   rubocop-govuk
   sassc-rails
-  sentry-raven
   sidekiq
   sidekiq-scheduler
   simplecov

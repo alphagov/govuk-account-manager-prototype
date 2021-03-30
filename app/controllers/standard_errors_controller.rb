@@ -31,6 +31,6 @@ private
 
   def report_error
     error = request.env["action_dispatch.exception"]
-    Raven::Rack.capture_exception(error, request.env) if error
+    GovukError.notify(error) if error
   end
 end
