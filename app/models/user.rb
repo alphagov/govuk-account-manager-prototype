@@ -43,8 +43,6 @@ class User < ApplicationRecord
 
   validate :password_cannot_be_on_denylist, if: :password_required?
 
-  after_commit :update_remote_user_info, on: %i[create update]
-
   # this has to happen before the record is actually destroyed because
   # there's a foreign key constraint ensuring that an access token
   # corresponds to a user.

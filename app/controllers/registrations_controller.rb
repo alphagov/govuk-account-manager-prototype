@@ -192,6 +192,8 @@ class RegistrationsController < Devise::RegistrationsController
         user_is_new: true,
       }
 
+      resource.update_remote_user_info
+
       record_security_event(SecurityActivity::USER_CREATED, user: resource)
     end
     flash.clear
@@ -234,6 +236,7 @@ class RegistrationsController < Devise::RegistrationsController
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
       if new_email
+        resource.update_remote_user_info
         UserMailer.with(user: resource, new_address: new_email).changing_email_email.deliver_later
         session[:confirmations] = {
           email: new_email,

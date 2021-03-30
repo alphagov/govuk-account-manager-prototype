@@ -56,12 +56,18 @@ namespace :emails do
     users = [ten_minute_group, one_minute_group, remaining_group].flatten.uniq
 
     puts "Total: #{users.count} users will be sent the 2021_03_survey"
-    users.each do |user|
-      UserMailer.with(
-        email: user.email,
-        subject: default_email_subject_line,
-        body: default_email_body,
-      ).adhoc_email.deliver_later
+    first_slice = true
+    users.each_slice(2500) do |slice|
+      sleep 60 unless first_slice
+      first_slice = false
+
+      slice.each do |user|
+        UserMailer.with(
+          email: user.email,
+          subject: default_email_subject_line,
+          body: default_email_body,
+        ).adhoc_email.deliver_later
+      end
     end
     puts "User emails have been enqueued"
     puts "Previous Total has_received_2021_03_survey: #{previously_sent}"
