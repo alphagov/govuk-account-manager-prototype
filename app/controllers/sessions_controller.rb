@@ -127,13 +127,13 @@ class SessionsController < Devise::SessionsController
     if params[:continue]
       current_user.invalidate_all_sessions!
       Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-      redirect_to "#{sign_out_path}/logout?done=#{params[:continue]}"
+      redirect_to "#{sign_out_path}?done=#{params[:continue]}"
     elsif params[:done]
       current_user.invalidate_all_sessions!
       super
       flash[:notice] = nil
     else
-      redirect_to "#{sign_out_path}/logout?continue=1"
+      redirect_to "#{sign_out_path}?continue=1"
     end
   end
 
