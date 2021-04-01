@@ -1,25 +1,15 @@
-<div class="govuk-summary-list__row">
-  <dt class="govuk-summary-list__key govuk-!-font-weight-regular">
-    <p class="govuk-body">
-      <span class="govuk-body govuk-!-display-block">
-        <% if mfa_token.valid_until >= Time.zone.now %>
-          <%= t("account.security.security_codes.code_description.present") %>
-        <% else %>
-          <%= t("account.security.security_codes.code_description.past") %>
-        <% end %>
-      </span>
-      <span class="govuk-!-font-weight-bold">
-        <%= humanized_date(mfa_token.created_at) %>
-        <%= t("account.security.security_codes.code_description.conjunction") %>
-        <%= humanized_date(mfa_token.valid_until) %>
-      </span>
-    </p>
-  </dt>
-  <dd class="govuk-summary-list__actions">
-    <p class="govuk-body">
-      <a class="govuk-link" href="<%= account_security_report_path %>" data-module="gem-track-click" data-track-category="account-manage" data-track-action="security" data-track-label="not-me">
-        <%= t("account.security.report_suspicious_activity") %>
-      </a>
-    </p>
-  </dd>
-</div>
+<li class="accounts-border-list__item">
+  <%= render "govuk_publishing_components/components/heading", {
+    text: humanized_date(mfa_token.created_at),
+    heading_level: 3,
+    font_size: "s",
+  } %>
+  <p class="govuk-body">
+    <% if mfa_token.valid_until >= Time.zone.now %>
+      <%= t("account.security.security_codes.code_description.present") %>
+    <% else %>
+      <%= t("account.security.security_codes.code_description.past") %>
+    <% end %>
+    <%= humanized_date(mfa_token.valid_until) %>.
+  </p>
+</li>

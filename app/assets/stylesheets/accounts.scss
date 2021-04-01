@@ -152,3 +152,7 @@ $_current-indicator-width: 4px;
     padding-left: 30%;
   }
 }
+
+.accounts-border-list__item {
+  border-bottom: solid 1px $govuk-border-colour;
+}

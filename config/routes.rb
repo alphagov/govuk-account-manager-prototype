@@ -29,7 +29,6 @@ Rails.application.routes.draw do
       get "/security", to: "security#show", as: :account_security
       get "/security/activity/:page_number", to: "security#paginated_activity", as: :account_security_paginated_activity
       get "/security/code/:page_number", to: "security#paginated_mfa_tokens", as: :account_security_paginated_mfa_tokens
-      get "/security/report", to: "security#report", as: :account_security_report
 
       get    "/delete", to: "delete#show", as: :account_delete
       delete "/delete", to: "delete#destroy"
