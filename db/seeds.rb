@@ -21,7 +21,10 @@ if Rails.env.development?
 
   Doorkeeper::Application.create!(
     name: "GOV.UK Personalisation",
-    redirect_uri: "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
+    redirect_uri: [
+      "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
+      "http://frontend.dev.gov.uk/sign-in/callback",
+    ],
     scopes: %i[email openid transition_checker],
     uid: "client-id",
     secret: "client-secret",
