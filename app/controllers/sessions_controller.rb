@@ -127,13 +127,13 @@ class SessionsController < Devise::SessionsController
     if params[:continue]
       current_user.invalidate_all_sessions!
       Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-      redirect_to "#{transition_checker_path}/logout?done=#{params[:continue]}"
+      redirect_to "#{sign_out_path}/logout?done=#{params[:continue]}"
     elsif params[:done]
       current_user.invalidate_all_sessions!
       super
       flash[:notice] = nil
     else
-      redirect_to "#{transition_checker_path}/logout?continue=1"
+      redirect_to "#{sign_out_path}/logout?continue=1"
     end
   end
 
@@ -201,5 +201,10 @@ protected
 
   def analytics_data
     "from_confirmation_email" if params[:from_confirmation_email]
+  end
+
+  def sign_out_path
+    base_url = Rails.env.development? ? Plek.find("frontend") : Plek.new.website_root
+    "#{base_url}/sign-out"
   end
 end
