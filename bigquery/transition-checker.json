@@ -1,0 +1,632 @@
+[
+   {
+      "name" : "user_id",
+      "type" : "STRING",
+      "mode" : "REQUIRED"
+   },
+   {
+      "type" : "TIMESTAMP",
+      "mode" : "REQUIRED",
+      "name" : "timestamp"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "nationality_uk"
+   },
+   {
+      "name" : "nationality_ie",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "nationality_eu",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "nationality_row"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "living_uk"
+   },
+   {
+      "name" : "living_ie",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "living_eu",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "living_row",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "working_uk"
+   },
+   {
+      "name" : "working_ie",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "working_eu",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "studying_uk",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "studying_ie",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "studying_eu",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "retired"
+   },
+   {
+      "name" : "travel_eu_business",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "travel_eu_business_no",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "living_driving_eu",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "living_driving_eu_no",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "visiting_uk",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "visiting_ie"
+   },
+   {
+      "name" : "visiting_eu",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "visiting_row",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "visiting_driving",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "visiting_bring_pet"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "move_to_eu"
+   },
+   {
+      "name" : "move_to_eu_no",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "return_to_uk",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "return_to_uk_no"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "family_eu"
+   },
+   {
+      "name" : "family_eu_no",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "join_family_uk_yes",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "join_family_uk_no"
+   },
+   {
+      "name" : "owns_operates_business_organisation",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "does_not_own_operate_business_organisation",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "owns_operates_business_organisation_uk",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "owns_operates_business_organisation_eu"
+   },
+   {
+      "name" : "owns_operates_business_organisation_row",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "employ_eu_citizens",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "do_not_employ_eu_citizens"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "personal_eu_org"
+   },
+   {
+      "name" : "personal_eu_org_process",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "personal_eu_org_use"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "personal_eu_org_provide"
+   },
+   {
+      "name" : "do_not_personal_eu_org",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "eu_uk_funding"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "do_not_eu_uk_funding"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "sell_public_sector"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "sell_public_sector_contracts"
+   },
+   {
+      "name" : "sell_defence_contracts",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "do_not_sell_to_public_sector"
+   },
+   {
+      "name" : "ip",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "ip_copyright"
+   },
+   {
+      "name" : "ip_trade_marks",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "ip_designs",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "ip_patents"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "ip_exhaustion_rights"
+   },
+   {
+      "name" : "do_not_ip",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "eu_domain",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "eu_domain_no"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "import_from_eu"
+   },
+   {
+      "name" : "export_to_eu",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "haulage_goods_across_eu_borders"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "provide_services_do_business_in_eu"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "move_goods_ni"
+   },
+   {
+      "name" : "export_to_row",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "trade_developing",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "aero_space",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "automotive"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "electronic_machinery"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "install_service_repair"
+   },
+   {
+      "name" : "marine_transport",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "rail_manufacture"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "agriculture_farm"
+   },
+   {
+      "name" : "animal_ex_food",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "fish_inc_wholesale"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "forestry"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "vet"
+   },
+   {
+      "name" : "personal_service",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "legal_service"
+   },
+   {
+      "name" : "charity",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "voluntary"
+   },
+   {
+      "name" : "construction",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "environment",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "defence"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "electricity"
+   },
+   {
+      "name" : "nuclear",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "oil_gas_coal",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "renewables"
+   },
+   {
+      "name" : "media",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "creative",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "gamble"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "sports"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "culture"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "finance"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "insurance"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "real_estate"
+   },
+   {
+      "name" : "health",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "medical_tech",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "pharma",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "digital",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "telecoms"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "consumer_goods"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "chemical"
+   },
+   {
+      "name" : "diamond",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "metal",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "mining"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "non_metal_material"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "justice_including_prisons"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "public_administration"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "education"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "research"
+   },
+   {
+      "name" : "food_drink_tobacco",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "motor_trade",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "retail_wholesale_x_food_drink_motors"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "accommodation"
+   },
+   {
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE",
+      "name" : "restaurants_catering"
+   },
+   {
+      "name" : "tourism",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "air_passenger_freight",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "port_airports",
+      "type" : "BOOLEAN",
+      "mode" : "NULLABLE"
+   },
+   {
+      "name" : "postal_couriers",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN",
+      "name" : "rail_passenger_freight"
+   },
+   {
+      "name" : "road_passenger_freight",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   },
+   {
+      "name" : "warehouse_pipeline",
+      "mode" : "NULLABLE",
+      "type" : "BOOLEAN"
+   }
+]
