@@ -186,9 +186,10 @@ GEM
       rails (>= 5.0.0.1)
       rouge
       sprockets (< 4)
-    govuk_test (2.1.1)
+    govuk_test (2.1.2)
       brakeman (~> 4.6)
       capybara
+      climate_control
       pact
       puma
       selenium-webdriver (>= 3.142)
@@ -275,7 +276,7 @@ GEM
     multipart-post (2.1.1)
     netrc (0.11.0)
     nio4r (2.5.7)
-    nokogiri (1.11.2)
+    nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     notifications-ruby-client (5.3.0)
