@@ -192,6 +192,14 @@ class RegistrationsController < Devise::RegistrationsController
         user_is_new: true,
       }
 
+      if resource.needs_mfa?
+        session[:level_of_authentication] = :level1
+        session[:has_done_mfa] = true
+      else
+        session[:level_of_authentication] = :level0
+        session[:has_done_mfa] = false
+      end
+
       resource.update_remote_user_info
 
       record_security_event(SecurityActivity::USER_CREATED, user: resource)

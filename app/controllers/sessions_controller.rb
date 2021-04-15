@@ -46,9 +46,11 @@ class SessionsController < Devise::SessionsController
       if request.env["warden.mfa.required"]
         MultiFactorAuth.generate_and_send_code(resource)
         redirect_to enter_phone_code_path
+      elsif request.env["warden.mfa.bypass"]
+        record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, user: resource, analytics: analytics_data)
+        do_sign_in(level_of_authentication: :level1, has_level1_but_skipped_mfa: true)
       else
-        record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_USED, user: resource, analytics: analytics_data) if request.env["warden.mfa.bypass"]
-        do_sign_in
+        do_sign_in(level_of_authentication: :level0)
       end
     else
       @resource_error_messages = {}
@@ -101,7 +103,7 @@ class SessionsController < Devise::SessionsController
         }
         record_security_event(SecurityActivity::ADDITIONAL_FACTOR_BYPASS_GENERATED, user: login_state.user, analytics: analytics_data)
       end
-      do_sign_in(has_done_mfa: true)
+      do_sign_in(level_of_authentication: :level1)
       login_state.user.update!(last_mfa_success: Time.zone.now)
       login_state.destroy!
       session.delete(:login_state_id)
@@ -156,7 +158,7 @@ protected
       end
   end
 
-  def do_sign_in(has_done_mfa: false)
+  def do_sign_in(level_of_authentication:, has_level1_but_skipped_mfa: false)
     record_security_event(SecurityActivity::LOGIN_SUCCESS, user: login_state.user, analytics: analytics_data)
 
     cookies[:cookies_preferences_set] = "true"
@@ -164,7 +166,13 @@ protected
 
     sign_in(resource_name, login_state.user)
 
-    session[:has_done_mfa] = has_done_mfa
+    session[:level_of_authentication] = level_of_authentication
+    session[:has_done_mfa] =
+      if level_of_authentication == :level1
+        !has_level1_but_skipped_mfa
+      else
+        false
+      end
 
     post_login_path =
       if login_state.redirect_path
