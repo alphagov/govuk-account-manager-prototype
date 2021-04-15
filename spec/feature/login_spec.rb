@@ -33,6 +33,12 @@ RSpec.feature "Logging in" do
 
       expect(page).to have_text(I18n.t("account.your_account.heading"))
     end
+
+    it "allows the user to change email address" do
+      enter_email_address_and_password
+      visit_change_email_page
+      expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
+    end
   end
 
   context "when the email is missing" do
@@ -208,5 +214,14 @@ RSpec.feature "Logging in" do
 
   def visit_security_page
     click_on I18n.t("navigation.menu_bar.security.link_text")
+  end
+
+  def visit_change_email_page
+    within ".accounts-menu" do
+      click_on "Manage your account"
+    end
+    within "#main-content" do
+      click_on "Change Email"
+    end
   end
 end

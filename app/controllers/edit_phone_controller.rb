@@ -1,5 +1,5 @@
 class EditPhoneController < ApplicationController
-  include RequiresRecentMfa
+  include ChangeCoreCredentials
 
   before_action :authenticate_user!
   before_action :enforce_has_phone!
@@ -73,6 +73,6 @@ protected
   end
 
   def enforce_recent_mfa!
-    redo_mfa edit_user_registration_phone_path unless has_done_mfa_recently?
+    redo_mfa edit_user_registration_phone_path if must_redo_mfa?
   end
 end
