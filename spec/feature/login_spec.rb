@@ -180,6 +180,42 @@ RSpec.feature "Logging in" do
     end
   end
 
+  context "logging in from an OAuth journey" do
+    let(:application) do
+      FactoryBot.create(
+        :oauth_application,
+        name: "Some Other Government Service",
+        redirect_uri: "https://www.gov.uk",
+        scopes: %i[openid],
+      )
+    end
+
+    before do
+      expect(user.ephemeral_states.last).to be_nil
+
+      visit authorization_endpoint_url(client: application, scope: "openid")
+      user_is_returned_to_login_screen
+
+      fill_in "email", with: user.email
+      fill_in "password", with: user.password
+      click_on I18n.t("devise.sessions.new.fields.submit.label")
+    end
+
+    it "records that the user has logged in with level-of-authentication 1" do
+      enter_mfa
+
+      expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level1")
+    end
+
+    context "when the user doesn't have MFA set up" do
+      let(:user) { FactoryBot.create(:user, :without_mfa) }
+
+      it "records that the user has logged in with level-of-authentication 0" do
+        expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level0")
+      end
+    end
+  end
+
   def user_is_returned_to_login_screen
     expect(page).to have_text(I18n.t("devise.sessions.new.heading"))
   end

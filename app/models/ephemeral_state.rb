@@ -8,6 +8,7 @@ class EphemeralState < ApplicationRecord
     {
       _ga: ga_client_id,
       cookie_consent: user.cookie_consent,
+      level_of_authentication: level_of_authentication,
     }.compact
   end
 end
