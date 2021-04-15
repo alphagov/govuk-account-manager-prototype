@@ -32,6 +32,7 @@ RSpec.describe "/api/v1/ephemeral-state" do
     expect(JSON.parse(response.body).symbolize_keys).to eq({
       _ga: "hello world",
       cookie_consent: user.cookie_consent,
+      level_of_authentication: "level0",
     })
   end
 
