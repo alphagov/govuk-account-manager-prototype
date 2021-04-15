@@ -25,6 +25,16 @@ RSpec.feature "Logging in" do
     expect(page).to have_text(I18n.t("account.security.event.login_success"))
   end
 
+  context "when the user doesn't have MFA set up" do
+    let(:user) { FactoryBot.create(:user, :without_mfa) }
+
+    it "bypasses the MFA page" do
+      enter_email_address_and_password
+
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
+    end
+  end
+
   context "when the email is missing" do
     it "shows an error" do
       enter_email_address_and_password(email: "")
