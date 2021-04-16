@@ -1,12 +1,13 @@
-module RequiresRecentMfa
+module ChangeCoreCredentials
   class MissingMfaMethod < StandardError; end
 
   extend ActiveSupport::Concern
 
-  def has_done_mfa_recently?
-    return true if Rails.env.test? && Rails.application.config.allow_insecure_change_credential
+  def must_redo_mfa?
+    return false if Rails.env.test? && Rails.application.config.allow_insecure_change_credential
+    return false unless current_user.needs_mfa?
 
-    session[:has_done_mfa]
+    !session[:has_done_mfa]
   end
 
   def redo_mfa(after_redo_mfa_url)

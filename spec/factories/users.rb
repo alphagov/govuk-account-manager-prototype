@@ -20,5 +20,9 @@ FactoryBot.define do
     trait :has_not_received_2021_03_survey do
       has_received_2021_03_survey { false }
     end
+
+    trait :without_mfa do
+      phone { nil }
+    end
   end
 end

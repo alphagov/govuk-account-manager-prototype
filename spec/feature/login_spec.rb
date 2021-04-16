@@ -25,6 +25,22 @@ RSpec.feature "Logging in" do
     expect(page).to have_text(I18n.t("account.security.event.login_success"))
   end
 
+  context "when the user doesn't have MFA set up" do
+    let(:user) { FactoryBot.create(:user, :without_mfa) }
+
+    it "bypasses the MFA page" do
+      enter_email_address_and_password
+
+      expect(page).to have_text(I18n.t("account.your_account.heading"))
+    end
+
+    it "allows the user to change email address" do
+      enter_email_address_and_password
+      visit_change_email_page
+      expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
+    end
+  end
+
   context "when the email is missing" do
     it "shows an error" do
       enter_email_address_and_password(email: "")
@@ -164,6 +180,42 @@ RSpec.feature "Logging in" do
     end
   end
 
+  context "logging in from an OAuth journey" do
+    let(:application) do
+      FactoryBot.create(
+        :oauth_application,
+        name: "Some Other Government Service",
+        redirect_uri: "https://www.gov.uk",
+        scopes: %i[openid],
+      )
+    end
+
+    before do
+      expect(user.ephemeral_states.last).to be_nil
+
+      visit authorization_endpoint_url(client: application, scope: "openid")
+      user_is_returned_to_login_screen
+
+      fill_in "email", with: user.email
+      fill_in "password", with: user.password
+      click_on I18n.t("devise.sessions.new.fields.submit.label")
+    end
+
+    it "records that the user has logged in with level-of-authentication 1" do
+      enter_mfa
+
+      expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level1")
+    end
+
+    context "when the user doesn't have MFA set up" do
+      let(:user) { FactoryBot.create(:user, :without_mfa) }
+
+      it "records that the user has logged in with level-of-authentication 0" do
+        expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level0")
+      end
+    end
+  end
+
   def user_is_returned_to_login_screen
     expect(page).to have_text(I18n.t("devise.sessions.new.heading"))
   end
@@ -198,5 +250,14 @@ RSpec.feature "Logging in" do
 
   def visit_security_page
     click_on I18n.t("navigation.menu_bar.security.link_text")
+  end
+
+  def visit_change_email_page
+    within ".accounts-menu" do
+      click_on "Manage your account"
+    end
+    within "#main-content" do
+      click_on "Change Email"
+    end
   end
 end

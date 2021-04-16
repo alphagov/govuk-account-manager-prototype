@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   include AcceptsJwt
   include CookiesHelper
-  include RequiresRecentMfa
+  include ChangeCoreCredentials
 
   # rubocop:disable Rails/LexicallyScopedActionFilter
   prepend_before_action :authenticate_scope!, only: %i[edit_password edit_email update destroy]
@@ -37,6 +37,7 @@ class RegistrationsController < Devise::RegistrationsController
       password_confirmation: params.dig(:user, :password),
       phone: params.dig(:user, :phone),
     )
+    resource.errors.add :phone, :blank if resource.phone.blank?
     resource.errors.add :email, :taken if User.exists?(email: resource.email)
 
     if resource.valid?
@@ -191,6 +192,14 @@ class RegistrationsController < Devise::RegistrationsController
         user_is_confirmed: false,
         user_is_new: true,
       }
+
+      if resource.needs_mfa?
+        session[:level_of_authentication] = :level1
+        session[:has_done_mfa] = true
+      else
+        session[:level_of_authentication] = :level0
+        session[:has_done_mfa] = false
+      end
 
       resource.update_remote_user_info
 
@@ -356,14 +365,14 @@ protected
   end
 
   def enforce_recent_mfa_for_email!
-    redo_mfa edit_user_registration_email_path unless has_done_mfa_recently?
+    redo_mfa edit_user_registration_email_path if must_redo_mfa?
   end
 
   def enforce_recent_mfa_for_password!
-    redo_mfa edit_user_registration_password_path unless has_done_mfa_recently?
+    redo_mfa edit_user_registration_password_path if must_redo_mfa?
   end
 
   def enforce_recent_mfa_for_update!
-    redo_mfa account_manage_path unless has_done_mfa_recently?
+    redo_mfa account_manage_path if must_redo_mfa?
   end
 end

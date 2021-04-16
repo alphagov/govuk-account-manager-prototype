@@ -439,6 +439,7 @@ Doorkeeper.configure do
         user: controller.current_user,
         grant: access_grant.token,
         ga_client_id: controller.params[:_ga],
+        level_of_authentication: controller.session[:level_of_authentication] || :level0,
       )
     elsif controller.params[:grant_type] == "authorization_code"
       access_token = context.auth.body["access_token"]

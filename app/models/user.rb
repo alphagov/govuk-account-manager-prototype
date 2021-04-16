@@ -42,6 +42,7 @@ class User < ApplicationRecord
            dependent: :destroy
 
   validate :password_cannot_be_on_denylist, if: :password_required?
+  validate :validate_phone_number, if: -> { phone.present? }
 
   # this has to happen before the record is actually destroyed because
   # there's a foreign key constraint ensuring that an access token
@@ -52,8 +53,6 @@ class User < ApplicationRecord
   # token gets destroyed between the test reading it and this callback
   # happening)
   before_destroy :destroy_remote_user_info_immediately, prepend: true
-
-  validate :validate_phone_number
 
   before_save :format_phone_number
 
@@ -104,11 +103,7 @@ class User < ApplicationRecord
   end
 
   def validate_phone_number
-    if phone.blank?
-      errors.add :phone, :blank
-    elsif !MultiFactorAuth.valid?(phone)
-      errors.add :phone, :invalid
-    end
+    errors.add :phone, :invalid unless MultiFactorAuth.valid?(phone)
   end
 
   def password_cannot_be_on_denylist
