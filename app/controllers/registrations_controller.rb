@@ -38,7 +38,6 @@ class RegistrationsController < Devise::RegistrationsController
       phone: params.dig(:user, :phone),
     )
     resource.errors.add :phone, :blank if resource.phone.blank?
-    resource.errors.add :email, :taken if User.exists?(email: resource.email)
 
     if resource.valid?
       RegistrationState.transaction do
