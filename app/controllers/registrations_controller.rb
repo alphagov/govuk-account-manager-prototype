@@ -36,8 +36,8 @@ class RegistrationsController < Devise::RegistrationsController
       password: params.dig(:user, :password),
       password_confirmation: params.dig(:user, :password),
       phone: params.dig(:user, :phone),
+      enforce_has_mfa: true,
     )
-    resource.errors.add :phone, :blank if resource.phone.blank?
 
     if resource.valid?
       RegistrationState.transaction do
