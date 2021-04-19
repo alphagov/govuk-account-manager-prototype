@@ -203,6 +203,17 @@ RSpec.feature "Registration" do
     end
   end
 
+  context "when the phone number is missing" do
+    it "returns an error" do
+      visit_registration_form
+      enter_email_address
+      enter_password
+      submit_registration_form
+
+      expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.phone.blank"))
+    end
+  end
+
   context "when the phone number is not a mobile" do
     it "returns an error" do
       visit_registration_form

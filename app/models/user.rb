@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :enforce_has_mfa
+
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
@@ -42,7 +44,7 @@ class User < ApplicationRecord
            dependent: :destroy
 
   validate :password_cannot_be_on_denylist, if: :password_required?
-  validate :validate_phone_number, if: -> { phone.present? }
+  validate :validate_phone_number, if: -> { enforce_has_mfa || phone.present? }
 
   # this has to happen before the record is actually destroyed because
   # there's a foreign key constraint ensuring that an access token
@@ -103,7 +105,11 @@ class User < ApplicationRecord
   end
 
   def validate_phone_number
-    errors.add :phone, :invalid unless MultiFactorAuth.valid?(phone)
+    if phone.blank?
+      errors.add :phone, :blank
+    elsif !MultiFactorAuth.valid?(phone)
+      errors.add :phone, :invalid
+    end
   end
 
   def password_cannot_be_on_denylist
