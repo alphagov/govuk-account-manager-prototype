@@ -22,7 +22,7 @@
   <% end %>
 </ul>
 
-<%= form_with(url: account_delete_path, method: :delete) do %>
+<%= form_with(url: account_delete_path, method: :delete, data: { module: "gem-track-click" }) do %>
   <%= render "govuk_publishing_components/components/show_password", {
     label: {
       text: t("devise.registrations.edit.fields.current_password.label"),
@@ -32,6 +32,11 @@
     name: "current_password",
     error_message: @password_error_message,
     autocomplete: "current-password",
+    data: {
+      button_track_action: "passwordShowHide",
+      button_track_category: "pageElementInteraction",
+      button_track_label: "deleteAccount"
+    }
   } %>
 
   <%= render "govuk_publishing_components/components/inset_text", {
