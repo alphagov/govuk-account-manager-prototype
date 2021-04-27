@@ -3,7 +3,7 @@
   <meta name="description" content='<%= t("devise.registrations.start.meta_description") %>'>
 <% end %>
 
-<%= form_with(url: new_user_registration_start_path, method: :post) do %>
+<%= form_with(url: new_user_registration_start_path, method: :post, data: { module: "gem-track-click" }) do %>
   <% if resource || @resource_error_messages %>
     <%= render "_shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
   <% end %>
@@ -36,6 +36,11 @@
     id: "password",
     error_message: devise_error_items(:password),
     autocomplete: "new-password",
+    data: {
+      button_track_action: "passwordShowHide",
+      button_track_category: "pageElementInteraction",
+      button_track_label: "createNewAccount"
+    }
   } %>
 
   <%= render "_shared/password_tip" %>

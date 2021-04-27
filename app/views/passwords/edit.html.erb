@@ -12,7 +12,7 @@
   margin_bottom: 3,
 } %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do %>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, data: { module: "gem-track-click" }) do %>
   <%= render "_shared/error_messages", resource: resource %>
   <%= hidden_field_tag "user[reset_password_token]", params[:reset_password_token] %>
   <%= email_field_tag 'email', @reset_email, class: "govuk-!-display-none", autocomplete: "off", "aria-hidden": true if @reset_email %>
@@ -25,6 +25,11 @@
     id: "password",
     error_message: devise_error_items(:password),
     autocomplete: @reset_email ? "new-password" : "off",
+    data: {
+      button_track_action: "passwordShowHide",
+      button_track_category: "pageElementInteraction",
+      button_track_label: "resetAccountPassword"
+    }
   } %>
 
   <%= render "_shared/password_tip" %>

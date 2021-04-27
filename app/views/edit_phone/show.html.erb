@@ -19,7 +19,7 @@
   <%= sanitize(t("mfa.phone.update.start.current", phone_number: MultiFactorAuth.formatted_phone_number(current_user.phone))) %>
 </p>
 
-<%= form_with(url: edit_user_registration_phone_confirm_path, method: :post) do %>
+<%= form_with(url: edit_user_registration_phone_confirm_path, method: :post, data: { module: "gem-track-click" }) do %>
   <%= render "govuk_publishing_components/components/input", {
     label: { text: t("mfa.phone.update.start.fields.phone.label") },
     name: "phone",
@@ -40,6 +40,11 @@
     name: "current_password",
     error_message: @password_error_message,
     autocomplete: "current-password",
+    data: {
+      button_track_action: "passwordShowHide",
+      button_track_category: "pageElementInteraction",
+      button_track_label: "changePhoneNumber"
+    }
   } %>
 
   <%= render "govuk_publishing_components/components/button", {

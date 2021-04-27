@@ -10,55 +10,62 @@
   margin_bottom: 3,
 } %>
 
-<%= form_with url: new_user_session_path, html: { "data-module" => "explicit-cross-domain-links" } do %>
-  <% if resource %>
-    <%= render "_shared/error_messages", resource: resource %>
-  <% end %>
-
-  <% if flash[:notice] %>
-    <% if flash_as_notice(flash[:notice]) %>
-      <%= render "govuk_publishing_components/components/notice", { description_text: flash[:notice] } %>
-    <% else %>
-      <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+<div data-module="gem-track-click">
+  <%= form_with url: new_user_session_path, html: { "data-module" => "explicit-cross-domain-links" } do %>
+    <% if resource %>
+      <%= render "_shared/error_messages", resource: resource %>
     <% end %>
+
+    <% if flash[:notice] %>
+      <% if flash_as_notice(flash[:notice]) %>
+        <%= render "govuk_publishing_components/components/notice", { description_text: flash[:notice] } %>
+      <% else %>
+        <%= render "govuk_publishing_components/components/success_alert", { message: flash[:notice] } %>
+      <% end %>
+    <% end %>
+
+    <%= hidden_field_tag "previous_url", params[:previous_url] %>
+
+    <%= hidden_field_tag "from_confirmation_email", params[:from_confirmation_email] %>
+
+    <%= render "govuk_publishing_components/components/input", {
+      label: {
+        text: t("devise.sessions.new.fields.email.label"),
+      },
+      name: "user[email]",
+      type: "email",
+      id: "email",
+      value: @email,
+      error_message: devise_error_items(:email, @resource_error_messages),
+      autocomplete: "username",
+    } %>
+
+    <%= render "govuk_publishing_components/components/show_password", {
+      label: {
+        text: t("devise.sessions.new.fields.password.label"),
+      },
+      name: "user[password]",
+      id: "password",
+      error_message: devise_error_items(:password, @resource_error_messages),
+      autocomplete: "current-password",
+      data: {
+        button_track_action: "passwordShowHide",
+        button_track_category: "pageElementInteraction",
+        button_track_label: "signIn"
+      }
+    } %>
+
+    <%= render "govuk_publishing_components/components/button", {
+      text: t("devise.sessions.new.fields.submit.label"),
+      margin_bottom: 3,
+      data_attributes: {
+        module: "gem-track-click",
+        "track-category": "account-signin",
+        "track-action": "signin",
+        "track-label": "password"
+      }
+    } %>
   <% end %>
-
-  <%= hidden_field_tag "previous_url", params[:previous_url] %>
-
-  <%= hidden_field_tag "from_confirmation_email", params[:from_confirmation_email] %>
-
-  <%= render "govuk_publishing_components/components/input", {
-    label: {
-      text: t("devise.sessions.new.fields.email.label"),
-    },
-    name: "user[email]",
-    type: "email",
-    id: "email",
-    value: @email,
-    error_message: devise_error_items(:email, @resource_error_messages),
-    autocomplete: "username",
-  } %>
-
-  <%= render "govuk_publishing_components/components/show_password", {
-    label: {
-      text: t("devise.sessions.new.fields.password.label"),
-    },
-    name: "user[password]",
-    id: "password",
-    error_message: devise_error_items(:password, @resource_error_messages),
-    autocomplete: "current-password",
-  } %>
-
-  <%= render "govuk_publishing_components/components/button", {
-    text: t("devise.sessions.new.fields.submit.label"),
-    margin_bottom: 3,
-    data_attributes: {
-      module: "gem-track-click",
-      "track-category": "account-signin",
-      "track-action": "signin",
-      "track-label": "password"
-    }
-  } %>
-<% end %>
+</div>
 
 <%= sanitize(t("devise.sessions.new.reset_password", reset_password: reset_password_path)) %>
