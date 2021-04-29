@@ -11,7 +11,6 @@ module ErrorItemsHelper
     raw_errors = resource ? resource.errors.messages : resource_error_messages
     return nil unless raw_errors
 
-    content_for :title_prefix, t("errors.error") unless content_for?(:title_prefix)
     all_errors = raw_errors.compact.map do |id, errors|
       errors.map do |error|
         { field: id, error: error }
@@ -21,6 +20,7 @@ module ErrorItemsHelper
     resource_errors = all_errors.flatten.select { |item| item[:field] == field && item[:error].present? }
 
     if resource_errors.any?
+      content_for :title_prefix, t("errors.error") unless content_for?(:title_prefix)
       sanitize(resource_errors
         .pluck(:error)
         .join("<br>"))
