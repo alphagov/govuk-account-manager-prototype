@@ -20,11 +20,15 @@
 </p>
 
 <%= form_with(url: edit_user_registration_phone_confirm_path, method: :post, data: { module: "gem-track-click" }) do %>
+  <% if @resource_error_messages.any? %>
+    <%= render "_shared/error_messages", resource: nil, resource_error_messages: @resource_error_messages %>
+  <% end %>
+
   <%= render "govuk_publishing_components/components/input", {
     label: { text: t("mfa.phone.update.start.fields.phone.label") },
     name: "phone",
     type: "tel",
-    error_message: @phone_error_message,
+    error_message: devise_error_items(:phone, @resource_error_messages),
   } %>
 
   <p class="govuk-body">
@@ -38,7 +42,7 @@
     heading_size: "m",
     hint: t("devise.registrations.edit.fields.current_password.hint"),
     name: "current_password",
-    error_message: @password_error_message,
+    error_message: devise_error_items(:current_password, @resource_error_messages),
     autocomplete: "current-password",
     data: {
       button_track_action: "passwordShowHide",

@@ -10,12 +10,16 @@
 <% end %>
 
 <%= form_with(url: edit_user_registration_phone_verify_path, method: :post, html: { autocomplete: "off" }) do %>
+  <% if @resource_error_messages.any? %>
+    <%= render "_shared/error_messages", resource: nil, resource_error_messages: @resource_error_messages %>
+  <% end %>
+
   <%= render "govuk_publishing_components/components/input", {
     label: { text: t("mfa.phone.code.fields.phone_code.label") },
     name: "phone_code",
     maxlength: 6,
     type: "number",
-    error_message: sanitize(@phone_code_error_message),
+    error_message: devise_error_items(:phone_code, @resource_error_messages),
     width: 5,
   } %>
 
