@@ -1,3 +1,5 @@
+class LevelOfAuthenticationTooLowError < StandardError; end
+
 module LevelOfAuthentication
   class << self
     def sort_levels_of_authentication(array_of_levels)
@@ -16,6 +18,7 @@ module LevelOfAuthentication
 
     def current_auth_greater_or_equal_to_required(current_auth, required_auth)
       return false if current_auth.nil? || required_auth.nil?
+
       current_auth.delete_prefix("level").to_i >= required_auth.delete_prefix("level").to_i
     end
   end
