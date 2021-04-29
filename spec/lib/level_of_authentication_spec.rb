@@ -33,4 +33,22 @@ RSpec.describe LevelOfAuthentication do
       expect(LevelOfAuthentication.select_highest_level([])).to be_nil
     end
   end
+
+  describe "#current_auth_greater_or_equal_to_required" do
+    it "returns true that level1 is higher than level0" do
+      expect(LevelOfAuthentication.current_auth_greater_or_equal_to_required("level1", "level0")).to be true
+    end
+
+    it "returns true that level10 is higher than level1" do
+      expect(LevelOfAuthentication.current_auth_greater_or_equal_to_required("level10", "level1")).to be true
+    end
+
+    it "returns true that level1 is equal to level1" do
+      expect(LevelOfAuthentication.current_auth_greater_or_equal_to_required("level1", "level1")).to be true
+    end
+
+    it "returns false that level1 is higher than level1000" do
+      expect(LevelOfAuthentication.current_auth_greater_or_equal_to_required("level1", "level1000")).to be false
+    end
+  end
 end
