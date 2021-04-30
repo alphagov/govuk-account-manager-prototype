@@ -15,9 +15,6 @@ RSpec.describe LevelOfAuthentication do
         LevelOfAuthentication.sort_levels_of_authentication(array),
       ).to eq(%w[level0 level1 level10 level100])
     end
-    it "returns nil if provided an empty array" do
-      expect(LevelOfAuthentication.sort_levels_of_authentication([])).to be_nil
-    end
   end
 
   describe "#select_highest_level" do
@@ -29,8 +26,10 @@ RSpec.describe LevelOfAuthentication do
       ).to eq("level100")
     end
 
-    it "returns nil if provided an empty array" do
-      expect(LevelOfAuthentication.select_highest_level([])).to be_nil
+    it "returns the current_maximum_level if provided an empty array" do
+      expect(
+        LevelOfAuthentication.select_highest_level([]),
+      ).to eq(LevelOfAuthentication.current_maximum_level)
     end
   end
 
@@ -49,6 +48,22 @@ RSpec.describe LevelOfAuthentication do
 
     it "returns false that level1 is higher than level1000" do
       expect(LevelOfAuthentication.current_auth_greater_or_equal_to_required("level1", "level1000")).to be false
+    end
+  end
+
+  describe "#known_auth_levels_from_hidden_scopes" do
+    it "returns an array of hidden scopes, filtered to known level of auth scopes" do
+      expect(
+        LevelOfAuthentication.known_auth_levels_from_hidden_scopes("./spec/fixtures/scopes.yml"),
+      ).to eq(%w[level0 level1])
+    end
+  end
+
+  describe "current_maximum_level" do
+    it "returns the highest known level of auth scope" do
+      expect(
+        LevelOfAuthentication.current_maximum_level("./spec/fixtures/scopes.yml"),
+      ).to eq("level1")
     end
   end
 end

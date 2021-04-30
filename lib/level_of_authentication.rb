@@ -11,7 +11,7 @@ module LevelOfAuthentication
     end
 
     def select_highest_level(array_of_levels)
-      return nil if array_of_levels.empty?
+      return current_maximum_level if array_of_levels.empty?
 
       sort_levels_of_authentication(array_of_levels).last
     end
@@ -20,6 +20,15 @@ module LevelOfAuthentication
       return false if current_auth.nil? || required_auth.nil?
 
       current_auth.delete_prefix("level").to_i >= required_auth.delete_prefix("level").to_i
+    end
+
+    def known_auth_levels_from_hidden_scopes(scopes_path = "./config/scopes.yml")
+      scopes = YAML.load_file(scopes_path)
+      scopes["hidden_scopes"].select { |scope| scope.starts_with?("level") }
+    end
+
+    def current_maximum_level(scopes_path = "./config/scopes.yml")
+      select_highest_level(known_auth_levels_from_hidden_scopes(scopes_path))
     end
   end
 end
