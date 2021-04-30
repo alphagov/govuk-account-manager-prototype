@@ -7,9 +7,13 @@ optional_scopes:
   - email
   - reporting_access
   - transition_checker
+  - level0
+  - level1
 hidden_scopes:
   - openid
   - transition_checker
+  - level0
+  - level1
 jwt_attributes_and_scopes: {
   "transition_checker_state": ["transition_checker"]
 }
