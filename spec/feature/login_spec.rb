@@ -179,14 +179,13 @@ RSpec.feature "Logging in" do
       end
     end
   end
-
   context "logging in from an OAuth journey" do
     let(:application) do
       FactoryBot.create(
         :oauth_application,
         name: "Some Other Government Service",
         redirect_uri: "https://www.gov.uk",
-        scopes: %i[openid],
+        scopes: %i[openid level0 level1],
       )
     end
 
@@ -212,13 +211,12 @@ RSpec.feature "Logging in" do
     end
 
     context "when the feature_flag_enforce_levels_of_authentication is 'enabled'" do
-      context "for a level0 authorised user" do
-        before do
-          allow(Rails.configuration).to receive(:feature_flag_enforce_levels_of_authentication).and_return(true)
-          log_in(%w[level0])
-        end
+      before { allow(Rails.configuration).to receive(:feature_flag_enforce_levels_of_authentication).and_return(true) }
 
+      context "for a level0 authorised user" do
         let(:user) { FactoryBot.create(:user, :without_mfa) }
+
+        before { log_in(%w[level0]) }
 
         it "returns a LevelOfAuthenticationTooLowError if the user does not have a sufficently high level of authentication" do
           expect {
@@ -234,23 +232,21 @@ RSpec.feature "Logging in" do
       end
 
       context "for a level1 authorised user" do
-        before { application.update!(scopes: "openid level1") }
-
         let(:user) { FactoryBot.create(:user) }
 
-        it "sucessfully returns the current user if the level of authentication meets the requirement" do
+        before do
           log_in(%w[level1])
           enter_mfa
+        end
 
-    context "when the user doesn't have MFA set up" do
-      let(:user) { FactoryBot.create(:user, :without_mfa) }
+        it "sucessfully returns the current user if the level of authentication meets the requirement" do
+          visit authorization_endpoint_url(client: application, scope: "openid level1")
 
-      it "records that the user has logged in with level-of-authentication 0" do
-        expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level0")
+          expect(page).to have_text(I18n.t("doorkeeper.authorizations.new.heading"))
+        end
       end
     end
   end
-
 
   def log_in(extra_scopes = [])
     visit authorization_endpoint_url(client: application, scope: ["openid", *extra_scopes].join(" "))
