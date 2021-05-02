@@ -213,27 +213,49 @@ RSpec.feature "Logging in" do
     context "when the feature_flag_enforce_levels_of_authentication is 'enabled'" do
       before { allow(Rails.configuration).to receive(:feature_flag_enforce_levels_of_authentication).and_return(true) }
 
-      context "for a level0 authorised user" do
+      context "when the user doesn't have MFA set up" do
         let(:user) { FactoryBot.create(:user, :without_mfa) }
 
         before { log_in(%w[level0]) }
 
-        it "returns a LevelOfAuthenticationTooLowError if the user does not have a sufficently high level of authentication" do
-          expect {
-            visit authorization_endpoint_url(client: application, scope: "openid level10")
-          }.to raise_error(LevelOfAuthenticationTooLowError)
+        it "does not redirect to do MFA if level0 is requested" do
+          visit authorization_endpoint_url(client: application, scope: "openid level0")
+          expect(page.current_url).to start_with("https://www.gov.uk/")
         end
 
-        it "returns a defaults to level1 and throws LevelOfAuthenticationTooLowError if no level scope is provided" do
+        it "raises NotImplementedError if a higher scope is requested" do
+          expect {
+            visit authorization_endpoint_url(client: application, scope: "openid level10")
+          }.to raise_error(NotImplementedError)
+        end
+
+        it "raises NotImplementedError if no scope is requested" do
           expect {
             visit authorization_endpoint_url(client: application, scope: "openid")
-          }.to raise_error(LevelOfAuthenticationTooLowError)
+          }.to raise_error(NotImplementedError)
+        end
+      end
+
+      context "for a level0 authorised user" do
+        before { log_in(%w[level0]) }
+
+        it "does not redirect to do MFA if level0 is requested" do
+          visit authorization_endpoint_url(client: application, scope: "openid level0")
+          expect(page).to_not have_content(I18n.t("mfa.phone.code.sign_in_heading"))
+        end
+
+        it "redirects to do MFA if a higher scope is requested" do
+          visit authorization_endpoint_url(client: application, scope: "openid level10")
+          expect(page).to have_content(I18n.t("mfa.phone.code.sign_in_heading"))
+        end
+
+        it "redirects to do MFA if no scope is requested" do
+          visit authorization_endpoint_url(client: application, scope: "openid")
+          expect(page).to have_content(I18n.t("mfa.phone.code.sign_in_heading"))
         end
       end
 
       context "for a level1 authorised user" do
-        let(:user) { FactoryBot.create(:user) }
-
         before do
           log_in(%w[level1])
           enter_mfa

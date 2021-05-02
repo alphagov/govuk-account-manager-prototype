@@ -25,7 +25,19 @@ Doorkeeper.configure do
       if current_level_of_authentication_is_good_enough
         current_user
       else
-        raise LevelOfAuthenticationTooLowError
+        destination_url =
+          if MultiFactorAuth.choose_mfa_method(current_user).nil?
+            raise NotImplementedError
+          else
+            login_state = LoginState.create!(created_at: Time.zone.now, user: current_user, redirect_path: request.fullpath)
+            session[:login_state_id] = login_state.id
+            MultiFactorAuth.generate_and_send_code(current_user)
+            user_session_phone_code_url
+          end
+
+        params = { _ga: request.params[:_ga] }.compact
+        redirect_to(destination_url + "?" + Rack::Utils.build_nested_query(params))
+        nil
       end
     else
       destination_url =

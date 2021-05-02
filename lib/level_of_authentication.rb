@@ -1,5 +1,3 @@
-class LevelOfAuthenticationTooLowError < StandardError; end
-
 module LevelOfAuthentication
   class << self
     def sort_levels_of_authentication(array_of_levels)
