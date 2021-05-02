@@ -144,12 +144,12 @@ RSpec.feature "Change Phone" do
 
   def enter_password
     fill_in "current_password", with: user.password
-    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
+    click_on I18n.t("mfa.phone.update.start.show.fields.submit.label")
   end
 
   def enter_incorrect_password
     fill_in "current_password", with: "1#{user.password}"
-    click_on I18n.t("mfa.phone.update.start.fields.submit.label")
+    click_on I18n.t("mfa.phone.update.start.show.fields.submit.label")
   end
 
   def send_code

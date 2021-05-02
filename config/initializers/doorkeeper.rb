@@ -27,7 +27,8 @@ Doorkeeper.configure do
       else
         destination_url =
           if MultiFactorAuth.choose_mfa_method(current_user).nil?
-            raise NotImplementedError
+            session[:after_change_phone_path] = request.fullpath
+            edit_user_registration_phone_new_url
           else
             login_state = LoginState.create!(created_at: Time.zone.now, user: current_user, redirect_path: request.fullpath)
             session[:login_state_id] = login_state.id

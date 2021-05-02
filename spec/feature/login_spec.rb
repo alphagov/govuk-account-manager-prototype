@@ -218,21 +218,33 @@ RSpec.feature "Logging in" do
 
         before { log_in(%w[level0]) }
 
-        it "does not redirect to do MFA if level0 is requested" do
+        it "does not redirect to set up MFA if level0 is requested" do
           visit authorization_endpoint_url(client: application, scope: "openid level0")
+          expect(page).to_not have_content(I18n.t("mfa.phone.update.start.new.heading"))
           expect(page.current_url).to start_with("https://www.gov.uk/")
         end
 
-        it "raises NotImplementedError if a higher scope is requested" do
-          expect {
-            visit authorization_endpoint_url(client: application, scope: "openid level10")
-          }.to raise_error(NotImplementedError)
+        it "redirects to set up MFA if a higher scope is requested" do
+          visit authorization_endpoint_url(client: application, scope: "openid level1")
+          expect(page).to have_content(I18n.t("mfa.phone.update.start.new.heading"))
+          set_up_mfa
+          expect(page.current_url).to start_with("https://www.gov.uk/")
         end
 
-        it "raises NotImplementedError if no scope is requested" do
-          expect {
-            visit authorization_endpoint_url(client: application, scope: "openid")
-          }.to raise_error(NotImplementedError)
+        it "redirects to set up MFA if no scope is requested" do
+          visit authorization_endpoint_url(client: application, scope: "openid")
+          expect(page).to have_content(I18n.t("mfa.phone.update.start.new.heading"))
+          set_up_mfa
+          expect(page.current_url).to start_with("https://www.gov.uk/")
+        end
+
+        def set_up_mfa
+          fill_in "phone", with: "07958123456"
+          fill_in "current_password", with: user.password
+          click_on I18n.t("mfa.phone.update.start.new.fields.submit.label")
+          click_on I18n.t("mfa.phone.update.confirm.fields.submit.label")
+          fill_in "phone_code", with: user.reload.phone_code
+          click_on I18n.t("mfa.phone.code.fields.submit.label")
         end
       end
 

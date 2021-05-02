@@ -1,11 +1,13 @@
 <% content_for :title, t("mfa.phone.update.confirm.heading") %>
-<% content_for :location, "manage" %>
-<% content_for :account_navigation do %>
-  <%= render "account-navigation", page_is: yield(:location) %>
+<% unless setting_up_first_phone? %>
+  <% content_for :location, "manage" %>
+  <% content_for :account_navigation do %>
+    <%= render "account-navigation", page_is: yield(:location) %>
+  <% end %>
 <% end %>
 
 <% content_for :before_main do %>
-  <%= render "govuk_publishing_components/components/back_link", { href: edit_user_registration_phone_path } %>
+  <%= render "govuk_publishing_components/components/back_link", { href: start_path } %>
 <% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
@@ -27,5 +29,5 @@
 <% end %>
 
 <p class="govuk-body">
-  <%= sanitize(t("mfa.phone.code.not_received.change_number_message", link: edit_user_registration_phone_path)) %>
+  <%= sanitize(t("mfa.phone.code.not_received.change_number_message", link: edit_user_registration_phone_resend_path)) %>
 </p>

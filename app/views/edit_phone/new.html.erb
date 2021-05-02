@@ -1,12 +1,4 @@
-<% content_for :title, t("mfa.phone.update.start.show.heading") %>
-<% content_for :location, "manage" %>
-<% content_for :account_navigation do %>
-  <%= render "account-navigation", page_is: yield(:location) %>
-<% end %>
-
-<% content_for :before_main do %>
-  <%= render "govuk_publishing_components/components/back_link", { href: account_manage_path } %>
-<% end %>
+<% content_for :title, t("mfa.phone.update.start.new.heading") %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: yield(:title),
@@ -15,9 +7,9 @@
   margin_bottom: 6,
 } %>
 
-<p class="govuk-body">
-  <%= sanitize(t("mfa.phone.update.start.show.current", phone_number: MultiFactorAuth.formatted_phone_number(current_user.phone))) %>
-</p>
+<% t("mfa.phone.update.start.new.description").each do |msg| %>
+  <p class="govuk-body"><%= sanitize(msg) %></p>
+<% end %>
 
 <%= form_with(url: edit_user_registration_phone_confirm_path, method: :post, data: { module: "gem-track-click" }) do %>
   <% if @resource_error_messages.any? %>
@@ -25,14 +17,14 @@
   <% end %>
 
   <%= render "govuk_publishing_components/components/input", {
-    label: { text: t("mfa.phone.update.start.show.fields.phone.label") },
+    label: { text: t("mfa.phone.update.start.new.fields.phone.label") },
     name: "phone",
     type: "tel",
     error_message: devise_error_items(:phone, @resource_error_messages),
   } %>
 
   <p class="govuk-body">
-    <%= t("mfa.phone.update.start.show.message") %>
+    <%= t("mfa.phone.update.start.new.message") %>
   </p>
 
   <%= render "govuk_publishing_components/components/show_password", {
@@ -52,12 +44,6 @@
   } %>
 
   <%= render "govuk_publishing_components/components/button", {
-    text: t("mfa.phone.update.start.show.fields.submit.label"),
-    inline_layout: true,
+    text: t("mfa.phone.update.start.new.fields.submit.label"),
   } %>
-  <span class="govuk-body"><%= t("general.or") %></span>
-  <%= link_to t("general.cancel"),
-    account_manage_path,
-    class: "govuk-body govuk-link"
-  %>
 <% end %>
