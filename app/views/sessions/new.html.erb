@@ -55,6 +55,8 @@
       }
     } %>
 
+    <%= hidden_field_tag :authenticate_to_level, params.dig(:authenticate_to_level) %>
+
     <%= render "govuk_publishing_components/components/button", {
       text: t("devise.sessions.new.fields.submit.label"),
       margin_bottom: 3,
