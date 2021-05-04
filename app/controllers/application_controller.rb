@@ -42,4 +42,9 @@ protected
       user_root_path
     end
   end
+
+  def sign_out_path
+    base_url = Rails.env.development? ? Plek.find("frontend") : Plek.new.website_root
+    "#{base_url}/sign-out"
+  end
 end
