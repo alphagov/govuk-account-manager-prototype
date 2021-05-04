@@ -35,22 +35,22 @@ class RegistrationsController < Devise::RegistrationsController
       email: params.dig(:user, :email),
       password: params.dig(:user, :password),
       password_confirmation: params.dig(:user, :password),
-      phone: params.dig(:user, :phone),
-      enforce_has_mfa: true,
+      phone: (params.dig(:user, :phone) if request_auth_wants_mfa?),
+      enforce_has_mfa: request_auth_wants_mfa?,
     )
 
     if resource.valid?
       RegistrationState.transaction do
         jwt.destroy_stale_states
         @registration_state = RegistrationState.create!(
-          state: :phone,
+          state: request_auth_wants_mfa? ? :phone : :your_information,
           previous_url: jwt.jwt_payload.dig("post_register_oauth").presence || params[:previous_url],
           jwt_id: jwt.id,
           email: params.dig(:user, :email),
           encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
-          phone: params.dig(:user, :phone),
+          phone: (params.dig(:user, :phone) if request_auth_wants_mfa?),
         )
-        MultiFactorAuth.generate_and_send_code(@registration_state)
+        MultiFactorAuth.generate_and_send_code(@registration_state) if request_auth_wants_mfa?
       end
       session[:registration_state_id] = @registration_state.id
       redirect_to url_for_state
@@ -276,6 +276,15 @@ class RegistrationsController < Devise::RegistrationsController
   def edit_password; end
 
 protected
+
+  def request_auth_wants_mfa?
+    return true unless Rails.application.config.feature_flag_enforce_levels_of_authentication
+
+    LevelOfAuthentication.current_auth_greater_or_equal_to_required(
+      params[:authenticate_to_level],
+      "level1",
+    )
+  end
 
   def after_sign_up_path_for(_resource)
     confirmation_email_sent_path(previous_url: @previous_url)

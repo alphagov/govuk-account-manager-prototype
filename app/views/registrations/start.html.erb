@@ -45,19 +45,23 @@
 
   <%= render "_shared/password_tip" %>
 
-  <%= render "govuk_publishing_components/components/input", {
-    label: {
-      text: t("devise.registrations.start.fields.phone.label"),
-    },
-    hint: t("devise.registrations.start.fields.phone.hint"),
-    name: "user[phone]",
-    id: "phone",
-    value: MultiFactorAuth.formatted_phone_number(params.dig(:user, :phone)),
-    width: 10,
-    error_message: devise_error_items(:phone),
-    autocomplete: "tel",
-    type: "tel",
-  } %>
+  <% if show_phone_field? %>
+    <%= render "govuk_publishing_components/components/input", {
+      label: {
+        text: t("devise.registrations.start.fields.phone.label"),
+      },
+      hint: t("devise.registrations.start.fields.phone.hint"),
+      name: "user[phone]",
+      id: "phone",
+      value: MultiFactorAuth.formatted_phone_number(params.dig(:user, :phone)),
+      width: 10,
+      error_message: devise_error_items(:phone),
+      autocomplete: "tel",
+      type: "tel",
+    } %>
+  <% end %>
+
+  <%= hidden_field_tag :authenticate_to_level, params.dig(:authenticate_to_level) %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: t("devise.registrations.start.fields.submit.label"),
