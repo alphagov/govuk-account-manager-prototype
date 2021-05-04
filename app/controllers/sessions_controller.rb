@@ -210,9 +210,4 @@ protected
   def analytics_data
     "from_confirmation_email" if params[:from_confirmation_email]
   end
-
-  def sign_out_path
-    base_url = Rails.env.development? ? Plek.find("frontend") : Plek.new.website_root
-    "#{base_url}/sign-out"
-  end
 end
