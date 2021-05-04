@@ -242,7 +242,7 @@ RSpec.feature "Logging in" do
         it "sucessfully returns the current user if the level of authentication meets the requirement" do
           visit authorization_endpoint_url(client: application, scope: "openid level1")
 
-          expect(page).to have_text(I18n.t("doorkeeper.authorizations.new.heading"))
+          expect(page.current_url).to start_with("https://www.gov.uk/")
         end
       end
     end
