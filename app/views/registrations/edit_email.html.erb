@@ -18,7 +18,7 @@
   <%= render "_shared/error_messages", resource: resource %>
 
   <%= render "govuk_publishing_components/components/inset_text", {
-    text: t("devise.registrations.edit.fields.email.inset_text", email: resource.email),
+    text: t("devise.registrations.edit.fields.email.inset_text", email: @old_email || resource.email),
   } %>
 
   <%= render "govuk_publishing_components/components/input", {
