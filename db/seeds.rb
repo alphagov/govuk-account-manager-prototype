@@ -25,7 +25,7 @@ if Rails.env.development?
       "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
       "http://frontend.dev.gov.uk/sign-in/callback",
     ],
-    scopes: %i[email openid transition_checker],
+    scopes: %i[email openid transition_checker level0 level1],
     uid: "client-id",
     secret: "client-secret",
   )
@@ -33,7 +33,7 @@ if Rails.env.development?
   Doorkeeper::Application.create!(
     name: "Transition Checker",
     redirect_uri: "http://finder-frontend.dev.gov.uk/transition-check/login/callback",
-    scopes: %i[email openid transition_checker],
+    scopes: %i[email openid transition_checker level0 level1],
     uid: "transition-checker-id",
     secret: "transition-checker-secret",
   )
