@@ -1,5 +1,5 @@
 RSpec.describe Report::AccountEvents do
-  let(:report) { described_class.new(start_date: start_date, end_date: end_date, user_id_pepper: "pepper").all }
+  let(:report) { described_class.new(start_date: start_date, end_date: end_date, user_id_pepper: "pepper").all.sort_by { |e| e[:login_timestamp] } }
 
   let(:start_date) { Time.zone.local(2020, 1, 22, 10, 0, 0) }
   let(:end_date) { start_date + 1.day }
