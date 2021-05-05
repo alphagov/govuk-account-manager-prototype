@@ -15,7 +15,12 @@ module Devise
         if validate(resource) { hashed = true; resource.valid_password?(password) } # rubocop:disable Style/Semicolon
           if resource.needs_mfa?
             env["warden.mfa.bypass"] = MultiFactorAuth.verify_bypass_token(resource, env["warden.mfa.bypass_token"])
-            env["warden.mfa.required"] = !env["warden.mfa.bypass"]
+            env["warden.mfa.required"] =
+              if env["warden.mfa.authenticate_to_level"] == "level0"
+                false
+              else
+                !env["warden.mfa.bypass"]
+              end
           else
             env["warden.mfa.required"] = false
           end

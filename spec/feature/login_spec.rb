@@ -179,41 +179,82 @@ RSpec.feature "Logging in" do
       end
     end
   end
-
   context "logging in from an OAuth journey" do
     let(:application) do
       FactoryBot.create(
         :oauth_application,
         name: "Some Other Government Service",
         redirect_uri: "https://www.gov.uk",
-        scopes: %i[openid],
+        scopes: %i[openid level0 level1],
       )
     end
 
-    before do
-      expect(user.ephemeral_states.last).to be_nil
+    context "when the feature_flag_enforce_levels_of_authentication is not 'enabled'" do
+      before do
+        expect(user.ephemeral_states.last).to be_nil
+        log_in
+      end
 
-      visit authorization_endpoint_url(client: application, scope: "openid")
-      user_is_returned_to_login_screen
+      it "records that the user has logged in with level-of-authentication 1" do
+        enter_mfa
 
-      fill_in "email", with: user.email
-      fill_in "password", with: user.password
-      click_on I18n.t("devise.sessions.new.fields.submit.label")
-    end
+        expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level1")
+      end
 
-    it "records that the user has logged in with level-of-authentication 1" do
-      enter_mfa
+      context "when the user doesn't have MFA set up" do
+        let(:user) { FactoryBot.create(:user, :without_mfa) }
 
-      expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level1")
-    end
-
-    context "when the user doesn't have MFA set up" do
-      let(:user) { FactoryBot.create(:user, :without_mfa) }
-
-      it "records that the user has logged in with level-of-authentication 0" do
-        expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level0")
+        it "records that the user has logged in with level-of-authentication 0" do
+          expect(user.reload.ephemeral_states.last&.level_of_authentication).to eq("level0")
+        end
       end
     end
+
+    context "when the feature_flag_enforce_levels_of_authentication is 'enabled'" do
+      before { allow(Rails.configuration).to receive(:feature_flag_enforce_levels_of_authentication).and_return(true) }
+
+      context "for a level0 authorised user" do
+        let(:user) { FactoryBot.create(:user, :without_mfa) }
+
+        before { log_in(%w[level0]) }
+
+        it "returns a LevelOfAuthenticationTooLowError if the user does not have a sufficently high level of authentication" do
+          expect {
+            visit authorization_endpoint_url(client: application, scope: "openid level10")
+          }.to raise_error(LevelOfAuthenticationTooLowError)
+        end
+
+        it "returns a defaults to level1 and throws LevelOfAuthenticationTooLowError if no level scope is provided" do
+          expect {
+            visit authorization_endpoint_url(client: application, scope: "openid")
+          }.to raise_error(LevelOfAuthenticationTooLowError)
+        end
+      end
+
+      context "for a level1 authorised user" do
+        let(:user) { FactoryBot.create(:user) }
+
+        before do
+          log_in(%w[level1])
+          enter_mfa
+        end
+
+        it "sucessfully returns the current user if the level of authentication meets the requirement" do
+          visit authorization_endpoint_url(client: application, scope: "openid level1")
+
+          expect(page.current_url).to start_with("https://www.gov.uk/")
+        end
+      end
+    end
+  end
+
+  def log_in(extra_scopes = [])
+    visit authorization_endpoint_url(client: application, scope: ["openid", *extra_scopes].join(" "))
+    user_is_returned_to_login_screen
+
+    fill_in "email", with: user.email
+    fill_in "password", with: user.password
+    click_on I18n.t("devise.sessions.new.fields.submit.label")
   end
 
   def user_is_returned_to_login_screen

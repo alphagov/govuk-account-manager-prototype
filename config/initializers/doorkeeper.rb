@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "./lib/level_of_authentication"
+
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
@@ -7,8 +9,24 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
+    required_level_of_authentication =
+      LevelOfAuthentication.select_highest_level(
+        request.params[:scope].split(" ").select { |scope| scope.starts_with?("level") },
+      )
+
     if current_user
-      current_user
+      current_level_of_authentication = session[:level_of_authentication]
+      current_level_of_authentication_is_good_enough =
+        !Rails.application.config.feature_flag_enforce_levels_of_authentication ||
+        LevelOfAuthentication.current_auth_greater_or_equal_to_required(
+          current_level_of_authentication, required_level_of_authentication
+        )
+
+      if current_level_of_authentication_is_good_enough
+        current_user
+      else
+        raise LevelOfAuthenticationTooLowError
+      end
     else
       destination_url =
         if request.params[:state] && Jwt.exists?(request.params[:state].split(":").first)
@@ -17,7 +35,11 @@ Doorkeeper.configure do
           new_user_session_url
         end
 
-      params = { previous_url: request.fullpath, _ga: request.params[:_ga] }.compact
+      params = {
+        previous_url: request.fullpath,
+        _ga: request.params[:_ga],
+        authenticate_to_level: required_level_of_authentication,
+      }.compact
       redirect_to(destination_url + "?" + Rack::Utils.build_nested_query(params))
       nil
     end

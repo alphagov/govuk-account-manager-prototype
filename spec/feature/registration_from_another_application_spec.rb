@@ -112,14 +112,66 @@ RSpec.feature "Registration (coming from another application)" do
     end
   end
 
+  context "when the feature_flag_enforce_levels_of_authentication is 'enabled'" do
+    before do
+      allow(Rails.configuration).to receive(:feature_flag_enforce_levels_of_authentication).and_return(true)
+    end
+
+    context "arriving from a level0 application" do
+      let(:application_scopes) { %i[openid level0 test_scope_read test_scope_write] }
+
+      it "completes the signup journey without MFA and stores :level_of_authentication level0" do
+        i_click_from_application
+        register_without_mfa
+
+        expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+        expect(return_to_app_link(page)).to include("scope=openid+level0")
+      end
+    end
+
+    context "arriving from a level1 application" do
+      let(:application_scopes) { %i[openid level1 test_scope_read test_scope_write] }
+
+      it "completes the signup journey with MFA and stores :level_of_authentication level1" do
+        i_click_from_application
+        register_with_mfa
+
+        expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+        expect(return_to_app_link(page)).to include("scope=openid+level1")
+      end
+    end
+  end
+
+  def return_to_app_link(page)
+    return_link_css_selector = ".govuk-link[data-module='explicit-cross-domain-links']"
+    html = Nokogiri.parse(page.body)
+    html.css(return_link_css_selector).first.attributes["href"].value
+  end
+
   def start_journey
     i_click_from_application
     i_enter_registration_details
     i_enter_phone_code
   end
 
+  def register_without_mfa
+    register_without_phone_code
+    i_consent_my_information_being_used
+  end
+
+  def register_with_mfa
+    i_enter_registration_details
+    i_enter_phone_code
+  end
+
+  def register_without_phone_code
+    fill_in "email", with: email
+    fill_in "password", with: password
+    click_on I18n.t("devise.registrations.start.fields.submit.label")
+  end
+
   def i_click_from_application
-    visit authorization_endpoint_url(client: application, scope: "openid email transition_checker", state: jwt.id)
+    visit authorization_endpoint_url(client: application, scope: application_scopes.join(" "), state: jwt.id)
   end
 
   def i_enter_registration_details

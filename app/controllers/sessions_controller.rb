@@ -22,6 +22,7 @@ class SessionsController < Devise::SessionsController
 
     @email = params.dig(:user, :email)
     catch(:warden) do
+      request.env["warden.mfa.authenticate_to_level"] = params.dig(:authenticate_to_level)
       request.env["warden.mfa.bypass_token"] = (cookies.encrypted[MFA_BYPASS_COOKIE_NAME] || {})[@email]
       self.resource = warden.authenticate(auth_options)
     end

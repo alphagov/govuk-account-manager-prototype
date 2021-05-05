@@ -17,6 +17,8 @@ en:
           subject_not_configured: ID Token generation failed due to Doorkeeper::OpenidConnect.configure.subject missing configuration.
     scopes:
       email: View your email address
+      level0: Authenticate your account
+      level1: Authenticate your account with multiple factors
       openid: Authenticate your account
       test_scope_read: View your local development testing data
       test_scope_write: View and update your local development testing data

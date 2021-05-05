@@ -55,5 +55,7 @@ module GovukAccountManagerPrototype
     config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml").to_s]
 
     config.i18n.default_locale = :en
+
+    config.feature_flag_enforce_levels_of_authentication = ENV["FEATURE_FLAG_ENFORCE_LEVELS_OF_AUTHENTICATION"] == "enabled"
   end
 end
