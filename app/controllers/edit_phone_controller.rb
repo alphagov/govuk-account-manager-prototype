@@ -2,12 +2,21 @@ class EditPhoneController < ApplicationController
   include ChangeCoreCredentials
 
   before_action :authenticate_user!
-  before_action :enforce_has_phone!
   before_action :enforce_recent_mfa!
 
   helper_method :resource
+  helper_method :setting_up_first_phone?
+  helper_method :start_path
+
+  def new
+    redirect_to edit_user_registration_phone_path unless setting_up_first_phone?
+
+    @resource_error_messages = {}
+  end
 
   def show
+    redirect_to edit_user_registration_phone_new_path if setting_up_first_phone?
+
     @resource_error_messages = {}
   end
 
@@ -41,7 +50,7 @@ class EditPhoneController < ApplicationController
     end
 
     if @resource_error_messages.any?
-      render :show
+      render setting_up_first_phone? ? :new : :show
     else
       current_user.update!(unconfirmed_phone: phone_number)
     end
@@ -52,7 +61,7 @@ class EditPhoneController < ApplicationController
   end
 
   def code_send
-    redirect_to edit_user_registration_phone and return unless current_user.unconfirmed_phone
+    redirect_to start_path and return unless current_user.unconfirmed_phone
 
     MultiFactorAuth.generate_and_send_code(current_user, use_unconfirmed: true)
 
@@ -63,7 +72,7 @@ class EditPhoneController < ApplicationController
   def verify
     state = MultiFactorAuth.verify_code(current_user, params[:phone_code])
     if state == :ok
-      old_phone = current_user.phone
+      old_phone = current_user.phone || "nothing"
       new_phone = current_user.unconfirmed_phone
       current_user.update!(
         phone: new_phone,
@@ -72,7 +81,9 @@ class EditPhoneController < ApplicationController
       )
       record_security_event(SecurityActivity::PHONE_CHANGED, user: current_user, notes: "from #{old_phone} to #{new_phone}")
       UserMailer.with(user: current_user).change_phone_email.deliver_later
-      redirect_to account_manage_path
+      session[:level_of_authentication] = :level1
+      session[:has_done_mfa] = true
+      redirect_to session.delete(:after_change_phone_path) || account_manage_path
     else
       @resource_error_messages = {
         phone_code: [
@@ -84,15 +95,23 @@ class EditPhoneController < ApplicationController
   end
 
   def resend
-    redirect_to edit_user_registration_phone unless current_user.unconfirmed_phone
+    redirect_to start_path unless current_user.unconfirmed_phone
   end
 
-protected
+private
 
   def resource; end
 
-  def enforce_has_phone!
-    redirect_to user_root_path unless current_user.phone
+  def start_path
+    if setting_up_first_phone?
+      edit_user_registration_phone_new_path
+    else
+      edit_user_registration_phone_path
+    end
+  end
+
+  def setting_up_first_phone?
+    current_user.phone.nil?
   end
 
   def enforce_recent_mfa!

@@ -55,6 +55,7 @@ Rails.application.routes.draw do
 
         scope "/phone" do
           get  "/", to: "edit_phone#show", as: :edit_user_registration_phone
+          get "/new", to: "edit_phone#new", as: :edit_user_registration_phone_new
           post "/confirm", to: "edit_phone#confirm", as: :edit_user_registration_phone_confirm
           get  "/code", to: "edit_phone#code", as: :edit_user_registration_phone_code
           post "/code", to: "edit_phone#code_send"
