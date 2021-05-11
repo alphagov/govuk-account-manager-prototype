@@ -16,7 +16,7 @@ class DeleteController < ApplicationController
     current_user.destroy!
     sign_out
     UserMailer.with(email: email).post_delete_email.deliver_later
-    redirect_to "#{sign_out_path}/logout?continue=delete"
+    redirect_to "#{sign_out_path}?continue=delete"
   end
 
   def confirmation; end
