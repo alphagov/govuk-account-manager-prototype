@@ -11,7 +11,7 @@ Doorkeeper.configure do
   resource_owner_authenticator do
     required_level_of_authentication =
       LevelOfAuthentication.select_highest_level(
-        request.params[:scope].split(" ").select { |scope| scope.starts_with?("level") },
+        request.params.fetch(:scope, "").split(" ").select { |scope| scope.starts_with?("level") },
       )
 
     if current_user
