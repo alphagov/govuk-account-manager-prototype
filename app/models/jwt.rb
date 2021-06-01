@@ -1,6 +1,5 @@
 class Jwt < ApplicationRecord
-  attr_accessor :skip_parse_jwt_token
-  attr_accessor :application_id_from_token
+  attr_accessor :skip_parse_jwt_token, :application_id_from_token
 
   has_one :registration_state, dependent: :destroy
   has_one :login_state, dependent: :destroy
@@ -25,10 +24,15 @@ class Jwt < ApplicationRecord
   end
 
   class InvalidJWT < StandardError; end
+
   class MissingApplicationId < InvalidJWT; end
+
   class ApplicationNotFound < InvalidJWT; end
+
   class InsufficientScopes < InvalidJWT; end
+
   class InvalidOAuthRedirect < InvalidJWT; end
+
   class JWTDecodeError < InvalidJWT; end
 
   def destroy_stale_states
@@ -66,8 +70,8 @@ private
     end
 
     post_register_oauth = payload["post_register_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
-    if post_register_oauth
-      raise InvalidOAuthRedirect unless post_register_oauth.starts_with? "/oauth/authorize"
+    if post_register_oauth && !post_register_oauth.starts_with?("/oauth/authorize")
+      raise InvalidOAuthRedirect
     end
 
     self.jwt_payload = {

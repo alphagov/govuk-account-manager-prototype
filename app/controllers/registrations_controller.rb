@@ -44,7 +44,7 @@ class RegistrationsController < Devise::RegistrationsController
         jwt.destroy_stale_states
         @registration_state = RegistrationState.create!(
           state: request_auth_wants_mfa? ? :phone : :your_information,
-          previous_url: jwt.jwt_payload.dig("post_register_oauth").presence || params[:previous_url],
+          previous_url: jwt.jwt_payload["post_register_oauth"].presence || params[:previous_url],
           jwt_id: jwt.id,
           email: params.dig(:user, :email),
           encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
@@ -106,10 +106,10 @@ class RegistrationsController < Devise::RegistrationsController
   def your_information_post
     redirect_to url_for_state and return unless registration_state.state == "your_information"
 
-    cookie_consent_decision = params.dig(:cookie_consent)
+    cookie_consent_decision = params[:cookie_consent]
     cookie_consent_decision_format_ok = %w[yes no].include? cookie_consent_decision
 
-    feedback_consent_decision = params.dig(:feedback_consent)
+    feedback_consent_decision = params[:feedback_consent]
     feedback_consent_decision_format_ok = %w[yes no].include? feedback_consent_decision
 
     @error_items = []
@@ -153,7 +153,7 @@ class RegistrationsController < Devise::RegistrationsController
   def transition_emails_post
     redirect_to url_for_state and return unless registration_state.state == "transition_emails"
 
-    decision = params.dig(:email_decision)
+    decision = params[:email_decision]
     decision_format_ok = %w[yes no].include? decision
     if decision_format_ok
       registration_state.update!(

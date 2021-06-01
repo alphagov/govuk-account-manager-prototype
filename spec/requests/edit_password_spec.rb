@@ -37,7 +37,7 @@ RSpec.describe "edit-password" do
     end
 
     context "when an incorrect token is provided" do
-      let(:reset_password_token) { actual_reset_password_token + "-abc" }
+      let(:reset_password_token) { "#{actual_reset_password_token}-abc" }
 
       it "returns an error" do
         post user_password_path, params: params

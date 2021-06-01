@@ -2,6 +2,7 @@ class AbTest
   extend Forwardable
 
   attr_reader :allowed_variants, :expires
+
   def_delegators :@ab_test, :ab_test_name, :dimension, :control_variant
 
   def initialize(ab_test_name, dimension:, expires: 1.day, allowed_variants: { A: 1, B: 1 }, control_variant: "A")
@@ -93,6 +94,7 @@ protected
     extend Forwardable
 
     attr_reader :ab_test
+
     def_delegators :@requested_variant, :variant_name, :variant?, :analytics_meta_tag
 
     def initialize(ab_test, cookie_consent, requested_variant)

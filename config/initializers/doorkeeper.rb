@@ -37,7 +37,7 @@ Doorkeeper.configure do
           end
 
         params = { _ga: request.params[:_ga] }.compact
-        redirect_to(destination_url + "?" + Rack::Utils.build_nested_query(params))
+        redirect_to("#{destination_url}?#{Rack::Utils.build_nested_query(params)}")
         nil
       end
     else
@@ -53,7 +53,7 @@ Doorkeeper.configure do
         _ga: request.params[:_ga],
         authenticate_to_level: required_level_of_authentication,
       }.compact
-      redirect_to(destination_url + "?" + Rack::Utils.build_nested_query(params))
+      redirect_to("#{destination_url}?#{Rack::Utils.build_nested_query(params)}")
       nil
     end
   end
