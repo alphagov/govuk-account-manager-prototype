@@ -70,8 +70,8 @@ private
     end
 
     post_register_oauth = payload["post_register_oauth"]&.delete_prefix(Rails.application.config.redirect_base_url)
-    if post_register_oauth
-      raise InvalidOAuthRedirect unless post_register_oauth.starts_with? "/oauth/authorize"
+    if post_register_oauth && !post_register_oauth.starts_with?("/oauth/authorize")
+      raise InvalidOAuthRedirect
     end
 
     self.jwt_payload = {
