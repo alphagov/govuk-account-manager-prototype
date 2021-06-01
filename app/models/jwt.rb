@@ -1,6 +1,5 @@
 class Jwt < ApplicationRecord
-  attr_accessor :skip_parse_jwt_token
-  attr_accessor :application_id_from_token
+  attr_accessor :skip_parse_jwt_token, :application_id_from_token
 
   has_one :registration_state, dependent: :destroy
   has_one :login_state, dependent: :destroy
