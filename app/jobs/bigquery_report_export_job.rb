@@ -4,6 +4,7 @@ require "google/cloud/bigquery"
 
 class BigqueryReportExportJob < ApplicationJob
   class DeleteError < StandardError; end
+
   class InsertError < StandardError; end
 
   DATASET_NAME = "daily"

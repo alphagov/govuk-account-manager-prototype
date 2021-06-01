@@ -6,6 +6,7 @@ module MultiFactorAuth
   VALID_DOMESTIC_COUNTRIES = %i[gb gg je im].freeze
 
   class MFAError < StandardError; end
+
   class NotConfigured < MFAError; end
 
   def self.valid?(phone_number)

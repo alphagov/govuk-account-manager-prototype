@@ -24,10 +24,15 @@ class Jwt < ApplicationRecord
   end
 
   class InvalidJWT < StandardError; end
+
   class MissingApplicationId < InvalidJWT; end
+
   class ApplicationNotFound < InvalidJWT; end
+
   class InsufficientScopes < InvalidJWT; end
+
   class InvalidOAuthRedirect < InvalidJWT; end
+
   class JWTDecodeError < InvalidJWT; end
 
   def destroy_stale_states
