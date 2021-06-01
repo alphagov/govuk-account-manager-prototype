@@ -22,7 +22,7 @@ class SessionsController < Devise::SessionsController
 
     @email = params.dig(:user, :email)
     catch(:warden) do
-      request.env["warden.mfa.authenticate_to_level"] = params.dig(:authenticate_to_level)
+      request.env["warden.mfa.authenticate_to_level"] = params[:authenticate_to_level]
       request.env["warden.mfa.bypass_token"] = (cookies.encrypted[MFA_BYPASS_COOKIE_NAME] || {})[@email]
       self.resource = warden.authenticate(auth_options)
     end
@@ -37,7 +37,7 @@ class SessionsController < Devise::SessionsController
         @login_state = LoginState.create!(
           created_at: Time.zone.now,
           user: resource,
-          redirect_path: jwt.jwt_payload.dig("post_login_oauth").presence || params[:previous_url].presence,
+          redirect_path: jwt.jwt_payload["post_login_oauth"].presence || params[:previous_url].presence,
           jwt_id: jwt.id,
         )
         @login_state_id = login_state.id
