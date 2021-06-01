@@ -85,7 +85,7 @@ GEM
     climate_control (1.0.1)
     coderay (1.1.3)
     concurrent-ruby (1.1.8)
-    connection_pool (2.2.3)
+    connection_pool (2.2.5)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -132,9 +132,9 @@ GEM
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
     ffi (1.15.0)
-    fugit (1.3.9)
+    fugit (1.4.5)
       et-orbi (~> 1.1, >= 1.1.8)
-      raabro (~> 1.3)
+      raabro (~> 1.4)
     gds-api-adapters (71.2.0)
       addressable
       link_header
@@ -424,7 +424,7 @@ GEM
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.4)
     rubyzip (2.3.0)
-    rufus-scheduler (3.6.0)
+    rufus-scheduler (3.7.0)
       fugit (~> 1.1, >= 1.1.6)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -443,7 +443,7 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
-    sidekiq-scheduler (3.0.1)
+    sidekiq-scheduler (3.1.0)
       e2mmap
       redis (>= 3, < 5)
       rufus-scheduler (~> 3.2)
