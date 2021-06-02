@@ -11,6 +11,7 @@ optional_scopes:
   - level1
 hidden_scopes:
   - openid
+  - email
   - transition_checker
   - level0
   - level1
