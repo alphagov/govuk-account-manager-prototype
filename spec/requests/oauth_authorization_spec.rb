@@ -47,10 +47,10 @@ RSpec.describe "/oauth/authorize" do
   context "with a user logged in" do
     before { sign_in user }
 
-    it "asks for authorization to access the email address" do
+    it "does not ask for authorization to access the email address" do
       get authorization_endpoint_url(client: application, scope: "openid email transition_checker")
 
-      expect(response.body).to have_content(I18n.t("doorkeeper.scopes.email"))
+      expect(response.body).not_to have_content(I18n.t("doorkeeper.scopes.email"))
     end
 
     it "does not ask for authorization to access transition checker state" do
