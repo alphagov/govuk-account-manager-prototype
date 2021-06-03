@@ -35,7 +35,7 @@ en:
           track_action: coronavirusLinks
   - title: Brexit
     links:
-    - href: https://www.gov.uk/transition
+    - href: https://www.gov.uk/brexit
       text: Check how the new rules affect you
       attributes:
         data:
