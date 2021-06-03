@@ -73,7 +73,7 @@ module ApplicationHelper
 
   def transition_path
     base_url = Rails.env.development? ? Plek.find("collections") : Plek.new.website_root
-    "#{base_url}/transition"
+    "#{base_url}/brexit"
   end
 
   def service_for(previous_url)
