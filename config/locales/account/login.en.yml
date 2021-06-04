@@ -28,8 +28,8 @@ en:
         heading: Sign in to your GOV.UK account
         meta_description: Sign in to your GOV.UK account. GOV.UK accounts are a trial. At the moment you can only use the GOV.UK account with the Brexit checker.
         page_title: Sign in
-        register: <p class="govuk-body">You can <a class="govuk-link" href="%{register}">sign up for a new account</a> if this is your first visit.</p>
-        reset_password: <p class="govuk-body govuk-!-margin-bottom-0">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
+        register: <p class="govuk-body"><a class="govuk-link" href="%{register}">Create a GOV.UK account</a> if you do not have one.</p>
+        reset_password: <p class="govuk-body">You can <a class="govuk-link" href="%{reset_password}">change your password</a> if you’ve forgotten it.</p>
     unlocks:
       heading: Resend unlock instructions to unlock your GOV.UK account
       label: Enter your email
