@@ -10,6 +10,11 @@
   margin_bottom: 3,
 } %>
 
+<%= sanitize(t("account_confusion.this_is_a_trial")) %>
+<%= render "govuk_publishing_components/components/inset_text", {
+  text: t("account_confusion.other_government_accounts")
+} %>
+
 <div data-module="gem-track-click">
   <%= form_with url: new_user_session_path, html: { "data-module" => "explicit-cross-domain-links" } do %>
     <% if resource %>
