@@ -2,6 +2,11 @@
 en:
   devise:
     registrations:
+      account_confusion:
+        other_government_accounts: This is separate from other government accounts, for example your personal tax account or Government Gateway.
+        this_is_a_trial: |
+          <p class="govuk-body">We’re still building GOV.UK accounts.</p>
+          <p class="govuk-body">At the moment you can only use GOV.UK accounts to save your <a class="govuk-link" href="https://www.gov.uk/transition-check/questions">Brexit checker</a> results.</p>
       destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
       start:
         checker_inset_text: If you do not have a mobile phone, you can still get %{link}.

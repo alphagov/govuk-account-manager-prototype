@@ -14,6 +14,11 @@ en:
       failure: Could not authenticate you from %{kind} because "%{reason}".
       success: Successfully authenticated from %{kind} account.
     sessions:
+      account_confusion:
+        other_government_accounts: You cannot use this to sign in to other government accounts, for example your personal tax account or Government Gateway.
+        this_is_a_trial: |
+          <p class="govuk-body">We’re still building GOV.UK accounts.</p>
+          <p class="govuk-body">At the moment you can only use GOV.UK accounts to return to your <a class="govuk-link" href="https://www.gov.uk/transition-check/questions">Brexit checker</a> results.</p>
       already_signed_out: Signed out successfully.
       new:
         fields:
