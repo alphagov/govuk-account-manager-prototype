@@ -67,7 +67,7 @@ GEM
     bindata (2.4.8)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
-    brakeman (4.10.1)
+    brakeman (5.0.4)
     builder (3.2.4)
     bullet (6.1.4)
       activesupport (>= 3.0.0)
@@ -191,8 +191,8 @@ GEM
       rails (>= 5.0.0.1)
       rouge
       sprockets (< 4)
-    govuk_test (2.2.0)
-      brakeman (~> 4.6)
+    govuk_test (2.3.0)
+      brakeman (>= 5.0.2)
       capybara
       puma
       selenium-webdriver (>= 3.142)
