@@ -29,7 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     @criteria_keys = jwt.jwt_payload.dig("attributes", "transition_checker_state", "criteria_keys")
 
-    return if request.get?
+    return unless request.post?
 
     self.resource = User.new(
       email: params.dig(:user, :email),
