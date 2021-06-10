@@ -77,6 +77,7 @@ class User < ApplicationRecord
       update!(has_received_onboarding_email: true)
     end
     ActivateEmailSubscriptionsJob.perform_later id
+    UpdateUserInAccountApiJob.perform_later id
   end
 
   def lock_access!(opts = {})
