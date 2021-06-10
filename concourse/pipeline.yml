@@ -170,6 +170,7 @@ jobs:
           OIDC_PEPPER: ((oidc-pepper-staging))
           OIDC_SIGNING_KEY: ((oidc-signing-key-staging))
           PASSWORD_PEPPER: ((password-pepper-staging))
+          ACCOUNT_API_DOORKEEPER_UID: "ZAHfbCrOLCjvWQNsgal-i79UavGkytB_093jNzRPJR0"
           PLEK_SERVICE_ACCOUNT_API_URI: https://account-api.staging.publishing.service.gov.uk
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
           REQUIRE_BASIC_AUTH: "true"
@@ -245,6 +246,7 @@ jobs:
           OIDC_PEPPER: ((oidc-pepper-production))
           OIDC_SIGNING_KEY: ((oidc-signing-key-production))
           PASSWORD_PEPPER: ((password-pepper-production))
+          ACCOUNT_API_DOORKEEPER_UID: "20VwoXiasGyUE7nS3M9l9TBjew8Lid_qCd6eSmSXuQU"
           PLEK_SERVICE_ACCOUNT_API_URI: https://account-api.publishing.service.gov.uk
           PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
           SECRET_KEY_BASE: ((secret-key-base-production))
