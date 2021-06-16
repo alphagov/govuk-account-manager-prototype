@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from Exception, with: :top_level_error_handler
 
+  rescue_from ActionController::InvalidAuthenticityToken do
+    error_page :unprocessable_entity
+  end
+
   def record_security_event(event, options = {})
     SecurityActivity.record_event(
       event,
@@ -22,16 +26,20 @@ class ApplicationController < ActionController::Base
 
 protected
 
+  def error_page(error)
+    respond_to do |format|
+      format.html do
+        @error = error
+        render status: error, template: "standard_errors/generic"
+      end
+      format.all { head error }
+    end
+  end
+
   def top_level_error_handler(exception = nil)
     GovukError.notify(exception) if exception
 
-    respond_to do |format|
-      format.html do
-        @error = :internal_server_error
-        render status: :internal_server_error, template: "standard_errors/generic"
-      end
-      format.all { head :internal_server_error }
-    end
+    error_page :internal_server_error
   end
 
   def after_sign_in_path_for(_resource)
