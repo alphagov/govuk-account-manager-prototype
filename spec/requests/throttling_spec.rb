@@ -8,9 +8,33 @@ RSpec.describe "Throttling" do
     Rack::Attack.enabled = false
   end
 
-  context "POST /sign-in" do
+  context "GET sign-in" do
+    it "doesn't throttle" do
+      (RATE_LIMIT_COUNT + 1).times { get new_user_session_path }
+      expect(response).to_not have_http_status(429)
+      expect(response.body).to_not have_content(I18n.t("standard_errors.too_many_requests.heading"))
+    end
+  end
+
+  context "POST sign-in" do
     it "throttles" do
-      (LIMIT_LOGIN_ATTEMPTS_PER_IP + 1).times { post new_user_session_path, params: { "user[email]" => "email@example.com" } }
+      (RATE_LIMIT_COUNT + 1).times { post new_user_session_path }
+      expect(response).to have_http_status(429)
+      expect(response.body).to have_content(I18n.t("standard_errors.too_many_requests.heading"))
+    end
+  end
+
+  context "GET new-account" do
+    it "doesn't throttle" do
+      (RATE_LIMIT_COUNT + 1).times { get new_user_registration_start_path }
+      expect(response).to_not have_http_status(429)
+      expect(response.body).to_not have_content(I18n.t("standard_errors.too_many_requests.heading"))
+    end
+  end
+
+  context "POST new-account" do
+    it "throttles" do
+      (RATE_LIMIT_COUNT + 1).times { post new_user_registration_phone_verify_path }
       expect(response).to have_http_status(429)
       expect(response.body).to have_content(I18n.t("standard_errors.too_many_requests.heading"))
     end
