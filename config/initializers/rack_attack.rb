@@ -1,8 +1,15 @@
-LIMIT_LOGIN_ATTEMPTS_PER_IP = 16
+RATE_LIMIT_COUNT = 16
+RATE_LIMIT_PERIOD = 1.minute
 
-Rack::Attack.throttle("limit login attempts per IP", limit: LIMIT_LOGIN_ATTEMPTS_PER_IP, period: 1.hour) do |request|
-  if request.path == "/sign-in" && request.post?
-    request.env["action_dispatch.remote_ip"].to_s
+Rack::Attack.throttle("limit /sign-in* attempts per IP", limit: RATE_LIMIT_COUNT, period: RATE_LIMIT_PERIOD) do |request|
+  if request.path.is_a?(String) && request.path.start_with?("/sign-in") && request.post?
+    "#{request.path} #{request.env['action_dispatch.remote_ip']}"
+  end
+end
+
+Rack::Attack.throttle("limit /new-account* attempts per IP", limit: RATE_LIMIT_COUNT, period: RATE_LIMIT_PERIOD) do |request|
+  if request.path.is_a?(String) && request.path.start_with?("/new-account") && request.post?
+    "#{request.path} #{request.env['action_dispatch.remote_ip']}"
   end
 end
 
