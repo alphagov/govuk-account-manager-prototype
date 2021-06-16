@@ -19,16 +19,6 @@ class StandardErrorsController < ApplicationController
 
 private
 
-  def error_page(error)
-    respond_to do |format|
-      format.html do
-        @error = error
-        render status: error, template: "standard_errors/generic"
-      end
-      format.all { head error }
-    end
-  end
-
   def report_error
     error = request.env["action_dispatch.exception"]
     GovukError.notify(error) if error
