@@ -1,12 +1,19 @@
+require "gds_api/test_helpers/account_api"
+
 RSpec.describe RemoteUserInfo do
+  include GdsApi::TestHelpers::AccountApi
+
   let(:attribute_service_url) { "https://attribute-service" }
 
   let(:user) { FactoryBot.create(:user) }
 
   let(:bearer_token) { AccountManagerApplication.user_token(user.id).token }
 
+  let(:account_api_application) { FactoryBot.create(:oauth_application) }
+  let(:account_api_subject_identifier) { Doorkeeper::OpenidConnect.configuration.subject.call(user, account_api_application).to_s }
+
   around do |example|
-    ClimateControl.modify(ATTRIBUTE_SERVICE_URL: attribute_service_url) do
+    ClimateControl.modify(ATTRIBUTE_SERVICE_URL: attribute_service_url, ACCOUNT_API_DOORKEEPER_UID: account_api_application.uid) do
       example.run
     end
   end
@@ -64,15 +71,19 @@ RSpec.describe RemoteUserInfo do
   end
 
   context "#update_profile!" do
-    let(:body) { { attributes: { email: user.email.to_json, email_verified: user.confirmed?.to_json } } }
+    let(:attributes) { { email: user.email, email_verified: user.confirmed? } }
+    let(:body) { { attributes: attributes.transform_values(&:to_json) } }
 
-    it "calls the attribute service to set the profile attributes" do
-      stub = stub_request(:post, "#{attribute_service_url}/v1/attributes")
+    it "calls account-api and attribute-service to set the profile attributes" do
+      stub_attribute_service = stub_request(:post, "#{attribute_service_url}/v1/attributes")
         .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" }, body: body)
         .to_return(status: 200)
 
+      stub_account_api = stub_update_user_by_subject_identifier(subject_identifier: account_api_subject_identifier, **attributes)
+
       described_class.new(user).update_profile!
-      expect(stub).to have_been_made
+      expect(stub_attribute_service).to have_been_made
+      expect(stub_account_api).to have_been_made
     end
 
     context "the attribute service sporadically times out" do
@@ -88,6 +99,7 @@ RSpec.describe RemoteUserInfo do
         @stub = stub_request(:post, "#{attribute_service_url}/v1/attributes")
           .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" }, body: body)
           .to_return(status: final_status)
+        stub_update_user_by_subject_identifier(subject_identifier: account_api_subject_identifier, **attributes)
       end
 
       it "tries 3 times" do

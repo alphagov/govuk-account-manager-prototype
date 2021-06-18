@@ -20,10 +20,23 @@ class RemoteUserInfo
 
   def update_profile!
     with_retries do
+      attributes = {
+        email: @user.email,
+        email_verified: @user.confirmed?,
+      }
+
       RestClient.post(
         "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes",
-        { attributes: { email: @user.email.to_json, email_verified: @user.confirmed?.to_json } },
+        { attributes: attributes.transform_values(&:to_json) },
         { accept: :json, authorization: "Bearer #{token.token}" },
+      )
+
+      GdsApi.account_api.update_user_by_subject_identifier(
+        subject_identifier: Doorkeeper::OpenidConnect.configuration.subject.call(
+          @user,
+          Doorkeeper::Application.find_by(uid: ENV.fetch("ACCOUNT_API_DOORKEEPER_UID")),
+        ).to_s,
+        **attributes,
       )
     end
   end
