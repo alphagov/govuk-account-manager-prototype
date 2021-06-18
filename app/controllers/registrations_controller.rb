@@ -210,7 +210,6 @@ class RegistrationsController < Devise::RegistrationsController
   # from https://github.com/heartcombo/devise/blob/f5cc775a5feea51355036175994edbcb5e6af13c/app/controllers/devise/registrations_controller.rb#L46
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
     @old_email = resource.email
 
@@ -240,7 +239,6 @@ class RegistrationsController < Devise::RegistrationsController
 
       resource.update!(banned_password_match: false) if new_password
 
-      set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
       if new_email
@@ -253,7 +251,7 @@ class RegistrationsController < Devise::RegistrationsController
         respond_with resource, location: confirmation_email_sent_path
       else
         flash[:notice] = I18n.t("devise.registrations.edit.success")
-        redirect_to :user_root
+        redirect_to account_manage_path
       end
     else
       clean_up_passwords resource

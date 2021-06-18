@@ -7,6 +7,7 @@
 <%= render "user-reminders" %>
 
 <% if flash[:notice] %>
+  <% GovukError.notify("unexpected flash message on account home page: #{flash[:notice]}") %>
   <% if flash_as_notice(flash[:notice]) %>
     <%= render "govuk_publishing_components/components/notice", { description_text: flash[:notice] } %>
   <% else %>

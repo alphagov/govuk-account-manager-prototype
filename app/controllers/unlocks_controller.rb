@@ -4,7 +4,7 @@ class UnlocksController < Devise::UnlocksController
     super do
       if resource.errors.details[:email].first&.dig(:error) == :not_locked
         if current_user
-          redirect_to user_root_path
+          redirect_to account_manage_path
         else
           redirect_to new_user_session_path, flash: { notice: I18n.t("errors.messages.not_locked") }
         end
