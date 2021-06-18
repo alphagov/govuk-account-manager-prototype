@@ -23,6 +23,7 @@ class RemoteUserInfo
       attributes = {
         email: @user.email,
         email_verified: @user.confirmed?,
+        has_unconfirmed_email: !@user.unconfirmed_email.nil?,
       }
 
       RestClient.post(

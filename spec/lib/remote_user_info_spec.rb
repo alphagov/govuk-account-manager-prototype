@@ -71,7 +71,7 @@ RSpec.describe RemoteUserInfo do
   end
 
   context "#update_profile!" do
-    let(:attributes) { { email: user.email, email_verified: user.confirmed? } }
+    let(:attributes) { { email: user.email, email_verified: user.confirmed?, has_unconfirmed_email: !user.unconfirmed_email.nil? } }
     let(:body) { { attributes: attributes.transform_values(&:to_json) } }
 
     it "calls account-api and attribute-service to set the profile attributes" do
