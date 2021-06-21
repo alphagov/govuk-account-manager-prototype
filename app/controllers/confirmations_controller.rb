@@ -40,10 +40,13 @@ class ConfirmationsController < Devise::ConfirmationsController
   end
 
   def after_resending_confirmation_instructions_path_for(_resource_name)
+    flash.discard
+
     session[:confirmations] = {
       email: resource.unconfirmed_email || resource.email,
       user_is_confirmed: resource.confirmed?,
     }
+
     confirmation_email_sent_path
   end
 end
