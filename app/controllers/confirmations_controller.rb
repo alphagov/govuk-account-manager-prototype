@@ -17,7 +17,7 @@ class ConfirmationsController < Devise::ConfirmationsController
         record_security_event(SecurityActivity::EMAIL_CHANGED, user: resource, notes: "to #{resource.email}")
       elsif resource.errors.details[:email].first&.dig(:error) == :already_confirmed
         if current_user
-          redirect_to user_root_path
+          redirect_to account_manage_path
         else
           redirect_to "/", flash: { notice: I18n.t("errors.messages.already_confirmed") }
         end

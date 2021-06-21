@@ -49,4 +49,10 @@ module ManageHelper
 
     [email, password, current_user.phone ? phone : nil].compact
   end
+
+  def flash_as_notice(notice)
+    [
+      I18n.t("devise.registrations.update_needs_confirmation"),
+    ].include? notice
+  end
 end
