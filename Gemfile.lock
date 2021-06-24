@@ -64,7 +64,7 @@ GEM
     aws-ip (0.0.2)
       ipaddress (~> 0.8.0)
     bcrypt (3.1.16)
-    bindata (2.4.8)
+    bindata (2.4.10)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
     brakeman (5.0.4)
