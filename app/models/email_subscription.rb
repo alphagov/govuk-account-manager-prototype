@@ -4,6 +4,7 @@ class EmailSubscription < ApplicationRecord
   before_destroy :deactivate_immediately
 
   def reactivate_if_confirmed
+    return if migrated_to_account_api
     return unless user.confirmed?
 
     deactivate_immediately

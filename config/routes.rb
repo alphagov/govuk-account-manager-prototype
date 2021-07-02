@@ -128,6 +128,7 @@ Rails.application.routes.draw do
       scope "transition-checker", module: :transition_checker, as: :transition_checker do
         get "/email-subscription", to: "emails#show"
         post "/email-subscription", to: "emails#update"
+        delete "/email-subscription", to: "emails#destroy"
       end
 
       namespace :report do
