@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_141533) do
+ActiveRecord::Schema.define(version: 2021_07_02_085832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_05_05_141533) do
     t.bigint "user_id", null: false
     t.string "topic_slug", null: false
     t.string "subscription_id"
+    t.boolean "migrated_to_account_api", default: false, null: false
     t.index ["user_id"], name: "index_email_subscriptions_on_user_id"
   end
 
