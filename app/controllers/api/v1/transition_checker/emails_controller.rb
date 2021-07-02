@@ -13,12 +13,19 @@ class Api::V1::TransitionChecker::EmailsController < Doorkeeper::ApplicationCont
 
     head :not_found and return unless subscription
     head :not_found and return if subscription.migrated_to_account_api
-    head :no_content and return unless subscription.subscription_id
+
+    if subscription.subscription_id.nil?
+      render json: subscription_hash(subscription)
+      return
+    end
 
     begin
       state = Services.email_alert_api.get_subscription(subscription.subscription_id)
-      has_ended = state.to_hash.dig("subscription", "ended_reason")
-      head has_ended ? :gone : :no_content
+      if state.to_hash.dig("subscription", "ended_reason")
+        head :gone
+      else
+        render json: subscription_hash(subscription)
+      end
     rescue GdsApi::HTTPGone, GdsApi::HTTPNotFound
       head :gone
     end
@@ -30,7 +37,7 @@ class Api::V1::TransitionChecker::EmailsController < Doorkeeper::ApplicationCont
     subscription = EmailSubscription.transaction { find_and_update_subscription(topic_slug) }
     head :not_found and return unless subscription
 
-    head :no_content
+    render json: subscription_hash(subscription)
   end
 
   def destroy
@@ -65,5 +72,12 @@ private
 
     subscription.reactivate_if_confirmed
     subscription
+  end
+
+  def subscription_hash(subscription)
+    {
+      topic_slug: subscription.topic_slug,
+      email_alert_api_subscription_id: subscription.subscription_id,
+    }
   end
 end

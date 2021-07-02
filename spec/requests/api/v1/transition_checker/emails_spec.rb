@@ -43,9 +43,14 @@ RSpec.describe "/api/v1/transition-checker/*" do
         )
       end
 
-      it "returns a 204" do
+      it "returns a 200" do
         get api_v1_transition_checker_email_subscription_path, headers: headers
-        expect(response).to have_http_status(:no_content)
+        expect(response).to be_successful
+      end
+
+      it "returns the subscription details" do
+        get api_v1_transition_checker_email_subscription_path, headers: headers
+        expect(JSON.parse(response.body)).to eq({ "topic_slug" => subscription.topic_slug, "email_alert_api_subscription_id" => subscription.subscription_id })
       end
 
       context "the subscription has migrated to account-api" do
@@ -71,9 +76,14 @@ RSpec.describe "/api/v1/transition-checker/*" do
       context "the subscription hasn't been activated" do
         before { subscription.update!(subscription_id: nil) }
 
-        it "returns a 204" do
+        it "returns a 200" do
           get api_v1_transition_checker_email_subscription_path, headers: headers
-          expect(response).to have_http_status(:no_content)
+          expect(response).to be_successful
+        end
+
+        it "returns the subscription details" do
+          get api_v1_transition_checker_email_subscription_path, headers: headers
+          expect(JSON.parse(response.body)).to eq({ "topic_slug" => subscription.topic_slug, "email_alert_api_subscription_id" => nil })
         end
       end
     end
@@ -112,6 +122,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
           expect(stub_subscriber_list).to have_been_made
           expect(stub_activate).to have_been_made
           expect(stub_deactivate).to have_been_made
+          expect(JSON.parse(response.body)).to eq({ "topic_slug" => new_topic_slug, "email_alert_api_subscription_id" => "subscription-id" })
         end
 
         context "the subscription has migrated to account-api" do
@@ -134,6 +145,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
           expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
           expect(stub_subscriber_list).to have_been_made
           expect(stub_activate).to have_been_made
+          expect(JSON.parse(response.body)).to eq({ "topic_slug" => new_topic_slug, "email_alert_api_subscription_id" => "subscription-id" })
         end
       end
     end
@@ -142,6 +154,7 @@ RSpec.describe "/api/v1/transition-checker/*" do
       it "does not activate the new subscription" do
         post api_v1_transition_checker_email_subscription_path, headers: headers, params: params
         expect(user.reload.email_subscriptions&.first&.topic_slug).to eq(new_topic_slug)
+        expect(JSON.parse(response.body)).to eq({ "topic_slug" => new_topic_slug, "email_alert_api_subscription_id" => nil })
       end
     end
   end
