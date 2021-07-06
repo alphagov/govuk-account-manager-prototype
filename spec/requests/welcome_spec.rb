@@ -1,4 +1,9 @@
 RSpec.describe "welcome" do
+  it "presents the permissions-policy header" do
+    get welcome_path
+    expect(response.headers["Permissions-Policy"]).to eq("interest-cohort=()")
+  end
+
   it "redirects to /sign-in" do
     get welcome_path
     expect(response).to redirect_to(new_user_session_path)
