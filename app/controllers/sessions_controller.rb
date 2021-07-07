@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SessionsController < Devise::SessionsController
-  include AcceptsJwt
   include ApplicationHelper
   include CookiesHelper
   include UrlHelper
@@ -16,8 +15,6 @@ class SessionsController < Devise::SessionsController
   ]
 
   def create
-    jwt = find_or_create_jwt
-
     render :new and return unless params.dig(:user, :email) || params.dig(:user, :password)
 
     @email = params.dig(:user, :email)
@@ -33,12 +30,10 @@ class SessionsController < Devise::SessionsController
       end
 
       LoginState.transaction do
-        jwt.destroy_stale_states
         @login_state = LoginState.create!(
           created_at: Time.zone.now,
           user: resource,
-          redirect_path: jwt.jwt_payload["post_login_oauth"].presence || params[:previous_url].presence,
-          jwt_id: jwt.id,
+          redirect_path: params[:previous_url].presence,
         )
         @login_state_id = login_state.id
       end
@@ -73,8 +68,6 @@ class SessionsController < Devise::SessionsController
       elsif user_exists
         @resource_error_messages[:password] = [I18n.t("activerecord.errors.models.user.attributes.password.blank")]
       elsif @email.present? && Devise.email_regexp.match?(@email)
-        redirect_to new_user_registration_start_path(user: { email: @email }) and return if jwt.id
-
         render "registrations/transition_checker" and return if Rails.configuration.warn_about_transition_checker_when_logging_in_to_a_missing_account
 
         @resource_error_messages[:email] = [I18n.t("devise.failure.no_account")]

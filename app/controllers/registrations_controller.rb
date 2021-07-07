@@ -1,5 +1,4 @@
 class RegistrationsController < Devise::RegistrationsController
-  include AcceptsJwt
   include CookiesHelper
   include ChangeCoreCredentials
 
@@ -19,16 +18,10 @@ class RegistrationsController < Devise::RegistrationsController
     phone_resend_code
     your_information
     your_information_post
-    transition_emails
-    transition_emails_post
     create
   ]
 
   def start
-    jwt = find_or_create_jwt
-
-    @criteria_keys = jwt.jwt_payload.dig("attributes", "transition_checker_state", "criteria_keys")
-
     return unless request.post?
 
     self.resource = User.new(
@@ -41,11 +34,9 @@ class RegistrationsController < Devise::RegistrationsController
 
     if resource.valid?
       RegistrationState.transaction do
-        jwt.destroy_stale_states
         @registration_state = RegistrationState.create!(
           state: request_auth_wants_mfa? ? :phone : :your_information,
-          previous_url: jwt.jwt_payload["post_register_oauth"].presence || params[:previous_url],
-          jwt_id: jwt.id,
+          previous_url: params[:previous_url],
           email: params.dig(:user, :email),
           encrypted_password: resource.send(:password_digest, params.dig(:user, :password)),
           phone: (params.dig(:user, :phone) if request_auth_wants_mfa?),
@@ -133,43 +124,11 @@ class RegistrationsController < Devise::RegistrationsController
       cookies[:cookies_preferences_set] = "true"
       response["Set-Cookie"] = cookies_policy_header(registration_state)
 
-      email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
-      if email_topic_slug
-        registration_state.update!(state: :transition_emails)
-        redirect_to new_user_registration_transition_emails_path
-      else
-        redirect_to new_user_registration_finish_path
-      end
-      return
-    end
-
-    render :your_information
-  end
-
-  def transition_emails
-    redirect_to url_for_state unless registration_state.state == "transition_emails"
-  end
-
-  def transition_emails_post
-    redirect_to url_for_state and return unless registration_state.state == "transition_emails"
-
-    decision = params[:email_decision]
-    decision_format_ok = %w[yes no].include? decision
-    if decision_format_ok
-      registration_state.update!(
-        state: :finish,
-        yes_to_emails: decision == "yes",
-      )
       redirect_to new_user_registration_finish_path
       return
     end
 
-    @resource_error_messages = {
-      email_decision: [
-        I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"),
-      ],
-    }
-    render :transition_emails
+    render :your_information
   end
 
   def create
@@ -178,9 +137,6 @@ class RegistrationsController < Devise::RegistrationsController
 
       resource.skip_password_change_notification!
       resource.update!(encrypted_password: registration_state.encrypted_password)
-
-      persist_attributes(resource)
-      persist_email_subscription(resource)
 
       @previous_url = registration_state.previous_url
       registration_state.destroy!
@@ -338,36 +294,11 @@ protected
       new_user_registration_phone_code_path
     when "your_information"
       new_user_registration_your_information_path
-    when "transition_emails"
-      new_user_registration_transition_emails_path
     when "finish"
       new_user_registration_finish_path
     else
       new_user_registration_start_path
     end
-  end
-
-  def persist_attributes(user)
-    return unless registration_state.jwt_payload
-
-    token = Doorkeeper::AccessToken.create!(
-      resource_owner_id: user.id,
-      application_id: registration_state.jwt_payload["application"]["id"],
-      expires_in: Doorkeeper.config.access_token_expires_in,
-      scopes: registration_state.jwt_payload["scopes"],
-    )
-
-    SetAttributesJob.perform_later(token.id, registration_state.jwt_payload["attributes"])
-  end
-
-  def persist_email_subscription(user)
-    return unless registration_state.jwt_payload
-    return unless registration_state.yes_to_emails
-
-    email_topic_slug = registration_state.jwt_payload.dig("attributes", "transition_checker_state", "email_topic_slug")
-    return unless email_topic_slug
-
-    EmailSubscription.create!(user_id: user.id, topic_slug: email_topic_slug)
   end
 
   def enforce_recent_mfa_for_email!

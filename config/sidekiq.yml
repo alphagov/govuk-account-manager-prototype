@@ -12,6 +12,3 @@
   expire_ephemeral_state:
     every: 15m
     class: ExpireEphemeralStateJob
-  expire_jwt:
-    every: 15m
-    class: ExpireJwtJob
