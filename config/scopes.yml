@@ -6,6 +6,7 @@ optional_scopes:
   - deanonymise_tokens
   - email
   - reporting_access
+  - migrate_users
   - transition_checker
   - level0
   - level1
