@@ -11,6 +11,10 @@ RSpec.feature "Insecure Passwords" do
 
     continue_without_changing
 
+    go_to_manage_page
+    expect(page).to have_text(I18n.t("insecure_password.notice.message"))
+
+    go_to_security_page
     expect(page).to have_text(I18n.t("insecure_password.notice.message"))
   end
 
@@ -29,5 +33,13 @@ RSpec.feature "Insecure Passwords" do
 
   def continue_without_changing
     click_on I18n.t("insecure_password.interstitial.ignore.link")
+  end
+
+  def go_to_manage_page
+    visit account_manage_path
+  end
+
+  def go_to_security_page
+    visit account_security_path
   end
 end

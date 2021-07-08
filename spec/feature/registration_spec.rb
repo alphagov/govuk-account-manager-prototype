@@ -45,8 +45,7 @@ RSpec.feature "Registration" do
     submit_registration_form
     enter_mfa
     provide_consent
-    visit_user_account_dashboard
-    click_on_security
+    visit_user_security_page
     i_see_an_account_created_event
   end
 
@@ -85,7 +84,7 @@ RSpec.feature "Registration" do
     login_with_email_address_and_password
     login_with_mfa
 
-    expect(page).to have_text(I18n.t("account.your_account.heading"))
+    expect(page).to have_text("fake account dashboard page for feature tests")
   end
 
   context "when the email is missing" do
@@ -364,8 +363,8 @@ RSpec.feature "Registration" do
     visit new_user_registration_start_path
   end
 
-  def visit_user_account_dashboard
-    visit user_root_path
+  def visit_user_security_page
+    visit account_security_path
   end
 
   def click_on_security

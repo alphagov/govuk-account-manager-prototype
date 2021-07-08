@@ -18,6 +18,11 @@ module ApplicationHelper
     "#{prefix}#{suffix}"
   end
 
+  def user_root_path
+    base_url = Rails.env.development? ? Plek.find("frontend") : Plek.new.website_root
+    "#{base_url}/account/home"
+  end
+
   def navigation_items
     if user_signed_in?
       [

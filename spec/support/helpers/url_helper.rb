@@ -12,6 +12,10 @@ module UrlHelper
     }.reject { |_, v| v.blank? }
     "/oauth/authorize?#{parameters.to_query}"
   end
+
+  def user_root_path_on_govuk
+    "#{Plek.new.website_root}/account/home"
+  end
 end
 
 RSpec.configuration.send :include, UrlHelper

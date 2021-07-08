@@ -118,9 +118,7 @@ RSpec.feature "Change Phone" do
   end
 
   def go_to_change_number_page
-    within ".accounts-menu" do
-      click_on "Manage your account"
-    end
+    visit account_manage_path
     within "#main-content" do
       click_on "Change Mobile number"
     end
