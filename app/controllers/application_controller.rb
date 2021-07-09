@@ -43,12 +43,17 @@ protected
   end
 
   def after_sign_in_path_for(_resource)
-    target = params.fetch(:previous_url, user_root_path)
-    if target.start_with?("/account") || target.start_with?("/oauth")
+    target = params[:previous_url]
+    if target&.start_with?("/account") || target&.start_with?("/oauth")
       target
     else
       user_root_path
     end
+  end
+
+  def user_root_path
+    base_url = Rails.env.development? ? Plek.find("frontend") : Plek.new.website_root
+    "#{base_url}/account/home"
   end
 
   def sign_out_path

@@ -108,9 +108,7 @@ RSpec.feature "Change Email" do
   end
 
   def go_to_change_email_page
-    within ".accounts-menu" do
-      click_on "Manage your account"
-    end
+    visit account_manage_path
     within "#main-content" do
       click_on "Change Email"
     end

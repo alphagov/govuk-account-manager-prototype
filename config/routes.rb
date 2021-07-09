@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       delete "/delete", to: "delete#destroy"
       get    "/delete/confirmation", to: "delete#confirmation", as: :account_delete_confirmation
 
-      get   "/", to: "account#show", as: :user_root
+      get   "/", to: "account#show"
       patch "/", to: "registrations#update", as: :user_registration
       put   "/", to: "registrations#update"
 
@@ -150,4 +150,8 @@ Rails.application.routes.draw do
   get "/500", to: "standard_errors#internal_server_error"
 
   get "/healthcheck", to: "healthcheck#show"
+
+  if Rails.env.test?
+    get "/account/home", to: proc { [200, {}, ["fake account dashboard page for feature tests"]] }
+  end
 end

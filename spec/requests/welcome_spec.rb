@@ -14,9 +14,9 @@ RSpec.describe "welcome" do
 
     before { sign_in(user) }
 
-    it "redirects to /account" do
+    it "redirects to /account/home on GOV.UK" do
       get welcome_path
-      expect(response).to redirect_to(user_root_path)
+      expect(response).to redirect_to(user_root_path_on_govuk)
     end
   end
 end

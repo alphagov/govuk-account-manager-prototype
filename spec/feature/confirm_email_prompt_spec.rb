@@ -4,9 +4,6 @@ RSpec.feature "Confirm email prompt" do
 
     scenario "Banner is present for user with unconfirmed email address" do
       given_i_have_logged_in
-      when_i_navigate_to_home
-      then_i_see_the_confirmation_reminder_banner
-      and_i_see_a_confirmation_intro_for_setting_up_an_account
       when_i_navigate_to_manage
       then_i_see_the_confirmation_reminder_banner
       and_i_see_a_confirmation_intro_for_setting_up_an_account
@@ -17,7 +14,7 @@ RSpec.feature "Confirm email prompt" do
 
     scenario "Resend form is prefilled on new user signup" do
       given_i_have_logged_in
-      when_i_navigate_to_home
+      when_i_navigate_to_manage
       then_i_see_the_confirmation_reminder_banner
       when_i_click_the_link_on_the_confirmation_banner
       then_i_see_the_new_confirmaton_page_header
@@ -26,10 +23,10 @@ RSpec.feature "Confirm email prompt" do
 
     scenario "Banner is not present once user has confirmed email address" do
       given_i_have_logged_in
-      when_i_navigate_to_home
+      when_i_navigate_to_manage
       then_i_see_the_confirmation_reminder_banner
       when_i_confirm_my_email_with_a_confirmation_link
-      when_i_navigate_to_home
+      when_i_navigate_to_manage
       then_i_do_not_see_the_confirmation_reminder_banner
     end
   end
@@ -39,7 +36,7 @@ RSpec.feature "Confirm email prompt" do
 
     scenario "Resend form is prefilled for changed email address" do
       given_i_have_logged_in
-      when_i_navigate_to_home
+      when_i_navigate_to_manage
       then_i_see_the_confirmation_reminder_banner
       and_i_see_a_confirmation_intro_for_updating_an_account
       when_i_click_the_link_on_the_confirmation_banner
@@ -49,11 +46,11 @@ RSpec.feature "Confirm email prompt" do
 
     scenario "Banner is not present once user has confirmed email address" do
       given_i_have_logged_in
-      when_i_navigate_to_home
+      when_i_navigate_to_manage
       then_i_see_the_confirmation_reminder_banner
       and_i_see_a_confirmation_intro_for_updating_an_account
       when_i_confirm_my_email_with_a_confirmation_link
-      when_i_navigate_to_home
+      when_i_navigate_to_manage
       then_i_do_not_see_the_confirmation_reminder_banner
     end
   end
@@ -65,10 +62,6 @@ RSpec.feature "Confirm email prompt" do
     click_on I18n.t("devise.sessions.new.fields.submit.label")
     fill_in "phone_code", with: user.reload.phone_code
     click_on I18n.t("mfa.phone.code.fields.submit.label")
-  end
-
-  def when_i_navigate_to_home
-    visit user_root_path
   end
 
   def when_i_navigate_to_manage

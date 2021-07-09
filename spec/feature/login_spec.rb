@@ -8,7 +8,7 @@ RSpec.feature "Logging in" do
     enter_email_address_and_password
     enter_mfa
 
-    expect(page).to have_text(I18n.t("account.your_account.heading"))
+    expect(page).to have_text("fake account dashboard page for feature tests")
   end
 
   it "shows the MFA page" do
@@ -31,7 +31,7 @@ RSpec.feature "Logging in" do
     it "bypasses the MFA page" do
       enter_email_address_and_password
 
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
+      expect(page).not_to have_text(I18n.t("mfa.phone.code.fields.phone_code.label"))
     end
 
     it "allows the user to change email address" do
@@ -103,7 +103,7 @@ RSpec.feature "Logging in" do
       enter_email_address_and_password
       go_straight_to_account_page
 
-      expect(page).to_not have_text(I18n.t("account.your_account.heading"))
+      expect(page).to have_text(I18n.t("devise.sessions.new.heading"))
     end
   end
 
@@ -129,7 +129,7 @@ RSpec.feature "Logging in" do
         request_new_mfa_code
         enter_mfa
 
-        expect(page).to have_text(I18n.t("account.your_account.heading"))
+        expect(page).to have_text("fake account dashboard page for feature tests")
       end
     end
   end
@@ -150,7 +150,7 @@ RSpec.feature "Logging in" do
       enter_email_address_and_password
       enter_mfa
 
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
+      expect(page).to have_text("fake account dashboard page for feature tests")
     end
 
     it "shows an error when confirmation was sent more than 7 days ago" do
@@ -320,17 +320,15 @@ RSpec.feature "Logging in" do
   end
 
   def go_straight_to_account_page
-    visit user_root_path
+    visit account_manage_path
   end
 
   def visit_security_page
-    click_on I18n.t("navigation.menu_bar.security.link_text")
+    visit account_security_path
   end
 
   def visit_change_email_page
-    within ".accounts-menu" do
-      click_on "Manage your account"
-    end
+    visit account_manage_path
     within "#main-content" do
       click_on "Change Email"
     end

@@ -57,7 +57,7 @@ RSpec.describe "Unlock account" do
         sign_in user
         click_unlock_link("an-already-used-token")
 
-        expect(response.body).to have_content(I18n.t("account.your_account.heading"))
+        expect(response.body).not_to have_content(I18n.t("devise.unlocks.unlocked"))
       end
     end
   end

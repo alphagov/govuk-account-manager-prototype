@@ -20,7 +20,7 @@ RSpec.feature "Remember Me" do
     end
 
     it "skips MFA" do
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
+      expect(page).not_to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
     end
 
     it "re-does MFA when changing email address" do
@@ -46,7 +46,6 @@ RSpec.feature "Remember Me" do
         visit_change_email_page
         redo_mfa
         expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-        visit "/account"
       end
 
       it "doesn't re-do MFA again" do
@@ -60,7 +59,6 @@ RSpec.feature "Remember Me" do
         visit_change_email_page
         abort_redo_mfa
         expect(page).to have_text(I18n.t("account.manage.heading"))
-        visit "/account"
       end
 
       it "re-does MFA again" do
@@ -74,7 +72,7 @@ RSpec.feature "Remember Me" do
           visit_change_email_page
           redo_mfa
           expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-          visit user_root_path
+          visit account_manage_path
         end
 
         it "doesn't re-do MFA again" do
@@ -88,7 +86,7 @@ RSpec.feature "Remember Me" do
           visit_change_email_page
           abort_redo_mfa
           expect(page).to have_text(I18n.t("account.manage.heading"))
-          visit user_root_path
+          visit account_manage_path
         end
 
         it "re-does MFA again" do
@@ -121,12 +119,12 @@ RSpec.feature "Remember Me" do
 
     it "remembers all the users who chose to skip MFA" do
       enter_email_address_and_password(the_user: user)
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
+      expect(page).not_to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
 
       log_out
 
       enter_email_address_and_password(the_user: user2)
-      expect(page).to have_text(I18n.t("account.your_account.heading"))
+      expect(page).not_to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
     end
   end
 
@@ -145,7 +143,7 @@ RSpec.feature "Remember Me" do
     check "remember_me"
     click_on I18n.t("mfa.phone.code.fields.submit.label")
 
-    expect(page).to have_text(I18n.t("account.your_account.heading"))
+    expect(page).to have_text("fake account dashboard page for feature tests")
   end
 
   def log_out
@@ -162,31 +160,25 @@ RSpec.feature "Remember Me" do
   end
 
   def visit_security_page
-    click_on I18n.t("navigation.menu_bar.security.link_text")
+    visit account_security_path
   end
 
   def visit_change_email_page
-    within ".accounts-menu" do
-      click_on "Manage your account"
-    end
+    visit account_manage_path
     within "#main-content" do
       click_on "Change Email"
     end
   end
 
   def visit_change_password_page
-    within ".accounts-menu" do
-      click_on "Manage your account"
-    end
+    visit account_manage_path
     within "#main-content" do
       click_on "Change Password"
     end
   end
 
   def visit_change_number_page
-    within ".accounts-menu" do
-      click_on "Manage your account"
-    end
+    visit account_manage_path
     within "#main-content" do
       click_on "Change Mobile number"
     end
