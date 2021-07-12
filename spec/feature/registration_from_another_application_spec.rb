@@ -125,7 +125,7 @@ RSpec.feature "Registration (coming from another application)" do
         register_without_mfa
 
         expect(page).to have_text(I18n.t("confirmation_sent.heading"))
-        expect(return_to_app_link(page)).to include("scope=openid+level0")
+        expect(return_to_app_url(page)).to include("scope=openid+level0")
       end
     end
 
@@ -137,15 +137,15 @@ RSpec.feature "Registration (coming from another application)" do
         register_with_mfa
 
         expect(page).to have_text(I18n.t("confirmation_sent.heading"))
-        expect(return_to_app_link(page)).to include("scope=openid+level1")
+        expect(return_to_app_url(page)).to include("scope=openid+level1")
       end
     end
   end
 
-  def return_to_app_link(page)
-    return_link_css_selector = ".govuk-link[data-module='explicit-cross-domain-links']"
+  def return_to_app_url(page)
+    url_input_css_selector = "form[data-module='explicit-cross-domain-links'] > input[type='hidden']"
     html = Nokogiri.parse(page.body)
-    html.css(return_link_css_selector).first.attributes["href"].value
+    html.css(url_input_css_selector).first.attributes["value"].value
   end
 
   def start_journey

@@ -81,24 +81,6 @@ module ApplicationHelper
     "#{base_url}/brexit"
   end
 
-  def service_for(previous_url)
-    return unless previous_url&.start_with? oauth_authorization_path
-
-    bits = previous_url.split("?")
-    return unless bits.length > 1
-
-    querystring = CGI.parse(bits[1])
-    return unless querystring["client_id"]
-
-    app = Doorkeeper::Application.by_uid(querystring["client_id"].first)
-    return unless app
-
-    {
-      name: app.name,
-      url: previous_url,
-    }
-  end
-
   def footer_navigation
     navigation = []
     t("footer_sections").each do |section|
