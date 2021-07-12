@@ -35,24 +35,6 @@ en:
         heading: This email address does not have a GOV.UK account
         message: To create an account, you need to <a class="govuk-link" href="%{link}">answer a few questions in the Brexit checker</a> and subscribe to email updates.
         page_title: You do not have a GOV.UK account
-      transition_emails:
-        description: |
-          <p class="govuk-body">The emails will give you a personalised list of actions for you, your family and your business.</p>
-          <p class="govuk-body">You will only get updates if:</p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>there are changes to your Brexit checker results</li>
-            <li>questions or results are added which may affect you</li>
-          </ul>
-          <p class="govuk-body">You’ll never get more than one email a day. The email will include all the updates made that day.</p>
-        fields:
-          emailsignup:
-            heading: Do you want to receive emails about Brexit?
-            'no': No, I just want to save my results
-            'yes': 'Yes'
-          submit:
-            label: Continue
-        heading: Do you want to receive emails about Brexit?
-        unsubscribe: You can unsubscribe from emails or change your subscription at any time.
       update_needs_confirmation: The email address for your account has not been updated yet. You need to click on the confirmation link we’ve emailed you to finish the update.
       updated: Your account has been updated successfully.
       updated_but_not_signed_in: Your account has been updated successfully, but since your password was changed, you need to sign in again

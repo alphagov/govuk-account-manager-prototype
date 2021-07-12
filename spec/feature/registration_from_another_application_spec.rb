@@ -42,52 +42,10 @@ RSpec.feature "Registration (coming from another application)" do
     let(:jwt_attributes) { { transition_checker_state: { email_topic_slug: email_topic_slug } } }
     let(:email_topic_slug) { "foo" }
 
-    it "asks if the user would like email notifications" do
+    it "creates the subscription" do
       start_journey
 
-      expect(page).to have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
-      expect(page).to_not have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
-    end
-
-    context "the user does want notifications" do
-      it "shows the post-registration page" do
-        start_journey
-        i_want_emails
-
-        expect(page).to_not have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
-      end
-
-      it "creates the subscription" do
-        start_journey
-        i_want_emails
-
-        expect(User.last.email_subscriptions.last&.topic_slug).to eq(email_topic_slug)
-      end
-    end
-
-    context "the user does not want notifications" do
-      it "shows the post-registration page" do
-        start_journey
-        i_do_not_want_emails
-
-        expect(page).to_not have_text(I18n.t("devise.registrations.transition_emails.unsubscribe"))
-      end
-
-      it "does not create the subscription" do
-        expect {
-          start_journey
-          i_do_not_want_emails
-        }.to_not(change { EmailSubscription.count })
-      end
-    end
-
-    context "the user doesn't tick either option for notifications" do
-      it "shows an error" do
-        start_journey
-        click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
-
-        expect(page).to have_text(I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"))
-      end
+      expect(User.last.email_subscriptions.last&.topic_slug).to eq(email_topic_slug)
     end
   end
 
@@ -193,15 +151,5 @@ RSpec.feature "Registration (coming from another application)" do
     find(:css, "input[name='cookie_consent'][value='yes']").set(true)
     find(:css, "input[name='feedback_consent'][value='yes']").set(true)
     click_on I18n.t("devise.registrations.your_information.fields.submit.label")
-  end
-
-  def i_want_emails
-    find_field(I18n.t("devise.registrations.transition_emails.fields.emailsignup.yes")).click
-    click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
-  end
-
-  def i_do_not_want_emails
-    find_field(I18n.t("devise.registrations.transition_emails.fields.emailsignup.no")).click
-    click_on I18n.t("devise.registrations.transition_emails.fields.submit.label")
   end
 end

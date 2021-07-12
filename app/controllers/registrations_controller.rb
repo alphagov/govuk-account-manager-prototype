@@ -19,8 +19,6 @@ class RegistrationsController < Devise::RegistrationsController
     phone_resend_code
     your_information
     your_information_post
-    transition_emails
-    transition_emails_post
     create
   ]
 
@@ -134,42 +132,12 @@ class RegistrationsController < Devise::RegistrationsController
       response["Set-Cookie"] = cookies_policy_header(registration_state)
 
       email_topic_slug = registration_state.jwt_payload&.dig("attributes", "transition_checker_state", "email_topic_slug")
-      if email_topic_slug
-        registration_state.update!(state: :transition_emails)
-        redirect_to new_user_registration_transition_emails_path
-      else
-        redirect_to new_user_registration_finish_path
-      end
-      return
-    end
-
-    render :your_information
-  end
-
-  def transition_emails
-    redirect_to url_for_state unless registration_state.state == "transition_emails"
-  end
-
-  def transition_emails_post
-    redirect_to url_for_state and return unless registration_state.state == "transition_emails"
-
-    decision = params[:email_decision]
-    decision_format_ok = %w[yes no].include? decision
-    if decision_format_ok
-      registration_state.update!(
-        state: :finish,
-        yes_to_emails: decision == "yes",
-      )
+      registration_state.update!(yes_to_emails: true) if email_topic_slug
       redirect_to new_user_registration_finish_path
       return
     end
 
-    @resource_error_messages = {
-      email_decision: [
-        I18n.t("activerecord.errors.models.user.attributes.email_decision.invalid"),
-      ],
-    }
-    render :transition_emails
+    render :your_information
   end
 
   def create
@@ -338,8 +306,6 @@ protected
       new_user_registration_phone_code_path
     when "your_information"
       new_user_registration_your_information_path
-    when "transition_emails"
-      new_user_registration_transition_emails_path
     when "finish"
       new_user_registration_finish_path
     else
