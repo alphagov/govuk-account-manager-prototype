@@ -1,5 +1,4 @@
 <% content_for :title, t("confirmation_sent.heading") %>
-<% service = service_for(params[:previous_url]) if @user_is_new %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: yield(:title),
@@ -30,17 +29,27 @@
   } %>
 <% end %>
 
-<p class="govuk-body" data-module="gem-track-click">
-  <% if service %>
-    <a class="govuk-link" href="<%= service[:url] %>" data-module="explicit-cross-domain-links" data-track-category="account-create" data-track-action="confirm-email" data-track-label="<%= service[:name] %>">
-      <%= t("confirmation_sent.continue_to_service", service_name: service[:name]) %>
-    </a>
-  <% else %>
+<% if @user_is_new && params[:previous_url]&.start_with?(oauth_authorization_path) %>
+  <%= form_tag redirect_to_previous_url_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
+    <%= hidden_field_tag :previous_url, params[:previous_url] %>
+    <%= render "govuk_publishing_components/components/button", {
+      text: t("confirmation_sent.continue_to_service"),
+      data_attributes: {
+        module: "gem-track-click",
+        "track-category": "account-create",
+        "track-action": "confirm-email",
+        "track-label": "Brexit checker",
+      },
+      margin_bottom: 3,
+    } %>
+  <% end %>
+<% else %>
+  <p class="govuk-body" data-module="gem-track-click">
     <a class="govuk-link" href="<%= user_root_path %>" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
       <%= t("confirmation_sent.continue_to_account") %>
     </a>
-  <% end %>
-</p>
+  </p>
+<% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: t("confirmation_sent.re_register_subtitle"),

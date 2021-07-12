@@ -139,6 +139,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post "/redirect-to-previous-url", to: "redirect_to_previous_url#show", as: :redirect_to_previous_url
+
   mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 
   use_doorkeeper

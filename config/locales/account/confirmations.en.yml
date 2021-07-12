@@ -7,7 +7,7 @@ en:
     link_text: Resend confirmation email
   confirmation_sent:
     continue_to_account: Go to your GOV.UK account
-    continue_to_service: Go back to %{service_name}
+    continue_to_service: Finish saving your Brexit checker results
     delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
     existing_user_instruction_list: |
       <ul class="govuk-list govuk-list--bullet">
