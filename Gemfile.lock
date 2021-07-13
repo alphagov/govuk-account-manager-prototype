@@ -545,7 +545,6 @@ DEPENDENCIES
   i18n-tasks (~> 0.9.34)
   jasmine
   jasmine_selenium_runner
-  jwt
   kaminari
   listen
   notifications-ruby-client

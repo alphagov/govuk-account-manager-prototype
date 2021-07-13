@@ -42,7 +42,7 @@ Doorkeeper.configure do
       end
     else
       destination_url =
-        if request.params[:state] && Jwt.exists?(request.params[:state].split(":").first)
+        if request.params[:register]
           new_user_registration_start_url
         else
           new_user_session_url

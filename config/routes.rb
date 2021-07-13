@@ -109,8 +109,6 @@ Rails.application.routes.draw do
       post "/phone/resend", to: "registrations#phone_resend_code"
       get  "/your-information", to: "registrations#your_information", as: :new_user_registration_your_information
       post "/your-information", to: "registrations#your_information_post"
-      get  "/transition-emails", to: "registrations#transition_emails", as: :new_user_registration_transition_emails
-      post "/transition-emails", to: "registrations#transition_emails_post"
       get  "/finish", to: "registrations#create", as: :new_user_registration_finish
       get  "/cancel", to: "registrations#cancel", as: :cancel_user_registration
 
@@ -122,8 +120,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "/deanonymise-token", to: "deanonymise_token#show"
       get "/ephemeral-state", to: "ephemeral_state#show"
-
-      post "/jwt", to: "jwt#create"
 
       scope "transition-checker", module: :transition_checker, as: :transition_checker do
         get "/email-subscription", to: "emails#show"

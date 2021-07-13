@@ -5,4 +5,3 @@ hidden_scopes:
   - openid
   - level0
   - level1
-jwt_attributes_and_scopes: {}
