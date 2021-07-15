@@ -172,7 +172,6 @@ jobs:
           PASSWORD_PEPPER: ((password-pepper-staging))
           ACCOUNT_API_DOORKEEPER_UID: "ZAHfbCrOLCjvWQNsgal-i79UavGkytB_093jNzRPJR0"
           PLEK_SERVICE_ACCOUNT_API_URI: https://account-api.staging.publishing.service.gov.uk
-          PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.staging.publishing.service.gov.uk
           REQUIRE_BASIC_AUTH: "true"
           SECRET_KEY_BASE: ((secret-key-base-staging))
           WEBSITE_ROOT: https://www.staging.publishing.service.gov.uk
@@ -248,7 +247,6 @@ jobs:
           PASSWORD_PEPPER: ((password-pepper-production))
           ACCOUNT_API_DOORKEEPER_UID: "20VwoXiasGyUE7nS3M9l9TBjew8Lid_qCd6eSmSXuQU"
           PLEK_SERVICE_ACCOUNT_API_URI: https://account-api.publishing.service.gov.uk
-          PLEK_SERVICE_EMAIL_ALERT_API_URI: https://email-alert-api.publishing.service.gov.uk
           SECRET_KEY_BASE: ((secret-key-base-production))
           WEBSITE_ROOT: https://www.gov.uk
           WORKER_INSTANCES: 5

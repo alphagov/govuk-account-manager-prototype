@@ -121,12 +121,6 @@ Rails.application.routes.draw do
       get "/deanonymise-token", to: "deanonymise_token#show"
       get "/ephemeral-state", to: "ephemeral_state#show"
 
-      scope "transition-checker", module: :transition_checker, as: :transition_checker do
-        get "/email-subscription", to: "emails#show"
-        post "/email-subscription", to: "emails#update"
-        delete "/email-subscription", to: "emails#destroy"
-      end
-
       namespace :report do
         get "/general", to: "general#show"
 
