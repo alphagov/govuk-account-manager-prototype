@@ -158,10 +158,7 @@ en:
 
         GOV.UK accounts are a trial. They’re a first step towards creating a GOV.UK that is more tailored to you and your circumstances.
 
-        At the moment, you can only use your account with the Brexit checker (%{transition_checker_link}) to:
-
-          - get email updates about Brexit changes that may affect you
-          - save your Brexit checker results
+        At the moment, you can only use your account with the Brexit checker.
 
         In future, we want to add more features to your account so you can:
 
@@ -170,9 +167,9 @@ en:
           - get updates about guidance that might be helpful to you
           - reuse data about you between different services
 
-        If you have any questions, problems or suggestions for how we could make your GOV.UK account better, please give us feedback (%{feedback_link}).
+        If you have any questions, problems or suggestions for how we could make your GOV.​UK account better, please give us feedback: (%{feedback_link})
 
-        Sign in to your GOV.UK account (%{login_link})
+        Sign in to your GOV.UK account: (%{login_link})
 
         -----
 
