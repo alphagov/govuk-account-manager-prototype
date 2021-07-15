@@ -107,12 +107,6 @@ $_current-indicator-width: 4px;
   margin-bottom: govuk-spacing(7);
 }
 
-.user-reminder {
-  padding: govuk-spacing(3);
-  margin-bottom: govuk-spacing(7);
-  background: govuk-colour("light-grey");
-}
-
 .summary-list {
   @include govuk-font(19);
   @include govuk-clearfix;
