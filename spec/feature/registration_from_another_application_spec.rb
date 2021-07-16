@@ -34,7 +34,7 @@ RSpec.feature "Registration (coming from another application)" do
         i_enter_registration_details_without_phone
         i_consent_my_information_being_used
 
-        expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+        expect(page).to have_text(I18n.t("confirmation_sent.heading.finish_creating"))
         expect(return_to_app_url(page)).to include("scope=openid+level0")
       end
     end
@@ -48,7 +48,7 @@ RSpec.feature "Registration (coming from another application)" do
         i_enter_phone_code
         i_consent_my_information_being_used
 
-        expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+        expect(page).to have_text(I18n.t("confirmation_sent.heading.finish_creating"))
         expect(return_to_app_url(page)).to include("scope=openid+level1")
       end
     end
