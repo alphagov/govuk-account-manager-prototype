@@ -1,61 +1,13 @@
-<% content_for :title, t("confirmation_sent.heading") %>
-
-<%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
-  heading_level: 1,
-  margin_bottom: 4,
-  font_size: "xl",
-} %>
-
-<p class="govuk-body">
-  <%= t("confirmation_sent.instruction_one") %> <strong><%= @email %></strong>
-</p>
-
-<p class="govuk-body">
-  <%= t("confirmation_sent.instruction_two") %>
-</p>
-
-<p class="govuk-body">
-  <% if @user_is_new %>
-    <%= sanitize(t("confirmation_sent.new_user_instruction_list")) %>
-  <% else %>
-    <%= sanitize(t("confirmation_sent.existing_user_instruction_list")) %>
-  <% end %>
-</p>
-
-<% unless @user_is_confirmed %>
-  <%= render "govuk_publishing_components/components/inset_text", {
-    text: t("confirmation_sent.delay_consequence")
-  } %>
-<% end %>
-
-<% if @user_is_new && params[:previous_url]&.start_with?(oauth_authorization_path) %>
-  <%= form_tag redirect_to_previous_url_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
-    <%= hidden_field_tag :previous_url, params[:previous_url] %>
-    <%= render "govuk_publishing_components/components/button", {
-      text: t("confirmation_sent.continue_to_service"),
-      data_attributes: {
-        module: "gem-track-click",
-        "track-category": "account-create",
-        "track-action": "confirm-email",
-        "track-label": "Brexit checker",
-      },
-      margin_bottom: 3,
+<% if @user_is_new %>
+  <%= render partial: "confirmations/_sent/finish_creating", locals: {
+    returning_service: @returning_service,
+    email: @email,
+    user_is_confirmed: @user_is_confirmed
     } %>
-  <% end %>
 <% else %>
-  <p class="govuk-body" data-module="gem-track-click">
-    <a class="govuk-link" href="<%= user_root_path %>" data-track-category="account-create" data-track-action="confirm-email" data-track-label="Account">
-      <%= t("confirmation_sent.continue_to_account") %>
-    </a>
-  </p>
+  <%= render partial: "confirmations/_sent/confirm_change", locals: {
+    returning_service: @returning_service,
+    email: @email,
+    user_is_confirmed: @user_is_confirmed
+    }  %>
 <% end %>
-
-<%= render "govuk_publishing_components/components/heading", {
-  text: t("confirmation_sent.re_register_subtitle"),
-  heading_level: 2,
-  margin_bottom: 3,
-  font_size: 19,
-} %>
-
-<%= sanitize(t("confirmation_sent.re_register_instructions", resend_confirmation_link: new_user_confirmation_path, retry_link: edit_user_registration_email_path)) %>
