@@ -76,7 +76,6 @@ class User < ApplicationRecord
       UserMailer.with(user: self).onboarding_email.deliver_later
       update!(has_received_onboarding_email: true)
     end
-    ActivateEmailSubscriptionsJob.perform_later id
   end
 
   def lock_access!(opts = {})
