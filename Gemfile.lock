@@ -181,7 +181,6 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (~> 0.14)
-    govuk_ab_testing (2.4.2)
     govuk_app_config (3.3.0)
       logstasher (>= 1.2.2, < 2.2.0)
       sentry-raven (~> 3.1.1)
@@ -538,7 +537,6 @@ DEPENDENCIES
   gds_zendesk
   geocoder
   google-cloud-bigquery
-  govuk_ab_testing
   govuk_app_config
   govuk_publishing_components
   govuk_test
