@@ -9,7 +9,7 @@ RSpec.feature "Resending confirmation email" do
     enter_email_address
 
     assert_enqueued_jobs 1, only: NotifyDeliveryJob
-    expect(page).to have_text(I18n.t("reset_sent.subheading"))
+    expect(page).to have_text(I18n.t("confirmation_sent.help.heading"))
     expect(page).to have_text(user.email)
   end
 
