@@ -24,14 +24,15 @@ en:
         body: |
           Hello
 
-          You need to click on the confirmation link to:
-            - finish creating your account
-            - start receiving email updates about Brexit
+          You need to click on the confirmation link to finish creating your GOV.UK account.
 
           You will be locked out of your account if you do not confirm your email address within 7 days.
 
           Confirm your email address:
           %{link}
+
+          If you need help confirming your email address, contact us:
+          %{feedback_link}
 
           -----
 
