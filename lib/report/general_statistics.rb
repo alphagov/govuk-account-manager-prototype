@@ -74,7 +74,9 @@ module Report
     end
 
     def all_users
-      User.where("created_at < ?", end_date)
+      User
+        .where("created_at < ?", end_date)
+        .where.not(id: smokey_user_id)
     end
 
     def interval_users
@@ -85,7 +87,12 @@ module Report
       SecurityActivity
         .of_type(SecurityActivity::LOGIN_SUCCESS)
         .where(oauth_application_id: nil)
+        .where.not(user_id: smokey_user_id)
         .where("created_at < ?", end_date)
+    end
+
+    def smokey_user_id
+      @smokey_user_id ||= User.find_by(email: Report::SMOKEY_USER)&.id
     end
 
     def interval_logins

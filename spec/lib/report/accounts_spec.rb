@@ -8,6 +8,11 @@ RSpec.describe Report::Accounts do
   end
 
   context "with users" do
+    it "excludes the smokey user" do
+      FactoryBot.create(:user, email: Report::SMOKEY_USER)
+      expect(report).to eq([])
+    end
+
     it "#in_batches" do
       FactoryBot.create(:user, email: "foo@example.com", cookie_consent: false, feedback_consent: true)
       FactoryBot.create(:user, email: "bar@example.com", cookie_consent: true, feedback_consent: false)

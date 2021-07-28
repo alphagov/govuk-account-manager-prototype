@@ -5,12 +5,12 @@ module Report
     end
 
     def all
-      User.all.map { |user| user_to_row(user) }
+      User.all.map { |user| user_to_row(user) }.compact
     end
 
     def in_batches(batch_size: 200)
       User.find_in_batches(batch_size: batch_size) do |batch|
-        rows = batch.map { |user| user_to_row(user) }
+        rows = batch.map { |user| user_to_row(user) }.compact
         yield rows
       end
     end
@@ -20,6 +20,8 @@ module Report
     attr_reader :user_id_pepper
 
     def user_to_row(user)
+      return if user.email == Report::SMOKEY_USER
+
       {
         user_id: hashed_id(user.id),
         registration_timestamp: user.created_at,
