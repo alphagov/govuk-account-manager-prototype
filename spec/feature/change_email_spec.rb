@@ -13,8 +13,7 @@ RSpec.feature "Change Email" do
       enter_new_email
       enter_password
 
-      expect(page).to have_text(I18n.t("confirmation_sent.heading"))
-      expect(page).to have_text("#{I18n.t('confirmation_sent.instruction_one')} #{new_email}")
+      expect(page).to have_text(I18n.t("confirmation_sent.heading.confirm_change"))
     end
 
     it "notifies the user about the update" do

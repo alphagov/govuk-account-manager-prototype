@@ -16,7 +16,7 @@ RSpec.feature "Registration" do
     enter_mfa
     provide_consent
 
-    expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+    expect(page).to have_text(I18n.t("confirmation_sent.heading.finish_creating"))
 
     expect(User.last).to_not be_nil
     expect(User.last.email).to eq(email)
@@ -323,7 +323,7 @@ RSpec.feature "Registration" do
         enter_mfa
         provide_consent
 
-        expect(page).to have_text(I18n.t("confirmation_sent.heading"))
+        expect(page).to have_text(I18n.t("confirmation_sent.heading.finish_creating"))
       end
     end
   end

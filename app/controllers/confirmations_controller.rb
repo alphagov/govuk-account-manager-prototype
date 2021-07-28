@@ -2,8 +2,9 @@ class ConfirmationsController < Devise::ConfirmationsController
   def sent
     if session[:confirmations]
       @email = session[:confirmations]["email"]
-      @user_is_confirmed = session[:confirmations].fetch("user_is_confirmed", false)
-      @user_is_new = session[:confirmations].fetch("user_is_new", false)
+      @user_is_confirmed = user_is_confirmed
+      @user_is_new = user_is_new
+      @returning_service = returning_service
       session.delete(:confirmations)
     else
       redirect_to "/"
@@ -48,5 +49,21 @@ class ConfirmationsController < Devise::ConfirmationsController
     }
 
     confirmation_email_sent_path
+  end
+
+private
+
+  def user_is_new
+    session[:confirmations].fetch("user_is_new", false)
+  end
+
+  def user_is_confirmed
+    session[:confirmations].fetch("user_is_confirmed", false)
+  end
+
+  def returning_service
+    return :brexit if params[:previous_url]&.start_with?(oauth_authorization_path)
+
+    :dashboard
   end
 end

@@ -6,11 +6,7 @@ en:
         body: |
           Hello
 
-          You’ve said you want to update the email address for your GOV.UK account.
-
-          You need to click on the confirmation link to:
-            - finish updating the email address for your account
-            - get email updates about Brexit sent to your new email address
+          You need to click on the confirmation link to finish updating the email address for your GOV.UK account.
 
           If this was not you, you can ignore this email.
 
@@ -28,14 +24,15 @@ en:
         body: |
           Hello
 
-          You need to click on the confirmation link to:
-            - finish creating your account
-            - start receiving email updates about Brexit
+          You need to click on the confirmation link to finish creating your GOV.UK account.
 
           You will be locked out of your account if you do not confirm your email address within 7 days.
 
           Confirm your email address:
           %{link}
+
+          If you need help confirming your email address, contact us:
+          %{feedback_link}
 
           -----
 
@@ -139,9 +136,9 @@ en:
       body: |
         Hello
 
-        You said you want to update the email address for your GOV.UK account.
+        You’ve said you want to update the email address for your GOV.UK account.
 
-        We sent a confirmation link to %{new_address}. The email address for your account will not be updated until you click that link.
+        You need to click on the confirmation link we sent to your new address to finish this update.
 
         If this was not you, contact us:
         %{feedback_link}.
@@ -156,7 +153,7 @@ en:
 
         You’ve finished creating your GOV.UK account.
 
-        GOV.UK accounts are a trial. They’re a first step towards creating a GOV.UK that is more tailored to you and your circumstances.
+        GOV.​UK accounts are a trial. They’re a first step towards creating a GOV.​UK that is more tailored to you and your circumstances.
 
         At the moment, you can only use your account with the Brexit checker.
 
@@ -167,7 +164,9 @@ en:
           - get updates about guidance that might be helpful to you
           - reuse data about you between different services
 
-        If you have any questions, problems or suggestions for how we could make your GOV.​UK account better, please give us feedback: (%{feedback_link})
+        If you have any questions, problems or suggestions for how we could make your GOV.​UK account better, please give us feedback:
+
+        (%{feedback_link}).
 
         Sign in to your GOV.UK account: (%{login_link})
 
