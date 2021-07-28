@@ -11,8 +11,14 @@ RSpec.describe Report::AccountEvents do
   end
 
   context "with events in the period" do
+    let(:smokey_user) { FactoryBot.create(:user, email: Report::SMOKEY_USER) }
     let(:user1) { FactoryBot.create(:user, email: "foo@example.com") }
     let(:user2) { FactoryBot.create(:user, email: "bar@example.com") }
+
+    it "excludes the smokey user" do
+      create_login_event(smokey_user, start_date)
+      expect(report).to eq([])
+    end
 
     it "#in_batches" do
       create_login_event(user1, start_date + 59.minutes)
