@@ -6,13 +6,13 @@ en:
       update: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
     link_text: Send confirmation email again
   confirmation_sent:
-    continue_to:
-      account: Go to your GOV.UK account
-      brexit: Continue to your Brexit checker results
     delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
+    finish:
+      creating: Finish
+      updating: Go to your GOV.UK account
     heading:
       confirm_change: Finish updating your email address
-      finish_creating: Finish creating your account
+      finish_creating: Finish creating your GOV.UK account
     help:
       heading: If you did not get the confirmation email
       instructions:
@@ -28,18 +28,10 @@ en:
             <p class="govuk-body">You need to confirm your new email address.</p>
             <p class="govuk-body">We’ve sent an email to <strong>%{email}</strong>. Click on the confirmation link in the email to finish updating the email address for your GOV.UK account.</p>
       finish_creating:
-        details:
-          brexit: |
-            <p class="govuk-body">You also need to confirm your email address.</p>
-            <p class="govuk-body">We’ve sent an email to <strong>%{email}</strong>. Click on the confirmation link in the email to:</p>
-            <ul class="govuk-list govuk-list--bullet">
-              <li>finish creating your account</li>
-              <li>start receiving email updates about Brexit</li>
-            </ul>
-          dashboard: |
-            <p class="govuk-body">You need to confirm your email address.</p>
-            <p class="govuk-body">We’ve sent an email to <strong>%{email}</strong>. Click on the confirmation link in the email to finish creating your account.</p>
-        must_continue: You must continue to your Brexit checker results to finish saving them to your account.
+        address_confirmation: |
+          <p class="govuk-body">You'll also need to confirm your email address. Click on the confirmation link we've emailed to <strong>%{email}</strong>.</p>
+          <p class="govuk-body">If you've subscribed to email updates about Brexit, you will not start receiving emails until you've confirmed your email address.</p>
+        details: <p class="govuk-body">You need to finish creating your account.</p>
   devise:
     confirmations:
       confirmed: You’ve successfully confirmed your email address.

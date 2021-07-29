@@ -4,7 +4,6 @@ class ConfirmationsController < Devise::ConfirmationsController
       @email = session[:confirmations]["email"]
       @user_is_confirmed = user_is_confirmed
       @user_is_new = user_is_new
-      @returning_service = returning_service
       session.delete(:confirmations)
     else
       redirect_to "/"
@@ -59,11 +58,5 @@ private
 
   def user_is_confirmed
     session[:confirmations].fetch("user_is_confirmed", false)
-  end
-
-  def returning_service
-    return :brexit if params[:previous_url]&.start_with?(oauth_authorization_path)
-
-    :dashboard
   end
 end

@@ -1,12 +1,10 @@
 <% if @user_is_new %>
   <%= render partial: "confirmations/_sent/finish_creating", locals: {
-    returning_service: @returning_service,
     email: @email,
     user_is_confirmed: @user_is_confirmed
     } %>
 <% else %>
   <%= render partial: "confirmations/_sent/confirm_change", locals: {
-    returning_service: @returning_service,
     email: @email,
     user_is_confirmed: @user_is_confirmed
     }  %>
