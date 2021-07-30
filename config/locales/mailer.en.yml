@@ -165,10 +165,10 @@ en:
           - reuse data about you between different services
 
         If you have any questions, problems or suggestions for how we could make your GOV.​UK account better, please give us feedback:
+        %{feedback_link}
 
-        (%{feedback_link}).
-
-        Sign in to your GOV.UK account: (%{login_link})
+        Sign in to your GOV.UK account:
+        %{login_link}
 
         -----
 
