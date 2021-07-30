@@ -116,4 +116,82 @@ RSpec.describe RemoteUserInfo do
       end
     end
   end
+
+  context "#destroy!" do
+    it "calls account-api and attribute-service to delete user data" do
+      ClimateControl.modify ACCOUNT_API_DOORKEEPER_UID: account_api_application.uid do
+        stub_attribute_service = stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" })
+          .to_return(status: 200)
+        stub_account_api = stub_account_api_delete_user_by_subject_identifier(subject_identifier: account_api_subject_identifier)
+
+        described_class.new(user).destroy!
+        expect(stub_attribute_service).to have_been_made
+        expect(stub_account_api).to have_been_made
+      end
+    end
+
+    context "the attribute service sporadically times out" do
+      let(:final_status) { 200 }
+
+      before do
+        stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" })
+          .to_return(status: 504)
+        stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" })
+          .to_return(status: 504)
+        @stub = stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" })
+          .to_return(status: final_status)
+        stub_account_api_delete_user_by_subject_identifier(subject_identifier: account_api_subject_identifier)
+      end
+
+      it "tries to delete attributes 3 times" do
+        described_class.new(user).destroy!
+        expect(@stub).to have_been_made
+      end
+
+      context "the 3rd attribute service attempt fails" do
+        let(:final_status) { 504 }
+
+        it "re-throws the exception" do
+          expect { described_class.new(user).destroy! }.to raise_error(RestClient::GatewayTimeout)
+        end
+      end
+    end
+
+    context "the account-api service sporadically times out" do
+      let(:final_status) { 200 }
+
+      before do
+        stub_request(:delete, %r{/api/oidc-users/#{account_api_subject_identifier}})
+          .with(headers: { accept: "application/json" })
+          .to_return(status: 504)
+        stub_request(:delete, %r{/api/oidc-users/#{account_api_subject_identifier}})
+          .with(headers: { accept: "application/json" })
+          .to_return(status: 504)
+        @stub = stub_request(:delete, %r{/api/oidc-users/#{account_api_subject_identifier}})
+          .with(headers: { accept: "application/json" })
+          .to_return(status: final_status)
+
+        stub_request(:delete, "#{attribute_service_url}/v1/attributes/all")
+          .with(headers: { accept: "application/json", authorization: "Bearer #{bearer_token}" })
+          .to_return(status: 200)
+      end
+
+      it "tries to delete account-api data 3 times" do
+        described_class.new(user).destroy!
+        expect(@stub).to have_been_made
+      end
+
+      context "the 3rd account-api attempt fails" do
+        let(:final_status) { 504 }
+
+        it "re-throws the exception" do
+          expect { described_class.new(user).destroy! }.to raise_error(GdsApi::HTTPGatewayTimeout)
+        end
+      end
+    end
+  end
 end

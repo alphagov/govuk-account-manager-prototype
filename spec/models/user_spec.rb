@@ -1,9 +1,15 @@
 RSpec.describe User do
+  include GdsApi::TestHelpers::AccountApi
+
   let(:attribute_service_url) { "https://attribute-service" }
+  let(:account_api_url) { "https://account-api" }
 
   let(:user) { FactoryBot.create(:user) }
 
   let(:bearer_token) { AccountManagerApplication.user_token(user.id).token }
+
+  let(:account_api_application) { FactoryBot.create(:oauth_application) }
+  let(:account_api_subject_identifier) { Doorkeeper::OpenidConnect.configuration.subject.call(user, account_api_application).to_s }
 
   around do |example|
     ClimateControl.modify(ATTRIBUTE_SERVICE_URL: attribute_service_url) do
@@ -13,9 +19,21 @@ RSpec.describe User do
 
   context "#destroy!" do
     it "calls the attribute service to delete the attributes" do
-      attribute_service_stub = stub_attribute_service_delete_all
-      user.destroy!
-      expect(attribute_service_stub).to have_been_made
+      ClimateControl.modify ACCOUNT_API_DOORKEEPER_UID: account_api_application.uid do
+        stub_account_api_delete_user_by_subject_identifier(subject_identifier: account_api_subject_identifier)
+        attribute_service_stub = stub_attribute_service_delete_all
+        user.destroy!
+        expect(attribute_service_stub).to have_been_made
+      end
+    end
+
+    it "calls the account-api to delete remote data held there" do
+      ClimateControl.modify ACCOUNT_API_DOORKEEPER_UID: account_api_application.uid do
+        stub_attribute_service_delete_all
+        account_api_delete_user_stub = stub_account_api_delete_user_by_subject_identifier(subject_identifier: account_api_subject_identifier)
+        user.destroy!
+        expect(account_api_delete_user_stub).to have_been_made
+      end
     end
 
     def stub_attribute_service_delete_all

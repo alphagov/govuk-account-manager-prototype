@@ -43,12 +43,8 @@ class RemoteUserInfo
   end
 
   def destroy!
-    with_retries do
-      RestClient.delete(
-        "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/all",
-        { accept: :json, authorization: "Bearer #{token.token}" },
-      )
-    end
+    with_retries { delete_attribute_store_data }
+    with_retries { delete_user_data_in_account_api }
   end
 
   def token
@@ -59,10 +55,31 @@ protected
 
   def with_retries(attempts = 3)
     yield
-  rescue RestClient::Exceptions::Timeout, RestClient::ServerBrokeConnection, RestClient::BadGateway, RestClient::GatewayTimeout => e
+  rescue RestClient::Exceptions::Timeout,
+         RestClient::ServerBrokeConnection,
+         RestClient::BadGateway,
+         RestClient::GatewayTimeout,
+         GdsApi::TimedOutException,
+         GdsApi::HTTPIntermittentServerError => e
     attempts -= 1
     retry unless attempts.zero?
 
     raise e
+  end
+
+  def delete_attribute_store_data
+    RestClient.delete(
+      "#{ENV['ATTRIBUTE_SERVICE_URL']}/v1/attributes/all",
+      { accept: :json, authorization: "Bearer #{token.token}" },
+    )
+  end
+
+  def delete_user_data_in_account_api
+    GdsApi.account_api.delete_user_by_subject_identifier(
+      subject_identifier: Doorkeeper::OpenidConnect.configuration.subject.call(
+        @user,
+        Doorkeeper::Application.find_by(uid: ENV.fetch("ACCOUNT_API_DOORKEEPER_UID")),
+      ).to_s,
+    )
   end
 end
