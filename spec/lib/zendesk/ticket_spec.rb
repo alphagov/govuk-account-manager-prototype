@@ -25,6 +25,7 @@ RSpec.describe Zendesk::Ticket do
           "body" => "[Details]\nThis site is awesome\n\n[Response Required]\nNo\n",
         },
         "group_id" => "123",
+        "tags" => %w[govuk_accounts],
       }
       expect(logger).to receive(:info).with("Zendesk ticket created: #{expected_attributes.inspect}")
 
