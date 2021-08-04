@@ -15,14 +15,13 @@ Doorkeeper.configure do
       )
 
     if current_user
-      current_level_of_authentication = session[:level_of_authentication]
+      current_level_of_authentication = session.fetch(:level_of_authentication, "level0")
       current_level_of_authentication_is_good_enough =
-        !Rails.application.config.feature_flag_enforce_levels_of_authentication ||
         LevelOfAuthentication.current_auth_greater_or_equal_to_required(
           current_level_of_authentication, required_level_of_authentication
         )
 
-      if current_level_of_authentication_is_good_enough
+      if current_level_of_authentication_is_good_enough || MultiFactorAuth.choose_mfa_method(current_user).nil?
         current_user
       else
         destination_url =

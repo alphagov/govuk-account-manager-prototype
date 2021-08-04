@@ -155,12 +155,12 @@ RSpec.describe "security activities" do
           :oauth_application,
           name: "name",
           redirect_uri: "http://localhost",
-          scopes: %i[openid],
+          scopes: %i[openid level0],
         )
       end
 
       it "records LOGIN_SUCCESS events for OAuth authorizations" do
-        get authorization_endpoint_url(client: application, scope: "openid")
+        get authorization_endpoint_url(client: application, scope: "openid level0")
 
         expect_event SecurityActivity::LOGIN_SUCCESS, { application: application }
         expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
