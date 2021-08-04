@@ -1,7 +1,7 @@
 require "spec_helper"
 
 RSpec.describe "/oauth/authorize" do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.create(:user, phone: nil) }
 
   let(:application) do
     FactoryBot.create(
