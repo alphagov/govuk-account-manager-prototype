@@ -9,9 +9,9 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
     && apt update -y \
     && apt install -y yarn
 
-RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_88.0.4324.182-1_amd64.deb \
-    && apt-get install -y --no-install-recommends ./google-chrome-stable_88.0.4324.182-1_amd64.deb \
-    && rm ./google-chrome-stable_88.0.4324.182-1_amd64.deb
+RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_93.0.4577.63-1_amd64.deb \
+    && apt-get install -y --no-install-recommends ./google-chrome-stable_93.0.4577.63-1_amd64.deb \
+    && rm ./google-chrome-stable_93.0.4577.63-1_amd64.deb
 
 # Enable no-sandbox for chrome so that it can run as a root user
 ENV GOVUK_TEST_CHROME_NO_SANDBOX 1
