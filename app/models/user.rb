@@ -103,6 +103,23 @@ class User < ApplicationRecord
     self.phone = MultiFactorAuth.e164_number(phone) if phone
   end
 
+  def generate_subject_identifier
+    return subject_identifier if subject_identifier
+
+    # before being first persisted, the record has no id, which makes
+    # it generate the wrong subject identifier - so don't generate and
+    # save the subject identifier until the record actually exists in
+    # the database.
+    return unless id
+
+    app = Doorkeeper::Application.find_by!(uid: ENV["ACCOUNT_API_DOORKEEPER_UID"])
+    Doorkeeper::OpenidConnect.configuration.subject.call(self, app).to_s.tap do |sub|
+      update!(subject_identifier: sub)
+    end
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
   def validate_phone_number
     if phone.blank?
       errors.add :phone, :blank

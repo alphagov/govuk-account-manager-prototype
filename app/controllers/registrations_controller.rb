@@ -156,6 +156,7 @@ class RegistrationsController < Devise::RegistrationsController
         session[:has_done_mfa] = false
       end
 
+      resource.generate_subject_identifier
       resource.update_remote_user_info
 
       record_security_event(SecurityActivity::USER_CREATED, user: resource)
