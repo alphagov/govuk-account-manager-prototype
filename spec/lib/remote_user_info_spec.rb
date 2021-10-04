@@ -10,7 +10,7 @@ RSpec.describe RemoteUserInfo do
   let(:bearer_token) { AccountManagerApplication.user_token(user.id).token }
 
   let(:account_api_application) { FactoryBot.create(:oauth_application) }
-  let(:account_api_subject_identifier) { Doorkeeper::OpenidConnect.configuration.subject.call(user, account_api_application).to_s }
+  let(:account_api_subject_identifier) { user.generate_subject_identifier }
 
   around do |example|
     ClimateControl.modify(ATTRIBUTE_SERVICE_URL: attribute_service_url, ACCOUNT_API_DOORKEEPER_UID: account_api_application.uid) do

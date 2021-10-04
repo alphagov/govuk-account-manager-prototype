@@ -33,10 +33,7 @@ class RemoteUserInfo
       )
 
       GdsApi.account_api.update_user_by_subject_identifier(
-        subject_identifier: Doorkeeper::OpenidConnect.configuration.subject.call(
-          @user,
-          Doorkeeper::Application.find_by(uid: ENV.fetch("ACCOUNT_API_DOORKEEPER_UID")),
-        ).to_s,
+        subject_identifier: @user.generate_subject_identifier,
         **attributes,
       )
     end
@@ -76,10 +73,7 @@ protected
 
   def delete_user_data_in_account_api
     GdsApi.account_api.delete_user_by_subject_identifier(
-      subject_identifier: Doorkeeper::OpenidConnect.configuration.subject.call(
-        @user,
-        Doorkeeper::Application.find_by(uid: ENV.fetch("ACCOUNT_API_DOORKEEPER_UID")),
-      ).to_s,
+      subject_identifier: @user.generate_subject_identifier,
     )
   end
 end

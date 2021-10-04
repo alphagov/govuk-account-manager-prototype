@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_085832) do
+ActiveRecord::Schema.define(version: 2021_10_01_085914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_085832) do
     t.boolean "has_received_onboarding_email", default: false, null: false
     t.boolean "banned_password_match"
     t.boolean "has_received_2021_03_survey", default: false, null: false
+    t.string "subject_identifier"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
