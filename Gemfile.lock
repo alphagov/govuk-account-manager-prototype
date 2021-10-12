@@ -154,7 +154,7 @@ GEM
     gds_zendesk (3.2.0)
       null_logger (~> 0)
       zendesk_api (~> 1.27)
-    geocoder (1.6.7)
+    geocoder (1.7.0)
     globalid (0.5.2)
       activesupport (>= 5.0)
     google-apis-bigquery_v2 (0.18.0)
