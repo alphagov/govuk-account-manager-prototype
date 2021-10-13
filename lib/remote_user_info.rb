@@ -34,6 +34,8 @@ class RemoteUserInfo
 
       GdsApi.account_api.update_user_by_subject_identifier(
         subject_identifier: @user.generate_subject_identifier,
+        cookie_consent: @user.cookie_consent,
+        feedback_consent: @user.feedback_consent,
         **attributes,
       )
     end
