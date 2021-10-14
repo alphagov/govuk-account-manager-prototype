@@ -8,6 +8,7 @@ class EditConsentController < ApplicationController
   def cookie_send
     cookie_consent = params[:cookie_consent] == "yes"
     current_user.update!(cookie_consent: cookie_consent)
+    current_user.update_remote_user_info
 
     cookies[:cookies_preferences_set] = "true"
     response["Set-Cookie"] = cookies_policy_header(current_user.reload)
@@ -21,6 +22,7 @@ class EditConsentController < ApplicationController
 
   def feedback_send
     current_user.update!(feedback_consent: params[:feedback_consent] == "yes")
+    current_user.update_remote_user_info
 
     flash[:notice] = I18n.t("account.manage.privacy.email_success")
 
