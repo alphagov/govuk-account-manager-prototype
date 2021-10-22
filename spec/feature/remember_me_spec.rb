@@ -7,12 +7,6 @@ RSpec.feature "Remember Me" do
 
   before { log_in_and_remember_me }
 
-  it "shows the event on the security page" do
-    visit_security_page
-
-    expect(page).to have_text(I18n.t("account.security.security_codes.code_description.present"))
-  end
-
   context "the user returns 29 days later" do
     before do
       travel(MultiFactorAuth::BYPASS_TOKEN_EXPIRATION_AGE - 1.day)
@@ -41,19 +35,6 @@ RSpec.feature "Remember Me" do
       expect(page).to have_text(redacted_phone_number(user.phone))
     end
 
-    context "the user has already re-done MFA" do
-      before do
-        visit_change_email_page
-        redo_mfa
-        expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-      end
-
-      it "doesn't re-do MFA again" do
-        visit_change_email_page
-        expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-      end
-    end
-
     context "the user aborted an MFA re-do" do
       before do
         visit_change_email_page
@@ -65,34 +46,6 @@ RSpec.feature "Remember Me" do
         visit_change_email_page
         expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
         expect(page).to have_text(redacted_phone_number(user.phone))
-      end
-
-      context "the user has already re-done MFA" do
-        before do
-          visit_change_email_page
-          redo_mfa
-          expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-          visit account_manage_path
-        end
-
-        it "doesn't re-do MFA again" do
-          visit_change_email_page
-          expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-        end
-      end
-
-      context "the user aborted an MFA re-do" do
-        before do
-          visit_change_email_page
-          abort_redo_mfa
-          expect(page).to have_text(I18n.t("account.manage.heading"))
-          visit account_manage_path
-        end
-
-        it "re-does MFA again" do
-          visit_change_email_page
-          expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-        end
       end
     end
   end

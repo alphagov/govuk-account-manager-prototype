@@ -1,10 +1,5 @@
 ---
 en:
-  confirm:
-    intro:
-      set_up: "<strong>Confirm your email address</strong> to finish setting up your account and start getting email updates."
-      update: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
-    link_text: Send confirmation email again
   confirmation_sent:
     delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
     finish:

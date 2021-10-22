@@ -33,12 +33,6 @@ RSpec.feature "Logging in" do
 
       expect(page).not_to have_text(I18n.t("mfa.phone.code.fields.phone_code.label"))
     end
-
-    it "allows the user to change email address" do
-      enter_email_address_and_password
-      visit_change_email_page
-      expect(page).to have_text(I18n.t("devise.registrations.edit.heading_email"))
-    end
   end
 
   context "when the email is missing" do
