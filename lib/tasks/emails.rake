@@ -20,7 +20,7 @@ namespace :emails do
         UserMailer.with(
           email: user.email,
           subject: downtime_email_subject(confirmed: confirmed),
-          body: downtime_email_subject(confirmed: confirmed),
+          body: downtime_email_body(confirmed: confirmed),
         ).adhoc_email.deliver_later
 
         user.update!(has_received_downtime_email: true)
