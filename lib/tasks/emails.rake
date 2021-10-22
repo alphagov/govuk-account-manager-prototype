@@ -1,106 +1,140 @@
 namespace :emails do
-  desc "Count the number of users who have received a survey"
-  task :count_2021_03_survey_recipients, %i[] => [:environment] do |_, _args|
-    survery_count = User.where(has_received_2021_03_survey: true).count
-    puts "Number of 2021_03_survey already sent: #{survery_count}"
+  desc "Send the downtime notice to users"
+  task downtime: :environment do
+    users = User.where(has_received_downtime_email: false)
+    total = users.count
+    done = 0
+
+    first_slice = true
+    users.each_slice(2500) do |slice|
+      if first_slice
+        first_slice = false
+      else
+        puts "pausing for 60 seconds"
+        sleep 60
+      end
+
+      slice.each do |user|
+        confirmed = user.confirmed_at.present?
+
+        UserMailer.with(
+          email: user.email,
+          subject: downtime_email_subject(confirmed: confirmed),
+          body: downtime_email_subject(confirmed: confirmed),
+        ).adhoc_email.deliver_later
+
+        user.update!(has_received_downtime_email: true)
+
+        done += 1
+        puts "Progress: #{done} / #{total}" if (done % 100).zero?
+      end
+    end
   end
 
-  desc "send test email"
-  task :test_email, %i[email] => [:environment] do |_, args|
+  desc "Send the downtime email to a test address"
+  task :test_downtime, %i[email] => [:environment] do |_, args|
     abort("Please provide an email") if args.email.nil?
 
     UserMailer.with(
       email: args.email,
-      subject: default_email_subject_line,
-      body: default_email_body,
+      subject: downtime_email_subject(confirmed: false),
+      body: downtime_email_body(confirmed: false),
+    ).adhoc_email.deliver_later
+
+    UserMailer.with(
+      email: args.email,
+      subject: downtime_email_subject(confirmed: true),
+      body: downtime_email_body(confirmed: true),
     ).adhoc_email.deliver_later
   end
+end
 
-  desc "Send a survey to user groups in cohorts of most recently logged in"
-  task :send_2021_03_survey_by_login_cohorts,
-       %i[ten_minute_group_limit one_minute_group_limit remaining_group_limit] => [:environment] do |_, args|
-    args.with_defaults(
-      ten_minute_group_limit: 50,
-      one_minute_group_limit: 100,
-      remaining_group_limit: 350,
-    )
-
-    previously_sent = User.where(has_received_2021_03_survey: true).count
-
-    ten_minute_group = User.where(feedback_consent: true, has_received_2021_03_survey: false)
-                           .where("last_sign_in_at > created_at + interval '10 minute'")
-                           .order(Arel.sql("RANDOM()"))
-                           .limit(args.ten_minute_group_limit)
-                           .to_a
-
-    puts "10 minute group: #{ten_minute_group.count}"
-    ten_minute_group.map { |user| user.update!(has_received_2021_03_survey: true) }
-
-    one_minute_group = User.where(feedback_consent: true, has_received_2021_03_survey: false)
-                           .where("last_sign_in_at > created_at + interval '1 minute'")
-                           .order(Arel.sql("RANDOM()"))
-                           .limit(args.one_minute_group_limit)
-                           .to_a
-
-    puts "1 minute group: #{one_minute_group.count}"
-    one_minute_group.map { |user| user.update!(has_received_2021_03_survey: true) }
-
-    remaining_group = User.where(feedback_consent: true, has_received_2021_03_survey: false)
-                          .order(Arel.sql("RANDOM()"))
-                          .limit(args.remaining_group_limit)
-                          .to_a
-
-    puts "Remaining group: #{remaining_group.count}"
-    remaining_group.map { |user| user.update!(has_received_2021_03_survey: true) }
-
-    users = [ten_minute_group, one_minute_group, remaining_group].flatten.uniq
-
-    puts "Total: #{users.count} users will be sent the 2021_03_survey"
-    first_slice = true
-    users.each_slice(2500) do |slice|
-      sleep 60 unless first_slice
-      first_slice = false
-
-      slice.each do |user|
-        UserMailer.with(
-          email: user.email,
-          subject: default_email_subject_line,
-          body: default_email_body,
-        ).adhoc_email.deliver_later
-      end
-    end
-    puts "User emails have been enqueued"
-    puts "Previous Total has_received_2021_03_survey: #{previously_sent}"
-    puts "New Total has_received_2021_03_survey: #{User.where(has_received_2021_03_survey: true).count}"
+def downtime_email_subject(confirmed:)
+  if confirmed
+    "You will not be able to update your GOV.UK account details from 25 to 27 October"
+  else
+    "Confirm the email address for your GOV.UK account by 25 October"
   end
 end
 
-def default_email_subject_line
-  "What do you think about your GOV.UK account?"
-end
+def downtime_email_body(confirmed:)
+  if confirmed
+    <<~BODY
+      Hello
 
-def default_email_body
-  "Hello
+      We’re making a few changes to how you sign in to your GOV.UK account. These changes will happen next week between 25 and 27 October.
 
-  You recently created a GOV.UK account when you used the Brexit checker to find out about new rules for Brexit.
+      # What this means for you
 
-  The GOV.UK Account team would like to know what you think about your account.
+      You’ll still be able to sign in to your GOV.UK account during this time, but you will not be able update your account details, including your:
 
-  Please fill in this short feedback survey:
-  https://surveys.publishing.service.gov.uk/s/account-feedback2/
+      - email address
+      - mobile phone number
+      - password
 
-  It’s 5 questions long and should only take around 5 minutes to complete.
+      If you want to update your account details, you’ll need to do this before 9am on 25 October. Otherwise, you’ll have to wait until 5pm on 27 October to make the updates.
 
-  Your feedback will help us understand what improvements we need to make to your GOV.UK account and what new features we should add to it next.
+      Sign in to manage your GOV.UK account: https://www.account.publishing.service.gov.uk/sign-in
 
+      # Changes from 27 October
 
-  Many thanks
-  GOV.UK Account team
+      Your account will look a little different and there will be a few changes to the way you sign in.
 
+      You’ll have to enter your password the first time you sign in after 5pm on 27 October, even if you’ve saved your password in your browser. This is to make sure your account stays secure.
 
+      If you sign in to see your answers to the Brexit checker, you’ll also have to enter a security code that we’ll send to your mobile phone.
 
-  Do not reply to this email. If you do, your reply will go to an unmonitored account.
+      # Why we’re making these changes
 
-  You’ve received this email because the settings on your GOV.UK account say GOV.UK can email you to ask for feedback. If you do not want to get these emails, you can sign in to your account and change your feedback settings: https://www.account.publishing.service.gov.uk/sign-in
-  "
+      These changes will make it easier for other government services to connect to GOV.UK accounts. This will help us get closer to the goal of a single account where you can access all your government services.
+
+      If you have any questions, you can contact us: https://www.account.publishing.service.gov.uk/feedback
+
+      Best wishes
+      The GOV.UK account team
+    BODY
+  else
+    <<~BODY
+      Hello
+
+      We’re making a few changes to how you sign in to your GOV.UK account. These changes will happen next week between 25 and 27 October.
+
+      # Confirm your email address now
+
+      You need to confirm the email address for your GOV.UK account before 9am on 25 October.
+
+      If you do not confirm your email address by this time, your account and all the information stored in it will be deleted.
+
+      Confirm your email address: https://www.account.publishing.service.gov.uk/account/confirmation/new
+
+      # If you want to update your account details
+
+      You’ll still be able to sign in to your GOV.UK account between 25 and 27 October, but you will not be able to update any of your account details, including your:
+
+      - email address
+      - mobile phone number
+      - password
+
+      If you want to update your account details, you need to do this before 9am on 25 October. Otherwise, you’ll have to wait until 5pm on 27 October to make the updates.
+
+      Sign in to manage your GOV.UK account: https://www.account.publishing.service.gov.uk/sign-in
+
+      # Changes from 27 October
+
+      Your account will look a little different and there will be a few changes to the way you sign in.
+
+      You’ll have to enter your password the first time you sign in after 5pm on 27 October, even if you’ve saved your password in your browser. This is to make sure your account stays secure.
+
+      If you sign in to see your answers to the Brexit checker, you’ll also have to enter a security code that we’ll send to your mobile phone.
+
+      # Why we’re making these changes
+
+      These changes will make it easier for other government services to connect to GOV.UK accounts. This will help us get closer to the goal of a single account where you can access all your government services.
+
+      If you have any questions, you can contact us: https://www.account.publishing.service.gov.uk/feedback
+
+      Best wishes
+      The GOV.UK account team
+    BODY
+  end
 end
