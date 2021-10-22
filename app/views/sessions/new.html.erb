@@ -79,6 +79,3 @@
 
 <%= sanitize(t("devise.sessions.new.reset_password", reset_password: reset_password_path)) %>
 
-<%= sanitize(t("devise.sessions.new.register", register: new_user_registration_start_path(
-    previous_url: params[:previous_url],
-    authenticate_to_level: params[:authenticate_to_level]))) %>
