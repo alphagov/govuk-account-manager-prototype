@@ -6,7 +6,7 @@ en:
       update: "<strong>Confirm your email address</strong> to finish updating your account and email alerts."
     link_text: Send confirmation email again
   confirmation_sent:
-    delay_consequence: You will be locked out of your account if you do not confirm your email address within 7 days.
+    delay_consequence: We're making some changes to how you sign in to your GOV.UK account. You need to confirm your email address by 9am on the 25th of October or your account and all the information stored in it will be deleted.
     finish:
       creating: Finish
       updating: Go to your GOV.UK account
