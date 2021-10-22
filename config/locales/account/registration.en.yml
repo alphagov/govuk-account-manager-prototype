@@ -8,6 +8,18 @@ en:
           <p class="govuk-body">We’re still building GOV.UK accounts.</p>
           <p class="govuk-body">At the moment you can only use GOV.UK accounts to save your <a class="govuk-link" href="https://www.gov.uk/transition-check/questions">Brexit checker</a> results.</p>
       destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
+      migration:
+        about:
+          description: |
+            <p class="govuk-body">GOV.UK accounts are new.</p>
+            <p class="govuk-body">They’re a first step towards creating a single account where you can access all your government services.</p>
+            <p class="govuk-body">At the moment, they’re seperate from other government accounts.</p>
+          title: About GOV.UK accounts
+        making_changes: |
+          <p class="govuk-body">This is because we’re making changes to how the account works.</p>
+          <p class="govuk-body">You’ll be able to create an account from 5pm on 27th October.</p>
+        other_government_accounts: You can still create other government accounts (for example <a class="govuk-link" href="/log-in-register-hmrc-online-services">Government Gateway</a> or <a class="govuk-link" href="/sign-in-universal-credit">Universal Credit</a>).
+        sub_title: You cannot create a GOV.UK account at the moment
       start:
         fields:
           email:
