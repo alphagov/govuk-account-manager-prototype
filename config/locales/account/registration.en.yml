@@ -18,7 +18,7 @@ en:
         making_changes: |
           <p class="govuk-body">This is because we’re making changes to how the account works.</p>
           <p class="govuk-body">You’ll be able to create an account from 5pm on 27th October.</p>
-        other_government_accounts: You can still create other government accounts (for example <a class="govuk-link" href="/log-in-register-hmrc-online-services">Government Gateway</a> or <a class="govuk-link" href="/sign-in-universal-credit">Universal Credit</a>).
+        other_government_accounts: You can still create other government accounts (for example <a class="govuk-link" href="https://www.gov.uk/log-in-register-hmrc-online-services">Government Gateway</a> or <a class="govuk-link" href="https://www.gov.uk/sign-in-universal-credit">Universal Credit</a>).
         sub_title: You cannot create a GOV.UK account at the moment
       start:
         fields:

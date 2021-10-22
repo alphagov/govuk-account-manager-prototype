@@ -3,6 +3,8 @@
   <%= render "govuk_publishing_components/components/back_link", { href: user_session_phone_code_path } %>
 <% end %>
 
+<%= render "migration-banner" %>
+
 <%= render "govuk_publishing_components/components/heading", {
   text: yield(:title),
   heading_level: 1,
