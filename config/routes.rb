@@ -115,19 +115,20 @@ Rails.application.routes.draw do
         end
       end
 
-    scope "/new-account" do
-      get  "/", to: "registrations#start", as: :new_user_registration_start
-      post "/", to: "registrations#start", to: "registrations#redirect_to_create_account"
-      get  "/phone/code", to: "registrations#redirect_to_create_account"
-      post "/phone/verify", to: "registrations#redirect_to_create_account"
-      get  "/phone/resend", to: "registrations#redirect_to_create_account"
-      post "/phone/resend", to: "registrations#redirect_to_create_account"
-      get  "/your-information", to: "registrations#redirect_to_create_account"
-      post "/your-information", to: "registrations#redirect_to_create_account"
-      get  "/finish", to: "registrations#redirect_to_create_account"
-      get  "/cancel", to: "registrations#redirect_to_create_account"
+      scope "/new-account" do
+        get  "/", to: "registrations#start", as: :new_user_registration_start
+        post "/", to: "registrations#redirect_to_create_account"
+        get  "/phone/code", to: "registrations#redirect_to_create_account"
+        post "/phone/verify", to: "registrations#redirect_to_create_account"
+        get  "/phone/resend", to: "registrations#redirect_to_create_account"
+        post "/phone/resend", to: "registrations#redirect_to_create_account"
+        get  "/your-information", to: "registrations#redirect_to_create_account"
+        post "/your-information", to: "registrations#redirect_to_create_account"
+        get  "/finish", to: "registrations#redirect_to_create_account"
+        get  "/cancel", to: "registrations#redirect_to_create_account"
 
-      get "/welcome", to: redirect(path: "/sign-in")
+        get "/welcome", to: redirect(path: "/sign-in")
+      end
     end
 
     namespace :api do
