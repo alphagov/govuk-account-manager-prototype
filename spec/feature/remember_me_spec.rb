@@ -16,38 +16,6 @@ RSpec.feature "Remember Me" do
     it "skips MFA" do
       expect(page).not_to have_text(I18n.t("mfa.phone.code.sign_in_heading"))
     end
-
-    it "re-does MFA when changing email address" do
-      visit_change_email_page
-      expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-      expect(page).to have_text(redacted_phone_number(user.phone))
-    end
-
-    it "re-does MFA when changing password" do
-      visit_change_password_page
-      expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-      expect(page).to have_text(redacted_phone_number(user.phone))
-    end
-
-    it "re-does MFA when changing phone number" do
-      visit_change_number_page
-      expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-      expect(page).to have_text(redacted_phone_number(user.phone))
-    end
-
-    context "the user aborted an MFA re-do" do
-      before do
-        visit_change_email_page
-        abort_redo_mfa
-        expect(page).to have_text(I18n.t("account.manage.heading"))
-      end
-
-      it "re-does MFA again" do
-        visit_change_email_page
-        expect(page).to have_text(I18n.t("mfa.phone.code.redo_description_preamble"))
-        expect(page).to have_text(redacted_phone_number(user.phone))
-      end
-    end
   end
 
   context "the user returns 31 days later" do

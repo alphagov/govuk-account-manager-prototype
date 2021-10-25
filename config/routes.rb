@@ -46,12 +46,9 @@ Rails.application.routes.draw do
         get "/security/code/:page_number", to: "security#paginated_mfa_tokens", as: :account_security_paginated_mfa_tokens
 
         get    "/delete", to: "delete#show", as: :account_delete
-        delete "/delete", to: "delete#destroy"
         get    "/delete/confirmation", to: "delete#confirmation", as: :account_delete_confirmation
 
         get   "/", to: "account#show"
-        patch "/", to: "registrations#update", as: :user_registration
-        put   "/", to: "registrations#update"
 
         scope "/mfa" do
           get "/abort", to: "redo_mfa#stop", as: :redo_mfa_stop
@@ -71,26 +68,17 @@ Rails.application.routes.draw do
           scope "/phone" do
             get  "/", to: "edit_phone#show", as: :edit_user_registration_phone
             get "/new", to: "edit_phone#new", as: :edit_user_registration_phone_new
-            post "/confirm", to: "edit_phone#confirm", as: :edit_user_registration_phone_confirm
             get  "/code", to: "edit_phone#code", as: :edit_user_registration_phone_code
-            post "/code", to: "edit_phone#code_send"
-            post "/verify", to: "edit_phone#verify", as: :edit_user_registration_phone_verify
             get  "/resend", to: "edit_phone#resend", as: :edit_user_registration_phone_resend
           end
 
           scope "/consent" do
             get  "/cookie", to: "edit_consent#cookie", as: :edit_user_consent_cookie
-            post "/cookie", to: "edit_consent#cookie_send"
             get  "/feedback", to: "edit_consent#feedback", as: :edit_user_consent_feedback
-            post "/feedback", to: "edit_consent#feedback_send"
           end
         end
 
         scope "/password" do
-          patch "/", to: "passwords#update", as: :user_password
-          put   "/", to: "passwords#update"
-          post  "/", to: "passwords#create", as: :create_password
-
           get "/new", to: "passwords#new", as: :new_user_password
           get "/edit", to: "passwords#edit", as: :edit_user_password
 
