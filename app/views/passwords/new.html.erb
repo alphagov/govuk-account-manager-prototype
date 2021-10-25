@@ -1,30 +1,3 @@
 <% content_for :title, t("change_password.heading") %>
 
-<%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
-  heading_level: 1,
-  font_size: "l",
-  margin_bottom: 3,
-} %>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do %>
-  <%= render "_shared/error_messages", resource: resource %>
-
-  <p class="govuk-body"><%= I18n.t("change_password.content") %></p>
-
-  <%= render "govuk_publishing_components/components/input", {
-    label: {
-      text: t("devise.passwords.new.email.label"),
-    },
-    name: "user[email]",
-    type: "email",
-    id: "email",
-    error_message: devise_error_items(:email),
-    autocomplete: "username",
-  } %>
-
-  <%= render "govuk_publishing_components/components/button", {
-    text: t("devise.passwords.new.submit.label"),
-    margin_bottom: 3,
-  } %>
-<% end %>
+<%= render "migration-edit-warning" %>
