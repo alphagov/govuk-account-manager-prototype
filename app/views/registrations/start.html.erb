@@ -3,92 +3,32 @@
   <meta name="description" content='<%= t("devise.registrations.start.meta_description") %>'>
 <% end %>
 
-<%= form_with(url: new_user_registration_start_path, method: :post, data: { module: "gem-track-click" }) do %>
-  <% if resource || @resource_error_messages %>
-    <%= render "_shared/error_messages", resource: resource, resource_error_messages: @resource_error_messages %>
-  <% end %>
 
-  <%= render "govuk_publishing_components/components/heading", {
-    text: yield(:title),
-    heading_level: 1,
-    font_size: "xl",
-    margin_bottom: 3,
-  } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: 'xl',
+  margin_bottom: 4
+} %>
 
-  <%= sanitize(t("devise.registrations.account_confusion.this_is_a_trial")) %>
-  <%= render "govuk_publishing_components/components/inset_text", {
-    text: t("devise.registrations.account_confusion.other_government_accounts")
-  } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t('devise.registrations.migration.sub_title'),
+  heading_level: 2,
+  font_size: 's',
+  margin_bottom: 4,
+} %>
 
-  <%= render "govuk_publishing_components/components/input", {
-    label: {
-      text: t("devise.registrations.start.fields.email.label"),
-    },
-    name: "user[email]",
-    type: "email",
-    id: "email",
-    value: params.dig(:user, :email),
-    error_message: devise_error_items(:email),
-    autocomplete: "username",
-  } %>
+<%= sanitize(t('devise.registrations.migration.making_changes')) %>
 
-  <%= render "govuk_publishing_components/components/show_password", {
-    label: {
-      text: t("devise.registrations.start.fields.password.label"),
-    },
-    hint: t("devise.registrations.start.fields.password.hint"),
-    name: "user[password]",
-    id: "password",
-    error_message: devise_error_items(:password),
-    autocomplete: "new-password",
-    data: {
-      button_track_action: "passwordShowHide",
-      button_track_category: "pageElementInteraction",
-      button_track_label: "createNewAccount"
-    }
-  } %>
+<%= render "govuk_publishing_components/components/inset_text", {
+  text: sanitize(t('devise.registrations.migration.other_government_accounts'))
+} %>
 
-  <%= render "_shared/password_tip" %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t('devise.registrations.migration.about.title'),
+  heading_level: 2,
+  font_size: 's',
+  margin_bottom: 4,
+} %>
 
-  <% if show_phone_field? %>
-    <%= render "govuk_publishing_components/components/input", {
-      label: {
-        text: t("devise.registrations.start.fields.phone.label"),
-      },
-      hint: t("devise.registrations.start.fields.phone.hint"),
-      name: "user[phone]",
-      id: "phone",
-      value: MultiFactorAuth.formatted_phone_number(params.dig(:user, :phone)),
-      width: 10,
-      error_message: devise_error_items(:phone),
-      autocomplete: "tel",
-      type: "tel",
-    } %>
-  <% end %>
-
-  <%= hidden_field_tag :previous_url, params[:previous_url] %>
-  <%= hidden_field_tag :authenticate_to_level, params[:authenticate_to_level] %>
-
-  <%= render "govuk_publishing_components/components/button", {
-    text: t("devise.registrations.start.fields.submit.label"),
-    data_attributes: {
-      module: "gem-track-click",
-      "track-category": "account-create",
-      "track-action": "create",
-      "track-label": "password"
-    },
-    margin_bottom: 3,
-  } %>
-<% end %>
-
-<p class="govuk-body">
-  <%= sanitize(
-      t("devise.registrations.start.sign_in",
-      link: link_to(t("devise.registrations.start.sign_in_link"),
-      new_user_session_path(
-        previous_url: params[:previous_url],
-        authenticate_to_level: params[:authenticate_to_level]
-      ), class: "govuk-link"
-      )))
-  %>
-</p>
+<%= sanitize(t('devise.registrations.migration.about.description')) %>

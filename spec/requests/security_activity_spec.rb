@@ -1,18 +1,6 @@
 RSpec.describe "security activities" do
   let(:user) { FactoryBot.create(:user) }
 
-  context "registering a new user" do
-    let(:registration_state) { FactoryBot.create(:registration_state, :finished) }
-
-    it "records USER_CREATED events" do
-      # Stub the Registration State to sneak past redirect safeguards
-      allow(RegistrationState).to receive(:find).with(nil).and_return(registration_state)
-
-      get new_user_registration_finish_path
-      expect_event SecurityActivity::USER_CREATED, { user: User.first }
-    end
-  end
-
   it "records ACCOUNT_LOCKED events" do
     (Devise.maximum_attempts + 1).times do
       post new_user_session_path, params: { "user[email]" => user.email, "user[password]" => "incorrect" }
@@ -123,25 +111,6 @@ RSpec.describe "security activities" do
     expect_event_on_security_page SecurityActivity::LOGIN_FAILURE
   end
 
-  it "records PASSWORD_RESET_REQUEST events" do
-    post create_password_path, params: { "user[email]" => user.email }
-
-    expect_event SecurityActivity::PASSWORD_RESET_REQUEST
-    expect_event_on_security_page SecurityActivity::PASSWORD_RESET_REQUEST
-  end
-
-  it "records PASSWORD_RESET_SUCCESS events" do
-    post user_password_path, params: {
-      "_method" => "put",
-      "user[password]" => "new-password",
-      "user[password_confirmation]" => "new-password",
-      "user[reset_password_token]" => user.send_reset_password_instructions,
-    }
-
-    expect_event SecurityActivity::PASSWORD_RESET_SUCCESS
-    expect_event_on_security_page SecurityActivity::PASSWORD_RESET_SUCCESS
-  end
-
   context "with a user logged in" do
     before do
       allow(Rails.configuration).to receive(:allow_insecure_change_credential).and_return(true)
@@ -165,43 +134,6 @@ RSpec.describe "security activities" do
         expect_event SecurityActivity::LOGIN_SUCCESS, { application: application }
         expect_event_on_security_page SecurityActivity::LOGIN_SUCCESS
       end
-    end
-
-    it "records EMAIL_CHANGE_REQUESTED events" do
-      post user_registration_path, params: {
-        "_method" => "put",
-        "user[email]" => "new-email-address@example.com",
-        "user[current_password]" => user.password,
-      }
-
-      expect_event SecurityActivity::EMAIL_CHANGE_REQUESTED, { notes: "from #{user.email} to #{user.reload.unconfirmed_email}" }
-      expect_event_on_security_page SecurityActivity::EMAIL_CHANGE_REQUESTED
-    end
-
-    it "records PHONE_CHANGED events" do
-      old_phone = user.phone
-
-      post edit_user_registration_phone_confirm_path, params: {
-        "phone" => "07581123456",
-        "current_password" => user.password,
-      }
-      post edit_user_registration_phone_code_path
-      post edit_user_registration_phone_verify_path, params: { "phone_code" => user.reload.phone_code }
-
-      expect_event SecurityActivity::PHONE_CHANGED, { notes: "from #{old_phone} to #{user.reload.phone}" }
-      expect_event_on_security_page SecurityActivity::PHONE_CHANGED
-    end
-
-    it "records PASSWORD_CHANGED events" do
-      post user_registration_path, params: {
-        "_method" => "put",
-        "user[password]" => "new-password",
-        "user[password_confirmation]" => "new-password",
-        "user[current_password]" => user.password,
-      }
-
-      expect_event SecurityActivity::PASSWORD_CHANGED
-      expect_event_on_security_page SecurityActivity::PASSWORD_CHANGED
     end
   end
 

@@ -3,6 +3,8 @@
   <meta name="description" content='<%= t("devise.sessions.new.meta_description") %>'>
 <% end %>
 
+<%= render "migration-banner" %>
+
 <%= render "govuk_publishing_components/components/heading", {
   text: t("devise.sessions.new.heading"),
   heading_level: 1,
@@ -75,8 +77,3 @@
   <% end %>
 </div>
 
-<%= sanitize(t("devise.sessions.new.reset_password", reset_password: reset_password_path)) %>
-
-<%= sanitize(t("devise.sessions.new.register", register: new_user_registration_start_path(
-    previous_url: params[:previous_url],
-    authenticate_to_level: params[:authenticate_to_level]))) %>

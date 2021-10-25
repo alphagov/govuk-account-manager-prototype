@@ -35,7 +35,6 @@ RSpec.describe "/account/security" do
       get account_security_path
 
       expect(response.body).to have_content(application.name)
-      expect(response.body).to have_content(I18n.t("account.data_exchange.scope.email"))
     end
 
     it "does not list transition checker data usage" do

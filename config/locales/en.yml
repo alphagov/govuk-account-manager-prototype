@@ -151,11 +151,9 @@ en:
         data:
           track_action: footerLinks
   general:
-    cancel: cancel
     change: Change
     email: Email
     'no': 'No'
-    or: or
     password: Password
     phone: Mobile number
     'yes': 'Yes'

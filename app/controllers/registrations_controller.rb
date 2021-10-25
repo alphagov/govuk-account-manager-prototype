@@ -230,6 +230,10 @@ class RegistrationsController < Devise::RegistrationsController
 
   def edit_password; end
 
+  def redirect_to_create_account
+    redirect_to new_user_registration_start_path
+  end
+
 protected
 
   def request_auth_wants_mfa?

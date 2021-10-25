@@ -8,61 +8,19 @@
   <%= render "govuk_publishing_components/components/back_link", { href: account_manage_path } %>
 <% end %>
 
+<%= render "migration-banner" %>
+
 <%= render "govuk_publishing_components/components/heading", {
-  text: yield(:title),
+  text: "You cannot delete your account at the moment",
   heading_level: 1,
   font_size: "xl",
-  margin_bottom: 4,
+  margin_bottom: 5,
 } %>
 
-<p class="govuk-body"><%= t("account.delete.description") %></p>
-<ul class="govuk-list govuk-list--bullet">
-  <% t("account.delete.doomed").each do |item| %>
-    <li><%= item %></li>
-  <% end %>
-</ul>
+<p class="govuk-body">
+  This is because we’re making changes to how the account works.
+</p>
 
-<%= form_with(url: account_delete_path, method: :delete, data: { module: "gem-track-click" }) do %>
-  <%= render "govuk_publishing_components/components/show_password", {
-    label: {
-      text: t("devise.registrations.edit.fields.current_password.label"),
-    },
-    heading_size: "m",
-    hint: t("devise.registrations.edit.fields.current_password.hint_delete"),
-    name: "current_password",
-    error_message: @password_error_message,
-    autocomplete: "current-password",
-    data: {
-      button_track_action: "passwordShowHide",
-      button_track_category: "pageElementInteraction",
-      button_track_label: "deleteAccount"
-    }
-  } %>
-
-  <%= render "govuk_publishing_components/components/inset_text", {
-    text: t("account.delete.insert_text")
-  } %>
-
-  <%= render "govuk_publishing_components/components/button", {
-    text: t("account.delete.action"),
-    destructive: true,
-    inline_layout: true,
-    data_attributes: {
-      module: "gem-track-click",
-      "track-category": "account-manage",
-      "track-action": "delete",
-      "track-label": "delete-account"
-    }
-  } %>
-  <span class="govuk-body"><%= t("general.or") %></span>
-  <%= link_to t("general.cancel"),
-    account_manage_path,
-    class: "govuk-body govuk-link",
-    data: {
-      module: "gem-track-click",
-      "track-category": "account-manage",
-      "track-action": "delete",
-      "track-label": "cancel"
-    }
-  %>
-<% end %>
+<p class="govuk-body">
+  You’ll be able to delete your account from 5pm on 27 October. If you need to delete it before then, <a class="govuk-link" href="/feedback">contact us</a>.</p>
+</p>

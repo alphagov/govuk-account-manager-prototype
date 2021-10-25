@@ -31,12 +31,4 @@ RSpec.describe "Throttling" do
       expect(response.body).to_not have_content(I18n.t("standard_errors.too_many_requests.heading"))
     end
   end
-
-  context "POST new-account" do
-    it "throttles" do
-      (RATE_LIMIT_COUNT + 1).times { post new_user_registration_phone_verify_path }
-      expect(response).to have_http_status(429)
-      expect(response.body).to have_content(I18n.t("standard_errors.too_many_requests.heading"))
-    end
-  end
 end
