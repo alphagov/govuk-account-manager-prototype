@@ -196,7 +196,7 @@ GEM
     govuk_personalisation (0.9.0)
       plek (>= 1.9.0)
       rails (~> 6)
-    govuk_publishing_components (27.8.0)
+    govuk_publishing_components (27.8.2)
       govuk_app_config
       govuk_personalisation (>= 0.7.0)
       kramdown
@@ -317,7 +317,7 @@ GEM
     puma (5.5.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.5.2)
+    racc (1.6.0)
     rack (2.2.3)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
@@ -527,7 +527,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.4.2)
+    zeitwerk (2.5.1)
     zendesk_api (1.27.0)
       faraday (>= 0.9.0, < 2.0.0)
       hashie (>= 3.5.2, < 5.0.0)
