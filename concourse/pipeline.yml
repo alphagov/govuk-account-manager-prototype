@@ -243,6 +243,7 @@ jobs:
           SECRET_KEY_BASE: ((secret-key-base-production))
           WEBSITE_ROOT: https://www.gov.uk
           WORKER_INSTANCES: 5
+          REDIRECT_TO_DIGITAL_IDENTITY: "true"
         on_success:
           try:
             put: grafana-annotate-deploy
