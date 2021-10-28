@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
     get "/new-account", to: redirect("https://www.gov.uk/sign-in/redirect")
     get "/new-account/*path", to: redirect("https://www.gov.uk/sign-in/redirect")
+
+    get "/healthcheck", to: "healthcheck#show"
+    get "*path", to: proc { [404, {}, ["not found"]] }
   else
     devise_scope :user do
       get "/", to: "welcome#show", as: :welcome
@@ -136,14 +139,14 @@ Rails.application.routes.draw do
 
     use_doorkeeper
     use_doorkeeper_openid_connect
+
+    get "/healthcheck", to: "healthcheck#show"
   end
 
   get "/404", to: "standard_errors#not_found"
   get "/429", to: "standard_errors#too_many_requests"
   get "/422", to: "standard_errors#unprocessable_entity"
   get "/500", to: "standard_errors#internal_server_error"
-
-  get "/healthcheck", to: "healthcheck#show"
 
   mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 
