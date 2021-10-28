@@ -71,7 +71,7 @@
   <div class="govuk-width-container app-width-container">
     <% message = capture do %>
       <%= t("feedback.banners.phase_intro") %>
-      <a class="govuk-link" href='<%= feedback_form_path %>'><%= t("feedback.banners.phase_link") %></a>
+      <a class="govuk-link" href=''><%= t("feedback.banners.phase_link") %></a>
       <%= t("feedback.banners.phase_outro") %>
     <% end %>
     <%= render "govuk_publishing_components/components/phase_banner", {
@@ -105,7 +105,7 @@
 
         <p class="govuk-body govuk-!-margin-bottom-0">
           <%= t("feedback.banners.footer_intro") %>
-          <a href="<%= feedback_form_path %>" class="govuk-link"><%= t("feedback.banners.footer_link") %></a>
+          <a href="" class="govuk-link"><%= t("feedback.banners.footer_link") %></a>
           <%= t("feedback.banners.footer_outro") %>
         </p>
       </div>
